@@ -36,15 +36,41 @@ public class MerchantController extends Controller {
         render(resultPage, pageNumber, merchant);
     }
 
-    public static void add(){
+    public static void add(Merchant merchant , MerchantUser merchantUser){
         Logger.info("add-----");
-        render();
+        render(merchant , merchantUser);
     }
 
     public static void create(Merchant merchant , MerchantUser merchantUser){
         if(StringUtils.isBlank(merchant.fullName)){
-            flash.put("error","商户名称不能为空！");
-            add();
+            flash.put("fullNameerror","商户名称不能为空！");
+            renderArgs.put("fullName",merchant.fullName);
+            add(merchant , merchantUser);
+        }
+        if(StringUtils.isBlank(merchant.shortName)){
+            flash.put("shortNameerror","商户简称不能为空！");
+            renderArgs.put("shortName",merchant.shortName);
+            add(merchant , merchantUser);
+        }
+       if(StringUtils.isBlank(merchant.phone)){
+            flash.put("phoneerror","联系电话不能为空！");
+           renderArgs.put("phone",merchant.phone);
+           add(merchant , merchantUser);
+        }
+        if(StringUtils.isBlank(merchant.address)){
+            flash.put("addresserror","商户地址不能为空！");
+            renderArgs.put("address",merchant.address);
+            add(merchant , merchantUser);
+        }
+        if(StringUtils.isBlank(merchantUser.loginName)){
+            flash.put("loginNameerror","登录账号不能为空！");
+            renderArgs.put("loginName",merchantUser.loginName);
+            add(merchant , merchantUser);
+        }
+        if(StringUtils.isBlank(merchantUser.encryptedPassword)){
+            flash.put("encryptedPassworderror","登录密码不能为空！");
+            renderArgs.put("encryptedPassword",merchantUser.encryptedPassword);
+            add(merchant , merchantUser);
         }
         merchant.createdAt=new Date();
         merchant.deleted= DeletedStatus.UN_DELETED;
@@ -62,7 +88,6 @@ public class MerchantController extends Controller {
     public static void edit(Long id,Integer pageNumber){
         Merchant merchant = Merchant.findById(id);
         MerchantUser merchantUser = MerchantUser.findById(id);
-        Logger.info("merchantUser : %s==",merchantUser.loginName);
         render(merchant, pageNumber, merchantUser);
     }
 
@@ -77,9 +102,7 @@ public class MerchantController extends Controller {
         index(pageNumber,null,null);
     }
 
-    public static void search(String fullName){
-        Logger.info("fullName : %s==",fullName);
-    }
+
 
     private static void initData() {
         // 绠＄悊鍛樹俊鎭�

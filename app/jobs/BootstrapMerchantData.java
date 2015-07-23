@@ -2,6 +2,7 @@ package jobs;
 
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.mert.MerchantUser;
 import models.mert.enums.MerchantStatus;
 import play.Logger;
 import play.jobs.Job;
@@ -39,6 +40,9 @@ public class BootstrapMerchantData extends Job {
             merchant.createdAt = new Date();
             merchant.deleted= DeletedStatus.UN_DELETED;
             merchant.save();
+            MerchantUser merchantUser=new MerchantUser();
+            merchantUser.loginName="ulmsale";
+            merchantUser.encryptedPassword="123456";
           /*  merchant = new Merchant();
             merchant.fullName = "日照优粮城电子商务2";
             merchant.linkId = "22222";
