@@ -10,7 +10,9 @@ import models.*;
 public class Application extends Controller {
 
     public static void index() {
-        render();
+        String name = "zhangsan";
+        render(name);
+
     }
 
 }
