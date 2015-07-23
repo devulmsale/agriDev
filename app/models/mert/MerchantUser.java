@@ -1,5 +1,6 @@
 package models.mert;
 
+import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -70,6 +71,11 @@ public class MerchantUser extends Model {
 
     @Transient
     public String oldPassword;
+    /**
+     * 逻辑删除,0:未删除，1:已删除
+     */
+    @Enumerated(EnumType.ORDINAL)
+    public DeletedStatus deleted;
 
     /**
      * 微信OpenId.

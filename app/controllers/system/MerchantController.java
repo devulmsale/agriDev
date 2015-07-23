@@ -54,13 +54,16 @@ public class MerchantController extends Controller {
         merchantUser.createdAt = new Date();
         merchantUser.passwordSalt = RandomNumberUtil.generateRandomNumberString(6);
         merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.confirmPassword + merchantUser.passwordSalt);
+        merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
         index(1, merchant, null);
     }
 
     public static void edit(Long id,Integer pageNumber){
-        Merchant merchant= Merchant.findById(id);
-        render(merchant,pageNumber);
+        Merchant merchant = Merchant.findById(id);
+        MerchantUser merchantUser = MerchantUser.findById(id);
+        Logger.info("merchantUser : %s==",merchantUser.loginName);
+        render(merchant, pageNumber, merchantUser);
     }
 
     public static void update(Long id,Integer pageNumber,Merchant merchant){
