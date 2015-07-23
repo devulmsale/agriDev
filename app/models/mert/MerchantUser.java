@@ -19,7 +19,7 @@ public class MerchantUser extends Model {
 
     public static final String NOTSETPASSWORD = "!&NOTSETPASSWORD!";
     public static final  String LOGIN_ID             = "loginId"; //登陆ID
-    //    public static final  String LOGIN_NAME           = "loginName"; //登陆密码
+        public static final  String LOGIN_NAME           = "loginName"; //登陆密码
 //    public static final  String LOST_USER_ID         = "lostUserId"; // 找回密码时候用到的Session
     public static final  String LOGIN_SESSION_USER   = "LoginUser_";
 //    public static final  String PHONE_VALIDATE_TIMES = "Phone_Validate_Times";

@@ -4,11 +4,14 @@ import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.mert.MerchantUser;
 import models.operate.OperateUser;
+import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 import play.modules.paginate.JPAExtPaginator;
 import play.mvc.Controller;
 import play.mvc.With;
+import util.common.RandomNumberUtil;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,9 +31,9 @@ public class MerchantController extends Controller {
             Logger.info("searchName :%s=="+searchName);
             searchMap.put("searchName", "%"+searchName+"%");
         }
-        JPAExtPaginator<Merchant> merchantPage = Merchant.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
-        Logger.info("merchantspage :%s==",merchantPage);
-        render(merchantPage, pageNumber, merchant);
+        JPAExtPaginator<Merchant> resultPage = Merchant.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
+        Logger.info("merchantspage :%s==",resultPage);
+        render(resultPage, pageNumber, merchant);
     }
 
     public static void add(){
@@ -38,7 +41,7 @@ public class MerchantController extends Controller {
         render();
     }
 
-    public static void create(Merchant merchant){
+    public static void create(Merchant merchant , MerchantUser merchantUser){
         if(StringUtils.isBlank(merchant.fullName)){
             flash.put("error","商户名称不能为空！");
             add();
@@ -46,7 +49,13 @@ public class MerchantController extends Controller {
         merchant.createdAt=new Date();
         merchant.deleted= DeletedStatus.UN_DELETED;
         merchant.save();
-        index(1,merchant,null);
+
+        merchantUser.merchant = merchant;
+        merchantUser.createdAt = new Date();
+        merchantUser.passwordSalt = RandomNumberUtil.generateRandomNumberString(6);
+        merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.confirmPassword + merchantUser.passwordSalt);
+        merchantUser.save();
+        index(1, merchant, null);
     }
 
     public static void edit(Long id,Integer pageNumber){

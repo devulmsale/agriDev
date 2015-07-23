@@ -6,8 +6,6 @@ import cache.CacheHelper;
 import models.mert.Merchant;
 import models.mert.MerchantUser;
 import models.operate.OperateUser;
-import models.operate.OperateUserLoginHistory;
-import models.operate.Operator;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
@@ -63,7 +61,7 @@ public class MerchantSecure extends Controller {
             merchantUser = CacheHelper.getCache(MerchantUser.LOGIN_SESSION_USER + uid, new CacheCallBack<MerchantUser>() {
                 @Override
                 public MerchantUser loadData() {
-                    return OperateUser.findById(merchantUserId);
+                    return MerchantUser.findById(merchantUserId);
                 }
             });
             if (merchantUser == null) {
@@ -109,15 +107,15 @@ public class MerchantSecure extends Controller {
             merchantUser.updatedAt = new Date();
             merchantUser.save();
 
-            session.put(OperateUser.LOGIN_ID, merchantUser.id);
-            session.put(OperateUser.LOGIN_NAME, merchantUser.loginName);
+            session.put(MerchantUser.LOGIN_ID, merchantUser.id);
+            session.put(MerchantUser.LOGIN_NAME, merchantUser.loginName);
             // we redirect to the original URL
             String url = (String) Cache.get("url_" + session.getId());
             Cache.delete("url_" + session.getId());
             if (url == null) {
                 url = AUTO_LOGIN_BACK_URL;
             }
-            Logger.debug("[Secure]: redirect to url -> " + url);
+            Logger.info("[Secure]: redirect to url -> " + url);
             redirect(url);
         }
     }
@@ -152,8 +150,8 @@ public class MerchantSecure extends Controller {
 
 
     private static boolean skipLoginCheck() {
-        if (getActionAnnotation(MerchantSkipLoginCheck.class) != null ||
-                getControllerInheritedAnnotation(MerchantSkipLoginCheck.class) != null) {
+        if (getActionAnnotation(SkipLoginCheck.class) != null ||
+                getControllerInheritedAnnotation(SkipLoginCheck.class) != null) {
             Logger.info("SkipLoginCheck=true");
             return true;
         }
@@ -181,9 +179,11 @@ public class MerchantSecure extends Controller {
             Logger.info("[Secure]: Skip the CAS.");
             return;
         }
+        Logger.info("skipLoginCheck False");
         // if user is authenticated, the username is in session !
         // Single Sign Out: 如果Cache.get(SESSION_USER_KEY + session.get(SESSION_USER_KEY))为空，则已经被其它应用注销.
         if (getMerchantUser() == null) {
+            Logger.info("getMerchantUser : %s -------" , getMerchantUser());
             // We must avoid infinite loops after success authentication
             if (!Router.route(request).action.equals("auth.Secure.login")) {
                 // we put into cache the url we come from

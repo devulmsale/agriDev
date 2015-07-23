@@ -19,6 +19,7 @@ test-result
 version.conf
 modules
 tmp
+lib
 
 .DS_Store
 core
