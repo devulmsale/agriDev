@@ -1,0 +1,70 @@
+
+
+<!-- content start -->
+<div class="admin-content">
+
+
+    <div class="am-tabs am-margin" data-am-tabs>
+
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            商户名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="fullName" name="merchant.fullName" value="${merchant?.fullName}">
+                        </div>
+
+                        #{if flash.get("error") != null}
+                            <div class="am-hide-sm-only am-u-md-6">${flash.get("error")}</div>
+                        #{/if}
+                        #{else}
+                            <div class="am-hide-sm-only am-u-md-6">必填</div>
+                        #{/else}
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            商户简称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                            <input type="text" class="am-input-sm" id="shortName" name="merchant.shortName" value="${merchant?.shortName}">
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            联系电话
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="phone" name="merchant.phone" value="${merchant?.phone}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6">选填</div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            商户地址
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="address" name="merchant.address" value="${merchant?.address}">
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-6">选填</div>
+                    </div>
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>
+<!-- content end -->

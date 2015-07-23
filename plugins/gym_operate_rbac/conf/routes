@@ -1,0 +1,8 @@
+# import these default routes as :
+# *         /               module:operate_rbac
+#
+
+GET         /login                      OperateRbac.login
+GET         /logout                     OperateRbac.logout
+GET         /authenticate               OperateRbac.authenticate
+GET         /pgtcallbackurl             OperateRbac.pgtCallBack

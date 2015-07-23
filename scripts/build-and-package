@@ -1,0 +1,155 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require 'popen4'
+$stdout.sync = true
+
+test_passed_regex = /PASSED/
+test_failed_regex = /FAILED/
+test_error_regex = /ERROR/
+
+play_home="/app/play-1.2.7/"
+
+package_dir="../deploy"
+
+version_number="1.0.0"
+
+unless Dir.exists?(play_home)
+  play_home = ""
+end
+
+dir = "agri"
+
+unless Dir.exists?("#{package_dir}/#{dir}/.git")
+  puts "请在agri目录运行，并确保已经建立git目录：#{package_dir}/#{dir}"
+  exit(1)
+end
+
+build_version="v#{version_number}build#{Time.now.strftime("%Y%m%d%H%M%S")}"
+git_branch=`git branch | grep "*"  | awk '{ print $2 }'`.strip!
+git_commit=`git rev-parse HEAD`
+
+puts "run on #{dir}, play:#{play_home}, build_verson:#{build_version}"
+
+require 'pathname'
+current_dir = Pathname.new(File.dirname(__FILE__)).parent.realpath
+
+puts current_dir
+
+failed_result = []
+passed_test_count = 0
+failed_test_count = 0
+
+# Dir.chdir("#{current_dir}/#{dir}")
+cmd =<<END
+        cd #{current_dir}
+        echo #{play_home}play deps --sync --clearcache
+        echo #{play_home}play auto-test --deps
+END
+puts cmd
+POpen4::popen4(cmd) do |stdout, stderr, stdin|
+  stdout.each do |line|
+    if line =~ test_passed_regex
+      passed_test_count += 1
+    end
+    if line =~ test_failed_regex or line =~ test_error_regex
+      failed_test_count += 1
+      failed_result << "#{dir}: #{line}"
+    end
+    puts "#{line}"
+  end
+end
+
+printf("=================== %s ====================\n", "Test Report")
+printf("| %-30s | PASSED | FAILED |\n", "Project")
+printf("----------------------------------------------------\n")
+printf("| %-30s | %6d | %6d |\n", dir, passed_test_count, failed_test_count)
+printf("----------------------------------------------------\n")
+
+unless failed_result.empty?
+  puts "Play Test Failed!"
+  failed_result.each {|line| puts "    " + line}
+#  exit(1)
+end
+
+
+if passed_test_count == 0 or failed_test_count > 0
+  puts "Play Build Failed or No Test Found!"
+  failed_result.each {|line| puts "    " + line}
+#  exit(1)
+end
+
+
+# 执行打包编译过程
+cmd =<<END
+  cd #{current_dir}
+  find . -name "[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*" -exec rm "{}" \\;
+  rm -rf modules precompiled tmp
+  #{play_home}play clean
+  #{play_home}play deps --forProd --forceCopy --%prod
+  #{play_home}play precompile
+END
+puts cmd
+
+error_count = 0
+POpen4::popen4(cmd) do |stdout, stderr, stdin|
+  stdout.each do |line|
+    if line =~ /ERROR/
+      error_count += 1
+    end
+    puts "#{line}"
+  end
+end
+if error_count > 0
+  puts "Play Build Found ERROR!!"
+  exit(1)
+end
+
+
+
+system("find . -name \"[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*\" -exec rm \"{}\" \\;");
+
+# package
+#build.time=2012-03-12 12:31:59
+#version=V1.0.0build1024
+#revision=512
+cmd =<<END
+  cd #{current_dir}
+  echo cd #{package_dir}/#{dir}
+  cd #{package_dir}/#{dir}
+
+  echo "Begin Copy to #{package_dir}/#{dir}"
+  git pull
+  git rm -rf ROOT/*
+  rm -rf ROOT
+  echo "current dir is empty."
+  pwd
+  ls -all
+  mkdir -p ROOT/conf
+
+  ls -all ROOT/
+  cp #{current_dir}/* ROOT/ -r
+  pwd
+  rm -f ROOT/conf/version.conf
+  echo "build.time=#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}" >> ROOT/conf/version.conf
+  echo "version=#{build_version}" >> ROOT/conf/version.conf
+  echo "revision=#{git_commit}@#{git_branch}" >> ROOT/conf/version.conf
+  echo "generate version.conf success."
+  pwd
+  cat ROOT/conf/version.conf
+  echo "DONE"
+  echo rm ROOT/app -rf
+  rm ROOT/test* -rf
+  git add --all .
+  echo git commit -m "build #{build_version}"
+  git commit -m "build #{build_version}"
+  git push
+
+  cd #{current_dir}
+  find . -name "[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*-[0-9a-f]*" -exec rm "{}" \\;
+  rm -rf modules precompiled tmp
+  play idealize --deps
+END
+system(cmd)
+
+puts "BUILD SUCCESS!"
