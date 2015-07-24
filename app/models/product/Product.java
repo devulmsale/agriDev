@@ -34,6 +34,14 @@ public class Product extends Model {
     @ManyToOne
     public ProductType parentType;
 
+
+    /**
+     * 所属品牌
+     */
+    @JoinColumn(name = "brand_id")
+    @ManyToOne
+    public Brand brand;
+
     /**
      * 市场价格
      */
@@ -46,6 +54,12 @@ public class Product extends Model {
      */
     @Column(name = "weixin_price")
     public BigDecimal weixinPrice;
+
+    /**
+     *  网站
+     */
+    @Column(name = "weixin_price")
+    public BigDecimal websitePrice;
 
     /**
      * 成本价格
@@ -115,6 +129,7 @@ public class Product extends Model {
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.name = {name} ~/")
                 .append("/~ and t.parentType.id = {parentTypeId} ~/")
+                .append("/~ and t.brand.id = {brandId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/")
                 .append("/~ and t.updatedAt = {updatedAt} ~/");
         util.xsql.XsqlBuilder.XsqlFilterResult result = new util.xsql.XsqlBuilder().generateHql(xsqlBuilder.toString(), conditionMap);

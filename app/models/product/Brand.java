@@ -1,5 +1,9 @@
 package models.product;
 
+/**
+ * Created by upshan on 15/7/24.
+ */
+
 import models.constants.DeletedStatus;
 import play.Logger;
 import play.db.jpa.Model;
@@ -11,24 +15,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by upshan on 15/7/7.
+ * 品牌
  */
 @Entity
-@Table(name = "product_types")
-public class ProductType extends Model {
+@Table(name = "brand")
+public class Brand extends Model{
 
     /**
-     * 类别名称
+     * 品牌名称
      */
     @Column(name = "name")
     public String name;
 
+
     /**
-     * 父类别关联
+     * 二级品类. 比如  大米/一斤包装
      */
-    @JoinColumn(name = "parent_type_id")
+    @JoinColumn(name = "brand_id")
     @ManyToOne
-    public ProductType parentType;
+    public Brand brand;
 
     /**
      * 创建时间
@@ -42,23 +47,22 @@ public class ProductType extends Model {
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
+
+
     /**
      * 分页查询.
      */
-    public static JPAExtPaginator<ProductType> findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
+    public static JPAExtPaginator<Brand> findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
         StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.name = {name} ~/")
-                .append("/~ and t.parentType.id = {parentTypeId} ~/")
+                .append("/~ and t.brand.id = {brandId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
-        if(conditionMap.get("parentType") != null && conditionMap.get("parentType").equals("true")) {
-            xsqlBuilder.append(" and t.parentType = null ");
-            conditionMap.remove("parentType");
-        }
+
         util.xsql.XsqlBuilder.XsqlFilterResult result = new util.xsql.XsqlBuilder().generateHql(xsqlBuilder.toString(), conditionMap);
-        JPAExtPaginator<ProductType> resultPage = new JPAExtPaginator<ProductType>("ProductType t", "t", ProductType.class,
+        JPAExtPaginator<Brand> resultPage = new JPAExtPaginator<Brand>("Brand t", "t", Brand.class,
                 result.getXsql(), conditionMap).orderBy(orderByExpress);
-        Logger.info("order Select SQL :" + result.getXsql() + "---");
+        Logger.info("brand Select SQL :" + result.getXsql() + "---");
         resultPage.setPageNumber(pageNumber);
         resultPage.setPageSize(pageSize);
         resultPage.setBoundaryControlsEnabled(false);
@@ -69,8 +73,8 @@ public class ProductType extends Model {
      * 查找第一类商品类别
      * @return
      */
-    public static List<ProductType> findTopType() {
-        return ProductType.find("deleted = ? and parentType = null", DeletedStatus.UN_DELETED).fetch();
+    public static List<Brand> findTopBrand() {
+        return Brand.find("deleted = ? and brand = null", DeletedStatus.UN_DELETED).fetch();
     }
 
 
@@ -78,9 +82,8 @@ public class ProductType extends Model {
      * 根据父类查询
      * @return
      */
-    public static List<ProductType> findByParentType(ProductType parentType) {
-        return ProductType.find("deleted = ? and parentType = ?", DeletedStatus.UN_DELETED, parentType).fetch();
+    public static List<Brand> findByBrand(Brand brand) {
+        return Brand.find("deleted = ? and brand = ?", DeletedStatus.UN_DELETED, brand).fetch();
     }
-
 
 }
