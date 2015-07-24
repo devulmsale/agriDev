@@ -30,7 +30,7 @@ public class OperateUser extends Model {
      */
     @JoinColumn(name = "operator_id", nullable = true)
     @ManyToOne
-    public Operator operator;
+    public Oper operator;
 
     @Column(name = "login_name")
     public String loginName;
@@ -95,7 +95,7 @@ public class OperateUser extends Model {
      * @param operator
      * @return
      */
-    public static Long countByOperator(Operator operator) {
+    public static Long countByOperator(Oper operator) {
         return OperateUser.count("operator = ?" , operator);
     }
 

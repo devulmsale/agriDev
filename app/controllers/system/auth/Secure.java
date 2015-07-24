@@ -5,7 +5,7 @@ import cache.CacheCallBack;
 import cache.CacheHelper;
 import models.operate.OperateUser;
 import models.operate.OperateUserLoginHistory;
-import models.operate.Operator;
+import models.operate.Oper;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
@@ -28,7 +28,7 @@ public class Secure extends Controller {
 
     @Before
     public static void setOperator() {
-        Operator operateor = getOperateor();
+        Oper operateor = getOperateor();
         renderArgs.put("currentOperator", operateor);
     }
 
@@ -36,7 +36,7 @@ public class Secure extends Controller {
      * 获取场馆
      * @return
      */
-    public static Operator getOperateor() {
+    public static Oper getOperateor() {
         if(getOperateUser() == null) {
             return null;
         } else {

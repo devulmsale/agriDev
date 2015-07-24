@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "operators")
-public class Operator extends Model {
+public class Oper extends Model {
 
     private static final long serialVersionUID = 230901367311362L;
 
@@ -56,13 +56,13 @@ public class Operator extends Model {
      * @param name
      * @return
      */
-    public static Operator findByName(String name) {
-        return Operator.find("name = ? and deleted = ?" , name , DeletedStatus.UN_DELETED).first();
+    public static Oper findByName(String name) {
+        return Oper.find("name = ? and deleted = ?", name, DeletedStatus.UN_DELETED).first();
     }
 
 
-    public static void update(long id, Operator operator, String updatedBy) {
-        Operator updatedOperator = Operator.findById(id);
+    public static void update(long id, Oper operator, String updatedBy) {
+        Oper updatedOperator = Oper.findById(id);
         updatedOperator.name = operator.name;
         updatedOperator.code = operator.code;
         updatedOperator.mobile = operator.mobile;

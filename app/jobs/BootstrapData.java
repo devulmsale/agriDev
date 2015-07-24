@@ -2,7 +2,7 @@ package jobs;
 
 import models.constants.DeletedStatus;
 import models.operate.OperateUser;
-import models.operate.Operator;
+import models.operate.Oper;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 import play.jobs.Job;
@@ -30,11 +30,11 @@ public class BootstrapData extends Job {
     private static void createOperatorAndOperateUser() {
         Logger.info("执行 createOperatorAndOperateUser 方法");
         String loginName = "ulmsale"; //一个特殊公司
-        Operator operator = Operator.findByName(loginName);
+        Oper operator = Oper.findByName(loginName);
         Logger.info("获取到的 Operator : %s " , operator);
         //如果公司不存在, 我们默认一个公司  . 可以让后台管理员登录
         if(operator == null) {
-            operator = new Operator();
+            operator = new Oper();
             operator.name = "ulmsale";
             operator.code = "ulmsale";
             operator.createdAt = new Date();
@@ -53,7 +53,7 @@ public class BootstrapData extends Job {
     }
 
 
-    private static void findOrCreatedOperateUser(Operator operator) {
+    private static void findOrCreatedOperateUser(Oper operator) {
         OperateUser operateUser = new OperateUser();
         operateUser.operator = operator;
         operateUser.loginName = "admin";
