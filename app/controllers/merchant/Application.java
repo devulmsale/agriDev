@@ -14,9 +14,7 @@ import play.mvc.With;
 public class Application extends Controller {
 
     public static void index() {
-        Logger.info("merchantUser before :%s=====");
         MerchantUser merchantUser = MerchantSecure.getMerchantUser();
-        Logger.info("merchantUser after :%s=====");
         render(merchantUser);
     }
 

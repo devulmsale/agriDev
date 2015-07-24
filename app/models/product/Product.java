@@ -58,7 +58,7 @@ public class Product extends Model {
     /**
      *  网站
      */
-    @Column(name = "weixin_price")
+    @Column(name = "website_price")
     public BigDecimal websitePrice;
 
     /**
