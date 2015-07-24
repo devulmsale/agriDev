@@ -2,14 +2,18 @@ package models.mert;
 
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
+import models.mert.enums.MerchantUserStatus;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.db.jpa.Model;
+import play.modules.paginate.JPAExtPaginator;
 import util.common.RandomNumberUtil;
+import util.xsql.XsqlBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 商户操作用户.
@@ -76,7 +80,12 @@ public class MerchantUser extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
-
+    /**
+     * 员工状态.
+     */
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    public MerchantUserStatus status;
     /**
      * 微信OpenId.
      * 通过OpenId，我们可以识别微信发起者对应的SupplierUser.
@@ -155,5 +164,40 @@ public class MerchantUser extends Model {
 //            return null;
 //        }
         return user;
+    }
+
+    public static void delete(Long id){
+        MerchantUser merchantUser=MerchantUser.findById(id);
+        if(merchantUser != null){
+            merchantUser.deleted=DeletedStatus.DELETED;
+            merchantUser.save();
+        }
+    }
+
+    /**
+     * 分页查询.
+     */
+    public static JPAExtPaginator<MerchantUser> findByCondition(
+            Map<String, Object> conditionMap, String orderByExpress,
+            Integer pageNumber, Integer pageSize) {
+        StringBuilder xsqlBuilder = new StringBuilder("1=1 ")
+                .append("/~ and t.id = {id} ~/")
+                .append("/~ and t.loginName = {loginName} ~/")
+                .append("/~ and t.mobile = {mobile} ~/")
+                .append("/~ and t.showName = {showName} ~/")
+                .append("/~ and t.createdAt = {createdAt} ~/")
+                .append("/~ and t.updatedAt = {updatedAt} ~/")
+                .append("/~ and t.merchant.id = {merchantId} ~/")
+                .append("/~ and t.deleted = {deleted} ~/");
+        XsqlBuilder.XsqlFilterResult result = new XsqlBuilder().generateHql(
+                xsqlBuilder.toString(), conditionMap);
+        Logger.info("films.xsql=" + result.getXsql());
+        JPAExtPaginator<MerchantUser> merchantUserPage = new JPAExtPaginator<>("MerchantUser t", "t",
+                MerchantUser.class, result.getXsql(), conditionMap)
+                .orderBy(orderByExpress);
+        merchantUserPage.setPageNumber(pageNumber);
+        merchantUserPage.setPageSize(pageSize);
+        merchantUserPage.setBoundaryControlsEnabled(false);
+        return merchantUserPage;
     }
 }

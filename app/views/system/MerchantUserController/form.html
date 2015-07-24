@@ -1,0 +1,83 @@
+
+
+<!-- content start -->
+<div class="admin-content">
+
+
+    <div class="am-tabs am-margin" data-am-tabs>
+
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            员工名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="fullName" name="merchant.fullName" value="${merchant?.fullName}">
+                        </div>
+
+                        #{if flash.get("fullNameerror") != null}
+                            <div class="am-hide-sm-only am-u-md-6">${flash.get("fullNameerror")}</div>
+                        #{/if}
+                        #{else}
+                            <div class="am-hide-sm-only am-u-md-6">必填</div>
+                        #{/else}
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            商户简称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                            <input type="text" class="am-input-sm" id="shortName" name="merchant.shortName" value="${merchant?.shortName}">
+                        </div>
+                    #{if flash.get("shortNameerror") != null}
+                        <div class="am-hide-sm-only am-u-md-6">${flash.get("shortNameerror")}</div>
+                    #{/if}
+                    #{else}
+                        <div class="am-hide-sm-only am-u-md-6">必填</div>
+                    #{/else}
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            联系电话
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="phone" name="merchant.phone" value="${merchant?.phone}">
+                        </div>
+                    #{if flash.get("phoneerror") != null}
+                        <div class="am-hide-sm-only am-u-md-6">${flash.get("phoneerror")}</div>
+                    #{/if}
+                    #{else}
+                        <div class="am-hide-sm-only am-u-md-6">必填</div>
+                    #{/else}
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            商户地址
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="address" name="merchant.address" value="${merchant?.address}">
+                        </div>
+                    #{if flash.get("addresserror") != null}
+                        <div class="am-hide-sm-only am-u-md-6">${flash.get("addresserror")}</div>
+                    #{/if}
+                    #{else}
+                        <div class="am-hide-sm-only am-u-md-6">必填</div>
+                    #{/else}
+                    </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>
+<!-- content end -->

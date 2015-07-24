@@ -13,15 +13,22 @@ GET     /public/                                staticDir:public
 
 
 # Merchant 商户后台管理
-GET   /merchants                                merchant.Application.index
-GET   /merchants/login                          merchant.auth.MerchantSecure.login
+GET   /merchants                                 merchant.Application.index
+GET   /merchants/login                           merchant.auth.MerchantSecure.login
 
 # SYSTEM 后台管理
 GET   /systems                                   system.Application.index
 GET   /system/login
-*   /system/merchant                           system.MerchantController.index
+*     /system/merchant                           system.MerchantController.index
 GET   /system/merchant/add                       system.MerchantController.add
 GET   /system/merchant/edit                      system.MerchantController.edit
 GET   /system/merchant/delete                    system.MerchantController.delete
+
+
+
+#MerchantUser 员工管理
+GET   /system/merchantUser/{id}                  system.MerchantUserController.index
+GET   /system/merchantUser/add/{id}              system.MerchantUserController.add
+
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*       /{controller}/{action}                   {controller}.{action}
