@@ -1,11 +1,15 @@
 package models.mert;
 
+import models.common.ChinaPhone;
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
 import models.mert.enums.MerchantUserStatus;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
+import play.data.validation.*;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.common.RandomNumberUtil;
@@ -32,6 +36,9 @@ public class MerchantUser extends Model {
     /**
      * 登录名.
      */
+    @Required (message = "登录名称长度为4--10位")   //必填项目
+    @MinLength(value = 4 , message = "不能低于4位有效数字")
+    @MaxLength(value = 10 , message = "不能大于10位有效数字")
     @Column(name = "login_name", length = 20)
     public String loginName;
 
@@ -44,6 +51,9 @@ public class MerchantUser extends Model {
     /**
      * 手机号.
      */
+    @Required(message = "请输入手机号")
+    @CheckWith(value = ChinaPhone.class , message = "手机号码不正确")
+    @Unique(message = "您输入的手机号已存在")
     @Column(name = "mobile", length = 20)
     public String mobile;
 
@@ -52,6 +62,7 @@ public class MerchantUser extends Model {
      */
     @Column(name = "encrypted_password", length = 50)
     public String encryptedPassword;
+
 
     /**
      * 加密盐.
@@ -69,6 +80,16 @@ public class MerchantUser extends Model {
     @ManyToOne
     @JoinColumn(name = "merchant_id")
     public Merchant merchant;
+
+
+    /**
+     * 注册或登录时 暂时用的 password
+     */
+    @Required (message = "登录密码长度为6--12位")   //必填项目
+    @MinLength(value = 6 , message = "不能低于6位有效数字")
+    @MaxLength(value = 12 , message = "不能大于12位有效数字")
+    public String tmpPassword;
+
 
     @Transient
     public String confirmPassword;
