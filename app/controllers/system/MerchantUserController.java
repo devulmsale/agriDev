@@ -19,21 +19,23 @@ import java.util.Map;
 
 
 @With(Secure.class)
-public class MerchantController extends Controller {
+public class MerchantUserController extends Controller {
     public static Integer PAGE_SIZE = 15;
 
-    public static void index(Integer pageNumber ,Merchant merchant , String searchName) {
+    public static void index(Integer pageNumber ,Long id,MerchantUser merchantUser , String searchName) {
         initData();
         pageNumber = pageNumber == null ? 1 : pageNumber;
+        Logger.info("MerchantId : %s==",id);
         Map<String , Object> searchMap = new HashMap<>();
         searchMap.put("deleted", DeletedStatus.UN_DELETED);
+        searchMap.put("merchantId",id);
         if(StringUtils.isNotBlank(searchName)) {
             Logger.info("searchName :%s=="+searchName);
             searchMap.put("searchName", "%"+searchName+"%");
         }
-        JPAExtPaginator<Merchant> resultPage = Merchant.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
+        JPAExtPaginator<MerchantUser> resultPage = MerchantUser.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
         Logger.info("merchantspage :%s==",resultPage);
-        render(resultPage, pageNumber, merchant);
+        render(resultPage, pageNumber, merchantUser);
     }
 
     public static void add(Merchant merchant , MerchantUser merchantUser){
@@ -82,7 +84,7 @@ public class MerchantController extends Controller {
         merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.confirmPassword + merchantUser.passwordSalt);
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
-        index(1, merchant, null);
+      //  index(1, merchant, null);
     }
 
     public static void edit(Long id,Integer pageNumber){
@@ -93,12 +95,12 @@ public class MerchantController extends Controller {
 
     public static void update(Long id,Integer pageNumber,Merchant merchant){
         Merchant.update(id, merchant);
-        index(pageNumber , null,null);
+       // index(pageNumber , null,null);
     }
     public static void delete(Long id,Integer pageNumber){
         Logger.info("id : %s ====" , id);
         Merchant.delete(id);
-        index(pageNumber, null,null);
+       // index(pageNumber, null,null);
     }
 
 
