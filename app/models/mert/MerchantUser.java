@@ -1,5 +1,6 @@
 package models.mert;
 
+import jodd.bean.BeanCopy;
 import models.common.ChinaPhone;
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
@@ -115,15 +116,16 @@ public class MerchantUser extends Model {
     public String weixinOpenId;
 
     /**
-     * 更新操作员信息
-     *
-     * @param id           ID
-     * @param merchantUser 用户信息
+     * 更新员工信息
+     * @param id
+     * @param newObject
      */
-    public static void update(long id, MerchantUser merchantUser) {
-        MerchantUser updatedUser = MerchantUser.findById(id);
+    public static void update(long id, MerchantUser newObject) {
+        MerchantUser merchantUser = MerchantUser.findById(id);
 
-        if (StringUtils.isNotEmpty(merchantUser.encryptedPassword) &&
+        BeanCopy.beans(newObject, merchantUser).ignoreNulls(true).copy();
+
+       /* if (StringUtils.isNotEmpty(merchantUser.encryptedPassword) &&
                 !"******".equals(merchantUser.encryptedPassword) &&
                 !merchantUser.encryptedPassword.equals(NOTSETPASSWORD)) {
             //随机码
@@ -132,14 +134,16 @@ public class MerchantUser extends Model {
         updatedUser.loginName = merchantUser.loginName;
         updatedUser.showName = merchantUser.showName;
         updatedUser.mobile = merchantUser.mobile;
-        updatedUser.updatedAt = new Date();
-        updatedUser.save();
+        updatedUser.updatedAt = new Date();*/
+        merchantUser.save();
     }
 
     public void updatePassword(String password) {
         this.passwordSalt = RandomNumberUtil.generateRandomChars(12);
         this.encryptedPassword = DigestUtils.md5Hex(password + this.passwordSalt);
     }
+
+
 
     public static MerchantUser findValidUser(Long userId) {
         return find("id = ? and merchant.status = ?", userId, MerchantStatus.OPEN).first();
@@ -203,7 +207,7 @@ public class MerchantUser extends Model {
             Integer pageNumber, Integer pageSize) {
         StringBuilder xsqlBuilder = new StringBuilder("1=1 ")
                 .append("/~ and t.id = {id} ~/")
-                .append("/~ and t.loginName = {loginName} ~/")
+                .append("/~ and t.loginName like {searchName} ~/")
                 .append("/~ and t.mobile = {mobile} ~/")
                 .append("/~ and t.showName = {showName} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/")

@@ -1,62 +1,24 @@
 
-
-<!-- content start -->
-<div class="admin-content">
-
-
-    <div class="am-tabs am-margin" data-am-tabs>
-
-
-        <div class="am-tabs-bd">
-            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <hr/>
-
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        登录账号
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <input type="text" class="am-input-sm" ${isEdit ? '' : 'readOnly'} id="loginName"  name="merchantUser.loginName" value="${merchantUser?.loginName}">
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'merchantUser.loginName' /}
+                    </div>
+                </div>
                 <div class="am-g am-margin-top">
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">
                         用户手机
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
-                        <input type="text" class="am-input-sm" id="mobile" name="merchantUser.mobile" value="">
+                        <input type="text" class="am-input-sm" id="mobile" name="merchantUser.mobile" value="${merchantUser?.mobile}">
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
                         * #{error 'merchantUser.mobile' /}
                     </div>
 
                 </div>
-
-                <div class="am-g am-margin-top">
-                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                        登录账号
-                    </div>
-                    <div class="am-u-sm-8 am-u-md-4">
-                        <input type="text" class="am-input-sm" id="loginName" name="merchantUser.loginName" value="">
-                    </div>
-                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
-                        * #{error 'merchantUser.loginName' /}
-                    </div>
-
-                </div>
-
-
-                <div class="am-g am-margin-top">
-                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                        登录密码
-                    </div>
-                    <div class="am-u-sm-8 am-u-md-4">
-                        <input type="password" class="am-input-sm" id="tmpPassword" name="merchantUser.tmpPassword" value="">
-                    </div>
-                        <div class="am-hide-sm-only am-u-md-6"  style="color: red;">
-                            * #{error 'merchantUser.tmpPassword' /}
-                        </div>
-                </div>
-
-            </div>
-
-
-
-        </div>
-    </div>
-
-
-</div>
-<!-- content end -->
