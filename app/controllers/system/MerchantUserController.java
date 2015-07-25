@@ -106,6 +106,7 @@ public class MerchantUserController extends Controller {
         merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.loginName + merchantUser.passwordSalt);
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
+        flash.put("error" , "ok");
         redirect(BASE_RETURN_INDEX+"/"+merchantUser.merchant.id);
     }
 
