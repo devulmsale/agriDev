@@ -73,7 +73,7 @@
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs">
                                 <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
-                                    <a data-id="${bd.id}" href="#"></a><i class="am-icon-edit">修改名称</i>
+                                    <a data-id="${bd.id}" ></a><i class="am-icon-edit">修改名称</i>
                                 </button>
                             </div>
                         </div>
@@ -112,7 +112,6 @@
     $(function() {
         $('#doc-modal-list').find('.am-icon-edit').add('#doc-confirm-toggle').
                 on('click', function() {
-                    $('#newName').val('');
                     $('#my-prompt').modal({
                         relatedTarget: this,
                         onConfirm: function(e) {
@@ -120,10 +119,6 @@
                             var id = $link.data('id');
                             location.href="/merchant/updateName/"+id+"/"+ e.data;
                         }
-//                        closeOnConfirm: false,
-//                        onCancel: function() {
-//                            alert('抱歉，您未重置密码！');
-//                        }
                     });
                 });
     });

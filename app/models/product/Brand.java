@@ -72,6 +72,11 @@ public class Brand extends Model{
                 .append("/~ and t.brand.id = {brandId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
 
+        if(conditionMap.get("isTop") != null) {
+            xsqlBuilder.append(" and t.brand = null ");
+            conditionMap.remove("isTop");
+        }
+
         util.xsql.XsqlBuilder.XsqlFilterResult result = new util.xsql.XsqlBuilder().generateHql(xsqlBuilder.toString(), conditionMap);
         JPAExtPaginator<Brand> resultPage = new JPAExtPaginator<Brand>("Brand t", "t", Brand.class,
                 result.getXsql(), conditionMap).orderBy(orderByExpress);

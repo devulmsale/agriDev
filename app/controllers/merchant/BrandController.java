@@ -34,6 +34,7 @@ public class BrandController extends Controller {
         if(StringUtils.isNotBlank(searchName)) {
             searchMap.put("searchName", "%"+searchName+"%");
         }
+        searchMap.put("isTop" , true);
         JPAExtPaginator<Brand> resultPage = Brand.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage, pageNumber);
     }
