@@ -24,6 +24,7 @@
             <form action="@{system.MerchantUserController.index()}" id="searchForm" name="searchForm" method="POST" >
             <div class="am-input-group am-input-group-sm">
                     <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
+                    <input type="text" id="merChantId" name="id" value="${id}">
                     <input type="text" class="am-form-field" name="searchName" placeholder="请输入登录名称搜索">
                       <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default" type="submit">搜索</button>

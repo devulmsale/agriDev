@@ -47,8 +47,8 @@ public class MerchantUserController extends Controller {
 
     public static void add(Long id){
         Merchant merchant = Merchant.findById(id);
-        Boolean isEdit = true;
-        render(merchant,isEdit);
+        Boolean isAdd = true;
+        render(merchant,isAdd);
     }
 
     public static void create(Long id ,@Valid MerchantUser merchantUser){
@@ -70,8 +70,8 @@ public class MerchantUserController extends Controller {
 
     public static void edit(Long id,Integer pageNumber){
         MerchantUser merchantUser = MerchantUser.findById(id);
-        Boolean isEdit = false;
-        render(merchantUser, pageNumber , isEdit);
+        Boolean isAdd = false;
+        render(merchantUser, pageNumber , isAdd);
     }
 
     /**
@@ -84,6 +84,12 @@ public class MerchantUserController extends Controller {
         merchantUser =  MerchantUser.update(id, merchantUser);
         redirect(BASE_RETURN_INDEX+"/"+merchantUser.merchant.id);
     }
+
+    /**
+     * MerchantUser 删除
+     * @param id
+     * @param pageNumber
+     */
     public static void delete(Long id,Integer pageNumber){
         MerchantUser merchantUser = MerchantUser.findById(id);
         MerchantUser.delete(id);
@@ -95,24 +101,19 @@ public class MerchantUserController extends Controller {
      * @param id
      */
     public static void passwordRest(Long id){
-        Logger.info("id : %s==" ,id);
         MerchantUser merchantUser=MerchantUser.findById(id);
-        Logger.info("MerchantUserLoginName password :%s="+merchantUser.loginName);
         merchantUser.passwordSalt = RandomNumberUtil.generateRandomNumberString(6);
         merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.loginName + merchantUser.passwordSalt);
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
-        String url = "/system/merchantUser/"+merchantUser.merchant.id;
-        redirect(url);
+        redirect(BASE_RETURN_INDEX+"/"+merchantUser.merchant.id);
     }
 
 
     private static void initData() {
-        // 绠＄悊鍛樹俊鎭�
         OperateUser operateUser = Secure.getOperateUser();
         renderArgs.put("operateUser" , operateUser);
 
-        //绠＄悊鍛橀偖绠�
         Long count = 8l;
         renderArgs.put("emailCount" , count);
     }
