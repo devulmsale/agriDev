@@ -103,6 +103,7 @@ public class MerchantUserController extends Controller {
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
         String url = "/system/merchantUser/"+merchantUser.merchant.id;
+        flash.put("error" , "ok");
         redirect(url);
     }
 

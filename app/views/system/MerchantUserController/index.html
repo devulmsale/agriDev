@@ -13,25 +13,33 @@
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
                     <a href="/system/merchantUser/add/${id}">
-                    <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
                     </a>
 
                 </div>
             </div>
         </div>
 
+
         <div class="am-u-sm-12 am-u-md-3">
             <form action="@{system.MerchantUserController.index()}" id="searchForm" name="searchForm" method="POST" >
-            <div class="am-input-group am-input-group-sm">
+                <div class="am-input-group am-input-group-sm">
                     <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
                     <input type="text" class="am-form-field" name="searchName" placeholder="请输入登录名称搜索">
                       <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default" type="submit">搜索</button>
                       </span>
-            </div>
+                </div>
             </form>
         </div>
     </div>
+
+    #{if flash.get("error") != null && flash.get("error") =='ok'}
+        <div class="am-alert am-alert-secondary" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p> 密码重置成功. 新的密码跟帐号一致 </p>
+        </div>
+    #{/if}
 
     <div class="am-g">
         <div class="am-u-sm-12">
@@ -63,26 +71,25 @@
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
                                     <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/system/merchantUser/edit/${merchantUsers?.id}/${pageNumber}'">
-                                       <span class="am-icon-pencil-square-o"></span> 编辑
+                                        <span class="am-icon-pencil-square-o"></span> 编辑
                                     </button>
                                     <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/merchantUser/delete/${merchantUsers?.id}/${pageNumber}'">
                                         <span class="am-icon-trash-o"></span> 删除
                                     </button>
                                     <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
-                                        <a data-id="${merchantUsers.id}" href="#"> 密码重置 </a><i class="am-icon-close"></i>
+                                        <a data-id="${merchantUsers.id}" href="#"></a><i class="am-icon-close">密码重置</i>
                                     </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                   #{/paginate.list}
+                    #{/paginate.list}
                     </tbody>
                 </table>
                 <div class="am-cf" id="layerPage">
 
                 </div>
                 <hr />
-                <p>注：.....</p>
             </form>
         </div>
 
@@ -111,11 +118,9 @@
                         onConfirm: function(options) {
                             var $link = $(this.relatedTarget).prev('a');
                             var id = $link.data('id');
-                           // alert(id);
-
                             location.href="/system/MerchantUserController/passwordRest/"+id;
                         },
-                        // closeOnConfirm: false,
+//                        closeOnConfirm: false,
                         onCancel: function() {
                             alert('抱歉，您未重置密码！');
                         }
