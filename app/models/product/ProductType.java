@@ -58,9 +58,10 @@ public class ProductType extends Model {
                 .append("/~ and t.name like {searchName} ~/")
                 .append("/~ and t.parentType.id = {parentTypeId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
-        if(conditionMap.get("parentType") != null && conditionMap.get("parentType").equals("true")) {
+
+        if(conditionMap.get("isTop") != null) {
             xsqlBuilder.append(" and t.parentType = null ");
-            conditionMap.remove("parentType");
+            conditionMap.remove("isTop");
         }
         util.xsql.XsqlBuilder.XsqlFilterResult result = new util.xsql.XsqlBuilder().generateHql(xsqlBuilder.toString(), conditionMap);
         JPAExtPaginator<ProductType> resultPage = new JPAExtPaginator<ProductType>("ProductType t", "t", ProductType.class,

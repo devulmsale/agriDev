@@ -30,7 +30,7 @@ public class ProductTypeController extends Controller {
         if(StringUtils.isNotBlank(searchName)) {
             searchMap.put("searchName", "%"+searchName+"%");
         }
-       // searchMap.put("isTop" , true);
+        searchMap.put("isTop" , true);
         JPAExtPaginator<ProductType> resultPage = ProductType.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage, pageNumber);
     }
@@ -67,10 +67,10 @@ public class ProductTypeController extends Controller {
 
 
     public static void delete(Long id , Integer pageNumber) {
-        Brand brand = Brand.findById(id);
-        if(brand != null && brand.brand == null) {
-            brand.deleted = DeletedStatus.UN_DELETED;
-            brand.save();
+        ProductType productType = ProductType.findById(id);
+        if(productType != null && productType.parentType == null) {
+            productType.deleted = DeletedStatus.DELETED;
+            productType.save();
         }
         redirect(BASE_RETURN_INDEX);
     }
