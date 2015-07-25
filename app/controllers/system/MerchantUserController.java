@@ -5,6 +5,7 @@ import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
 import models.mert.MerchantUser;
+import models.mert.enums.MerchantStatus;
 import models.operate.OperateUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
@@ -48,7 +49,8 @@ public class MerchantUserController extends Controller {
     public static void add(Long id){
         Merchant merchant = Merchant.findById(id);
         Boolean isAdd = true;
-        render(merchant,isAdd);
+        MerchantStatus[] merchantStatuses=MerchantStatus.values();
+        render(merchant , isAdd , merchantStatuses);
     }
 
     public static void create(Long id ,@Valid MerchantUser merchantUser){
@@ -71,7 +73,8 @@ public class MerchantUserController extends Controller {
     public static void edit(Long id,Integer pageNumber){
         MerchantUser merchantUser = MerchantUser.findById(id);
         Boolean isAdd = false;
-        render(merchantUser, pageNumber , isAdd);
+        MerchantStatus[] merchantStatuses = MerchantStatus.values();
+        render(merchantUser, pageNumber , isAdd , merchantStatuses);
     }
 
     /**

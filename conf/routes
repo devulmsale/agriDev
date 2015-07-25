@@ -25,6 +25,7 @@ GET   /system/login                                       system.auth.Secure.log
 GET   /system/merchant/add                                system.MerchantController.add
 GET   /system/merchant/edit                               system.MerchantController.edit
 GET   /system/merchant/delete                             system.MerchantController.delete
+POST  /system/merchant/create                             system.MerchantController.create
 
 
 
