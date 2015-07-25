@@ -4,8 +4,12 @@ package models.product;
  * Created by upshan on 15/7/24.
  */
 
+import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import play.Logger;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
@@ -24,6 +28,9 @@ public class Brand extends Model{
     /**
      * 品牌名称
      */
+    @Required(message = "品牌名称不能为空.")
+    @MinLength(value = 2 , message = "品牌名称不能低于2个字符")
+    @MaxLength(value = 20 , message = "品牌名称不能大于20个字符")
     @Column(name = "name")
     public String name;
 
@@ -48,6 +55,11 @@ public class Brand extends Model{
     public DeletedStatus deleted;
 
 
+    public static void update(Long id , Brand newObject) {
+        Brand oldBrand = Brand.findById(id);
+        BeanCopy.beans(newObject, oldBrand).ignoreNulls(true).copy();
+        oldBrand.save();
+    }
 
     /**
      * 分页查询.
@@ -56,6 +68,7 @@ public class Brand extends Model{
         StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.name = {name} ~/")
+                .append("/~ and t.name like {searchName} ~/")
                 .append("/~ and t.brand.id = {brandId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
 

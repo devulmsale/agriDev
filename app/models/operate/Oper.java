@@ -43,7 +43,6 @@ public class Oper extends Model {
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
-
     @Column(name = "created_by")
     public String createdBy;
 

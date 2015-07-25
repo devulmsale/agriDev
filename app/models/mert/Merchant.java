@@ -211,7 +211,7 @@ public class Merchant extends Model {
     public static JPAExtPaginator<Merchant> findByCondition(
             Map<String, Object> conditionMap, String orderByExpress,
             Integer pageNumber, Integer pageSize) {
-        StringBuilder xsqlBuilder = new StringBuilder("1=1 ")
+        StringBuilder xsqlBuilder = new StringBuilder(" deleted = models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.fullName = {fullName} ~/")
                 .append("/~ and t.shortName = {shortName} ~/")

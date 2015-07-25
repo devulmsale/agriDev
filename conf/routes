@@ -15,6 +15,10 @@ GET     /public/                                staticDir:public
 # Merchant 商户后台管理
 GET   /merchants                                 merchant.Application.index
 GET   /merchants/login                           merchant.auth.MerchantSecure.login
+#   Merchant Brand 管理
+*     /merchant/brands                           merchant.BrandController.index
+
+
 
 # SYSTEM 后台管理
 GET   /systems                                   system.Application.index
