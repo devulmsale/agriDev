@@ -3,13 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                                 Application.index
 
 # Ignore favicon requests
-GET     /favicon.ico                            404
+GET     /favicon.ico                                      404
 
 # Map static resources from the /app/public folder to the /public path
-GET     /public/                                staticDir:public
+GET     /public/                                          staticDir:public
 
 
 # Merchant 商户后台管理
@@ -18,21 +18,24 @@ GET   /merchants/login                           merchant.auth.MerchantSecure.lo
 #   Merchant Brand 管理
 *     /merchant/brands                           merchant.BrandController.index
 
-
-
 # SYSTEM 后台管理
-GET   /systems                                   system.Application.index
+GET   /systems                                            system.Application.index
 GET   /system/login
-*     /system/merchant                           system.MerchantController.index
-GET   /system/merchant/add                       system.MerchantController.add
-GET   /system/merchant/edit                      system.MerchantController.edit
-GET   /system/merchant/delete                    system.MerchantController.delete
+*     /system/merchant                                    system.MerchantController.index
+GET   /system/merchant/add                                system.MerchantController.add
+GET   /system/merchant/edit                               system.MerchantController.edit
+GET   /system/merchant/delete                             system.MerchantController.delete
 
 
 
 #MerchantUser 员工管理
-GET   /system/merchantUser/{id}                  system.MerchantUserController.index
-GET   /system/merchantUser/add/{id}              system.MerchantUserController.add
+POST  /system/merchantUser                                system.MerchantUserController.index
+GET   /system/merchantUser/{id}                           system.MerchantUserController.index
+GET   /system/merchantUser/add/{id}                       system.MerchantUserController.add
+GET   /system/merchantUser/delete/{id}/{pageNumber}       system.MerchantUserController.delete
+GET   /system/merchantUser/edit/{id}/{pageNumber}         system.MerchantUserController.edit
+*     /system/merchantUser/update/{id}/{pageNumber}       system.MerchantUserController.update
+GET   /system/MerchantUserController/passwordRest/{id}    system.MerchantUserController.passwordRest
 
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

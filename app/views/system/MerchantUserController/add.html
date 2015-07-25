@@ -19,7 +19,18 @@
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                 <form class="am-form" action="@{system.MerchantUserController.create(merchant?.id)}" method="POST">
                      #{include 'system/MerchantUserController/form.html'/}
+                         <div class="am-g am-margin-top">
 
+                             <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                 登录密码
+                             </div>
+                             <div class="am-u-sm-8 am-u-md-4">
+                                 <input type="password" class="am-input-sm" id="tmpPassword" name="merchantUser.tmpPassword" value="">
+                             </div>
+                             <div class="am-hide-sm-only am-u-md-6"  style="color: red;">
+                                 * #{error 'merchantUser.tmpPassword' /}
+                             </div>
+                         </div>
                          <div class="am-margin">
                              <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
                              <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">放弃保存</button>

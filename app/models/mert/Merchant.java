@@ -196,7 +196,6 @@ public class Merchant extends Model {
 
     public static void delete(Long id){
         Merchant merchant=Merchant.findById(id);
-        Logger.info("merchant id : %s==" + merchant.id);
         if (merchant != null){
             merchant.deleted=DeletedStatus.DELETED;
             merchant.save();

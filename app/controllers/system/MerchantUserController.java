@@ -14,6 +14,7 @@ import play.modules.paginate.JPAExtPaginator;
 import play.mvc.Controller;
 import play.mvc.With;
 import util.common.RandomNumberUtil;
+import util.xsql.datamodifier.modifier.BooleanDataModifier;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 @With(Secure.class)
 public class MerchantUserController extends Controller {
-    public static Integer PAGE_SIZE = 15;
+    public static Integer PAGE_SIZE = 5;
 
     public static void index(Integer pageNumber ,Long id,MerchantUser merchantUser , String searchName) {
         initData();
@@ -31,7 +32,9 @@ public class MerchantUserController extends Controller {
         Logger.info("MerchantId : %s==",id);
         Map<String , Object> searchMap = new HashMap<>();
         searchMap.put("deleted", DeletedStatus.UN_DELETED);
-        searchMap.put("merchantId",id);
+        if(id != null){
+            searchMap.put("merchantId",id);
+        }
         if(StringUtils.isNotBlank(searchName)) {
             Logger.info("searchName :%s=="+searchName);
             searchMap.put("searchName", "%"+searchName+"%");
@@ -43,7 +46,8 @@ public class MerchantUserController extends Controller {
 
     public static void add(Long id){
         Merchant merchant = Merchant.findById(id);
-        render(merchant);
+        Boolean isEdit = true;
+        render(merchant,isEdit);
     }
 
     public static void create(Long id ,@Valid MerchantUser merchantUser){
@@ -65,21 +69,43 @@ public class MerchantUserController extends Controller {
     }
 
     public static void edit(Long id,Integer pageNumber){
-        Merchant merchant = Merchant.findById(id);
-//        MerchantUser merchantUser = MerchantUser.findById(id);
-        render(merchant, pageNumber);
+        MerchantUser merchantUser = MerchantUser.findById(id);
+        Boolean isEdit = false;
+        render(merchantUser, pageNumber , isEdit);
     }
 
-    public static void update(Long id,Integer pageNumber,Merchant merchant){
-        Merchant.update(id, merchant);
-       // index(pageNumber , null,null);
+    public static void update(Long id,Integer pageNumber,MerchantUser merchantUser){
+        Logger.info("update id :%s=",id);
+        MerchantUser.update(id, merchantUser);
+        MerchantUser merchantUser1=MerchantUser.findById(id);
+        Logger.info("merchantUser merchantId :%s=",merchantUser1.merchant.id);
+        String url = "/system/merchantUser/"+merchantUser1.merchant.id;
+        redirect(url);
     }
     public static void delete(Long id,Integer pageNumber){
         Logger.info("id : %s ====" , id);
-        Merchant.delete(id);
-       // index(pageNumber, null,null);
+        Logger.info("pageNumber :%s==",pageNumber);
+        MerchantUser.delete(id);
+        MerchantUser merchantUser1=MerchantUser.findById(id);
+        String url = "/system/merchantUser/"+merchantUser1.merchant.id;
+        redirect(url);
     }
 
+    /**
+     * 密码重置
+     * @param id
+     */
+    public static void passwordRest(Long id){
+        Logger.info("id : %s==" ,id);
+        MerchantUser merchantUser=MerchantUser.findById(id);
+        Logger.info("MerchantUserLoginName password :%s="+merchantUser.loginName);
+        merchantUser.passwordSalt = RandomNumberUtil.generateRandomNumberString(6);
+        merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.loginName + merchantUser.passwordSalt);
+        merchantUser.deleted=DeletedStatus.UN_DELETED;
+        merchantUser.save();
+        String url = "/system/merchantUser/"+merchantUser.merchant.id;
+        redirect(url);
+    }
 
 
     private static void initData() {
