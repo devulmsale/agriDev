@@ -120,22 +120,10 @@ public class MerchantUser extends Model {
      * @param id
      * @param newObject
      */
-    public static void update(long id, MerchantUser newObject) {
+    public static MerchantUser update(long id, MerchantUser newObject) {
         MerchantUser merchantUser = MerchantUser.findById(id);
-
         BeanCopy.beans(newObject, merchantUser).ignoreNulls(true).copy();
-
-       /* if (StringUtils.isNotEmpty(merchantUser.encryptedPassword) &&
-                !"******".equals(merchantUser.encryptedPassword) &&
-                !merchantUser.encryptedPassword.equals(NOTSETPASSWORD)) {
-            //随机码
-            updatedUser.updatePassword(merchantUser.encryptedPassword);
-        }
-        updatedUser.loginName = merchantUser.loginName;
-        updatedUser.showName = merchantUser.showName;
-        updatedUser.mobile = merchantUser.mobile;
-        updatedUser.updatedAt = new Date();*/
-        merchantUser.save();
+        return merchantUser.save();
     }
 
     public void updatePassword(String password) {

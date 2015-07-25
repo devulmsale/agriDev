@@ -25,6 +25,7 @@ import java.util.Map;
 @With(Secure.class)
 public class MerchantUserController extends Controller {
     public static Integer PAGE_SIZE = 5;
+    public static String  BASE_RETURN_INDEX = "/system/merchantUser";
 
     public static void index(Integer pageNumber ,Long id,MerchantUser merchantUser , String searchName) {
         initData();
@@ -64,8 +65,7 @@ public class MerchantUserController extends Controller {
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.tmpPassword = null;
         merchantUser.save();
-        String url = "/system/merchantUser/"+id;
-        redirect(url);
+        redirect(BASE_RETURN_INDEX+"/"+id);
     }
 
     public static void edit(Long id,Integer pageNumber){
@@ -74,21 +74,20 @@ public class MerchantUserController extends Controller {
         render(merchantUser, pageNumber , isEdit);
     }
 
+    /**
+     * MerchantUser 修改
+     * @param id
+     * @param pageNumber
+     * @param merchantUser
+     */
     public static void update(Long id,Integer pageNumber,MerchantUser merchantUser){
-        Logger.info("update id :%s=",id);
-        MerchantUser.update(id, merchantUser);
-        MerchantUser merchantUser1=MerchantUser.findById(id);
-        Logger.info("merchantUser merchantId :%s=",merchantUser1.merchant.id);
-        String url = "/system/merchantUser/"+merchantUser1.merchant.id;
-        redirect(url);
+        merchantUser =  MerchantUser.update(id, merchantUser);
+        redirect(BASE_RETURN_INDEX+"/"+merchantUser.merchant.id);
     }
     public static void delete(Long id,Integer pageNumber){
-        Logger.info("id : %s ====" , id);
-        Logger.info("pageNumber :%s==",pageNumber);
+        MerchantUser merchantUser = MerchantUser.findById(id);
         MerchantUser.delete(id);
-        MerchantUser merchantUser1=MerchantUser.findById(id);
-        String url = "/system/merchantUser/"+merchantUser1.merchant.id;
-        redirect(url);
+        redirect(BASE_RETURN_INDEX+"/"+merchantUser.merchant.id);
     }
 
     /**
