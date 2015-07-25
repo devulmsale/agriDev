@@ -124,9 +124,7 @@ public class Secure extends Controller {
         Cache.delete(OperateUser.LOGIN_SESSION_USER + uid);
         response.removeCookie(AUTO_LOGIN_COOKIE_NAME);
         session.clear();
-
-        String casLogoutUrl = AUTO_LOGIN_URL;
-        redirect(casLogoutUrl);
+        redirect(AUTO_LOGIN_URL);
     }
 
     /**

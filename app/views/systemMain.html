@@ -43,7 +43,7 @@
                 <ul class="am-dropdown-content">
                     <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
                     <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                    <li><a href="@{system.auth.Secure.logout()}"><span class="am-icon-power-off"></span> 退出</a></li>
                 </ul>
             </li>
             <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -58,7 +58,7 @@
             <ul class="am-list admin-sidebar-list">
                 <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
                 <li><a href="@{system.MerchantController.index()}"><span class="am-icon-pencil-square-o"></span> 商户管理</a></li>
-                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+                <li><a href="@{system.auth.Secure.logout()}"><span class="am-icon-sign-out"></span> 注销</a></li>
             </ul>
 
             <div class="am-panel am-panel-default admin-sidebar-panel">

@@ -20,7 +20,7 @@ GET   /merchants/login                           merchant.auth.MerchantSecure.lo
 
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
-GET   /system/login
+GET   /system/login                                       system.auth.Secure.login
 *     /system/merchant                                    system.MerchantController.index
 GET   /system/merchant/add                                system.MerchantController.add
 GET   /system/merchant/edit                               system.MerchantController.edit
