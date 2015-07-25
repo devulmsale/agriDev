@@ -193,7 +193,7 @@ public class MerchantUser extends Model {
     public static JPAExtPaginator<MerchantUser> findByCondition(
             Map<String, Object> conditionMap, String orderByExpress,
             Integer pageNumber, Integer pageSize) {
-        StringBuilder xsqlBuilder = new StringBuilder("1=1 ")
+        StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.loginName like {searchName} ~/")
                 .append("/~ and t.mobile = {mobile} ~/")

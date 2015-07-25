@@ -1,7 +1,11 @@
 package models.product;
 
+import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import play.Logger;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
@@ -20,6 +24,9 @@ public class ProductType extends Model {
     /**
      * 类别名称
      */
+    @Required(message = "类别名称不能为空.")
+    @MinLength(value = 2 , message = "类别名称不能低于2个字符")
+    @MaxLength(value = 20 , message = "类别名称不能大于20个字符")
     @Column(name = "name")
     public String name;
 
@@ -48,7 +55,7 @@ public class ProductType extends Model {
     public static JPAExtPaginator<ProductType> findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
         StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
-                .append("/~ and t.name = {name} ~/")
+                .append("/~ and t.name like {searchName} ~/")
                 .append("/~ and t.parentType.id = {parentTypeId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
         if(conditionMap.get("parentType") != null && conditionMap.get("parentType").equals("true")) {
@@ -82,5 +89,15 @@ public class ProductType extends Model {
         return ProductType.find("deleted = ? and parentType = ?", DeletedStatus.UN_DELETED, parentType).fetch();
     }
 
+    /**
+     * 类别修改
+     * @param id
+     * @param newObject
+     */
+    public static void update(Long id , ProductType newObject) {
+        ProductType oldproductType = ProductType.findById(id);
+        BeanCopy.beans(newObject, oldproductType).ignoreNulls(true).copy();
+        oldproductType.save();
+    }
 
 }
