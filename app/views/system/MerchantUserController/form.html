@@ -4,7 +4,7 @@
                         登录账号
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
-                        <input type="text" class="am-input-sm" ${isEdit ? '' : 'readOnly'} id="loginName"  name="merchantUser.loginName" value="${merchantUser?.loginName}">
+                        <input type="text" class="am-input-sm" ${isAdd ? '' : 'readOnly'} id="loginName"  name="merchantUser.loginName" value="${merchantUser?.loginName}">
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
                         * #{error 'merchantUser.loginName' /}
