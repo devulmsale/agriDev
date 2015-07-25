@@ -2,4 +2,8 @@
 # For example, for French create a messages.fr file
 #
 
-Incorrect value = 您输入的格式不正确
+merchantStatus.TRIAL=试用
+merchantStatus.OPEN=可用
+merchantStatus.EXPIRED=过期
+merchantStatus.FREEZE=冻结
+merchantStatus.null=未知

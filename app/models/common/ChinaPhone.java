@@ -13,6 +13,7 @@ public class ChinaPhone  extends Check {
     public boolean isSatisfied(Object merchantUser ,  Object mobile){
         String regExp = "^[1]([3][0-9]{1}|59|58|80|88|89)[0-9]{8}$";
         Pattern p = Pattern.compile(regExp);
+        mobile = mobile == null ? "" : mobile;
         Matcher m = p.matcher(mobile.toString());
         return m.find();//boolean
     }

@@ -3,13 +3,18 @@ package models.mert;
 import cache.CacheCallBack;
 import cache.CacheHelper;
 import jodd.bean.BeanCopy;
+import models.common.ChinaPhone;
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 import play.Logger;
+import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.xsql.XsqlBuilder;
@@ -46,23 +51,27 @@ public class Merchant extends Model {
     public String linkId;
 
     /**
-     * 公司名称
+     * 商户名称
      */
-    @Required
-    @MaxSize(50)
+    @Required (message = "请输入商户名称")   //必填项目
+    @MaxSize(value = 50 , message = "不能大于50位有效数字")
     @Column(name = "full_name", length = 50)
     public String fullName;
 
     /**
      * 名称缩写
      */
-    @MaxSize(20)
+    @Required (message = "请输入商户简称")   //必填项目
+    @MaxSize(value = 20 , message = "不能大于20位有效数字")
     @Column(name = "short_name", length = 20)
     public String shortName;
 
     /**
      * 商户联系电话
      */
+    @Required(message = "请输入手机号")
+    @CheckWith(value = ChinaPhone.class , message = "手机号码不正确")
+    @Unique(message = "您输入的手机号已存在")
     @Column(name = "phone", length = 20)
     public String phone;
 
@@ -106,6 +115,7 @@ public class Merchant extends Model {
     /**
      * 地址
      */
+    @Required (message = "请输入商户地址")   //必填项目
     @Column(name = "address")
     public String address; //地址
 

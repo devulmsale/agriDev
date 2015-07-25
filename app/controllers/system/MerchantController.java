@@ -5,6 +5,10 @@ import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
 import models.mert.MerchantUser;
+import models.mert.enums.MerchantStatus;
+import models.mert.enums.MerchantUserStatus;
+import play.data.validation.*;
+import play.data.validation.Error;
 import models.operate.OperateUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
@@ -21,6 +25,7 @@ import java.util.Map;
 @With(Secure.class)
 public class MerchantController extends Controller {
     public static Integer PAGE_SIZE = 15;
+    public static String  BASE_RETURN_INDEX = "/system/merchant";
 
     public static void index(Integer pageNumber ,Merchant merchant , String searchName) {
         initData();
@@ -38,38 +43,15 @@ public class MerchantController extends Controller {
 
     public static void add(Merchant merchant , MerchantUser merchantUser){
         Logger.info("add-----");
-        render(merchant , merchantUser);
+        MerchantStatus[] merchantStatuses = MerchantStatus.values();
+        render(merchant , merchantUser ,merchantStatuses);
     }
 
-    public static void create(Merchant merchant , MerchantUser merchantUser){
-        if(StringUtils.isBlank(merchant.fullName)){
-            flash.put("fullNameerror","商户名称不能为空！");
-            renderArgs.put("fullName",merchant.fullName);
-            add(merchant , merchantUser);
-        }
-        if(StringUtils.isBlank(merchant.shortName)){
-            flash.put("shortNameerror","商户简称不能为空！");
-            renderArgs.put("shortName",merchant.shortName);
-            add(merchant , merchantUser);
-        }
-       if(StringUtils.isBlank(merchant.phone)){
-            flash.put("phoneerror","联系电话不能为空！");
-           renderArgs.put("phone",merchant.phone);
-           add(merchant , merchantUser);
-        }
-        if(StringUtils.isBlank(merchant.address)){
-            flash.put("addresserror","商户地址不能为空！");
-            renderArgs.put("address",merchant.address);
-            add(merchant , merchantUser);
-        }
-        if(StringUtils.isBlank(merchantUser.loginName)){
-            flash.put("loginNameerror","登录账号不能为空！");
-            renderArgs.put("loginName",merchantUser.loginName);
-            add(merchant , merchantUser);
-        }
-        if(StringUtils.isBlank(merchantUser.encryptedPassword)){
-            flash.put("encryptedPassworderror","登录密码不能为空！");
-            renderArgs.put("encryptedPassword",merchantUser.encryptedPassword);
+    public static void create(@Valid Merchant merchant , @Valid MerchantUser merchantUser){
+        Logger.info("validation %s==",validation.hasErrors());
+        if(validation.hasErrors()) {
+            params.flash(); // add http parameters to the flash scope
+            validation.keep(); // keep the errors for the next request
             add(merchant , merchantUser);
         }
         merchant.createdAt=new Date();
@@ -79,16 +61,17 @@ public class MerchantController extends Controller {
         merchantUser.merchant = merchant;
         merchantUser.createdAt = new Date();
         merchantUser.passwordSalt = RandomNumberUtil.generateRandomNumberString(6);
-        merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.confirmPassword + merchantUser.passwordSalt);
+        merchantUser.encryptedPassword = DigestUtils.md5Hex(merchantUser.tmpPassword + merchantUser.passwordSalt);
         merchantUser.deleted=DeletedStatus.UN_DELETED;
         merchantUser.save();
-        index(1, merchant, null);
+        Logger.info("merchant And MerchantUser success!");
+        redirect(BASE_RETURN_INDEX);
     }
 
     public static void edit(Long id,Integer pageNumber){
         Merchant merchant = Merchant.findById(id);
-//        MerchantUser merchantUser = MerchantUser.findById(id);
-        render(merchant, pageNumber);
+        MerchantStatus[] merchantStatuses = MerchantStatus.values();
+        render(merchant, pageNumber, merchantStatuses);
     }
 
     public static void update(Long id,Integer pageNumber,Merchant merchant){
