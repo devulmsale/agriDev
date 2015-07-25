@@ -50,7 +50,11 @@ public class BrandController extends Controller {
         }
         brand.deleted = DeletedStatus.UN_DELETED;
         brand.save();
-        redirect(BASE_RETURN_INDEX);
+        if(brand.brand != null) {
+            addChild(brand.brand.id);
+        } else {
+            redirect(BASE_RETURN_INDEX);
+        }
     }
 
     public static void edit(Long id , Integer pageNumber) {
@@ -79,7 +83,24 @@ public class BrandController extends Controller {
      */
     public static void addChild(Long id) {
         Brand brand = Brand.findById(id);
-        render(brand);
+        Map<String , Object> searchMap = new HashMap<>();
+        searchMap.put("brandId" , id);
+        JPAExtPaginator<Brand> resultPage = Brand.findByCondition(searchMap, "id asc", 1, PAGE_SIZE);
+        render(brand , resultPage);
+    }
+
+
+    public static void updateName(Long id , String name) {
+        Brand brand = Brand.findById(id);
+        if(brand != null) {
+            brand.name = name;
+            brand.save();
+        }
+        if(brand.brand != null) {
+            addChild(brand.brand.id);
+        } else {
+            redirect(BASE_RETURN_INDEX);
+        }
     }
 
 

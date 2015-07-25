@@ -17,6 +17,10 @@ GET   /merchants                                 merchant.Application.index
 GET   /merchants/login                           merchant.auth.MerchantSecure.login
 #   Merchant Brand 管理
 *     /merchant/brands                           merchant.BrandController.index
+GET   /merchant/updateName/{id}/{name}           merchant.BrandController.updateName
+
+
+
 
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
