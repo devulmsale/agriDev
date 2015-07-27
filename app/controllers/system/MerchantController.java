@@ -2,8 +2,10 @@ package controllers.system;
 
 import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
+import models.common.DateUtil;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.mert.MerchantRenew;
 import models.mert.MerchantUser;
 import models.mert.enums.MerchantStatus;
 import models.mert.enums.MerchantUserStatus;
@@ -19,6 +21,7 @@ import util.common.RandomNumberUtil;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -74,8 +77,36 @@ public class MerchantController extends Controller {
      */
     public static void renew(Long id) {
         Merchant merchant = Merchant.findById(id);
-        render(merchant);
+        //查询 该商户的所有续费记录
+        //需要展示内容 编号 充值日期 延期到期时间 金额  操作人
+        List<MerchantRenew> merchantRenewList = MerchantRenew.find("").fetch();
+        render(merchant , merchantRenewList);
     }
+
+
+    public static void renewUpdate(Long id ,  @Valid MerchantRenew renew) {
+        // hasErrors()
+        Logger.info("renew : %s --" , renew.expireAt);
+        Logger.info("newDate : %s --" , new Date());
+        Logger.info("differenceMinute : %s ---" , DateUtil.differenceMinute(new Date() , renew.expireAt));
+        if(DateUtil.differenceMinute(new Date() , renew.expireAt) > 0) {
+            Merchant merchant = Merchant.findById(id);
+            renew.deleted = DeletedStatus.UN_DELETED;
+            renew.merchant = merchant;
+            renew.operateUser = Secure.getOperateUser();
+            renew.updateAt = new Date();
+            renew.save();
+            // 商家修改
+
+            merchant.expiredAt = renew.expireAt;
+            merchant.status = MerchantStatus.OPEN;
+            merchant._save();
+        } else {
+            flash.put("error", "延期时间 小于当前时间, 延期失败");
+        }
+        renew(id);
+    }
+
 
     public static void edit(Long id,Integer pageNumber){
         Merchant merchant = Merchant.findById(id);
