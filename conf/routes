@@ -16,18 +16,18 @@ GET     /public/                                          staticDir:public
 GET   /merchants                                          merchant.Application.index
 GET   /merchants/login                                    merchant.auth.MerchantSecure.login
 #   Merchant Brand 管理
-*     /merchant/brands                                    merchant.BrandController.index
-GET   /merchant/updateName/{id}/{name}                    merchant.BrandController.updateName
+*     /system/brands                                      system.BrandController.index
+GET   /system/updateName/{id}/{name}                      system.BrandController.updateName
 
 #   productType 类别管理
-*     /merchant/productType                               merchant.ProductTypeController.index
-*     /merchant/productType/create                        merchant.ProductTypeController.create
-GET   /merchant/productType/edit/{id}/{pageNumber}        merchant.ProductTypeController.edit
-*     /merchant/productType/update/{id}                   merchant.ProductTypeController.update
-*     /merchant/productType/addChild/{id}                 merchant.ProductTypeController.addChild
-GET   /merchant/productType/add                           merchant.ProductTypeController.add
-GET   /merchant/productType/delete/{id}/{pageNumber}      merchant.ProductTypeController.delete
-GET   /merchant/productType/updateName/{id}/{name}        merchant.ProductTypeController.updateName
+*     /system/productType                                 system.ProductTypeController.index
+*     /system/productType/create                          system.ProductTypeController.create
+GET   /system/productType/edit/{id}/{pageNumber}          system.ProductTypeController.edit
+*     /system/productType/update/{id}                     system.ProductTypeController.update
+*     /system/productType/addChild/{id}                   system.ProductTypeController.addChild
+GET   /system/productType/add                             system.ProductTypeController.add
+GET   /system/productType/delete/{id}/{pageNumber}        system.ProductTypeController.delete
+GET   /system/productType/updateName/{id}/{name}          system.ProductTypeController.updateName
 
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index

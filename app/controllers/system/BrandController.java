@@ -1,4 +1,4 @@
-package controllers.merchant;
+package controllers.system;
 
 import controllers.merchant.auth.MerchantSecure;
 import controllers.system.auth.Secure;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class BrandController extends Controller {
 
     public static Integer PAGE_SIZE = 15;
-    public static String  BASE_RETURN_INDEX = "/merchant/brands";
+    public static String  BASE_RETURN_INDEX = "/system/brands";
 
     public static void index(Integer pageNumber  , String searchName) {
         initData();
@@ -72,7 +72,7 @@ public class BrandController extends Controller {
     public static void delete(Long id , Integer pageNumber) {
         Brand brand = Brand.findById(id);
         if(brand != null && brand.brand == null) {
-            brand.deleted = DeletedStatus.UN_DELETED;
+            brand.deleted = DeletedStatus.DELETED;
             brand.save();
         }
         redirect(BASE_RETURN_INDEX);

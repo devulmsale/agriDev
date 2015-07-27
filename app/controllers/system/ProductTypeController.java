@@ -1,4 +1,4 @@
-package controllers.merchant;
+package controllers.system;
 
 import controllers.merchant.auth.MerchantSecure;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -20,8 +20,8 @@ import java.util.Map;
 @With(MerchantSecure.class)
 public class ProductTypeController extends Controller {
 
-    public static Integer PAGE_SIZE = 2;
-    public static String  BASE_RETURN_INDEX = "/merchant/productType";
+    public static Integer PAGE_SIZE = 15;
+    public static String  BASE_RETURN_INDEX = "/system/productType";
 
     public static void index(Integer pageNumber  , String searchName) {
         initData();
