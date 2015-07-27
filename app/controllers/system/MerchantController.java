@@ -68,6 +68,15 @@ public class MerchantController extends Controller {
         redirect(BASE_RETURN_INDEX);
     }
 
+    /**
+     * 商家续费
+     * @param id
+     */
+    public static void renew(Long id) {
+        Merchant merchant = Merchant.findById(id);
+        render(merchant);
+    }
+
     public static void edit(Long id,Integer pageNumber){
         Merchant merchant = Merchant.findById(id);
         MerchantStatus[] merchantStatuses = MerchantStatus.values();

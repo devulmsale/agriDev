@@ -22,7 +22,6 @@ public class BootstrapMerchantData extends Job {
 //        } else {
 //            Logger.info("没有要加载的数据");
 //        }
-        Logger.info("aaaaa-----merchant11111111111...");
         createMerchant();
     }
 

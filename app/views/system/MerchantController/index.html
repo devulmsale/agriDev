@@ -15,7 +15,6 @@
                     <a href="@{system.MerchantController.add()}">
                     <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
                     </a>
-
                 </div>
             </div>
         </div>
@@ -71,6 +70,9 @@
                                     </button>
                                     <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/merchantUser/${merchants?.id}'">
                                         <span class="am-icon-table"></span> 员工管理
+                                    </button>
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/merchantUser/${merchants?.id}/renew'">
+                                        <span class="am-icon-calendar"></span> 续费管理
                                     </button>
                                 </div>
                             </div>

@@ -4,6 +4,7 @@ import cache.CacheCallBack;
 import cache.CacheHelper;
 import jodd.bean.BeanCopy;
 import models.common.ChinaPhone;
+import models.common.DateUtil;
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
 import net.sf.oval.constraint.MaxLength;
@@ -25,6 +26,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -255,7 +257,17 @@ public class Merchant extends Model {
                 return Merchant.find("linkId=? order by id", linkId).first();
             }
         });
+    }
 
+    /**
+     * 查询当天过期的商户
+     * @param searchDate
+     * @return
+     */
+    public static List<Merchant> findByExpired(Date searchDate) {
+        Date beginAt = DateUtil.getBeginOfDay(searchDate);
+        Date endAt = DateUtil.getEndOfDay(searchDate);
+        return Merchant.find("deleted = ? and expiredAt between ? and ?" , DeletedStatus.UN_DELETED , beginAt , endAt).fetch();
     }
 
     /**
