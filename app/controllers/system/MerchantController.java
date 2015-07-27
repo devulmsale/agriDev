@@ -79,13 +79,19 @@ public class MerchantController extends Controller {
         Merchant merchant = Merchant.findById(id);
         //查询 该商户的所有续费记录
         //需要展示内容 编号 充值日期 延期到期时间 金额  操作人
-        List<MerchantRenew> merchantRenewList = MerchantRenew.find("").fetch();
-        render(merchant , merchantRenewList);
+        List<MerchantRenew> merchantRenewList = MerchantRenew.findMerchantRenewInfo(id);
+        Logger.info("MerchantRenew find %s="+MerchantRenew.findMerchantRenewInfo(id));
+        Logger.info("MerchantRenewList size %s=="+merchantRenewList.size());
+        render(merchant, merchantRenewList);
     }
 
 
     public static void renewUpdate(Long id ,  @Valid MerchantRenew renew) {
-        // hasErrors()
+        if(validation.hasErrors()) {
+            params.flash(); // add http parameters to the flash scope
+            validation.keep(); // keep the errors for the next request
+            renew(id);
+        }
         Logger.info("renew : %s --" , renew.expireAt);
         Logger.info("newDate : %s --" , new Date());
         Logger.info("differenceMinute : %s ---" , DateUtil.differenceMinute(new Date() , renew.expireAt));
