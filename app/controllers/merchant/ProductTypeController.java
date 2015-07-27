@@ -89,13 +89,13 @@ public class ProductTypeController extends Controller {
 
 
     public static void updateName(Long id , String name) {
-        Brand brand = Brand.findById(id);
-        if(brand != null) {
-            brand.name = name;
-            brand.save();
+        ProductType productType = ProductType.findById(id);
+        if(productType != null) {
+            productType.name = name;
+            productType.save();
         }
-        if(brand.brand != null) {
-            addChild(brand.brand.id);
+        if(productType.parentType != null) {
+            addChild(productType.parentType.id);
         } else {
             redirect(BASE_RETURN_INDEX);
         }

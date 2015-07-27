@@ -27,6 +27,7 @@ GET   /merchant/productType/edit/{id}/{pageNumber}        merchant.ProductTypeCo
 *     /merchant/productType/addChild/{id}                 merchant.ProductTypeController.addChild
 GET   /merchant/productType/add                           merchant.ProductTypeController.add
 GET   /merchant/productType/delete/{id}/{pageNumber}      merchant.ProductTypeController.delete
+GET   /merchant/productType/updateName/{id}/{name}        merchant.ProductTypeController.updateName
 
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
