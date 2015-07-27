@@ -1,4 +1,4 @@
-#{extends 'merchantMain.html' /}
+#{extends 'systemMain.html' /}
 #{set title:'管理员后台' /}
 
 <!-- content start -->
@@ -12,7 +12,7 @@
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
-                    <a href="/merchant/productType/create">
+                    <a href="/system/productType/create">
                         <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
                     </a>
                 </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-3">
-            <form action="@{merchant.ProductTypeController.index()}" id="searchForm" name="searchForm" method="POST" >
+            <form action="/system/productType" id="searchForm" name="searchForm" method="POST" >
             <div class="am-input-group am-input-group-sm">
                     <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
                     <input type="text" class="am-form-field" name="searchName" placeholder="请输入类别名称搜索">
@@ -60,13 +60,13 @@
                         <td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/merchant/productType/edit/${productType?.id}/${pageNumber}'">
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/system/productType/edit/${productType?.id}/${pageNumber}'">
                                        <span class="am-icon-pencil-square-o"></span> 编辑
                                     </button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/merchant/productType/delete/${productType?.id}/${pageNumber}'">
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/productType/delete/${productType?.id}/${pageNumber}'">
                                         <span class="am-icon-trash-o"></span> 删除
                                     </button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/merchant/productType/addChild/${productType?.id}'">
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/productType/addChild/${productType?.id}'">
                                         <span class="am-icon-table"></span> 管理子类
                                     </button>
                                 </div>

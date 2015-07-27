@@ -1,11 +1,11 @@
-#{extends 'merchantMain.html' /}
+#{extends 'systemMain.html' /}
 #{set title:'管理员后台' /}
 
 <!-- content start -->
 <div class="admin-content">
 
     <div class="am-cf am-padding">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">新增品牌</strong></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">修改品牌</strong> / <small>form</small></div>
     </div>
 
     <div class="am-tabs am-margin" data-am-tabs>
@@ -15,14 +15,19 @@
 
         <div class="am-tabs-bd">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <form class="am-form" action="@{merchant.BrandController.create()}" method="POST">
-                     #{include 'merchant/BrandController/form.html'/}
+                <form class="am-form" action="@{system.BrandController.update(brand?.id)}" method="POST">
+                    <input type="hidden" name="pageNumber" id="pageNumber" value="${pageNumber}">
+                     #{include 'system/BrandController/form.html'/}
+
                          <div class="am-margin">
                              <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
                              <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">放弃保存</button>
                          </div>
+
                 </form>
             </div>
+
+
 
         </div>
     </div>
