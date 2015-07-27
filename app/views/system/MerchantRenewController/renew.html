@@ -19,7 +19,7 @@
 
         <div class="am-tabs-bd">
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                <form class="am-form" action="/system/merchant/renew/update/${merchant?.id}" method="POST">
+                <form class="am-form" action="/system/merchantRenew/renew/update/${merchant?.id}" method="POST">
                          <div class="am-g am-margin-top">
                              <div class="am-u-sm-4 am-u-md-2 am-text-right">
                                  到期时间
@@ -55,7 +55,17 @@
                             * #{error 'renew.price' /}
                         </div>
                     </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            备注信息
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="remark" name="renew.remark" value="">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
 
+                        </div>
+                    </div>
                          <div class="am-margin">
                              <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
                              <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">放弃保存</button>
@@ -66,24 +76,26 @@
 
         </div>
         <div class="am-g" style="margin-top:15px">
-        <table class="am-table am-table-bordered am-table-radius am-table-striped" id="tb1">
+        <table class="am-table am-table-bordered am-table-radius am-table-striped">
             <thead>
             <tr>
                 <th>编号</th>
                 <th>充值日期</th>
                 <th>延期到期时间</th>
                 <th>金额</th>
+                <th>备注</th>
                 <th>操作人</th>
             </tr>
             </thead>
             <tbody>
-                #{list items:merchantRenewList , as :'mrl'}
-                    <tr>
-                    <td>${mrl?.id}</td>
-                    <td>${mrl?.updateAt}</td>
-                    <td>${mrl?.expireAt}</td>
-                    <td>${mrl?.price}</td>
-                    <td>${mrl?.operateUser?.loginName}</td>
+                #{list items:merchantRenewList , as :'renewlist'}
+                    <tr class=" ${renewlist_index == 1 ? 'am-success' : ''}">
+                        <td>${renewlist?.id}</td>
+                        <td>${renewlist?.updateAt}</td>
+                        <td>${renewlist?.expireAt}</td>
+                        <td>${renewlist?.price}</td>
+                        <td>${renewlist?.remark}</td>
+                        <td>${renewlist?.operateUser?.loginName}</td>
                 </tr>
                 #{/list}
             </tbody>
@@ -106,5 +118,4 @@
         }).data('amui.datepicker');
 
     })
-   
 </script>

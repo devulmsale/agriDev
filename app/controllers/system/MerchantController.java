@@ -71,48 +71,6 @@ public class MerchantController extends Controller {
         redirect(BASE_RETURN_INDEX);
     }
 
-    /**
-     * 商家续费
-     * @param id
-     */
-    public static void renew(Long id) {
-        Merchant merchant = Merchant.findById(id);
-        //查询 该商户的所有续费记录
-        //需要展示内容 编号 充值日期 延期到期时间 金额  操作人
-        List<MerchantRenew> merchantRenewList = MerchantRenew.findMerchantRenewInfo(id);
-        Logger.info("MerchantRenew find %s="+MerchantRenew.findMerchantRenewInfo(id));
-        Logger.info("MerchantRenewList size %s=="+merchantRenewList.size());
-        render(merchant, merchantRenewList);
-    }
-
-
-    public static void renewUpdate(Long id ,  @Valid MerchantRenew renew) {
-        if(validation.hasErrors()) {
-            params.flash(); // add http parameters to the flash scope
-            validation.keep(); // keep the errors for the next request
-            renew(id);
-        }
-        Logger.info("renew : %s --" , renew.expireAt);
-        Logger.info("newDate : %s --" , new Date());
-        Logger.info("differenceMinute : %s ---" , DateUtil.differenceMinute(new Date() , renew.expireAt));
-        if(DateUtil.differenceMinute(new Date() , renew.expireAt) > 0) {
-            Merchant merchant = Merchant.findById(id);
-            renew.deleted = DeletedStatus.UN_DELETED;
-            renew.merchant = merchant;
-            renew.operateUser = Secure.getOperateUser();
-            renew.updateAt = new Date();
-            renew.save();
-            // 商家修改
-
-            merchant.expiredAt = renew.expireAt;
-            merchant.status = MerchantStatus.OPEN;
-            merchant._save();
-        } else {
-            flash.put("error", "延期时间 小于当前时间, 延期失败");
-        }
-        renew(id);
-    }
-
 
     public static void edit(Long id,Integer pageNumber){
         Merchant merchant = Merchant.findById(id);

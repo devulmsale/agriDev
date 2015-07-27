@@ -37,8 +37,8 @@ GET   /system/merchant/add                                system.MerchantControl
 GET   /system/merchant/edit                               system.MerchantController.edit
 GET   /system/merchant/delete                             system.MerchantController.delete
 POST  /system/merchant/create                             system.MerchantController.create
-GET   /system/merchantUser/{id}/renew                     system.MerchantController.renew
-POST  /system/merchant/renew/update/{id}                  system.MerchantController.renewUpdate
+GET   /system/merchantUser/{id}/renew                     system.MerchantRenewController.renew
+POST  /system/merchantRenew/renew/update/{id}             system.MerchantRenewController.renewUpdate
 
 
 

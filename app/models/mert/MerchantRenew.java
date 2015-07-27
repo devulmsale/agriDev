@@ -74,6 +74,12 @@ public class MerchantRenew extends Model {
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
+    /**
+     * 备注
+     */
+    @Column(name = "remark", length = 1000)
+    public String remark;
+
 
 
     /**
