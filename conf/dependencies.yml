@@ -9,7 +9,6 @@ require:
     - play1 -> factory-boy 1.0
     - play1 -> redis 0.3
     - gym_cache_helper -> gym_cache_helper
-    - gym_elasticsearch -> gym_elasticsearch
     - gym_supports -> gym_supports
     - gym_paginate_ext -> gym_paginate_ext
     - gym_paginate_ext -> gym_paginate_ext
@@ -51,5 +50,3 @@ repositories:
             - gym_cache_helper -> *
             - gym_supports -> *
             - gym_paginate_ext -> *
-            - gym_elasticsearch -> *
-            - gym_crud -> *

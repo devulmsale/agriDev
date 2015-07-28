@@ -17,7 +17,6 @@ import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
-import play.modules.elasticsearch.annotations.ElasticSearchable;
 import play.modules.paginate.JPAExtPaginator;
 import util.xsql.XsqlBuilder;
 
@@ -39,7 +38,6 @@ import java.util.Map;
  * 一家商户可以有多个操作人员，但目标只做一个。
  * 商户开通功能使用MerchantFeature，商户自定义属性用MerchantProperty
  */
-@ElasticSearchable
 @Entity
 @Table(name = "merchants")
 public class Merchant extends Model {
