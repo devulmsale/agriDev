@@ -22,7 +22,7 @@ import java.util.Map;
  * 品牌
  */
 @Entity
-@Table(name = "brand")
+@Table(name = "product_brands")
 public class Brand extends Model{
 
     /**
