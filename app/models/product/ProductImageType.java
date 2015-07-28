@@ -68,6 +68,11 @@ public class ProductImageType extends Model{
     public DeletedStatus deleted;
 
 
+    /**
+     * 图片类型修改
+     * @param id
+     * @param newObject
+     */
     public static void update(Long id , ProductImageType newObject) {
         ProductImageType oldBrand = ProductImageType.findById(id);
         BeanCopy.beans(newObject, oldBrand).ignoreNulls(true).copy();
@@ -82,18 +87,15 @@ public class ProductImageType extends Model{
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.name = {name} ~/")
                 .append("/~ and t.name like {searchName} ~/")
-                .append("/~ and t.brand.id = {brandId} ~/")
+                .append("/~ and t.width = {width} ~/")
+                .append("/~ and t.height = {height} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
 
-        if(conditionMap.get("isTop") != null) {
-            xsqlBuilder.append(" and t.brand = null ");
-            conditionMap.remove("isTop");
-        }
 
         util.xsql.XsqlBuilder.XsqlFilterResult result = new util.xsql.XsqlBuilder().generateHql(xsqlBuilder.toString(), conditionMap);
-        JPAExtPaginator<ProductImageType> resultPage = new JPAExtPaginator<ProductImageType>("Brand t", "t", ProductImageType.class,
+        JPAExtPaginator<ProductImageType> resultPage = new JPAExtPaginator<ProductImageType>("ProductImageType t", "t", ProductImageType.class,
                 result.getXsql(), conditionMap).orderBy(orderByExpress);
-        Logger.info("brand Select SQL :" + result.getXsql() + "---");
+        Logger.info("ProductImageType Select SQL :" + result.getXsql() + "---");
         resultPage.setPageNumber(pageNumber);
         resultPage.setPageSize(pageSize);
         resultPage.setBoundaryControlsEnabled(false);

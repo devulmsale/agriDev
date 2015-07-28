@@ -25,8 +25,8 @@ public class Lable extends Model {
      * 标签名称
      */
     @Required(message="标签名称不能为空")
-    @MinSize(value = 2 , message = "不能少于2个有效数字")
-    @MaxSize(value = 4 , message = "不能多于4个有效数字")
+    @MinSize(value = 2 , message = "不能少于2个字符")
+    @MaxSize(value = 4 , message = "不能多于4个字符")
     @Column(name = "name")
     public String name;
 

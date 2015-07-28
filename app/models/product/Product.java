@@ -4,6 +4,10 @@ import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.order.Goods;
 import models.order.Supplier;
+import models.product.enums.MarketingMode;
+import models.product.enums.PackageMethod;
+import models.product.enums.ShippingMethod;
+import models.product.enums.StoreMethod;
 import play.Logger;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
@@ -22,10 +26,16 @@ import java.util.Map;
 public class Product extends Model {
 
     /**
-     * 类别名称
+     * 商品名称
      */
     @Column(name = "name")
     public String name;
+
+    /**
+     * 商品简称
+     */
+    @Column(name = "short_name")
+    public String shortName;
 
     /**
      * 所属类别
@@ -34,20 +44,99 @@ public class Product extends Model {
     @ManyToOne
     public ProductType parentType;
 
+    /**
+     * 售价
+     */
+    @Column(name = "male_price")
+    public BigDecimal salePrice;
 
+    /**
+     * 原价
+     */
+    @Column(name = "original_price")
+    public BigDecimal originalPrice;
+
+    /**
+     * 会员价
+     */
+    @Column(name = "member_price")
+    public BigDecimal memberPrice;
+
+    /**
+     * 促销价
+     */
+    @Column(name = "sales_price")
+    public BigDecimal salesPrice;
+
+    /**
+     * 库存
+     */
+    @Column(name = "qty")
+    public String qty;
+
+    /**
+     * 产地
+     */
+    @Column(name = "producing_area")
+    public String producing_area;
+
+    /**
+     * 净重
+     */
+    @Column(name = "net_weight")
+    public String net_weight;
+
+    /**
+     * 毛重
+     */
+    @Column(name = "rough_weight")
+    public String rough_weight;
+
+    /**
+     * 规格
+     */
+    @Column(name = "standard")
+    public String standard;
+
+    /**
+     * 保质期
+     */
+    @Column(name = "expiration_date")
+    public String expirationDate;
+
+    /**
+     * 储藏方式
+     */
+    @Column(name = "store_method")
+    @Enumerated(EnumType.STRING)
+    public StoreMethod storeMethod;
+
+    /**
+     * 包装方式
+     */
+    @Column(name = "package_method")
+    @Enumerated(EnumType.STRING)
+    public PackageMethod packageMethod;
+
+    /**
+     * 配送方式
+     */
+    @Column(name = "shipping_method")
+    @Enumerated(EnumType.STRING)
+    public ShippingMethod shippingMethod;
+
+    /**
+     * 营销模式
+     */
+    @Column(name = "marketing_mode")
+    @Enumerated(EnumType.STRING)
+    public MarketingMode marketingMode;
     /**
      * 所属品牌
      */
     @JoinColumn(name = "brand_id")
     @ManyToOne
     public Brand brand;
-
-    /**
-     * 市场价格
-     */
-    @Column(name = "male_price")
-    public BigDecimal salePrice;
-
 
     /**
      *  微信价格
@@ -60,12 +149,6 @@ public class Product extends Model {
      */
     @Column(name = "website_price")
     public BigDecimal websitePrice;
-
-    /**
-     * 成本价格
-     */
-    @Column(name = "original_price")
-    public BigDecimal originalPrice;
 
     /**
      * 产品介绍
@@ -97,7 +180,6 @@ public class Product extends Model {
      */
     @Column(name = "qr_image")
     public String qrImage;
-
 
     /**
      * 创建时间

@@ -56,5 +56,12 @@ GET   /system/MerchantUserController/passwordRest/{id}    system.MerchantUserCon
 *     /system/lable/create                                system.LableController.create
 *     /system/lable/delete/{id}                           system.LableController.delete
 
+# ProductImageType图片类型管理
+*   /system/productImageType                              system.ProductImageTypeController.index
+*   /system/productImageType/create                       system.ProductImageTypeController.create
+GET /system/productImageType/edit/{id}/{pageNumber}       system.ProductImageTypeController.edit
+*   /system/productImageType/update/{id}                  system.ProductImageTypeController.update
+GET /system/productImageType/delete/{id}                  system.ProductImageTypeController.delete
+
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

@@ -1,6 +1,6 @@
 package controllers;
 
-import org.apache.lucene.analysis.Analyzer;
+/*import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.document.TextField;
@@ -8,19 +8,19 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.RAMDirectory;*/
 import play.mvc.*;
 
 import java.io.*;
 import java.nio.file.Paths;
 
-import static org.apache.lucene.document.Field.*;
+/*import static org.apache.lucene.document.Field.*;*/
 
 public class Application extends Controller {
 
-    public static void index() {
+   /* public static void index() {
         //指定索引文件夹的位置
-         /* 指明要索引文件夹的位置,这里是C盘的source文件夹下 */
+         *//* 指明要索引文件夹的位置,这里是C盘的source文件夹下 *//*
         File fileDir = new File("/Users/upshan/opt/lucenc");
         String indexPath = "/Users/upshan/opt/lucenc/score";
         // 创建 Directory
@@ -60,7 +60,7 @@ public class Application extends Controller {
         }
 
         render();
-    }
+    }*/
 
     public static String fileReaderAll(String FileName, String charset)
             throws IOException {
