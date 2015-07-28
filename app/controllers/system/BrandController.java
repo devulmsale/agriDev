@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@With(MerchantSecure.class)
+@With(Secure.class)
 public class BrandController extends Controller {
 
     public static Integer PAGE_SIZE = 15;

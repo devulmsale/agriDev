@@ -51,5 +51,10 @@ GET   /system/merchantUser/edit/{id}/{pageNumber}         system.MerchantUserCon
 *     /system/merchantUser/update/{id}/{pageNumber}       system.MerchantUserController.update
 GET   /system/MerchantUserController/passwordRest/{id}    system.MerchantUserController.passwordRest
 
+#Lable 标签管理
+*     /system/lable                                       system.LableController.index
+*     /system/lable/create                                system.LableController.create
+*     /system/lable/delete/{id}                           system.LableController.delete
+
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

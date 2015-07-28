@@ -5,14 +5,14 @@
 <div class="admin-content">
 
     <div class="am-cf am-padding">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">类别管理</strong>  <small></small></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">标签管理</strong>  <small></small></div>
     </div>
 
     <div class="am-g">
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
-                    <a href="/system/productType/create">
+                    <a href="/system/lable/create">
                         <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
                     </a>
                 </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-3">
-            <form action="/system/productType" id="searchForm" name="searchForm" method="POST" >
+            <form action="/system/lable" id="searchForm" name="searchForm" method="POST" >
             <div class="am-input-group am-input-group-sm">
                     <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
                     <input type="text" class="am-form-field" name="searchName" placeholder="请输入类别名称搜索">
@@ -36,38 +36,33 @@
     <div class="am-g">
         <div class="am-u-sm-12">
             <form class="am-form">
-                <table class="am-table am-table-striped am-table-hover table-main">
+                <table class="am-table am-table-striped am-table-hover table-main" id="doc-modal-list">
                     <thead>
                     <tr>
                         <th class="table-check">
                             <input type="checkbox" />
                         </th>
                         <th class="table-id">ID</th>
-                        <th class="table-title">类别名称</th>
-                        <th class="table-type">所属类别</th>
-                        *{<th class="table-date">状态</th>}*
+                        <th class="table-title">标签名称</th>
+                        <th class="table-type">添加人员</th>
                         <th class="table-set">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    #{paginate.list items:resultPage , as :'productType'}
+                    #{paginate.list items:resultPage , as :'lablelist'}
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td>${productType?.id}</td>
-                        <td>${productType?.name}</td>
-                        <td>${productType?.parentType?.name}</td>
-                        *{<td>${productType?.status}</td>}*
+                        <td>${lablelist?.id}</td>
+                        <td>${lablelist?.name}</td>
+                        <td>${lablelist?.operateUser?.loginName}</td>
                         <td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/system/productType/edit/${productType?.id}/${pageNumber}'">
-                                       <span class="am-icon-pencil-square-o"></span> 编辑
-                                    </button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/productType/delete/${productType?.id}/${pageNumber}'">
+                                    *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/lable/delete/${lablelist?.id}/${pageNumber}'">
                                         <span class="am-icon-trash-o"></span> 删除
-                                    </button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/productType/addChild/${productType?.id}'">
-                                        <span class="am-icon-table"></span> 管理子类
+                                    </button>}*
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
+                                        <a data-id="${lablelist?.id}" href="#"></a><i class="am-icon-trash-o">删除</i>
                                     </button>
                                 </div>
                             </div>
@@ -84,7 +79,40 @@
     </div>
 </div>
 <!-- content end -->
+<!-- 删除弹出提示开始 -->
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">删除</div>
+        <div class="am-modal-bd">
+            你，确定删除吗？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('#doc-modal-list').find('.am-icon-trash-o').add('#doc-confirm-toggle').
+                on('click', function() {
+                    $('#my-confirm').modal({
+                        relatedTarget: this,
+                        onConfirm: function(options) {
+                            var $link = $(this.relatedTarget).prev('a');
+                            var id = $link.data('id');
+                            location.href="/system/lable/delete/"+id;
+                        },
+//                        closeOnConfirm: false,
+                        onCancel: function() {
+                            alert('抱歉，您未重置密码！');
+                        }
+                    });
+                });
+    });
 
+</script>
+<!-- 删除弹出提示结束 -->
 <script type="text/javascript">
     $(document).ready(function(){
         laypage({
