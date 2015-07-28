@@ -2,29 +2,30 @@ package models.product;
 
 import models.constants.DeletedStatus;
 import play.db.jpa.Model;
+
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 商品标签表
+ * 类别 属性表
  * Created by upshan on 15/7/7.
  */
 @Entity
-@Table(name = "product_lables")
-public class ProductLable extends Model {
+@Table(name = "type_lable")
+public class TypeLable extends Model {
 
     /**
-     * 商品信息
+     * 类别信息
      */
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "prodyct_type_id")
     @ManyToOne
-    public Product product;
+    public ProductType productType;
 
 
     /**
-     * 所属品牌
+     * 属性表
      */
-    @JoinColumn(name = "品牌信息")
+    @JoinColumn(name = "lable_id")
     @ManyToOne
     public Lable lable;
 
@@ -39,5 +40,7 @@ public class ProductLable extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
 
 }

@@ -6,27 +6,27 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 商品标签表
+ * 类别 品牌表
  * Created by upshan on 15/7/7.
  */
 @Entity
-@Table(name = "product_lables")
-public class ProductLable extends Model {
+@Table(name = "type_brands")
+public class TypeBrand extends Model {
 
     /**
-     * 商品信息
+     * 类别信息
      */
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "prodyct_type_id")
     @ManyToOne
-    public Product product;
+    public ProductType productType;
 
 
     /**
-     * 所属品牌
+     * 品牌信息
      */
-    @JoinColumn(name = "品牌信息")
+    @JoinColumn(name = "brand_id")
     @ManyToOne
-    public Lable lable;
+    public Brand brand;
 
     /**
      * 创建时间
@@ -39,5 +39,7 @@ public class ProductLable extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
 
 }

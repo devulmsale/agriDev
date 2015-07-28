@@ -2,19 +2,20 @@ package models.product;
 
 import models.constants.DeletedStatus;
 import play.db.jpa.Model;
+
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 商品标签表
+ * 类别 品牌表
  * Created by upshan on 15/7/7.
  */
 @Entity
-@Table(name = "product_lables")
-public class ProductLable extends Model {
+@Table(name = "product_images")
+public class ProductImage extends Model {
 
     /**
-     * 商品信息
+     * 类别信息
      */
     @JoinColumn(name = "product_id")
     @ManyToOne
@@ -22,11 +23,18 @@ public class ProductLable extends Model {
 
 
     /**
-     * 所属品牌
+     * 用户头像路径.
+     * 图片路径.
      */
-    @JoinColumn(name = "品牌信息")
-    @ManyToOne
-    public Lable lable;
+    @Column(name = "img_url", length = 200)
+    public String imgUrl;
+
+    /**
+     * 统一文件上传ID.
+     */
+    @Column(name = "u_fid", length = 200)
+    public String uFid;
+
 
     /**
      * 创建时间
@@ -39,5 +47,7 @@ public class ProductLable extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
 
 }
