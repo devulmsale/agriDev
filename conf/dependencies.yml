@@ -9,8 +9,11 @@ require:
     - play1 -> factory-boy 1.0
     - play1 -> redis 0.3
     - gym_cache_helper -> gym_cache_helper
+    - gym_elasticsearch -> gym_elasticsearch
     - gym_supports -> gym_supports
     - gym_paginate_ext -> gym_paginate_ext
+    - gym_paginate_ext -> gym_paginate_ext
+    - gym_crud -> gym_crud
     - org.jsoup -> jsoup 1.6.1
     - org.easytesting -> fest-assert-core 2.0M10
     - com.google.zxing -> javase 2.0
@@ -19,6 +22,7 @@ require:
     - org.jodd -> jodd-bean 3.4.5
     - org.jodd -> jodd-http 3.4.5
     - net.coobird -> thumbnailator 0.4.1
+
 
 repositories:
 
@@ -47,4 +51,5 @@ repositories:
             - gym_cache_helper -> *
             - gym_supports -> *
             - gym_paginate_ext -> *
-            - gym_operate_rbac -> *
+            - gym_elasticsearch -> *
+            - gym_crud -> *
