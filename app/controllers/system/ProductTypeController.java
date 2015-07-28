@@ -1,6 +1,7 @@
 package controllers.system;
 
 import controllers.merchant.auth.MerchantSecure;
+import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.MerchantUser;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@With(MerchantSecure.class)
+@With(Secure.class)
 public class ProductTypeController extends Controller {
 
     public static Integer PAGE_SIZE = 15;
