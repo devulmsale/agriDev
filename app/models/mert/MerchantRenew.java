@@ -2,10 +2,14 @@ package models.mert;
 
 import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
+import models.mert.enums.MerchantStatus;
 import models.operate.OperateUser;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import play.Logger;
+import play.data.validation.MaxSize;
+import play.data.validation.Min;
 import play.data.validation.Required;
+import play.data.validation.MinSize;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.xsql.XsqlBuilder;
@@ -13,6 +17,7 @@ import util.xsql.XsqlBuilder;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,14 +48,15 @@ public class MerchantRenew extends Model {
     /**
      * 本次缴费到期时间
      */
-    @Required
+    @Required(message = "请选择延期日期")
     @Column(name = "expire_at")
     public Date expireAt;
 
     /**
      * 充值金额
      */
-    @Required
+    @Required(message = "请输入充值金额")
+    @Min(value = 0 , message = "充值金额不能小于0")
     @Column(name = "price")
     public BigDecimal price;
 
@@ -67,6 +73,12 @@ public class MerchantRenew extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+    /**
+     * 备注
+     */
+    @Column(name = "remark", length = 1000)
+    public String remark;
 
 
 
@@ -108,6 +120,10 @@ public class MerchantRenew extends Model {
                 .append("updateAt", updateAt)
                 .append("expireAt", expireAt)
                 .toString();
+    }
+
+    public static List<MerchantRenew> findMerchantRenewInfo(Long MerchantId) {
+        return MerchantRenew.find("merchant.id = ? and merchant.status = ? and deleted = ? order by id desc", MerchantId, MerchantStatus.OPEN, DeletedStatus.UN_DELETED).fetch();
     }
 
 }
