@@ -48,6 +48,7 @@
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
                             <select name="product.parentType.id" value="${product?.parentType?.id}" onchange="initType(this.value)">
+                            <option value="">请选择</option>
                             #{list items:productTypelist , as :'productTypeList'}
                                 <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
                             #{/list}
@@ -60,15 +61,24 @@
 
                 <div class="am-g am-margin-top" >
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">品牌</div>
-                    <div id="ajaxBrand">
-
-                    </div>
+                            <div id="ajaxBrand">
+                                #{if product?.id != null }
+                                    #{list product.allBrands(product?.id) , as :'pbl'}
+                                        <label class="am-checkbox-inline"><input type="radio" ${product?.brand?.id == pbl?.brand?.id ? "checked" : ""}   name="product.brand.id" value="${pbl?.id}" data-am-ucheck> ${pbl?.brand?.name}</label>
+                                    #{/list}
+                                #{/if}
+                        </div>
                 </div>
 
                 <div class="am-g am-margin-top">
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">属性</div>
-                    <div id="ajaxLable">
-                    </div>
+                        <div id="ajaxLable">
+                        #{if product?.id != null }
+                            #{list product.alllables(product?.id) , as :'pal'}
+                                <label class="am-checkbox-inline"><input type="checkbox"    name="" value="${pal?.lable?.id}" data-am-ucheck> ${pal?.lable?.name}</label>
+                            #{/list}
+                        #{/if}
+                        </div>
                 </div>
 
                 <div class="am-g am-margin-top">

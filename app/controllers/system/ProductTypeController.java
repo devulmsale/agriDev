@@ -57,11 +57,16 @@ public class ProductTypeController extends Controller {
         //保存类别
         productType.deleted = DeletedStatus.UN_DELETED;
         productType.save();
+        if (brandbox == null){
+            flash.error("branderror","品牌不能为空！");
+            add();
+        }
+        if (lablebox == null){
+            flash.error("lableerror","属性不能为空！");
+            add();
+        }
         //保存品牌
-        Logger.info("品牌名称: %s =",brandbox);
-        Logger.info("属性名称: %s =",lablebox);
         String [] boxs=brandbox.split(",");
-        Logger.info("boxs :%s=",boxs.length);
         Brand brand =null;
         for(String brandId : boxs) {
             brand = Brand.findById(Long.valueOf(brandId.trim()));

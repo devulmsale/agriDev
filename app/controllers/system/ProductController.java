@@ -60,7 +60,6 @@ public class ProductController extends Controller {
     }
 
     public static void create(@Valid Product product , String lablebox ) {
-        Logger.info("lablebox :%s=",lablebox);
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -75,11 +74,8 @@ public class ProductController extends Controller {
         Lable lable=null;
         for(String lableId:lables){
             lable=Lable.findById(Long.valueOf(lableId.trim()));
-            Logger.info("lable :%s=",lable);
-            Logger.info("product :%s=",product);
             if(lable != null && product != null){
                 new ProductLable(product , lable);
-                Logger.info("if判断");
             }
         }
         redirect(BASE_RETURN_INDEX);
@@ -89,6 +85,7 @@ public class ProductController extends Controller {
 
     public static void edit(Long id , Integer pageNumber) {
         Product product = Product.findById(id);
+
         //查询所有类别
         List<ProductType> productTypelist=ProductType.findProductType();
         //储藏方式

@@ -65,6 +65,11 @@ public class TypeLable extends Model {
     public static List<TypeLable> findByProductType(Long parentTypeId){
         return TypeLable.find("deleted = ? and productType.id = ?" , DeletedStatus.UN_DELETED , parentTypeId).fetch();
     }
+
+    public static List<TypeLable> findByProduct(Long productId){
+        Product product=Product.findById(productId);
+        return findByProductType(product.parentType.id);
+    }
     public static List<JSONEntity> getMapProductType(Long productTypeId) {
         List<TypeLable> typeLableList = findByProductType(productTypeId);
         List<JSONEntity> jsonEntityList = new ArrayList<>();

@@ -273,4 +273,14 @@ public class Product extends Model {
         oldproduct.save();
     }
 
+    public static List<TypeBrand> allBrands(Long productId) {
+        List<TypeBrand> typeBrandList = TypeBrand.findByProduct(productId);
+        return typeBrandList;
+    }
+
+    public static List<TypeLable> alllables(Long productId) {
+        List<TypeLable> typeLableList = TypeLable.findByProduct(productId);
+        return typeLableList;
+    }
+
 }

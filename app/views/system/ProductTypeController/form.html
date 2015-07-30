@@ -27,23 +27,38 @@
                     </div>
 
 
-                <div class="am-g am-margin-top">
+                <div class="am-g am-margin-top" >
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">品牌</div>
-                    #{list items:brandList , as :'brandlist'}
-                    <label class="am-checkbox-inline">
-                        <input type="checkbox" id="typeBrand${brandlist_index}" name="brandbox" value="${brandlist?.id}" data-am-ucheck> ${brandlist?.name}
-                    </label>
-                    #{/list}
+                    <div class="am-u-sm-10 am-u-md-10 am-text-left" style="border:1px solid #ccc">
+                        #{list items:brandList , as :'brandlist'}
+                        <label class="am-checkbox-inline">
+                            <input type="checkbox" id="typeBrand${brandlist_index}" name="brandbox" value="${brandlist?.id}" data-am-ucheck> ${brandlist?.name}
+                        </label>
+                        #{/list}
 
+                    </div>
+                     #{if flash.get("branderror") != null}
+                        <div class="am-hide-sm-only am-u-md-6" id="nameError">
+                           111 ${flash.get("branderror")}
+                        </div>
+                    #{/if}
                 </div>
 
                 <div class="am-g am-margin-top">
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">属性</div>
-                    #{list items:lableList , as :'lablelist'}
-                        <label class="am-checkbox-inline">
-                             <input type="checkbox" id="typeLable${lablelist_index}" name="lablebox" value="${lablelist?.id}" data-am-ucheck> ${lablelist?.name}
-                        </label>
-                    #{/list}
+                    <div class="am-u-sm-10 am-u-md-10 am-text-left" style="border:1px solid #ccc">
+                        #{list items:lableList , as :'lablelist'}
+                            <label class="am-checkbox-inline">
+                                 <input type="checkbox" id="typeLable${lablelist_index}" name="lablebox" value="${lablelist?.id}" data-am-ucheck> ${lablelist?.name}
+                            </label>
+                        #{/list}
+
+                    </div>
+                #{if flash.get("lableerror") != null}
+                    <div class="am-hide-sm-only am-u-md-6" id="nameError">
+                    ${flash.get("lableerror")}
+                    </div>
+                #{/if}
                 </div>
         </div>
     </div>
