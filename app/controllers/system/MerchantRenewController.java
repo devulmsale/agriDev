@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 商家续费管理
+ */
 @With(Secure.class)
 public class MerchantRenewController extends Controller {
 
@@ -63,4 +65,13 @@ public class MerchantRenewController extends Controller {
     }
 
 
+    private static void initData() {
+        // 绠＄悊鍛樹俊鎭�
+        OperateUser operateUser = Secure.getOperateUser();
+        renderArgs.put("operateUser" , operateUser);
+
+        //绠＄悊鍛橀偖绠�
+        Long count = 8l;
+        renderArgs.put("emailCount" , count);
+    }
 }

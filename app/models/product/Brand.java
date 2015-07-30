@@ -54,6 +54,11 @@ public class Brand extends Model{
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
+    public Brand() {
+        super();
+    }
+
+
 
     public static void update(Long id , Brand newObject) {
         Brand oldBrand = Brand.findById(id);
@@ -104,4 +109,10 @@ public class Brand extends Model{
         return Brand.find("deleted = ? and brand = ?", DeletedStatus.UN_DELETED, brand).fetch();
     }
 
+    /**
+     * 查询所有的品牌信息
+     */
+    public static List<Brand> findBrand(){
+        return Brand.find("deleted = ? ",DeletedStatus.UN_DELETED).fetch();
+    }
 }

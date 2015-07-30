@@ -12,6 +12,7 @@ import play.modules.paginate.JPAExtPaginator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,5 +68,9 @@ public class Lable extends Model {
         resultPage.setPageSize(pageSize);
         resultPage.setBoundaryControlsEnabled(false);
         return resultPage;
+    }
+
+    public static List<Lable> fingLable(){
+        return Lable.find("deleted = ?",DeletedStatus.UN_DELETED).fetch();
     }
 }

@@ -5,6 +5,7 @@ import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.MerchantUser;
+import models.operate.OperateUser;
 import models.product.Lable;
 import models.product.ProductType;
 import play.Logger;
@@ -14,9 +15,12 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 标签管理
+ */
 @With(Secure.class)
 public class LableController extends Controller {
 
@@ -63,9 +67,19 @@ public class LableController extends Controller {
         redirect(BASE_RETURN_INDEX);
     }
 
-    private static void initData() {
+   /* private static void initData() {
         MerchantUser merchantUser = MerchantSecure.getMerchantUser();
         renderArgs.put("merchantUser" , merchantUser);
-    }
+    }*/
+   private static void initData() {
+       // 绠＄悊鍛樹俊鎭�
+       OperateUser operateUser = Secure.getOperateUser();
+       renderArgs.put("operateUser" , operateUser);
+
+       //绠＄悊鍛橀偖绠�
+       Long count = 8l;
+       renderArgs.put("emailCount" , count);
+   }
+
 
 }

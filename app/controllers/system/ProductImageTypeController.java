@@ -5,6 +5,7 @@ import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.MerchantUser;
+import models.operate.OperateUser;
 import models.product.ProductImageType;
 import models.product.ProductType;
 import play.data.validation.Valid;
@@ -15,7 +16,9 @@ import play.mvc.With;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * 图片类型管理
+ */
 @With(Secure.class)
 public class ProductImageTypeController extends Controller {
 
@@ -71,8 +74,13 @@ public class ProductImageTypeController extends Controller {
 
 
     private static void initData() {
-        MerchantUser merchantUser = MerchantSecure.getMerchantUser();
-        renderArgs.put("merchantUser" , merchantUser);
+        // 绠＄悊鍛樹俊鎭�
+        OperateUser operateUser = Secure.getOperateUser();
+        renderArgs.put("operateUser" , operateUser);
+
+        //绠＄悊鍛橀偖绠�
+        Long count = 8l;
+        renderArgs.put("emailCount" , count);
     }
 
 }

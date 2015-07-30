@@ -1,9 +1,10 @@
 package models.product;
 
+import models.common.JSONEntity;
 import models.constants.DeletedStatus;
 import play.db.jpa.Model;
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 /**
  * 类别 品牌表
@@ -40,6 +41,35 @@ public class TypeBrand extends Model {
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
+    public TypeBrand() {
+        super();
+    }
+
+    public TypeBrand(ProductType type , Brand brand) {
+        this.productType = type;
+        this.brand = brand;
+        this.deleted=DeletedStatus.UN_DELETED;
+        this.createdAt = new Date();
+        this.save();
+    }
+
+
+    public static List<TypeBrand> findByProductType(Long parentTypeId){
+        return TypeBrand.find("deleted = ? and productType.id = ?" , DeletedStatus.UN_DELETED , parentTypeId).fetch();
+    }
+
+    public static List<JSONEntity> getMapProductType(Long productTypeId) {
+        List<TypeBrand> typeBrandList = findByProductType(productTypeId);
+        List<JSONEntity> jsonEntityList = new ArrayList<>();
+        JSONEntity jsonEntity = null;
+        for(TypeBrand tb : typeBrandList) {
+            jsonEntity = new  JSONEntity();
+            jsonEntity.id = tb.id.toString();
+            jsonEntity.name = tb.brand.name;
+            jsonEntityList.add(jsonEntity);
+        }
+         return jsonEntityList;
+    }
 
 
 }

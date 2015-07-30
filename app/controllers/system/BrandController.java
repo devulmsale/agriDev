@@ -20,7 +20,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * 品牌管理
+ */
 @With(Secure.class)
 public class BrandController extends Controller {
 
@@ -107,9 +109,18 @@ public class BrandController extends Controller {
 
 
 
-    private static void initData() {
+    /*private static void initData() {
         MerchantUser merchantUser = MerchantSecure.getMerchantUser();
         renderArgs.put("merchantUser" , merchantUser);
+    }*/
+    private static void initData() {
+        // 绠＄悊鍛樹俊鎭�
+        OperateUser operateUser = Secure.getOperateUser();
+        renderArgs.put("operateUser" , operateUser);
+
+        //绠＄悊鍛橀偖绠�
+        Long count = 8l;
+        renderArgs.put("emailCount" , count);
     }
 
 }

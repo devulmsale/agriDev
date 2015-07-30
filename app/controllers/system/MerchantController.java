@@ -24,7 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 商家管理
+ */
 @With(Secure.class)
 public class MerchantController extends Controller {
     public static Integer PAGE_SIZE = 15;

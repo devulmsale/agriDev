@@ -5,19 +5,24 @@ import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.constants.DeletedStatus;
 import models.mert.MerchantUser;
-import models.product.Brand;
-import models.product.Product;
-import models.product.ProductType;
+import models.operate.OperateUser;
+import models.product.*;
 import play.Logger;
 import play.data.validation.Valid;
 import play.modules.paginate.JPAExtPaginator;
 import play.mvc.Controller;
 import play.mvc.With;
+import sun.rmi.runtime.Log;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 类别管理
+ */
 @With(Secure.class)
 public class ProductTypeController extends Controller {
 
@@ -37,18 +42,43 @@ public class ProductTypeController extends Controller {
     }
 
     public static void add() {
-
-        render();
+        List<Brand> brandList=Brand.findBrand();
+        List<Lable> lableList=Lable.fingLable();
+        render(brandList,lableList);
     }
 
-    public static void create(@Valid ProductType productType) {
+    public static void create(@Valid ProductType productType, TypeBrand typeBrand,TypeLable typeLable,String brandbox,String lablebox) {
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
             add();
         }
+        Logger.info("productType name %s=",productType.name);
+        //保存类别
         productType.deleted = DeletedStatus.UN_DELETED;
         productType.save();
+        //保存品牌
+        Logger.info("品牌名称: %s =",brandbox);
+        Logger.info("属性名称: %s =",lablebox);
+        String [] boxs=brandbox.split(",");
+        Logger.info("boxs :%s=",boxs.length);
+        Brand brand =null;
+        for(String brandId : boxs) {
+            brand = Brand.findById(Long.valueOf(brandId.trim()));
+            if(brand != null && productType != null) {
+                new TypeBrand(productType , brand);
+            }
+        }
+        //保存属性
+        String[] lables=lablebox.split(",");
+        Lable lable=null;
+        for(String lableId:lables){
+            lable=Lable.findById(Long.valueOf(lableId.trim()));
+            if(lable != null && productType != null){
+                new TypeLable(productType , lable);
+            }
+        }
+
         if(productType.parentType != null) {
             addChild(productType.parentType.id);
         } else {
@@ -105,9 +135,15 @@ public class ProductTypeController extends Controller {
 
 
 
-    private static void initData() {
-        MerchantUser merchantUser = MerchantSecure.getMerchantUser();
-        renderArgs.put("merchantUser" , merchantUser);
-    }
 
+
+    private static void initData() {
+        // 绠＄悊鍛樹俊鎭�
+        OperateUser operateUser = Secure.getOperateUser();
+        renderArgs.put("operateUser" , operateUser);
+
+        //绠＄悊鍛橀偖绠�
+        Long count = 8l;
+        renderArgs.put("emailCount" , count);
+    }
 }

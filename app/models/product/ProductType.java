@@ -101,4 +101,11 @@ public class ProductType extends Model {
         oldproductType.save();
     }
 
+    /**
+     * 查询所有类别
+     */
+
+    public static List<ProductType> findProductType(){
+        return ProductType.find("deleted = ?",DeletedStatus.UN_DELETED).fetch();
+    }
 }

@@ -1,5 +1,6 @@
 package models.product;
 
+import jodd.bean.BeanCopy;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.order.Goods;
@@ -8,11 +9,15 @@ import models.product.enums.MarketingMode;
 import models.product.enums.PackageMethod;
 import models.product.enums.ShippingMethod;
 import models.product.enums.StoreMethod;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.MinLength;
 import play.Logger;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -28,12 +33,18 @@ public class Product extends Model {
     /**
      * 商品名称
      */
+    @Required(message = "商品名称不能为空.")
+    @MinLength(value = 2 , message = "商品名称不能低于2个字符")
+    @MaxLength(value = 50 , message = "商品名称不能大于50个字符")
     @Column(name = "name")
     public String name;
 
     /**
      * 商品简称
      */
+    @Required(message = "商品简称不能为空.")
+    @MinLength(value = 2 , message = "商品简称不能低于2个字符")
+    @MaxLength(value = 20 , message = "商品简称不能大于20个字符")
     @Column(name = "short_name")
     public String shortName;
 
@@ -47,12 +58,14 @@ public class Product extends Model {
     /**
      * 售价
      */
+    @Required(message = "售价不能为空.")
     @Column(name = "male_price")
     public BigDecimal salePrice;
 
     /**
      * 原价
      */
+    @Required(message = "原价不能为空.")
     @Column(name = "original_price")
     public BigDecimal originalPrice;
 
@@ -71,6 +84,8 @@ public class Product extends Model {
     /**
      * 库存
      */
+    @Required(message = "库存不能为空.")
+    @Min(value = 0 , message = "库存最小值为0")
     @Column(name = "qty")
     public String qty;
 
@@ -78,19 +93,19 @@ public class Product extends Model {
      * 产地
      */
     @Column(name = "producing_area")
-    public String producing_area;
+    public String producingArea;
 
     /**
      * 净重
      */
     @Column(name = "net_weight")
-    public String net_weight;
+    public String netWeight;
 
     /**
      * 毛重
      */
     @Column(name = "rough_weight")
-    public String rough_weight;
+    public String roughWeight;
 
     /**
      * 规格
@@ -209,7 +224,7 @@ public class Product extends Model {
     public static JPAExtPaginator<Product> findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
         StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
-                .append("/~ and t.name = {name} ~/")
+                .append("/~ and t.name like {searchName} ~/")
                 .append("/~ and t.parentType.id = {parentTypeId} ~/")
                 .append("/~ and t.brand.id = {brandId} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/")
@@ -244,6 +259,17 @@ public class Product extends Model {
             goods.save();
         }
         return goods;
+    }
+
+    /**
+     * 商品修改
+     * @param id
+     * @param newObject
+     */
+    public static void update(Long id , Product newObject) {
+        Product oldproduct = Product.findById(id);
+        BeanCopy.beans(newObject, oldproduct).ignoreNulls(true).copy();
+        oldproduct.save();
     }
 
 }

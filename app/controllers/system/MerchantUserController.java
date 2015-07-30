@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 商户员工管理
+ */
 @With(Secure.class)
 public class MerchantUserController extends Controller {
     public static Integer PAGE_SIZE = 5;

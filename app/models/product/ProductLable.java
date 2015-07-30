@@ -40,4 +40,12 @@ public class ProductLable extends Model {
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
+    public ProductLable(){
+        super();
+    }
+
+    public ProductLable(Product product , Lable lable){
+        this.product=product;
+        this.lable=lable;
+    }
 }
