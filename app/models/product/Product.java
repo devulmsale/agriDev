@@ -149,6 +149,7 @@ public class Product extends Model {
     /**
      * 所属品牌
      */
+
     @JoinColumn(name = "brand_id")
     @ManyToOne
     public Brand brand;

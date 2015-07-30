@@ -71,7 +71,7 @@ public class TypeLable extends Model {
         JSONEntity jsonEntity = null;
         for(TypeLable tb : typeLableList) {
             jsonEntity = new  JSONEntity();
-            jsonEntity.id = tb.id.toString();
+            jsonEntity.id = tb.lable.id.toString();
             jsonEntity.name = tb.lable.name;
             jsonEntityList.add(jsonEntity);
         }

@@ -23,7 +23,7 @@
                 var lables = data.lables;  // 从后台 map 中获取  key 为 lables 的 Object 对象
                 // 循环 brands 集合 .  定义 index 和 entity
                 $.each(brands, function(idx, brand) {
-                    var _brand = $("<label class\=\"am-checkbox-inline\"><input type=\"radio\"  name=\"brand.brand.id\" value="+brand.id+" data-am-ucheck> "+brand.name+" \</label>");
+                    var _brand = $("<label class\=\"am-checkbox-inline\"><input type=\"radio\"  name=\"product.brand.id\" value="+brand.id+" data-am-ucheck> "+brand.name+" \</label>");
                     $("#ajaxBrand").append(_brand);
                 });
                 // 循环 lables 集合 .  定义 index 和 entity

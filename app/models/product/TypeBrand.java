@@ -64,7 +64,7 @@ public class TypeBrand extends Model {
         JSONEntity jsonEntity = null;
         for(TypeBrand tb : typeBrandList) {
             jsonEntity = new  JSONEntity();
-            jsonEntity.id = tb.id.toString();
+            jsonEntity.id = tb.brand.id.toString();
             jsonEntity.name = tb.brand.name;
             jsonEntityList.add(jsonEntity);
         }

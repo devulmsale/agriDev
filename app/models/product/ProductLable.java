@@ -24,7 +24,7 @@ public class ProductLable extends Model {
     /**
      * 所属品牌
      */
-    @JoinColumn(name = "品牌信息")
+    @JoinColumn(name = "lable_id")
     @ManyToOne
     public Lable lable;
 
@@ -47,5 +47,8 @@ public class ProductLable extends Model {
     public ProductLable(Product product , Lable lable){
         this.product=product;
         this.lable=lable;
+        this.deleted = DeletedStatus.UN_DELETED;
+        this.createdAt = new Date();
+        this.save();
     }
 }

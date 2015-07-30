@@ -59,17 +59,29 @@ public class ProductController extends Controller {
         render(productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
     }
 
-    public static void create(@Valid Product product , String lablebox) {
+    public static void create(@Valid Product product , String lablebox ) {
+        Logger.info("lablebox :%s=",lablebox);
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
             add();
         }
-        Logger.info("lablebox :%s=",lablebox);
-
         product.createdAt= new Date();
         product.deleted=DeletedStatus.UN_DELETED;
         product.save();
+
+        //保存属性
+        String[] lables=lablebox.split(",");
+        Lable lable=null;
+        for(String lableId:lables){
+            lable=Lable.findById(Long.valueOf(lableId.trim()));
+            Logger.info("lable :%s=",lable);
+            Logger.info("product :%s=",product);
+            if(lable != null && product != null){
+                new ProductLable(product , lable);
+                Logger.info("if判断");
+            }
+        }
         redirect(BASE_RETURN_INDEX);
 
 
