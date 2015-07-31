@@ -1,16 +1,727 @@
-<!DOCTYPE html>
-
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <title>#{get 'title' /}</title>
-        <meta charset="${_response_encoding}">
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-        #{get 'moreStyles' /}
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        #{get 'moreScripts' /}
-    </head>
-    <body>
-        #{doLayout /}
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ULMSALE</title>
+    <link href="/public/wap/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="/public/wap/css/index.css" rel="stylesheet" type="text/css" />
+
+    <!--[if IE 6]>
+    <script src="/public/wap/js/EvPNG.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        EvPNG.fix('div, ul, img, li, input, a');
+    </script>
+    <style>
+        body{behavior:url("/public/wap/js/csshover.htc");}
+    </style>
+    <![endif]-->
+    <!--bannerjs -->
+    <script type="text/javascript" src="/public/wap/js/jquery-1.8.3.min.js"></script>
+    <SCRIPT language=javascript src="/public/wap/js/szxue.js"></SCRIPT>
+
+    <!--tabjs -->
+    <script src="/public/wap/js/jquery.tabs.js"></script>
+    
+
+
+</head>
+<body>
+
+
+<!--top -->
+<div class="top">
+    <div class="topbar">
+        <div class="topL left">
+            <span>欢迎来到优粮我卖网！ 请  </span><a href="#">登录</a>  <a href="#">免费注册</a>
+        </div>
+        <div class="topadd left">
+            <i class="iconfont ico">&#xe60a;</i>
+            <span>送货至：</span><a href="#">山东青岛</a>
+        </div>
+        <ul class="toplink">
+            <li id="topsitenav" class="topmenu">
+                <a href="#"  class="select">网站导航<i></i></a>
+                <div class="topmenu_sub">
+                    <ul>
+                        <li><strong>行业市场</strong>
+                            <p>
+                                <a href="#">原材料</a>
+                                <a href="#">工业品</a>
+                                <a href="#">电子</a>
+                                <a href="#">纺织</a>
+                                <a href="#">包装</a>
+                                <a href="#">服装</a>
+                                <a href="#">鞋帽</a>
+                                <a href="#">家装</a>
+                                <a href="#">家居百货</a>
+                                <a href="#">数码家电</a>
+                                <a href="#">小商品</a>
+                                <a href="#">农食</a>
+                                <a href="#">美妆</a>
+                            </p>
+                        </li>
+                        <li><strong>特色市场</strong>
+                            <p>
+                                <a href="#">产业带</a>
+                                <a href="#">样品中心</a>
+                                <a href="#">淘工厂</a>
+                                <a href="#">代理加盟</a>
+                                <a href="#">公司黄页</a>
+                                <a href="#">淘宝货源</a>
+                                <a href="#">工业品牌商城</a>
+                            </p>
+                        </li>
+                        <li><strong>采购必应</strong>
+                            <p>
+                                <a href="#">企业集采</a>
+                                <a href="#">大企业采购</a>
+                                <a href="#">供应商库</a>
+                            </p>
+                        </li>
+                        <li><strong>社区资讯</strong>
+                            <p>
+                                <a href="#">资讯</a>
+                                <a href="#">生意经</a>
+                                <a href="#">商人论坛</a>
+                                <a href="#">博客</a>
+                                <a href="#">商友圈</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li id="topcustom" class="topmenu">
+                <a href="#" class="select">客服中心<i></i></a>
+                <div class="topmenu_sub">
+                    <p>
+                        <a href="#" target="_blank">新手上路</a>
+                        <a href="#" target="_blank">买家帮助</a>
+                        <a href="#" target="_blank">卖家帮助</a>
+                        <a href="#" target="_blank">在线咨询</a>
+                    </p>
+                </div>
+            </li>
+            <li id="topmember" class="topmenu">
+                <a href="#" class="select">卖家中心<i></i></a>
+                <div class="topmenu_sub">
+                    <p>
+                        <a href="#" target="_blank">发布供应</a>
+                        <a href="#" target="_blank">发布采购</a>
+                        <a href="#" target="_blank">管理旺铺</a>
+                        <a href="#" target="_blank">买卖速配</a>
+                        <a href="#" target="_blank">我的留言</a>
+                    </p>
+                </div>
+            </li>
+            <li  id="topphone" class="topmenu">
+                <a  class="select"><em class="iconfont">&#xe622;</em>手机优粮</a>
+                <div class="topmenu_sub">
+                    <em></em>
+                    <div class="top_phone">
+                        <p>扫描我，即可下载优粮我卖网客户端</p>
+                        <img src="/public/wap/images/code.jpg" />
+                    </div>
+
+                </div>
+            </li>
+
+            <li id="topcart" class="topmenu">
+                <a href="#" class="select"><em class="iconfont">&#xe602;</em>购物车(<b>10</b>)<i></i></a>
+                <div class="topmenu_sub">
+                    <p>
+                        <a href="#" target="_blank">收藏的货物</a>
+                        <a href="#" target="_blank">收藏的供应商</a>
+                        <a href="#" target="_blank">交易过的供应商</a>
+                    </p>
+                </div>
+            </li>
+
+
+            <li id="topuser" class="topmenu">
+                <a href="#" class="select">我的优粮<i></i></a>
+                <div class="topmenu_sub">
+                    <div class="topuser_sub_t">
+                        <img src="/public/wap/images/head.png" width="60" >
+                        <h3>哇哈哈</h3>
+                        <p><a href="#">消息</a> | <a href="#">退出</a></p></div>
+                    <div class="topuser_sub_c">
+                        <ul class="topuser_list">
+                            <li><a href="#">待处理订单</a></li>
+                            <li><a href="#">我的关注</a></li>
+                            <li><a href="#">咨询回复</a></li>
+                            <li><a href="#">我的账户</a></li>
+                            <li><a href="#">返修退换货</a></li>
+                            <li><a href="#">我的订制商城</a></li>
+                        </ul>
+                        <p class="para"><strong>最近浏览</strong><a href="#" class="more">更多</a></p>
+                        <ul class="topuser_list1">
+                            <li><a href="#"><img src="/public/wap/img/10.jpg"></a></li>
+                            <li><a href="#"><img src="/public/wap/img/11.jpg"></a></li>
+                            <li><a href="#"><img src="/public/wap/img/12.jpg"></a></li>
+                            <li><a href="#"><img src="/public/wap/img/13.jpg"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="header">
+    <div class="logo left"><img src="/public/wap/images/logo.png" /></div>
+    <div class="head_r right">
+        <p>微信逛优粮</p>
+        <img src="/public/wap/images/code.jpg" />
+    </div>
+    <div class="topsearch right">
+
+        <form action="#" name="search">
+            <input type="submit" name="button2" class="searchbtn" id="button2" value="搜 索">
+            <input type="text" name="" title="Search" class="searchexitbox" id="searchinput" onfocus="if(value==defaultValue){value='';this.style.color='#666666'}" onBlur="if(!value){value=defaultValue;this.style.color='#cccccc'}" value="请输入关键字搜索商品/品牌/店铺" size="10"/>
+        </form>
+        <div class="hot-keyword">
+            <a href="#" class="current" title="蓝牙键盘">蓝牙键盘</a>
+            <a href="#" title="男士羊绒衫">男士羊绒衫</a>
+            <a href="#" title="绞肉机">绞肉机</a>
+            <a href="#" title="进口洋酒">进口洋酒</a>
+            <a href="#" title="水马">水马</a>
+            <a href="#" title="围挡">围挡</a>
+        </div>
+    </div>
+
+</div>
+<!--menu -->
+<div class="menubg">
+    <div class="menu" >
+        <DIV class="menuNav">
+            <H2>全部商品分类</H2>
+            <DIV id="SNmenuNav" class="navlist">
+                <DL>
+                    <DT>
+                        <i class="iconfont green">&#xe62e;</i>
+                    <h3><a href="#" target=_blank>水果蔬菜</a></h3>
+                    <p><a href="#">水果</a> <a href="#">蔬菜</a> <a href="#">果蔬礼盒</a></p>
+                    </DT>
+                    <DD class="menv01">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">生鲜</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B><a href="#">冲调饮品</a></B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B><a href="#">充电配件</a></B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B><a href="#">数据配件</a></B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+                        <!--<UL class="sideright">
+                          <H3>品牌推荐</H3>
+                          <LI><A  href="#" target=_blank>雪青</A></LI>
+                          <LI><A  href="#" target=_blank>绿雪芽</A></LI>
+                        </UL> -->
+                    </DD>
+                </DL>
+                <DL>
+                    <DT class="bg">
+                        <i class="iconfont red">&#xe609;</i>
+                    <h3><a href="#" target=_blank>肉类禽蛋</a></h3>
+                    <p><a href="#">猪肉</a> <a href="#">牛肉</a> <a href="#">鸡肉</a></p>
+                    </DT>
+                    <DD class="menv02">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">休闲食品</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+
+                    </DD>
+                </DL>
+                <DL>
+                    <DT>
+                        <i class="iconfont blue">&#xe62f;</i>
+                    <h3><a href="#" target=_blank>海鲜水产</a></h3>
+                    <p><a href="#">鱼</a> <a href="#">虾</a> <a href="#">贝</a></p>
+                    </DT>
+
+                    <DD class="menv03">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">进口美食</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+
+                    </DD>
+                </DL>
+                <DL>
+                    <DT class="bg">
+                        <i class="iconfont orange">&#xe604;</i>
+                    <h3><a href="#" target=_blank>粮油副食</a></h3>
+                    <p><a href="#">大米</a> <a href="#">食用油</a> <a href="#">面粉</a></p>
+                    </DT>
+
+                    <DD class="menv04">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">粮油</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+
+                        </UL>
+
+                    </DD>
+                </DL>
+                <DL>
+                    <DT>
+                        <i class="iconfont cyan">&#xe613;</i>
+                    <h3><a href="#" target=_blank>零食冲饮</a></h3>
+                    <p><a href="#">日照绿茶</a> <a href="#">休闲食品</a></p>
+                    </DT>
+
+                    <DD class="menv05">
+                        <UL class="sideleft">
+
+                            <LI class="noline"><B><a href="#">酒水</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+
+                    </DD>
+                </DL>
+                <DL>
+                    <DT class="bg">
+                        <i class="iconfont pink">&#xe62b;</i>
+                    <h3><a href="#" target=_blank>生态日用</a></h3>
+                    <p><a href="#">小家电</a> <a href="#">洗衣粉</a> <a href="#">牙膏</a></p>
+                    </DT>
+                    <DD class="menv06">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">特产</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+
+                    </DD>
+                </DL>
+                <DL>
+                    <DT style="border:0;">
+                        <i class="iconfont yellow">&#xe60d;</i>
+                    <h3><a href="#" target=_blank>手工艺品</a></h3>
+                    <p><a href="#">珊瑚饰品</a> <a href="#">根雕</a> <a href="#">贝壳</a></p>
+                    </DT>
+
+                    <DD class="menv07">
+                        <UL class="sideleft">
+                            <LI class="noline"><B><a href="#">婴儿食品</a></B>
+                                <DIV>
+                                    <A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>冲调饮品</B>
+                                <DIV><A title="糖果/巧克力" href="#" target="_blank">糖果/巧克力</A>
+                                    <A title="休闲小吃" href="#" target="_blank">休闲小吃</A>
+                                    <A title="饼干/糕点" href="#" target="_blank">饼干/糕点</A>
+                                    <A title="节日食用品" href="#" target="_blank">节日食用品</A>
+                                    <A title="其他休闲食品" href="#" target="_blank">其他休闲食品</A>
+                                </DIV>
+                                <SPAN class="clear"></SPAN>
+                            </LI>
+                            <LI><B>充电配件</B>
+                                <DIV><A title=标准电池
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20017_.html"
+                                        target=_blank>标准电池</A> <A title=商务电池
+                                                                  href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20018_.html"
+                                                                  target=_blank>商务电池</A> <A title=充电器
+                                                                                            href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20020_.html"
+                                                                                            target=_blank>充电器</A> <A title=备用电源
+                                                                                                                     href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_179001_.html"
+                                                                                                                     target=_blank>备用电源</A> </DIV>
+                                <SPAN class=clear></SPAN></LI>
+                            <LI><B>数据配件</B>
+                                <DIV><A title=存储卡
+                                        href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20025_.html"
+                                        target=_blank>存储卡</A> <A title=读卡器
+                                                                 href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20026_.html"
+                                                                 target=_blank>读卡器</A> <A title=数据线
+                                                                                          href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_20028_.html"
+                                                                                          target=_blank>数据线</A> <A title=3G上网卡
+                                                                                                                   href="http://www.update8.comwebapp/wcs/stores/servlet/trd_10052_10051_1_207003_.html"
+                                                                                                                   target=_blank>3G上网卡</A> </DIV>
+                                <SPAN class="clear"></SPAN></LI>
+                        </UL>
+
+                    </DD>
+                </DL>
+
+            </DIV>
+        </DIV>
+        <ul class="nav left">
+            <li class="current"><a href="index.html">首页</a></li>
+            <li><a href="#">特色农产品</a></li>
+            <li><a href="#">联农百货</a></li>
+            <li><a href="#">坤农农资</a></li>
+            <li><a href="#">优粮惠</a></li>
+            <li><a href="#">本地生活</a></li>
+            <li><a href="#">优粮农场</a></li>
+        </ul>
+        <div class="menu_right right">
+            <p><a href="#">消费者保障</a></p>
+        </div>
+        <div class="banner_right">
+            <div class="notice">
+                <h3>优粮快报</h3>
+                <ul>
+                    <li><a href="#">【公告】满1000减800元套券规则</a></li>
+                    <li><a href="#">【公告】退换货政策调整</a></li>
+                    <li><a href="#">【公告】谨防假冒客服诈骗</a></li>
+                    <li><a href="#">【公告】满1000减800元套券规则</a></li>
+                    <li><a href="#">【公告】满1000减800元套券规则</a></li>
+                </ul>
+            </div>
+            <div class="banner_help">
+                <h3>生活助手</h3>
+                <img src="/public/wap/images/ico_service.png">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--banner -->
+<div id="banner">
+    <ul id="banner_img">
+        <li class="item1"><a href="#" target="_blank"><div class="wrapper"> </div></a></li>
+        <li class="item2"><a href="#" target="_blank"><div class="wrapper"> </div></a></li>
+        <li class="item3"> <a href="#" target="_blank"><div class="wrapper"> </div></a></li>
+        <li class="item4"><a href="#" target="_blank"><div class="wrapper"> </div></a></li>
+        <li class="item6"><a href="#" target="_blank"><div class="wrapper"> </div></a></li>
+    </ul>
+    <div id="banner_ctr">
+        <div id="drag_ctr"> </div>
+        <ul>
+            <li style="width:0px;"></li>
+            <li class="styclsa"> <a href="#" target="_blank" class="astysa">当季水果上鲜</a></li>
+            <li style="width:1px;"></li>
+            <li class="styclsa"><a href="#" target="_blank" class="astysa">绿茶产地直销</a></li>
+            <li style="width:1px;"></li>
+            <li class="styclsa"> <a href="#" target="_blank" class="astysa">夏季新鲜海产</a></li>
+            <li style="width:1px;"></li>
+            <li class="styclsa"><a href="#" target="_blank" class="astysa">农夫菜园</a></li>
+            <li style="width:1px;"></li>
+            <li class="styclsa"><a href="#" target="_blank" class="astysa">24小时品牌大促</a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="/public/wap/js/banner.js"></script>
+
+<!--限时抢购 -->
+<div class="mainbg">
+    <div class="main_qg">
+        <div class="qg_tit left"><img src="/public/wap/images/t_time.gif" width="188" height="150"></div>
+        <ul class="left">
+            <li><a href="#"><img src="/public/wap/img/p1.jpg" width="250" height="150"></a></li>
+            <li><a href="#"><img src="/public/wap/img/p2.jpg" width="250" height="150"></a></li>
+            <li><a href="#"><img src="/public/wap/img/p4.jpg" width="250" height="150"></a></li>
+            <li><a href="#"><img src="/public/wap/img/p3.jpg" width="250" height="150"></a></li>
+        </ul>
+    </div>
+</div>
+
+
+<!--footer -->
+<div id="footer" class="m20">
+    <div class="mbz"><img src="/public/wap/images/bz.png" width="998" height="50"> </div>
+    <div class="mhelp overflow m15">
+        <div class="footlogo left">
+            <img src="/public/wap/images/flogo.png" >
+            <h3>400-898 9797</h3>
+            <p>周一至周五：08:00-20:00<br>双休及节日：09:00-19:00</p>
+        </div>
+        <div class="helplist left">
+            <dl>
+                <dt>新手入门</dt>
+                <dd><a href="#">常见问题</a></dd>
+                <dd><a href="#">新会员注册</a></dd>
+                <dd><a href="#">用户登录</a></dd>
+                <dd><a href="#">找回密码</a></dd>
+            </dl>
+            <dl>
+                <dt>购物指南</dt>
+                <dd><a href="#">购物流程</a></dd>
+                <dd><a href="#">订单状态说明</a></dd>
+                <dd><a href="#">隐私声明</a></dd>
+                <dd><a href="#">发票制度</a></dd>
+            </dl>
+            <dl>
+                <dt>配送服务</dt>
+                <dd><a href="#">范围、时间及费用</a></dd>
+                <dd><a href="#">商品验货及签收</a></dd>
+                <dd><a href="#">门店自提</a></dd>
+            </dl>
+            <dl>
+                <dt>支付方式</dt>
+                <dd><a href="#">货到付款</a></dd>
+                <dd><a href="#">网上支付</a></dd>
+                <dd><a href="#">银行转账</a></dd>
+                <dd><a href="#">激活优惠券</a></dd>
+                <dd><a href="#">优惠券使用说明</a></dd>
+            </dl>
+            <dl>
+                <dt>售后服务</dt>
+                <dd><a href="#">退换货政策</a></dd>
+                <dd><a href="#">正品保障</a></dd>
+                <dd><a href="#">退款规则</a></dd>
+                <dd><a href="#">品牌售后</a></dd>
+            </dl>
+            <dl>
+                <dt>企业服务</dt>
+                <dd><a href="#">企业采购</a></dd>
+                <dd><a href="#">供应商合作</a></dd>
+                <dd><a href="#">供应商入口</a></dd>
+                <dd><a href="#">商家入驻</a></dd>
+            </dl>
+
+        </div>
+        <div class="foot2w right">
+            <span>关注优粮我卖网</span>
+            <img src="/public/wap/images/code.jpg" >
+            <span>快速了解活动</span>
+        </div>
+    </div>
+    <div class="foot">
+        <div class="footnav">
+            <a href="#">关于我们</a> | <a href="#">联系我们</a> | <a href="#">服务条款</a> | <a href="#">商家入驻</a> | <a href="#">友情链接</a> | <a href="#">合作伙伴</a> | <a href="#">帮助中心</a> | <a href="#">优粮城</a> | <a href="#">企业员工内购</a></div>
+        <div class="copyright">
+            <p> 版权所有 日照优粮电子商务有限公司  服务热线：400 898 9797<br>
+                增值电信业务经营许可证:鲁B2-20110025　<a href="#">鲁ICP证010051号</a><br>
+                Copyright©2013-2015 ulmsale.com. All Rights Reserved </p>
+
+        </div>
+    </div>
+
+</div>
+</body>
 </html>

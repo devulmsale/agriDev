@@ -1,0 +1,260 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<!--bannerjs -->
+<script type="text/javascript" src="/public/wap/js/jquery-1.8.3.min.js"></script>
+<SCRIPT language=javascript src="/public/wap/js/szxue.js"></SCRIPT>
+
+<!--jqzoom -->
+<SCRIPT src="/public/wap/js/base.js" type=text/javascript></SCRIPT>
+<SCRIPT src="/public/wap/js/jquery.livequery.js" type=text/javascript></SCRIPT>
+<SCRIPT src="/public/wap/js/jquery.jqzoom.js" type=text/javascript></SCRIPT>
+
+<!--tabjs -->
+<script src="/public/wap/js/jquery.tabs.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.mtab').Tabs();
+        $('.mtab2').Tabs({
+            event:'click'
+        });
+        $('.mtab1').Tabs({
+            timeout:300
+        });
+    });
+</script>
+
+<script type="text/javascript" src="/public/wap/js/payfor.js"></script>
+<!--main page1 -->
+<div class="main m20 Pdetail">
+    <div class="p_left left">
+        <div id="preview">
+            <div class="jqzoom" id="spec-n1" >
+                <IMG height="320" src="/public/wap/img/img01.jpg" jqimg="/public/wap/img/img01.jpg" width="360">
+            </div>
+            <div id="spec-n5">
+                <div class="control1" id="spec-left">
+                    <img src="/public/wap/images/left.gif" />
+                </div>
+                <div id="spec-list">
+                    <ul class="list-h">
+                        <li><img src="/public/wap/img/img01.jpg"> </li>
+                        <li><img src="/public/wap/img/img02.jpg"> </li>
+                        <li><img src="/public/wap/img/img03.jpg"> </li>
+                        <li><img src="/public/wap/img/img04.jpg"> </li>
+                        <li><img src="/public/wap/img/img01.jpg"> </li>
+                        <li><img src="/public/wap/img/img02.jpg"> </li>
+                        <li><img src="/public/wap/img/img03.jpg"> </li>
+                        <li><img src="/public/wap/img/img04.jpg"> </li>
+                        <li><img src="/public/wap/img/img01.jpg"> </li>
+                        <li><img src="/public/wap/img/img02.jpg"> </li>
+                        <li><img src="/public/wap/img/img03.jpg"> </li>
+                        <li><img src="/public/wap/img/img04.jpg"> </li>
+                    </ul>
+                </div>
+                <div class="control1" id="spec-right">
+                    <img src="/public/wap/images/right.gif" />
+                </div>
+
+            </div>
+            <SCRIPT type=text/javascript>
+                $(function(){
+                    $(".jqzoom").jqueryzoom({
+                        xzoom:360,
+                        yzoom:320,
+                        offset:10,
+                        position:"right",
+                        preload:1,
+                        lens:1
+                    });
+                    $("#spec-list").jdMarquee({
+                        deriction:"left",
+                        width:360,
+                        height:62,
+                        step:2,
+                        speed:4,
+                        delay:10,
+                        control:true,
+                        _front:"#spec-right",
+                        _back:"#spec-left"
+                    });
+                    $("#spec-list img").bind("mouseover",function(){
+                        var src=$(this).attr("src");
+                        $("#spec-n1 img").eq(0).attr({
+                            src:src.replace("\/n5\/","\/n1\/"),
+                            jqimg:src.replace("\/n5\/","\/n0\/")
+                        });
+                        $(this).css({
+                            "border":"2px solid #ff6600",
+                            "padding":"1px"
+                        });
+                    }).bind("mouseout",function(){
+                        $(this).css({
+                            "border":"1px solid #ccc",
+                            "padding":"2px"
+                        });
+                    });
+                })
+            </SCRIPT>
+        </div>
+        <div class="p_left_bt">
+            <p><span>商品编码：127396377</span><a href="#"><i class="ico_sc"></i>收藏商品</a></p>
+        </div>
+        <div class="bdShare"><!-- Baidu Button BEGIN -->
+            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                <span class="bds_more">分享到：</span>
+                <a class="bds_qzone"></a>
+                <a class="bds_tsina"></a>
+                <a class="bds_tqq"></a>
+                <a class="bds_renren"></a>
+                <!--a class="bds_t163"></a-->
+                <!--a class="shareCount"></a-->
+            </div>
+            <span class="clear"></span>
+            <script type="text/javascript" id="bdshare_js" data="type=tools&uid=6427643" ></script>
+            <script type="text/javascript" id="bdshell_js"></script>
+            <script type="text/javascript">
+                document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+            </script>
+        </div><!-- Baidu Button END -->
+    </div>
+    <div class="p_center left">
+        <div class="p_title">
+            <h2>十月稻田&nbsp;2015年新米&nbsp;五常长粒香大米5kg</h2>
+            <p>优粮城粮油节，满99元立减20元，活动时间截止到5月24号！<a href="#" target="_blank">更多惊喜请点击</a></p>
+        </div>
+        <div class="p_price">
+            <div class="p_price_l left">
+                <p>优粮价：<em id="price_item_1">￥39.00</em></p>
+                <p>促销信息：<span>满100减10</span><a href="#" target="_blank">详情&gt;&gt;</a></p>
+            </div>
+            <div class="p_price_r right">
+                <a href="#">累计评价：<em>1450</em></a>
+                <p>库存：789</p>
+            </div>
+        </div>
+        <div class="p_add">
+            <p><span>配送至：</span>
+                <select name="select" id="select">
+                    <option>山东日照东港区</option>
+                    <option>莒县</option>
+                    <option>五莲县</option>
+                    <option>岚山区</option>
+                </select>
+                <span>有货，支持货到付款，单笔订单不满90元收运费5元</span>
+            </p>
+            <p>服务：由&nbsp;<strong>优粮城提供服务</strong>&nbsp;从&nbsp;<i>山东日照</i>&nbsp;发送，并提供售后服务</p>
+        </div>
+        <dl class="p_select">
+            <dt>选择类型：</dt>
+            <dd id="tp" class="current">五常长粒大米5kg</dd>
+            <dd id="tp">东北长粒大米5kg</dd>
+            <dd id="tp">山东长粒大米5kg</dd>
+
+        </dl>
+        <div class="p_total">
+            商品总价：<em class="total-font" id="total_item_1">￥39.00</em>
+            <input type="hidden" name="total_price" id="total_price" value="" />
+            <span class="jifen">购买商品可获得：<b id="total_points">18</b>积分</span>
+        </div>
+        <div class="p_button">
+            <div class="p_num left">
+                <em class="add" onClick="setAmount.add('#qty_item_1')">+</em><em class="min" onClick="setAmount.reduce('#qty_item_1')">-</em>
+                <input type="text" name="qty_item_1" id="qty_item_1" onKeyUp="setAmount.modify('#qty_item_1')" value="1" id="textfield">
+            </div>
+
+            <a href="#" class="btn"><i class="iconfont">&#xe602;</i> 加入购物车</a>
+            <a href="#" class="btn1">悠闲购</a>
+        </div>
+        <div class="p_tips"> 温馨提示：本产品支持7天无条件退货</div>
+    </div>
+    <div class="p_right right">
+        <div class="p_logo"><img src="/public/wap/img/mer.jpg" width="100%"></div>
+        <div class="p_shop">
+            <p>店铺名称</p>
+            <p>综合评分：9.8</p>
+            <p>公司名称：海纳鲜农产品</p>
+            <p>所在地：山东日照</p>
+            <p>客服电话:400-4567-587</p>
+        </div>
+        <div class="p_button1">
+            <a href="#" class="btn">进入店铺</a>
+            <a href="#" class="btn">加入定制</a>
+        </div>
+    </div>
+</div>
+<div class="main m20 Pcon">
+    <div class="p_left left">
+        <div class="p_search">
+            <h3>店内搜索</h3>
+            <form name="form1" method="post" action="">
+                <p><label for="textfield2">关键词：</label><input type="text" class="editbox" name="textfield2" id="textfield2"></p>
+                <p>价格从&nbsp;&nbsp;&nbsp;<input type="text" name="textfield3" class="editbox" style="width:50px;" id="textfield3"> 到 <input type="text" class="editbox" style="width:50px;" name="textfield4" id="textfield4"></p>
+                <input type="submit" name="button" class="button" id="button" value="搜索">
+            </form>
+        </div>
+        <div class="p_list m15">
+            <h3>热销产品</h3>
+            <ul>
+                <li><a href="#"><img src="/public/wap/img/20.jpg" width="185" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+                <li><a href="#"><img src="/public/wap/img/18.jpg" width="185" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+                <li><a href="#"><img src="/public/wap/img/19.jpg" width="182" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+                <li><a href="#"><img src="/public/wap/img/17.jpg" width="185" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+                <li><a href="#"><img src="/public/wap/img/21.jpg" width="185" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+                <li><a href="#"><img src="/public/wap/img/17.jpg" width="185" height="130"></a>
+                    <h4><a href="#">优粮我卖网自营大鹏香菇500克/份</a></h4>
+                    <p><strong>￥<i>16.80</i></strong></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="p_right right mtab1">
+        <ul class="tab_menu left">
+            <li class="current">商品介绍</li>
+            <li>商品参数</li>
+            <li>商品评论<i>(1500)</i></li>
+        </ul>
+        <div class="tab_box">
+            <div>
+                <div class="p_cs">
+                    <ul>
+                        <li><i>商品名称：</i>十月稻田大米</li>
+                        <li><i>优粮编号：</i>888888</li>
+                        <li><i>品牌：</i>十月稻田</li>
+                        <li><i>类型：</i>大米</li>
+                        <li><i>商品重量：</i>5kg</li>
+                        <li><i>商品产地：</i>辽宁</li>
+                        <li><i>商家时间：</i>2015/05/29&nbsp;18:00</li>
+                    </ul>
+                    <a href="#">更多参数&gt;&gt;</a>
+                </div>
+                <div class="p_intro">
+                    <img src="/public/wap/img/p9.jpg" width="100%">
+                    <img src="/public/wap/img/p10.jpg" width="100%">
+                    <img src="/public/wap/img/p11.jpg" width="100%">
+                    <img src="/public/wap/img/p12.jpg" width="100%">
+                </div>
+            </div>
+            <div class="hide">
+
+            </div>
+            <div class="hide">
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* index */
+/* index mununav */
+.menubg{width:100%; background: url(../images/menubg.gif) repeat-x 0 0; }
+.menuNav {
+	Z-INDEX: 9999; POSITION: relative; WIDTH: 200px;   float:left; display:inline;  text-align:left; background:url(../images/lnavbg.png); 
+}
+.menuNav H2 {
+	BACKGROUND:#58b824 url(../images/ico_list.png) no-repeat 170px 50%;width:100%; HEIGHT:45px; line-height:45px; color:#fff; text-align:center; font-size:16px; font-weight:normal;}
+
+.navlist {POSITION: absolute; WIDTH: 200px; BORDER: #cbe3cb 0px solid; background:#f8f8f8; display:none; }
+.menuNav:hover .navlist{ display:block;}
+.navlist:hover{ display:block;}
+.navlist DL {POSITION:relative; WIDTH:100%; height:auto; text-align:left; height:71px; }
+
+.navlist DL DT { position:absolute; width:100%; height:70px; overflow:hidden; position:relative; z-index:1; border-bottom:1px #eeeeee solid;}
+.navlist DL DT.bg{ }
+.navlist DL DT:hover{ background:#eee;}
+.navlist DL DT i{font-size: 30px;width:40px; height:70px; line-height:45px; overflow:hidden; text-align:center; vertical-align:middle; float:left; display:inline; margin:10px 5px 0 5px;}
+.navlist DL DT h3{ font-size:15px; line-height:1.8em; color:#666; margin-top:8px;}
+.navlist DL DT p{ font-size:12px; line-height:20px;}
+.navlist DL DT p a{ margin-right:5px;}
+.navlist DL DT p a:link,.navlist DL DT p a:visited{ color:#999;}
+.navlist DL DT p a:hover{ color:#090;}
+
+.navlist DL DD {Z-INDEX:1; width:480px; height:auto; overflow:hidden; POSITION: absolute; background:#f6f6f6;  DISPLAY: none; LEFT: 200px;}
+.navlist DL DD .sideleft {WIDTH:120%; FLOAT: left; display:inline; height:auto; overflow:hidden;}
+.navlist DL DD .sideright {WIDTH:100px; FLOAT:left; display:inline; BACKGROUND: #fff;}
+.sideleft { padding:10px 20px; DISPLAY: inline; FLOAT: left;BORDER-RIGHT: #d6e9d6 1px solid;}
+.sideleft H3 {LINE-HEIGHT: 24px; WIDTH: 370px; HEIGHT: 24px; COLOR: #006600; FONT-SIZE: 12px; FONT-WEIGHT: 700}
+.sideleft LI { clear:both;  }
+.sideleft LI.noline {BORDER-TOP: medium none}
+.sideleft LI b{width:60px; float:left; display:inline; text-align:right;}
+.sideleft LI b a{ border-right:1px #cccccc solid; padding-right:5px;}
+.sideleft LI b a:link,.sideleft LI b a:visited{ color:#669900;}
+.sideleft LI div{text-align:left; float:left; display:block; margin-left:10px;}
+.sideleft LI a{WHITE-SPACE: nowrap; margin-right:5px;}
+.sideleft LI A:link,.sideleft LI A:visited {COLOR: #555555; }
+.sideleft LI A:hover {COLOR: #f60; TEXT-DECORATION: underline}
+.sideleft LI b a:hover{ color:#669900; text-decoration:underline;}
+
+/*
+.sideright {
+	 
+}
+.sideright H3 {
+	LINE-HEIGHT: 28px; PADDING-LEFT: 10px; HEIGHT: 28px; COLOR: #000; FONT-SIZE: 12px; FONT-WEIGHT: 700; PADDING-TOP: 5px
+}
+.sideright LI {
+	LINE-HEIGHT: 26px; WIDTH: 60px; DISPLAY: inline; FLOAT: left; HEIGHT: 26px; MARGIN-LEFT: 14px; OVERFLOW: hidden
+}
+.sideright LI A {
+	COLOR: #666
+}
+.sideright LI A:visited {
+	COLOR: #666
+}
+.sideright LI A:hover {
+	COLOR: #f60; TEXT-DECORATION: underline
+} */
+.menv01 {TOP: 0px}
+.menv02 {TOP: 0px}
+.menv03 {TOP: 0px}
+.menv04 {TOP: 0px}
+.menv05 {TOP:0px}
+.menv06 {TOP: -30px}
+.menv07 {TOP: -100px}
+
+
+/* 商品详情页 */
+.Pdetail{}
+.Pdetail .p_left{width:362px; text-align:left;}
+.Pdetail .p_center{width:620px; margin-left:20px;}
+.Pdetail .p_right{width:180px; height:auto; overflow:hidden; background:#f8f8f8; margin-top:10px;}
+.Pdetail .p_left .p_left_bt{width:100%; height:20px; line-height:20px; overflow:hidden; margin:0px auto;}
+.Pdetail .p_left .p_left_bt span{ float:left; display:inline; color:#666;}
+.Pdetail .p_left .p_left_bt a{ float:right; display:inline-block; height:20px; line-height:20px; color:#666; vertical-align:middle;}
+.Pdetail .p_left .p_left_bt a i{ float:left; display:inline-block; width:15px; height:13px; overflow:hidden; margin:4px 3px 0 0;}
+.Pdetail .p_left .p_left_bt a:hover{ color:#F30;}
+.Pdetail .p_left .bdShare{ margin-top:5px; color:#999;}
+
+/*jqzoom*/
+#preview{ float:left; display:inline; margin:10px auto; text-align:left; width:100%; }
+.jqzoom{ width:360px; height:320px; position:relative; border:1px #dddddd solid;}
+.zoomdiv{  height:360px; width:320px; border:1px #cccccc solid;}
+.list-h li{ float:left;}
+#spec-n5{width:360px; height:62px; padding-top:6px; overflow:hidden; border:0px #cccccc solid; }
+#spec-left{  width:10px; height:45px; float:left; cursor:pointer; margin-top:5px;}
+#spec-right{width:10px; height:45px; float:right;cursor:pointer; margin-top:5px;}
+#spec-list{ width:325px; height:62px; float:left; overflow:hidden; margin-left:5px; display:inline;}
+#spec-list ul li{  margin-right:0px;float:left; display:inline; width:62px; height:62px;}
+#spec-list ul li img{ padding:2px ; border:1px solid #ccc; width:50px; height:50px;}
+
+/*jqzoom*/
+.jqzoom{position:relative;padding:0;}
+.zoomdiv{z-index:100;position:absolute;top:1px;left:0px;width:360px;height:360px;background:url(../images/loading.gif) #fff no-repeat center center;border:1px solid #e4e4e4;display:none;text-align:center;overflow: hidden;}
+.bigimg{width:800px;height:800px;}
+.jqZoomPup{z-index:10;visibility:hidden;position:absolute;top:0px;left:0px;width:50px;height:50px;border:1px solid #aaa;background:#FEDE4F 50% top no-repeat;opacity:0.5;-moz-opacity:0.5;-khtml-opacity:0.5;filter:alpha(Opacity=50);cursor:move;}
+#spec-list{ position:relative; width:325px;}
+#spec-list div{ margin-top:0;margin-left:0px; *margin-left:0;}
+
+.Pdetail .p_center .p_title{width:100%; height:auto; overflow:hidden; text-align:left;}
+.Pdetail .p_center .p_title h2{ font-size:20px; color:#080; line-height:2em;}
+.Pdetail .p_center .p_title p{ font-size:14px; color:#f60;}
+.Pdetail .p_center .p_title p a{ margin-left:10px; color:#12a6ea;}
+.Pdetail .p_center .p_title p a:hover{ text-decoration:underline;}
+.Pdetail .p_center .p_price{ height:auto; overflow:hidden; margin:15px auto; background:#f6f6f6; text-align:left; padding:10px;}
+.Pdetail .p_center .p_price_l{ text-align:left; line-height:2em;}
+.Pdetail .p_center .p_price_l p{ font-size:14px; color:#888;}
+.Pdetail .p_center .p_price_l p em{ font-size:20px; color:#F30; font-weight:bold;}
+.Pdetail .p_center .p_price_l p span{ color:#090;}
+.Pdetail .p_center .p_price_l p a{ margin-left:10px; color:#12a6ea;}
+.Pdetail .p_center .p_price_l p a:hover{ text-decoration:underline;}
+.Pdetail .p_center .p_price_r{ border-left:1px #09c dashed; padding:0 20px; text-align:left; line-height:2em;}
+.Pdetail .p_center .p_price_r p{ color:#888;}
+.Pdetail .p_center .p_price_r a em{ color:#12a6ea}
+.Pdetail .p_center .p_add{ height:auto; overflow:hidden; margin:10px auto; text-align:left;}
+.Pdetail .p_center .p_add p{ line-height:2em; text-align:left; color:#666;}
+.Pdetail .p_center .p_add p select{ margin-right:10px; border:1px #dddddd solid; margin:0; padding:0; color:#393;}
+.Pdetail .p_center .p_add p strong{ color:#12a6ea; font-weight:normal;}
+.Pdetail .p_center .p_add p i{ color:#f60; font-style:normal;}
+.Pdetail .p_center .p_select{height:86px; overflow:hidden; margin:10px auto 5px auto; text-align:left; line-height:2em; color:#666; border-top:1px #dddddd dashed; padding-top:5px;}
+.Pdetail .p_center .p_select dt{width:70px; height:80px; overflow:hidden; font-size:14px; float:left; display:block; margin-top:12px;}
+.Pdetail .p_center .p_select dd{ font-size:14px; float:left; display:inline-block; height:30px; line-height:30px; padding:0 15px; color:#666; border:1px #dddddd solid; margin:10px 10px 0 0; cursor:pointer;} 
+.Pdetail .p_center .p_select dd.current{ font-weight:bold; color:#090; border:1px #090 solid;} 
+.Pdetail .p_center .p_total{height:auto; overflow:hidden; margin:0px auto; text-align:left; color:#666;}
+.Pdetail .p_center .p_total em{ color:#090; font-size:20px; font-style:normal;}
+.Pdetail .p_center .p_total b{ color:#f60; font-size:20px; font-style:normal;}
+
+.Pdetail .p_center .p_button{height:auto; overflow:hidden; margin:10px auto 18px auto; text-align:left;}
+.Pdetail .p_center .p_button .p_num{width:60px; height:40px; overflow:hidden; position:relative;}
+.Pdetail .p_center .p_button .p_num input{width:36px; height:38px; line-height:38px; border:1px #dddddd solid; margin:0; padding:0; font-size:24px; color:#666; text-align:center;}
+.Pdetail .p_center .p_button .p_num em{width:20px; height:18px; line-height:18px; text-align:center; overflow:hidden; position:absolute; right:1px; font-size:18px; color:#090; background:#fff; border:1px #dddddd solid; cursor:pointer;}
+.Pdetail .p_center .p_button .p_num em.add{top:0px; }
+.Pdetail .p_center .p_button .p_num em.min{bottom:0px; border-top:0; }
+.Pdetail .p_center .p_button a{ float:left; display:inline-block; height:40px; line-height:38px; padding:0 30px; font-size:16px; color:#fff; margin-left:15px;}
+.Pdetail .p_center .p_button a i{ font-size:20px;}
+.Pdetail .p_center .p_button a.btn{ background:#090;}
+.Pdetail .p_center .p_button a.btn1{ background:#f80;}
+.Pdetail .p_center .p_tips{height:auto; overflow:hidden; margin:0px auto; text-align:left; color:#999;}
+
+.Pdetail .p_right .p_logo{}
+.Pdetail .p_right .p_shop{height:auto; overflow:hidden; border-top:1px #dddddd dashed; margin:15px 0; padding:10px 10px 0 10px;}
+.Pdetail .p_right .p_shop p{ text-align:left; line-height:2em; color:#666;}
+.Pdetail .p_right .p_button1{height:auto; overflow:hidden; border-top:1px #dddddd dashed; margin:15px 0; padding:15px 10px 10px 10px;}
+.Pdetail .p_right .p_button1 a{ float:left; display:inline-block; height:30px; line-height:28px; padding:0 8px; font-size:14px; color:#090; margin:0 3px; border:1px #090 solid;}
+.Pdetail .p_right .p_button1 a:hover{border:1px #f90 solid; color:#f60;}
+
+.Pcon{}
+.Pcon .p_left{width:210px; height:auto; overflow:hidden;}
+.Pcon .p_right{width:970px; height:auto; overflow:hidden;}
+
+.Pcon .p_left .p_search{width:208px; height:auto; overflow:hidden; border:1px #dddddd solid; text-align:center;}
+.Pcon .p_left .p_search h3{width:100%; height:30px; line-height:30px; background:#f3f3f3;  font-size:16px; color:#080; margin-bottom:10px;}
+.Pcon .p_left .p_search p{ padding:5px 10px; text-align:left; color:#666;}
+.Pcon .p_left .p_search p .editbox{ height:24px; line-height:24px; margin:0 3px;}
+.Pcon .p_left .p_search .button{width:40%; height:24px; line-height:24px; overflow:hidden; border:0; background:#22ad3a; color:#fff; font-size:14px; text-align:center; margin:10px 0px; cursor:pointer;}
+
+.Pcon .p_left .p_list{width:208px; height:auto; overflow:hidden; border:1px #dddddd solid; text-align:center;}
+.Pcon .p_left .p_list h3{width:100%; height:30px; line-height:30px; background:#f3f3f3;  font-size:16px; color:#080; margin-bottom:10px;}
+.Pcon .p_left .p_list li{ margin:10px auto; text-align:center;}
+.Pcon .p_left .p_list li{width:185px; height:auto; overflow:hidden; margin:10px auto; text-align:left;}
+.Pcon .p_left .p_list li h4{ font-size:12px; font-weight:normal; line-height:2em;  margin:5px 0;}
+.Pcon .p_left .p_list li p{ text-align:right;}
+.Pcon .p_left .p_list li strong{ float:right; display:inline; color:#090; margin-right:20px;}
+.Pcon .p_left .p_list li strong i{ font-size:16px; font-style:normal;}
+
+.Pcon .p_right .tab_menu{width:100%; height:40px; line-height:40px; overflow:hidden; background:#f4f4f4;}
+.Pcon .p_right  .tab_menu li{ height:40px; line-height:40px; overflow:hidden; text-align:center; font-size:18px; color:#080; float:left; display:inline; padding:0 30px; cursor:pointer; border-right:1px #e6e6e6 solid;}
+.Pcon .p_right  .tab_menu li i{ font-style:normal; font-size:14px; color:#F90;}
+.Pcon .p_right  .tab_menu li.current{ background:#090; color:#fff;}
+.Pcon .p_right  .tab_menu li.current i{ color:#ff0;}
+.Pcon .p_right  .tab_box{width:100%; height:auto; overflow:hidden; }
+.Pcon .p_right .p_cs{height:auto; overflow:hidden; margin:20px auto 20px auto; text-align:left; border:1px #090 dashed; padding:20px; background:#f8f8f8;}
+.Pcon .p_right .p_cs ul{width:100%; height:auto; overflow:hidden; clear:both;}
+.Pcon .p_right .p_cs li{width:23%; height:30px; line-height:30px; float:left; display:inline; color:#666; font-size:14px;}
+.Pcon .p_right .p_cs li i{ font-style:normal; color:#999; font-size:14px;}
+.Pcon .p_right .p_cs a{ float:right; display:inline; color:#12a6ea;}
