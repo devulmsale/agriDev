@@ -10,6 +10,7 @@ import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
 import javax.persistence.*;
+import javax.persistence.metamodel.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,14 @@ public class ProductType extends Model {
     }
 
     /**
+     * 根据父类查询
+     * @return
+     */
+    public static List<ProductType> findByParentType(Long typeId) {
+        return ProductType.find("deleted = ? and parentType.id = ?", DeletedStatus.UN_DELETED, typeId).fetch();
+    }
+
+    /**
      * 类别修改
      * @param id
      * @param newObject
@@ -107,5 +116,13 @@ public class ProductType extends Model {
 
     public static List<ProductType> findProductType(){
         return ProductType.find("deleted = ?",DeletedStatus.UN_DELETED).fetch();
+    }
+
+    public List<TypeBrand> brands(Long typeId) {
+        return TypeBrand.find("deleted = ? and productType.id = ?" , DeletedStatus.UN_DELETED , typeId).fetch();
+    }
+
+    public List<Product> products(Long typeId) {
+        return Product.findByType(typeId);
     }
 }
