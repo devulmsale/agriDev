@@ -5,8 +5,6 @@ import models.common.enums.GoodsStatus;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
-import models.gym.Field;
-import models.gym.Venue;
 import models.member.MemberCard;
 import models.order.*;
 import models.product.Product;
@@ -40,19 +38,26 @@ public class OrderBuilder {
     /**
      * 无参数构建，生成全新的订单，设置初始值.
      */
-    private OrderBuilder(Resaler resaler) {
+    private OrderBuilder() {
         order = new Order();
         order.createdAt = new Date();
         // 15位订单长度，前6位为年月日
         order.deleted = DeletedStatus.UN_DELETED;
-        order.resaler = resaler;
         order.status = OrderStatus.NEW;
-        order.supplier = Supplier.defaultSuppler();
-        order.type = OrderType.WEBSITE;
+        order.type = OrderType.PC;
         order.paymentedAmount = BigDecimal.ZERO;
         order.amount = BigDecimal.ZERO;
         generateOrderNumber(order);
         initErrorMessage(); //建立空错误信息.
+    }
+
+    /**
+     * 开始新订单的创建.
+     *
+     * @return OrderBuilder构建器
+     */
+    public static OrderBuilder forBuild() {
+        return new OrderBuilder();
     }
 
     /**
@@ -70,20 +75,31 @@ public class OrderBuilder {
         return null;
     }
 
+    /**
+     * 根据订单号查询是否存在
+     * @param orderNumber
+     */
     private OrderBuilder(String orderNumber) {
         order = Order.findByOrderNumber(orderNumber);
         initErrorMessage(); //建立空错误信息.
     }
 
-    /**
-     * 开始新订单的创建.
-     *
-     * @return OrderBuilder构建器
-     */
-    public static OrderBuilder forResaler(Resaler resaler) {
-        return new OrderBuilder(resaler);
+    public OrderBuilder amount(BigDecimal amount) {
+        if (order.isPersistent()) {
+            throw new IllegalStateException("Order can NOT change user after save!");
+        }
+        order.amount = amount;
+        return this;
     }
 
+
+
+
+    /**
+     * 指定Order 购买人  . [用户]
+     * @param user
+     * @return
+     */
     public OrderBuilder byUser(User user) {
         if (order.isPersistent()) {
             throw new IllegalStateException("Order can NOT change user after save!");
@@ -92,17 +108,22 @@ public class OrderBuilder {
         return this;
     }
 
+    /**
+     * 订单类型
+     * @param orderType
+     * @return
+     */
     public OrderBuilder type(OrderType orderType) {
         order.type = orderType;
         return this;
     }
 
 
-    public OrderBuilder venue(Venue venue) {
-        order.venue = venue;
-        return this;
-    }
-
+    /**
+     * 用哪个会员卡支付的
+     * @param memberCard
+     * @return
+     */
     public OrderBuilder memberCard(MemberCard memberCard) {
         order.memberCard = memberCard;
         return this;

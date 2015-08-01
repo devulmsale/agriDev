@@ -4,7 +4,6 @@ import jodd.bean.BeanCopy;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.order.Goods;
-import models.order.Supplier;
 import models.product.enums.MarketingMode;
 import models.product.enums.PackageMethod;
 import models.product.enums.ShippingMethod;
@@ -256,7 +255,6 @@ public class Product extends Model {
             goods.salePrice = this.salePrice;
             goods.status = GoodsStatus.OPEN;
             goods.serial = "PRODUCT_" + this.id;
-            goods.supplier = Supplier.defaultSuppler();
             goods.save();
         }
         return goods;

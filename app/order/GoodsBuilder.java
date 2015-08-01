@@ -1,6 +1,5 @@
 package order;
 
-import models.gym.Field;
 import models.order.Goods;
 import models.product.Product;
 

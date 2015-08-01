@@ -86,13 +86,6 @@ public class Order extends Model {
     public MemberCard memberCard;
 
     /**
-     * 上游
-     */
-    @JoinColumn(name = "supplier_id", nullable = true)
-    @ManyToOne
-    public Supplier supplier;
-
-    /**
      * 上游订单号
      */
     @Column(name = "supplier_order_number")
@@ -111,12 +104,6 @@ public class Order extends Model {
     @Column(name = "user_mobile")
     public String userMobile;
 
-    /**
-     * 分销商
-     */
-    @JoinColumn(name = "resaler_id", nullable = true)
-    @ManyToOne
-    public Resaler resaler;
 
     /**
      * 分销商订单号
@@ -220,10 +207,8 @@ public class Order extends Model {
                 .append("discountPay", this.discountPay)
                 .append("paymentedAmount", this.paymentedAmount)
                 .append("refundedAmount", this.refundedAmount)
-                .append("supplier", this.supplier)
                 .append("user", this.user)
                 .append("userMobile", this.userMobile)
-                .append("resaler", this.resaler)
                 .append("resalerOrderNumber", this.resalerOrderNumber)
                 .append("status", this.status)
                 .append("type", this.type)

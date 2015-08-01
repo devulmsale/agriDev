@@ -1,9 +1,6 @@
 package order;
 
 import models.constants.DeletedStatus;
-import models.gym.Field;
-import models.gym.OrderVenueField;
-import models.gym.VenuePriceDetail;
 import models.order.Goods;
 import models.order.OrderItem;
 import models.product.Product;
@@ -24,7 +21,7 @@ public class OrderItemBuilder {
 
     Goods goods;
 
-    List<OrderVenueField> orderVenueFields;
+
 
     List<String> errorMessages;
 
@@ -42,10 +39,6 @@ public class OrderItemBuilder {
         this.orderItem.createdAt = new Date();
         this.orderItem.deleted = DeletedStatus.UN_DELETED;
 
-        // 如果订单的供应商与当前商品的不同，表明是有多个供应商，订单的供应商设置为空
-        if (this.orderBuilder.order.supplier != null && !this.orderBuilder.order.supplier.equals(goods.supplier)) {
-            this.orderBuilder.order.supplier = null;
-        }
 
         if (this.orderBuilder.order.orderItems == null) {
             this.orderBuilder.order.orderItems = new ArrayList<>();
@@ -78,12 +71,6 @@ public class OrderItemBuilder {
         this.orderItem.save();
         this.orderBuilder.recalcOrderItem();
         this.orderBuilder.order.save();
-        if (this.orderVenueFields != null) {
-            for (OrderVenueField orderVenueField : this.orderVenueFields) {
-                orderVenueField.orderItem = orderItem;
-                orderVenueField.save();
-            }
-        }
         return orderBuilder;
     }
 }

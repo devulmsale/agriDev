@@ -32,9 +32,6 @@ public class OrderItem extends Model {
     @ManyToOne
     public Order order;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    public List<Ecoupon> eCoupons;
-
     /**
      * 商品名称
      */
@@ -119,12 +116,6 @@ public class OrderItem extends Model {
 
 
     public static List<OrderItem> getListByOrder(Order order) {
-//        List<OrderItem> list = OrderItem.find.where()
-//                .join("order")
-//                .eq("deleted", DeletedStatus.UN_DELETED)
-//                .eq("order.id", order.id).findList();
-//
-//        return list;
         return OrderItem.find("order.id = ? and deleted = ?", order.id, DeletedStatus.UN_DELETED).fetch();
     }
 }

@@ -59,13 +59,6 @@ public class Goods extends Model {
     public String mainImageUfid;// 主图片
 
     /**
-     *  供应商
-     */
-    @JoinColumn(name = "supplier_id", nullable = true)
-    @ManyToOne
-    public Supplier supplier;
-
-    /**
      * 供应商商品编号
      */
     @Column(name = "supplier_goods_id")
