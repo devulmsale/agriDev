@@ -21,10 +21,6 @@ import java.util.*;
 // */
 public class OrderController extends Controller {
 
-    public static WxpayFactory wxpayFactory = WxpayFactory.getDefaultInstance();
-
-
-
     public static void pay(Long productId , Integer number) {
         User user = User.all().first();
         Product product = Product.findById(productId);

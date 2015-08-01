@@ -1,0 +1,7 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+${order.id}
+
+#{list orderItems , as :'oi'}
+  ${oi.id} <br>
+#{/list}

@@ -164,13 +164,12 @@
             #{/list}
         </ul>
         <div class="tab_box">
-                #{list type?.findByParentType(type?.id) , as :'productType'}
-
+          #{list type?.findByParentType(type?.id) , as :'productType'}
             <div class="${productType_index == 1 ? '' : 'hide'}" >
                 <ul>
 
-                      #{list productType.products() , as :'product'}
-                            <li><a href="#"><img src="/public/wap/img/20.jpg" width="185" height="130"></a>
+                      #{list productType.products(productType?.id) , as :'product'}
+                            <li><a href="@{wap.OrderController.pay(product?.id , 1)}"><img src="/public/wap/img/20.jpg" width="185" height="130"></a>
                                 <h4><a href="#">${product?.name} ${product?.standard}</a></h4>
                                 <p><strong>￥<i>${product?.salePrice}</i></strong></p>
                             </li>
