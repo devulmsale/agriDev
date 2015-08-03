@@ -26,11 +26,12 @@ public class CartController extends Controller {
         User user = User.all().first();
         Product product = Product.findById(productId);
         Cart cart =new Cart();
-        cart.product=product;
+        cart.goods=product.findOrCreateGoods();
         cart.number=number;
         cart.deleted=DeletedStatus.UN_DELETED;
         cart.createdAt = new Date();
         cart.save();
+        //有属性的存储到cartLable属性表中
         Logger.info("加入购物车成功！");
         redirect("/showCart");
     }
