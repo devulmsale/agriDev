@@ -28,7 +28,7 @@ GET   /system/productType/edit/{id}/{pageNumber}          system.ProductTypeCont
 GET   /system/productType/add                             system.ProductTypeController.add
 GET   /system/productType/delete/{id}/{pageNumber}        system.ProductTypeController.delete
 GET   /system/productType/updateName/{id}/{name}          system.ProductTypeController.updateName
-
+*     /system/productType/addChildPage/{id}               system.ProductTypeController.addChildPage
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
 GET   /system/login                                       system.auth.Secure.login
@@ -71,5 +71,11 @@ GET   /system/product/edit/{id}/{pageNumber}                system.ProductContro
 POST  /system/product/update/{id}                           system.ProductController.update
 GET   /system/product/delete/{id}                           system.productController.delete
 POST  /system/product/getBrandAndLable                      system.productController.getBrandAndLable
+
+# WAP
+*     /wap/productInfo/{id}                                  Application.productInfo
+*     /wap/cart                                              wap.CartController.cart
+*     /showCart                                              wap.CartController.showCart
+*     /wap/cart/shoppingCart                                 wap.CartController.shoppingCart
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

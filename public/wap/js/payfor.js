@@ -193,7 +193,7 @@ function recalc() {
         "qty * price",
 
         {
-            qty: $("input[name^=qty_item_]"),
+            qty: $("input[id^=qty_item_]"),
             price: $("[id^=price_item_]")
         },
 
@@ -203,7 +203,6 @@ function recalc() {
         },
 
         function ($this) {
-
             var sum = $this.sum();
             $("[id^=total_item]").text(
                 "￥" + sum.toFixed(2)
@@ -218,7 +217,7 @@ function recalc() {
         "qty * price",
 
         {
-            qty: $("input[name^=qty_item_]"),
+            qty: $("input[id^=qty_item_]"),
             price: $("[id^=price_item_]")
         },
 

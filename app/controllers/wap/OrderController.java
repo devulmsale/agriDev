@@ -22,6 +22,7 @@ import java.util.*;
 public class OrderController extends Controller {
 
     public static void pay(Long productId , Integer number) {
+       // Logger.info("productId : %s | number : %s" , productId , number);
         User user = User.all().first();
         Product product = Product.findById(productId);
         //生成订单 并初初始化订单

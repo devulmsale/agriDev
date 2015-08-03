@@ -46,8 +46,15 @@ public class ProductTypeController extends Controller {
         List<Lable> lableList=Lable.fingLable();
         render(brandList,lableList);
     }
+    public static void addChildPage(Long id) {
+        Logger.info("productType addChilePage :%S="+id);
+        List<Brand> brandList=Brand.findBrand();
+        List<Lable> lableList=Lable.fingLable();
+        render(brandList , lableList , id);
+    }
 
     public static void create(@Valid ProductType productType, TypeBrand typeBrand,TypeLable typeLable,String brandbox,String lablebox) {
+       Logger.info("productType.parentType :%s="+productType.parentType);
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request

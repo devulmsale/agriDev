@@ -1,5 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<link href="/public/wap/css/inside.css" rel="stylesheet" type="text/css" />
 <!--bannerjs -->
 <script type="text/javascript" src="/public/wap/js/jquery-1.8.3.min.js"></script>
 <SCRIPT language=javascript src="/public/wap/js/szxue.js"></SCRIPT>
@@ -24,6 +25,7 @@
 </script>
 
 <script type="text/javascript" src="/public/wap/js/payfor.js"></script>
+#{include 'application/menu.html'/}
 <!--main page1 -->
 <div class="main m20 Pdetail">
     <div class="p_left left">
@@ -94,10 +96,15 @@
                         });
                     });
                 })
+
+                function addCart() {
+                    // 1. 我可以改变 from action
+                    $("#payFrm").attr("action", "@{wap.CartController.cart()}").submit();
+                }
             </SCRIPT>
         </div>
         <div class="p_left_bt">
-            <p><span>商品编码：127396377</span><a href="#"><i class="ico_sc"></i>收藏商品</a></p>
+            <p><span>商品编码：${product?.id}</span><a href="#"><i class="ico_sc"></i>收藏商品</a></p>
         </div>
         <div class="bdShare"><!-- Baidu Button BEGIN -->
             <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
@@ -119,17 +126,17 @@
     </div>
     <div class="p_center left">
         <div class="p_title">
-            <h2>十月稻田&nbsp;2015年新米&nbsp;五常长粒香大米5kg</h2>
+            <h2>${product?.name}</h2>
             <p>优粮城粮油节，满99元立减20元，活动时间截止到5月24号！<a href="#" target="_blank">更多惊喜请点击</a></p>
         </div>
         <div class="p_price">
             <div class="p_price_l left">
-                <p>优粮价：<em id="price_item_1">￥39.00</em></p>
+                <p>优粮价：<em id="price_item_1">￥${product?.salePrice}</em></p>
                 <p>促销信息：<span>满100减10</span><a href="#" target="_blank">详情&gt;&gt;</a></p>
             </div>
             <div class="p_price_r right">
                 <a href="#">累计评价：<em>1450</em></a>
-                <p>库存：789</p>
+                <p>库存：${product?.qty}</p>
             </div>
         </div>
         <div class="p_add">
@@ -157,13 +164,15 @@
             <span class="jifen">购买商品可获得：<b id="total_points">18</b>积分</span>
         </div>
         <div class="p_button">
+            <form id="payFrm" method="post" target="_blank" action="@{wap.OrderController.pay()}">
+                <input type="hidden" name="productId" value="${product?.id}">
             <div class="p_num left">
                 <em class="add" onClick="setAmount.add('#qty_item_1')">+</em><em class="min" onClick="setAmount.reduce('#qty_item_1')">-</em>
-                <input type="text" name="qty_item_1" id="qty_item_1" onKeyUp="setAmount.modify('#qty_item_1')" value="1" id="textfield">
+                <input type="text" name="number" id="qty_item_1" onKeyUp="setAmount.modify('#qty_item_1')" value="1" id="textfield">
             </div>
-
-            <a href="#" class="btn"><i class="iconfont">&#xe602;</i> 加入购物车</a>
-            <a href="#" class="btn1">悠闲购</a>
+            <a href="javascript:addCart()" class="btn"><i class="iconfont">&#xe602;</i> 加入购物车</a>
+            <a href="javascript:$('#payFrm').submit()" class="btn1">悠闲购</a>
+            </form>
         </div>
         <div class="p_tips"> 温馨提示：本产品支持7天无条件退货</div>
     </div>

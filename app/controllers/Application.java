@@ -19,7 +19,8 @@ public class Application extends Controller {
 
 
 
-    public static void index1() {
-        render();
+    public static void productInfo(Long id) {
+        Product product=Product.findById(id);
+        render(product);
     }
 }

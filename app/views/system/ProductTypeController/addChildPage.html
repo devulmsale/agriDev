@@ -1,0 +1,33 @@
+#{extends 'systemMain.html' /}
+#{set title:'管理员后台' /}
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">新增类别</strong></div>
+    </div>
+
+    <div class="am-tabs am-margin" data-am-tabs>
+        <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="#tab1">基本信息</a></li>
+        </ul>
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <form class="am-form" action="/system/productType/create" method="POST" data-am-validator>
+                    <input type="hidden" name="productType.parentType.id" value="${id}">
+                     #{include 'system/ProductTypeController/form.html'/}
+                         <div class="am-margin">
+                             <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+                             <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">放弃保存</button>
+                         </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- content end -->

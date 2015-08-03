@@ -11,11 +11,14 @@
     <div class="am-g">
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
+                <form  action="/system/productType/addChildPage/${productType?.id}" method="POST">
                 <div class="am-btn-group am-btn-group-xs">
-                    <a href="/system/productType/add">
-                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <a href="">
+                        <input type="hidden"  name="productType.parentType.id" value="${productType?.id}" />
+                        <button type="submit" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增子类</button>
                     </a>
                 </div>
+                </form>
             </div>
         </div>
 
@@ -46,7 +49,7 @@
                     </thead>
                     <tbody>
                     <!-- 新增开始 -->
-                        <tr>
+                       *{ <tr>
                             <td>
                                 <input type="text" name="productType.name" class="admin-form-text" style="width:260px" />
                                 <input type="hidden" name="productType.parentType.id" value="${productType?.id}" />
@@ -61,7 +64,7 @@
                                     </div>
                                 </div>
                             </td>
-                        </tr>
+                        </tr>}*
                     <!-- 新增结束 -->
 
                     <!-- 以往数据列举开始 -->
