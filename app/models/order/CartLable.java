@@ -1,7 +1,8 @@
 package models.order;
 
 import models.constants.DeletedStatus;
-import models.product.Product;
+import models.product.Lable;
+import models.product.ProductLable;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
@@ -12,36 +13,25 @@ import java.util.Date;
  */
 
 /**
- * 购物车
+ * 购物车属性
  */
 @Entity
 @Table(name = "Cart")
-public class Cart extends Model {
+public class CartLable extends Model {
 
     /**
-     * 商品信息
+     * 购物车
      */
-    @JoinColumn(name = "goods_id", nullable = true)
+    @JoinColumn(name = "cart_id", nullable = true)
     @ManyToOne
-    public Goods goods;
+    public Cart cart;
 
     /**
-     * 订单用户
+     * 产品属性
      */
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "product_lable_id", nullable = true)
     @ManyToOne
-    public User user;
-
-    /**
-     * 数量
-     */
-    public Integer number;
-
-    /**
-     * 备注信息
-     */
-    @Column(name = "remark")
-    public String remark;
+    public ProductLable productLable;
 
     /**
      * 创建时间
