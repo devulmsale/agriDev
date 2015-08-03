@@ -1,52 +1,38 @@
-
 <!-- content start -->
 <div class="admin-content">
-    <div class="am-tabs am-margin" data-am-tabs>
-        <div class="am-tabs-bd">
-            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
-                    <div class="am-g am-margin-top">
-                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            图片类型名称
-                        </div>
-                        <div class="am-u-sm-8 am-u-md-4">
-                            <div id="nameStyle" class="am-form-group am-form-success">
-                                <input type="text" id="name" name="productImageType.name" value="${productImageType?.name}" id="doc-ipt-warning" class="am-form-field">
-                            </div>
-                        </div>
-                            <div class="am-hide-sm-only am-u-md-6" id="nameError" style="color: red">
-                               * #{error 'productImageType.name' /}
-                            </div>
-                    </div>
-
-                    <div class="am-g am-margin-top">
-                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            图片宽度
-                        </div>
-                        <div class="am-u-sm-8 am-u-md-4">
-                            <div id="nameStyle" class="am-form-group am-form-success">
-                                <input type="text" id="name" name="productImageType.width" value="${productImageType?.width}" id="doc-ipt-warning" class="am-form-field">
-                            </div>
-                        </div>
-                        <div class="am-hide-sm-only am-u-md-6" id="nameError" style="color: red">
-                        * #{error 'productImageType.width' /}
-                        </div>
-                    </div>
-
-                    <div class="am-g am-margin-top">
-                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            图片高度
-                        </div>
-                        <div class="am-u-sm-8 am-u-md-4">
-                            <div id="nameStyle" class="am-form-group am-form-success">
-                                <input type="text" id="name" name="productImageType.height" value="${productImageType?.height}" id="doc-ipt-warning" class="am-form-field">
-                            </div>
-                        </div>
-                        <div class="am-hide-sm-only am-u-md-6" id="nameError" style="color: red">
-                        * #{error 'productImageType.height' /}
-                        </div>
-                    </div>
+    <form class="am-form am-form-horizontal">
+        <div class="am-form-group">
+            <label for="doc-ipt-2" class="am-u-sm-1 am-form-label">编号</label>
+            <label for="doc-ipt-2" class="am-u-sm-2 am-form-label">类型名称</label>
+            <div class="am-u-sm-3">
+                宽度
+            </div>
+            <div class="am-u-sm-3">
+                高度
+            </div>
+            <div class="am-u-sm-2">
+                操作
             </div>
         </div>
-    </div>
+    </form>
+#{list imageTypes , as :'its'}
+    <form class="am-form am-form-horizontal">
+        <div class="am-form-group">
+            <label for="doc-ipt-2" class="am-u-sm-1 am-form-label">${its_index}</label>
+            <label for="doc-ipt-2" class="am-u-sm-2 am-form-label">&{'imageType.'+its}</label>
+            <div class="am-u-sm-3">
+                <input type="email" id="doc-ipt-3" placeholder="请输入图片宽度">
+            </div>
+            <div class="am-u-sm-3">
+                <input type="email" id="doc-ipt-3" placeholder="请输入图片高度">
+            </div>
+            <div class="am-u-sm-2">
+                <button class="btn am-btn-success">提交</button>
+            </div>
+        </div>
+    </form>
+
+#{/list}
+
 </div>
 <!-- content end -->

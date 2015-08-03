@@ -24,3 +24,12 @@ marketingMode.AUTOTROPHY=自营
 marketingMode.MANAGER=经营
 marketingMode.null=未知
 
+# 产品图片类型
+imageType.INDEX=首页列表
+imageType.VIEW_SMALL=展示小图
+imageType.VIEW_MIDDLE=展示大图
+imageType.VIEW_BIG=放大镜图片
+imageType.CART_SMALL=购物车展示
+imageType.ORDER_SMALL=订单展示
+imageType.USER_CENTER=个人中心
+

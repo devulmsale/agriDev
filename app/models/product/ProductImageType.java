@@ -6,6 +6,7 @@ package models.product;
 
 import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
+import models.product.enums.ImageType;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import play.Logger;
@@ -28,13 +29,11 @@ import java.util.Map;
 public class ProductImageType extends Model{
 
     /**
-     * 图片类型名称
+     * 图片类型
      */
-    @Required(message = "图片类型名称不能为空.")
-    @MinLength(value = 2 , message = "图片类型名称不能低于2个字符")
-    @MaxLength(value = 20 , message = "图片类型名称不能大于20个字符")
-    @Column(name = "name")
-    public String name;
+    @Required (message = "图片类型不能为空")
+    @Enumerated(EnumType.STRING)
+    public ImageType imageType;
 
     /**
      * 图片宽度
@@ -85,8 +84,7 @@ public class ProductImageType extends Model{
     public static JPAExtPaginator<ProductImageType> findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
         StringBuilder xsqlBuilder = new StringBuilder(" t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
-                .append("/~ and t.name = {name} ~/")
-                .append("/~ and t.name like {searchName} ~/")
+                .append("/~ and t.imageType = {imageType} ~/")
                 .append("/~ and t.width = {width} ~/")
                 .append("/~ and t.height = {height} ~/")
                 .append("/~ and t.createdAt = {createdAt} ~/");
@@ -117,6 +115,26 @@ public class ProductImageType extends Model{
      */
     public static List<ProductImageType> findByBrand(ProductImageType brand) {
         return ProductImageType.find("deleted = ? and brand = ?", DeletedStatus.UN_DELETED, brand).fetch();
+    }
+
+
+    public static ProductImageType findByImageType(ImageType imageType) {
+        return ProductImageType.find("imageType = ? " , imageType).first();
+    }
+
+    public static Integer findWidthByImageType(ImageType imageType) {
+        ProductImageType productImageType =  findByImageType(imageType);
+        return productImageType != null ? productImageType.width : null;
+    }
+
+    public static Integer findHeightByImageType(ImageType imageType) {
+        ProductImageType productImageType =  findByImageType(imageType);
+        return productImageType != null ? productImageType.height : null;
+    }
+
+    public static Long findIdByImageType(ImageType imageType) {
+        ProductImageType productImageType =  findByImageType(imageType);
+        return productImageType != null ? productImageType.id : null;
     }
 
 }

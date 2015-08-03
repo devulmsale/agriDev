@@ -4,10 +4,7 @@ import jodd.bean.BeanCopy;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.order.Goods;
-import models.product.enums.MarketingMode;
-import models.product.enums.PackageMethod;
-import models.product.enums.ShippingMethod;
-import models.product.enums.StoreMethod;
+import models.product.enums.*;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import play.Logger;
@@ -280,5 +277,10 @@ public class Product extends Model {
         List<TypeLable> typeLableList = TypeLable.findByProduct(productId);
         return typeLableList;
     }
+
+
+
+
+
 
 }

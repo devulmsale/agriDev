@@ -12,9 +12,9 @@
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
-                    <a href="/system/productImageType/create">
-                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
-                    </a>
+                    *{<a href="/system/productImageType/create">}*
+                        *{<button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>}*
+                    *{</a>}*
                 </div>
             </div>
         </div>
@@ -34,52 +34,51 @@
     </div>
 
     <div class="am-g">
-        <div class="am-u-sm-12">
-            <form class="am-form">
-                <table class="am-table am-table-striped am-table-hover table-main" id="doc-modal-list">
-                    <thead>
-                    <tr>
-                        <th class="table-check">
-                            <input type="checkbox" />
-                        </th>
-                        <th class="table-id">ID</th>
-                        <th class="table-title">图片类型名称</th>
-                        <th class="table-type">图片宽度</th>
-                        <th class="table-date">图片高度</th>
-                        <th class="table-set">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    #{paginate.list items:resultPage , as :'productImage'}
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>${productImage?.id}</td>
-                        <td>${productImage?.name}</td>
-                        <td>${productImage?.width}px</td>
-                        <td>${productImage?.height}px</td>
-                        <td>
-                            <div class="am-btn-toolbar">
-                                <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/system/productImageType/edit/${productImage?.id}/${pageNumber}'">
-                                       <span class="am-icon-pencil-square-o"></span> 编辑
-                                    </button>
-                                    *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/system/productImageType/delete/${productImage?.id}/'">
-                                        <span class="am-icon-trash-o"></span> 删除
-                                    </button>}*
-
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
-                                        <a data-id="${productImage?.id}" href="#"></a><i class="am-icon-trash-o">删除</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                   #{/paginate.list}
-                    </tbody>
-                </table>
-                <div class="am-cf" id="layerPage">
+        <form class="am-form am-form-horizontal">
+            <div class="am-form-group" style="text-align: center">
+                <div class="am-u-sm-1">编号</div>
+                <div  class="am-u-sm-2">类型名称</div>
+                <div class="am-u-sm-3">
+                    宽度
                 </div>
-            </form>
+                <div class="am-u-sm-3">
+                    高度
+                </div>
+                <div class="am-u-sm-3">
+                    操作
+                </div>
+            </div>
+        </form>
+    #{list imageTypes , as :'its'}
+        <form action="@{system.ProductImageTypeController.create()}" class="am-form am-form-horizontal">
+            <div class="am-form-group">
+                <div for="doc-ipt-2" class="am-u-sm-1">${its_index}</div>
+                <div for="doc-ipt-2" class="am-u-sm-2">&{'imageType.'+its}
+                 <input type="hidden" name="productImageType.imageType" value="${its}">
+                 <input type="hidden" name="productImageType.id" value="${pit.findIdByImageType(its)}">
+                </div>
+                <div class="am-u-sm-3">
+                    <input type="text" id="width" value="${pit.findWidthByImageType(its)}" name="productImageType.width" placeholder="请输入图片宽度">
+                </div>
+                <div class="am-u-sm-3">
+                    <input type="text" id="height" value="${pit.findHeightByImageType(its)}" name="productImageType.height" placeholder="请输入图片高度">
+                </div>
+                <div class="am-u-sm-3">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <button type="submit" class="am-btn am-btn-default am-btn-xs am-text-secondary" >
+                                <span class="am-icon-pencil-square-o"></span> 保存
+                            </button>
+                            *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">}*
+                                *{<a data-id="${productImage?.id}" href="#"></a><i class="am-icon-trash-o">删除</i>}*
+                            *{</button>}*
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    #{/list}
         </div>
 
     </div>

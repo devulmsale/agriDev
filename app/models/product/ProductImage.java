@@ -14,6 +14,8 @@ import java.util.Date;
 @Table(name = "product_images")
 public class ProductImage extends Model {
 
+
+
     /**
      * 类别信息
      */
@@ -23,7 +25,15 @@ public class ProductImage extends Model {
 
 
     /**
-     * 用户头像路径.
+     * 图片类型
+     */
+    @JoinColumn(name = "product_images_type_id")
+    @ManyToOne
+    public ProductImageType productImageType;
+
+
+    /**
+     * 图片路径.
      * 图片路径.
      */
     @Column(name = "img_url", length = 200)

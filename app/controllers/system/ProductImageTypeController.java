@@ -8,6 +8,8 @@ import models.mert.MerchantUser;
 import models.operate.OperateUser;
 import models.product.ProductImageType;
 import models.product.ProductType;
+import models.product.enums.ImageType;
+import play.Logger;
 import play.data.validation.Valid;
 import play.modules.paginate.JPAExtPaginator;
 import play.mvc.Controller;
@@ -32,13 +34,15 @@ public class ProductImageTypeController extends Controller {
         if(StringUtils.isNotBlank(searchName)) {
             searchMap.put("searchName", "%"+searchName+"%");
         }
+        ImageType[] imageTypes = ImageType.values();
         JPAExtPaginator<ProductImageType> resultPage = ProductImageType.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
-        render(resultPage, pageNumber);
+        ProductImageType pit = new ProductImageType();
+        render(resultPage, pageNumber , imageTypes , pit);
     }
 
     public static void add() {
-
-        render();
+        ImageType[] imageTypes = ImageType.values();
+        render(imageTypes);
     }
 
     public static void create(@Valid ProductImageType productImageType) {

@@ -1,6 +1,8 @@
 package controllers.system;
 
 import controllers.system.auth.Secure;
+import helper.imageupload.ImageUploadResult;
+import helper.imageupload.ImageUploader;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.JSONEntity;
 import models.constants.DeletedStatus;
@@ -17,6 +19,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -59,7 +62,7 @@ public class ProductController extends Controller {
         render(productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
     }
 
-    public static void create(@Valid Product product , String lablebox ) {
+    public static void create(@Valid Product product , String lablebox , File image) throws Exception {
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -67,6 +70,16 @@ public class ProductController extends Controller {
         }
         product.createdAt= new Date();
         product.deleted=DeletedStatus.UN_DELETED;
+
+        if (image != null && image.getName() != null) {
+            // 图片上传上去
+            ImageUploadResult imageUploadResult = ImageUploader.upload(image);
+            //121312310010231  adbdsdf
+            product.listUFID =  imageUploadResult.ufId;
+            //http://121.42.146.152:9292/images/121312310010231.jpg
+            product.listImage = ImageUploader.getImageUrl(imageUploadResult.ufId, "640x320");
+        }
+
         product.save();
 
         //保存属性
