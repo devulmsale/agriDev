@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by upshan on 15/8/1.
  */
@@ -20,11 +21,11 @@ import java.util.List;
 public class Cart extends Model {
 
     /**
-     * 产品信息
+     * 商品信息
      */
-    @JoinColumn(name = "product_id", nullable = true)
+    @JoinColumn(name = "goods_id", nullable = true)
     @ManyToOne
-    public Product product;
+    public Goods goods;
 
     /**
      * 订单用户
@@ -45,10 +46,18 @@ public class Cart extends Model {
     public DeletedStatus deleted;
 
     /**
+     * 备注信息
+     */
+    @Column(name = "remark")
+    public String remark;
+
+
+    /**
      * 创建时间
      */
     @Column(name = "created_at")
     public Date createdAt;
+
 
 
     public static List<Cart> findCartsByUser(){
