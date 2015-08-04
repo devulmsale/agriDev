@@ -1,42 +1,119 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<link href="/public/wap/css/inside.css" rel="stylesheet" type="text/css" />
+<link href="/public/wap/css/global.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/public/wap/js/payfor.js"></script>
 
-<div class="am-g">
-    <div class="am-u-sm-12">
-        <form class="am-form">
-            <table class="am-table am-table-striped am-table-hover table-main" id="doc-modal-list">
-                <thead>
-                <tr>
-                    <th class="table-check">
-                        <input type="checkbox" />
-                    </th>
-                    <th class="table-id">ID</th>
-                    <th class="table-title">商品名称</th>
-                    <th class="table-date">原价</th>
-                    <th class="table-date">售价</th>
-                    <th class="table-date">数量</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                #{list items: cartList , as:'carts'}
-                <tr>
-                    <td><input type="checkbox" /></td>
-                    <td>${carts?.id}</td>
-                    <td>${carts?.goods?.name}</td>
-                    <td>${carts?.goods?.originalPrice}</td>
-                    <td>${carts?.goods?.salePrice}</td>
-                    <td>${carts?.number}</td>
+<script type="text/javascript">
+        function getAccount(){
+            var chk_value =[];//定义一个数组
+            $('input[name="check"]:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数
+                var id_number = "";
+                id_number = $(this).val();
+                var id = $(this).attr("id");
+                id_number += "_"+$('.'+id+"_number").val();
+                chk_value.push(id_number);//将选中的值添加到数组chk_value中
 
-                   
-                </tr>
-                #{/list}
-                </tbody>
-            </table>
-            <div class="am-cf" id="layerPage">
-            </div>
-        </form>
-    </div>
+            });
+            $('#carts').val(chk_value);
+           // alert($('#carts').val());
 
+            $('#sub_Frm').submit();
+        }
+</script>
+#{include 'application/menu.html'/}
+<!--main page1 -->
+
+<div class="main cart m30 ">
+    <form  action="">
+        <div class="carttit">
+            <h3>全部商品<em>(2)</em></h3>
+             <span>
+             <label for="select">配送至：</label>
+             <select name="select" id="select">
+                 <option>山东日照东港区</option>
+                 <option>山东日照莒县</option>
+                 <option>山东日照五莲县</option>
+                 <option>山东日照岚山区</option>
+
+             </select>
+             </span>
+        </div>
+        <div class="cartlist">
+            <ul class="cartlist_tit">
+                <li class="a0">
+                    <input type="checkbox" class="CheckAll check" name="checkbox" id="CheckAll" onclick="se()">
+                    <label for="checkbox">全选 </label>
+                </li>
+                <li class="a1">商品</li>
+                <li class="a2">单价(元)</li>
+                <li class="a3">数量</li>
+                <li class="a4">小计(元)</li>
+                <li class="a5">操作</li>
+            </ul>
+            #{list items: cartList , as:'carts'}
+
+            <dl class="cartlist_con">
+                <dt>
+                <dd class="b0">
+                    <input type="hidden" name="goodsId" id="goods${carts_index}" value="${carts?.goods?.id}">
+                    <input type="checkbox" class="check" name="check" id="check${carts_index}" value="${carts?.id}">
+
+                </dd>
+                <dd class="b1"><a href="#" target="_blank"><img src="/public/wap/img/10.jpg" width="160" ></a><p>
+                    <a href="#" target="_blank">${carts?.goods?.name}</a></p></dd>
+                <dd class="b2"><em id="price_item_1">￥${carts?.goods?.salePrice}</em></dd>
+                <dd class="b3">
+                    <div class="p_num">
+                        <a href="javascript:;" class="min" onClick="setAmount.reduce('#qty_item_${carts_index}')">-</a>
+                        <input type="text" name="qty_item_1" class="check${carts_index}_number" id="qty_item_${carts_index}" onKeyUp="setAmount.modify('#qty_item_${carts_index}')" value="${carts?.number}" >
+                        <a href="javascript:;" class="add" onClick="setAmount.add('#qty_item_${carts_index}')">+</a>
+                    </div>
+                </dd>
+                <dd class="b4">
+                    <div class="p_total">
+                        <em class="total-font" id="total_item_${carts_index}">￥39.00</em>
+                        <input type="hidden" name="total_price" id="total_price" value="" />
+                    </div>
+                </dd>
+                <dd class="b5">
+                    <a href="#">删除</a>
+                    <a href="#">移到我的关注</a>
+                </dd>
+
+            </dl>
+            #{/list}
+
+        </div>
+        <div class="cartsettle">
+            <ul>
+                <li class="a0">
+                    <input type="checkbox" name="CheckAll" id="checkbox4">
+                    <label for="checkbox4">全选 </label>
+                </li>
+                <li class="a1"><a href="#">删除选中的</a></li>
+                <li class="a2"><a href="#">移到我的关注</a></li>
+                <li class="a3">已选择1件商品，总价（不含运费）：<em id="zjsec">78元</em></li>
+                <li class="a4" onclick="getAccount()"><a >去结算</a></li>
+            </ul>
+        </div>
+    </form>
 </div>
-<a href="">去结算</a>
+*{<input id="ppo" type="text" value="1" />
+
+
+<div class="c" id="c0">啤酒</div>
+<div class="c" id="c1">香烟</div>
+<div class="c" id="c2">饮料</div>
+<div class="c" id="c3">瓜子</div>
+<div class="c" id="c4">水果</div>
+<div class="c" id="c5">茶水</div>
+<div class="c" id="c6">烈火学院veryhuo.com</div>
+<input id="i" type="text" style="width:720px; height:25px; border:1px solid #ccc"/>}*
+
+<form id="sub_Frm" action="/wap/order/cartToPay" method="POST">
+    <input type="hidden" name="goodsIds" id="goodsIds">
+    <input type="hidden" name="goodsNumbers" id="goodsNumbers" >
+    <input type="hidden" name="carts" id="carts" >
+</form>

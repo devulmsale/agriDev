@@ -81,5 +81,14 @@ public class TypeBrand extends Model {
          return jsonEntityList;
     }
 
+    public static TypeBrand findByTypeAndBrand(Long typeId , Long brandId) {
+        return TypeBrand.find("productType.id = ? and brand.id = ? and deleted = ?" , typeId , brandId , DeletedStatus.UN_DELETED).first();
+    }
+
+    public static Boolean isHaveBrand(Long typeId , Long brandId) {
+        Logger.info("brandId :%s=  this.ID : %s",brandId , typeId);
+        Long count =  TypeBrand.count("productType.id = ? and brand.id = ? and deleted = ?" , typeId , brandId , DeletedStatus.UN_DELETED);
+        return count > 0 ? true : false;
+    }
 
 }

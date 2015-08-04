@@ -110,6 +110,7 @@ public class ProductType extends Model {
         oldproductType.save();
     }
 
+
     /**
      * 查询所有类别
      */
@@ -124,5 +125,15 @@ public class ProductType extends Model {
 
     public List<Product> products(Long typeId) {
         return Product.findByType(typeId);
+    }
+
+
+
+    public Boolean isHaveBrand(Long brandId) {
+        return TypeBrand.isHaveBrand(this.id , brandId);
+    }
+
+    public Boolean isHaveLable(Long lableId){
+        return TypeLable.isHaveLable(this.id , lableId);
     }
 }

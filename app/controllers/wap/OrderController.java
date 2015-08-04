@@ -5,6 +5,7 @@ import me.chanjar.weixin.common.util.StringUtils;
 import models.base.WeixinUser;
 import models.common.enums.OrderType;
 import models.member.MemberCard;
+import models.order.Cart;
 import models.order.Order;
 import models.order.OrderItem;
 import models.order.User;
@@ -43,14 +44,17 @@ public class OrderController extends Controller {
 
 
     public static void cartToPay(String carts) {
+        Logger.info("goodsIds :%s =",carts);
         User user = User.all().first();
         Order order = null;
         if(StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+            Logger.info("if ");
             //生成订单 并初初始化订单
             OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC);
             order = orderBuilder.save();  //生成订单号
             cartToOrder(orderBuilder , carts);
         }
+        Logger.info("else");
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
         render(order, orderItems);
     }
@@ -61,16 +65,17 @@ public class OrderController extends Controller {
      * @param carts
      */
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
+        Logger.info("cartToOrder %s==",carts);
         String[] cartArray = carts.split(",");
         for(String cartStr : cartArray) {
-            String[] productArray = cartStr.split("_");
-            Long productId = Long.valueOf(productArray[0]);
-            Integer number = Integer.valueOf(productArray[1]);
-            Product product = Product.findById(productId);
-            if(product != null) {
-                orderBuilder.addProduct(product)
+            String[] cart_Num_Array = cartStr.split("_");
+            Long cartId = Long.valueOf(cart_Num_Array[0]);
+            Integer number = Integer.valueOf(cart_Num_Array[1]);
+            Cart cart = Cart.findById(cartId);
+            if(cart != null) {
+                orderBuilder.addGoods(cart.goods)
                         .originalPrice(BigDecimal.ONE)
-                        .salePrice(product.salePrice)
+                        .salePrice(cart.goods.salePrice.multiply(new BigDecimal(number)))
                         .buyNumber(number)
                         .build()
                         .changeToUnPaid();

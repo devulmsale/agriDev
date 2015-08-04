@@ -29,6 +29,8 @@ GET   /system/productType/add                             system.ProductTypeCont
 GET   /system/productType/delete/{id}/{pageNumber}        system.ProductTypeController.delete
 GET   /system/productType/updateName/{id}/{name}          system.ProductTypeController.updateName
 *     /system/productType/addChildPage/{id}               system.ProductTypeController.addChildPage
+GET   /system/productType/editChildPage/{id}              system.ProductTypeController.editChildPage
+
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
 GET   /system/login                                       system.auth.Secure.login
@@ -64,18 +66,19 @@ GET   /system/productImageType/edit/{id}/{pageNumber}       system.ProductImageT
 GET   /system/productImageType/delete/{id}                  system.ProductImageTypeController.delete
 
 # Product 商品
-*     /system/product                                       system.ProductController.index
-GET   /system/product/add                                   system.ProductController.add
-*     /system/product/create                                system.ProductController.create
-GET   /system/product/edit/{id}/{pageNumber}                system.ProductController.edit
-POST  /system/product/update/{id}                           system.ProductController.update
-GET   /system/product/delete/{id}                           system.productController.delete
-POST  /system/product/getBrandAndLable                      system.productController.getBrandAndLable
-
+*     /merchant/product                                      merchant.ProductController.index
+GET   /merchant/product/add                                  merchant.ProductController.add
+*     /merchant/product/create                               merchant.ProductController.create
+GET   /merchant/product/edit/{id}/{pageNumber}               merchant.ProductController.edit
+POST  /merchant/product/update/{id}                          merchant.ProductController.update
+GET   /merchant/product/delete/{id}                          merchant.productController.delete
+POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
+POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
 # WAP
 *     /wap/productInfo/{id}                                  Application.productInfo
 *     /wap/cart                                              wap.CartController.cart
 *     /showCart                                              wap.CartController.showCart
 *     /wap/cart/shoppingCart                                 wap.CartController.shoppingCart
+*     /wap/order/cartToPay                                   wap.OrderController.cartToPay
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

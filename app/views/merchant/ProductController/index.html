@@ -1,4 +1,4 @@
-#{extends 'systemMain.html' /}
+#{extends 'merchantMain.html' /}
 #{set title:'管理员后台' /}
 
 <!-- content start -->
@@ -12,7 +12,7 @@
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
-                    <a href="/system/product/create">
+                    <a href="/merchant/product/create">
                         <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
                     </a>
                 </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-3">
-            <form action="/system/product" id="searchForm" name="searchForm" method="POST" >
+            <form action="/merchant/product" id="searchForm" name="searchForm" method="POST" >
             <div class="am-input-group am-input-group-sm">
                     <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
                     <input type="text" class="am-form-field" name="searchName" placeholder="请输入类别名称搜索">
@@ -66,7 +66,7 @@
                         <td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/system/product/edit/${product?.id}/${pageNumber}'">
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/merchant/product/edit/${product?.id}/${pageNumber}'">
                                        <span class="am-icon-pencil-square-o"></span> 编辑
                                     </button>
                                     <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
@@ -110,7 +110,7 @@
                         onConfirm: function(options) {
                             var $link = $(this.relatedTarget).prev('a');
                             var id = $link.data('id');
-                            location.href="/system/product/delete/"+id;
+                            location.href="/merchant/product/delete/"+id;
                         },
 //                        closeOnConfirm: false,
                         onCancel: function() {

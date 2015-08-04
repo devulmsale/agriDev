@@ -26,16 +26,16 @@
         </ul>
 
         <form name="form1" method="post" action="">
-         #{list orderItems , as :'oi'}
+        #{list orderItems , as :'oi'}
             <dl class="cartlist_con1">
 
                 <dd class="b0"><a href="#" target="_blank"><img src="/public/wap/img/10.jpg" width="160" ></a><p><a href="#" target="_blank">${oi?.goods?.name}</a></p></dd>
                 <dd class="b1"><em id="price_item_1">￥${oi?.goods?.salePrice}</em></dd>
                 <dd class="b2">
                     <div class="p_num">
-                        <a href="javascript:;" class="min" onClick="setAmount.reduce('#qty_item_1')">-</a>
-                        <input type="text" name="qty_item_1" id="qty_item_1" onKeyUp="setAmount.modify('#qty_item_1')" value="${oi?.buyNumber}" >
-                        <a href="javascript:;" class="add" onClick="setAmount.add('#qty_item_1')">+</a>
+                        <a href="javascript:;" class="min" onClick="setAmount.reduce('#qty_item_${oi_index}')">-</a>
+                        <input type="text" name="qty_item_1" id="qty_item_${oi_index}" onKeyUp="setAmount.modify('#qty_item_${oi_index}')" value="${oi?.buyNumber}" >
+                        <a href="javascript:;" class="add" onClick="setAmount.add('#qty_item_${oi_index}')">+</a>
                     </div>
                 </dd>
                 <dd class="b3">
@@ -51,26 +51,26 @@
             </dl>
         #{/list}
 
-     </form>
-    <div class="cartsettle1">
-        <ul>
-            <li class="a0">选择优惠：
-                <select name="select" id="select">
-                    <option>疯狂一夏，满100减20</option>
-                    <option>疯狂一夏，满200减50</option>
-                    <option>疯狂一夏，满500减100</option>
-                    <option>不使用优惠</option>
+        </form>
+        <div class="cartsettle1">
+            <ul>
+                <li class="a0">选择优惠：
+                    <select name="select" id="select">
+                        <option>疯狂一夏，满100减20</option>
+                        <option>疯狂一夏，满200减50</option>
+                        <option>疯狂一夏，满500减100</option>
+                        <option>不使用优惠</option>
 
-                </select>
-            </li>
-            <li class="a1">
-                <input type="checkbox" name="checkbox" id="checkbox">
-                <label for="checkbox">使用抵券 -￥5.00</label>
-            </li>
-            <li class="a2">应付总额：<em><i>￥</i>${order?.amount}</em></li>
-            <li class="a3"><a href="#">返回上一步</a> <a href="#" class="btn">确认</a></li>
-        </ul>
+                    </select>
+                </li>
+                <li class="a1">
+                    <input type="checkbox" name="checkbox" id="checkbox">
+                    <label for="checkbox">使用抵券 -￥5.00</label>
+                </li>
+                <li class="a2">应付总额：<em><i>￥</i>${order?.amount}</em></li>
+                <li class="a3"><a href="#">返回上一步</a> <a href="#" class="btn">确认</a></li>
+            </ul>
+        </div>
+
     </div>
-
-</div>
 

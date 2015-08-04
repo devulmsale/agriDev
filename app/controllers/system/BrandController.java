@@ -8,6 +8,7 @@ import models.mert.Merchant;
 import models.mert.MerchantUser;
 import models.operate.OperateUser;
 import models.product.Brand;
+import models.product.ProductType;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 import play.data.validation.Valid;
@@ -18,6 +19,7 @@ import util.common.RandomNumberUtil;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +44,9 @@ public class BrandController extends Controller {
     }
 
     public static void add() {
-        render();
+        //查询所有的一级大类
+       List<ProductType> productTypeList=ProductType.findTopType();
+        render(productTypeList);
     }
 
     public static void create(@Valid Brand brand) {
