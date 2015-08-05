@@ -78,6 +78,10 @@ POST  /merchant/product/update/{id}                          merchant.ProductCon
 GET   /merchant/product/delete/{id}                          merchant.productController.delete
 POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
 POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
+
+# 文本编辑器
+POST  /kindedit/imageUpload                                  KindEditUploads.upload
+
 # WAP
 *     /wap/productInfo/{id}                                  Application.productInfo
 *     /wap/cart                                              wap.CartController.cart
