@@ -278,9 +278,4 @@ public class Product extends Model {
         return typeLableList;
     }
 
-
-
-
-
-
 }

@@ -14,8 +14,6 @@ import java.util.Date;
 @Table(name = "product_images")
 public class ProductImage extends Model {
 
-
-
     /**
      * 类别信息
      */
