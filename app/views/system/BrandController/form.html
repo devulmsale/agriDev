@@ -5,6 +5,30 @@
             $('#nameStyle').removeClass("am-form-success").addClass("am-form-error")
         }
     });
+    function initType(parentId){
+        $("#sub"+parentId).toggle();
+        var brandId = $('#brandId').val();
+        $.ajax({
+            url:'/system/brand/getSubClassByParentId',
+            type:'POST',
+            data:{parentId:parentId , brandId : brandId},
+            success:function(data){
+                var subClasss = data;
+                $("#sub"+parentId).html("");
+                $.each(subClasss,function(idx,type){
+                    var _type = null;
+                    if(type.isHave) {
+                          _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\" checked name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
+                    } else {
+                          _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\"  name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
+
+                    }
+                $("#sub"+parentId).append(_type);
+                })
+            }
+
+        });
+    }
 </script>
 
 <!-- content start -->
@@ -18,6 +42,7 @@
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
                             <div id="nameStyle" class="am-form-group am-form-success">
+                                <input type="hidden" name="brandId" id="brandId" value="${brand?.id}">
                                 <input type="text" id="name" name="brand.name" value="${brand?.name}" id="doc-ipt-warning" class="am-form-field">
                             </div>
                         </div>
@@ -30,17 +55,19 @@
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">
                         类别
                     </div>
-                    <div class="am-u-sm-8 am-u-md-4">
+                    <div class="am-u-sm-10 am-u-md-10">
                         <div id="nameStyle" class="am-form-group am-form-success">
-                            <select name="product.parentType.id"  >
-                            #{list items:productTypeList , as :'productType'}
-                                <option ${product?.parentType?.id == productType.id ? 'selected' : ''} value="${productType?.id}">${productType?.name}</option>
-                            #{/list}
-                            </select>
+                                #{list items:productTypeList , as :'productType'}
+                                    <label class="am-checkbox-inline">
+                                        <input type="checkbox" id="productType${productType_index}" onclick="initType(this.value)" name="productType.name" value="${productType?.id}" data-am-ucheck>${productType?.name}
+                                    </label><br>
+                                    <div id="sub${productType?.id}" style="border:1px solid #ccc;display:none"></div>
+                                #{/list}
+
                         </div>
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" id="nameError">
-                    #{error 'brand.name' /}
+                    #{error 'productType.name' /}
                     </div>
                 </div>
             </div>

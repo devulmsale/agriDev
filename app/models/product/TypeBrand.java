@@ -56,6 +56,10 @@ public class TypeBrand extends Model {
         this.save();
     }
 
+    //根据brandId
+    public static List<TypeBrand> findProductTypeByBrandId(Long brandId){
+        return TypeBrand.find("deleted = ? and brand.id = ?",DeletedStatus.UN_DELETED,brandId).fetch();
+    }
 
     public static List<TypeBrand> findByProductType(Long parentTypeId){
         return TypeBrand.find("deleted = ? and productType.id = ?" , DeletedStatus.UN_DELETED , parentTypeId).fetch();

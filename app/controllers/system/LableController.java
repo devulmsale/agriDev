@@ -8,6 +8,7 @@ import models.mert.MerchantUser;
 import models.operate.OperateUser;
 import models.product.Lable;
 import models.product.ProductType;
+import models.product.TypeLable;
 import play.Logger;
 import play.data.validation.Valid;
 import play.modules.paginate.JPAExtPaginator;
@@ -40,11 +41,12 @@ public class LableController extends Controller {
     }
 
     public static void add() {
-
-        render();
+        //查询所有的一级大类
+        List<ProductType> productTypeList=ProductType.findTopType();
+        render(productTypeList);
     }
 
-    public static void create(@Valid Lable lable) {
+    public static void create(@Valid Lable lable ,String productTypes) {
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -53,6 +55,16 @@ public class LableController extends Controller {
         lable.deleted = DeletedStatus.UN_DELETED;
         lable.operateUser= Secure.getOperateUser();
         lable.save();
+        Logger.info("标签 :%s=",productTypes);
+        //保存属性
+        ProductType productType=null;
+        String[] productTypess=productTypes.split(",");
+        for(String productTypeId:productTypess){
+            productType=ProductType.findById(Long.valueOf(productTypeId.trim()));
+            if(lable != null && productType != null){
+                new TypeLable(productType, lable);
+            }
+        }
         redirect(BASE_RETURN_INDEX);
 
     }

@@ -31,6 +31,10 @@ GET   /system/productType/updateName/{id}/{name}          system.ProductTypeCont
 *     /system/productType/addChildPage/{id}               system.ProductTypeController.addChildPage
 GET   /system/productType/editChildPage/{id}              system.ProductTypeController.editChildPage
 
+# Brand 品牌管理
+POST  /system/brand/getSubClassByParentId                 system.BrandController.getSubClassByParentId
+
+
 # SYSTEM 后台管理
 GET   /systems                                            system.Application.index
 GET   /system/login                                       system.auth.Secure.login

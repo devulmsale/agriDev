@@ -75,7 +75,7 @@ public class MerchantSecure extends Controller {
     public static MerchantUser getMerchantUserForUpdate() {
         MerchantUser merchantUser = getMerchantUser();
         if (merchantUser != null) {
-            return OperateUser.findById(merchantUser.id);
+            return merchantUser.findById(merchantUser.id);
         }
         return null;
     }

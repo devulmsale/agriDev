@@ -71,7 +71,7 @@ public class ProductTypeController extends Controller {
             add();
         }
 
-        if (brandbox == null){
+        /*if (brandbox == null){
             flash.error("branderror","品牌不能为空！");
             add();
         }
@@ -79,9 +79,10 @@ public class ProductTypeController extends Controller {
             flash.error("lableerror","属性不能为空！");
             add();
         }
+        publicEditAndCreate(productType , brandbox, lablebox);*/
 
-        publicEditAndCreate(productType , brandbox, lablebox);
-
+        productType.deleted = DeletedStatus.UN_DELETED;
+        productType.save();
         if(productType.parentType != null) {
             addChild(productType.parentType.id);
         } else {
@@ -150,7 +151,7 @@ public class ProductTypeController extends Controller {
         Logger.info("update id %s | %s=",id , parentId);
         ProductType.update(id , productType);
         productType = ProductType.findById(id);
-        publicEditAndCreate(productType , brandbox, lablebox);
+       // publicEditAndCreate(productType , brandbox, lablebox);
         redirect(BASE_RETURN_INDEX);
     }
 
