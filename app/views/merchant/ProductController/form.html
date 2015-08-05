@@ -1,3 +1,24 @@
+<script charset="utf-8" src="/public/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/public/editor/lang/zh_CN.js"></script>
+<script>
+    KindEditor.ready(function(K) {
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('#editor_id', {
+                resizeType : 1,
+                allowPreviewEmoticons : false,
+                allowImageUpload : true,
+                uploadJson : '/kindedit/imageUpload',
+                fileManagerJson : '/kindedit/imageUpload',
+                allowFileManager : true,
+                items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','|', 'justifyfull']
+            });
+        });
+    });
+</script>
 <script type="text/javascript">
     $(document).ready(function(){
         var nameError =  $.trim($('#nameError').html());
@@ -323,13 +344,15 @@
 
                 <div class="am-g am-margin-top">
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                        商品图片
+                        商品描述
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
-                        <input type="file" id="images" name="images"   class="am-form-field"/>
+                        <textarea id="editor_id" name="product.content" style="width:700px;height:300px;">
+
+                        </textarea>
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
-                        *{* #{error 'product.marketingMode' /}}*
+                        * #{error 'product.content' /}
                     </div>
                 </div>
 
