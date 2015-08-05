@@ -6,9 +6,28 @@
         }
     });
 
+    function initsubType(parentTypeId){
+        $.ajax({
+            url:'/merchant/product/getSubClass',
+            type:'post',
+            dateType:'json',
+            data:{parentTypeId:parentTypeId},
+            success:function(data) {
+                var subclasss=data.subclasss;
+                $("#subClassId").html("");
+                // 循环 brands 集合 .  定义 index 和 entity
+                $.each(subclasss, function(idx, sub) {
+                    var _subclasss = $("<option value \="+sub.id+">"+sub.name+"</option>");
+                    $("#subClassId").append(_subclasss);
+                });
+            }
+        });
+
+    }
+
     function initType(parentTypeId){
         $.ajax({
-            url:'/system/product/getBrandAndLable',
+            url:'/merchant/product/getBrandAndLable',
             type:'post',
             dataType:'json',
             beforeSend:function(){
@@ -21,6 +40,7 @@
                 $("#ajaxLable").html("");
                 var brands = data.brands;  // 从后台 map 中获取 key 为 brands 的 Object 对象
                 var lables = data.lables;  // 从后台 map 中获取  key 为 lables 的 Object 对象
+
                 // 循环 brands 集合 .  定义 index 和 entity
                 $.each(brands, function(idx, brand) {
                     var _brand = $("<label class\=\"am-checkbox-inline\"><input type=\"radio\"  name=\"product.brand.id\" value="+brand.id+" data-am-ucheck> "+brand.name+" \</label>");
@@ -44,12 +64,12 @@
             <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
-                            类别名称
+                            一级类别名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <select name="product.parentType.id" value="${product?.parentType?.id}" onchange="initType(this.value)">
-                            <option value="">请选择</option>
-                            #{list items:productTypelist , as :'productTypeList'}
+                            <select name="product.parentType.id" value="${product?.parentType?.name}" onchange="initsubType(this.value)">
+                           *{ <option value="">请选择</option>}*
+                            #{list items:productTopTypeList , as :'productTypeList'}
                                 <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
                             #{/list}
                             </select>
@@ -58,6 +78,23 @@
                                 *{#{error 'productType.name' /}}*
                             </div>
                     </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        二级类别名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select id="subClassId" name="product.parentType.id" value="${product?.parentType?.name}" onchange="initType(this.value)">
+                            <option value="">请选择</option>
+                        *{#{list items:productTypelist , as :'productTypeList'}
+                            <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
+                        #{/list}}*
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    *{#{error 'productType.name' /}}*
+                    </div>
+                </div>
 
                 <div class="am-g am-margin-top" >
                     <div class="am-u-sm-4 am-u-md-2 am-text-right">品牌</div>
@@ -284,6 +321,17 @@
                     </div>
                 </div>
 
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        商品图片
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <input type="file" id="images" name="images"   class="am-form-field"/>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *{* #{error 'product.marketingMode' /}}*
+                    </div>
+                </div>
 
         </div>
     </div>

@@ -38,6 +38,9 @@ public class ProductType extends Model {
     @ManyToOne
     public ProductType parentType;
 
+    @Transient
+    public Boolean isHave;
+
     /**
      * 创建时间
      */
@@ -110,6 +113,7 @@ public class ProductType extends Model {
         oldproductType.save();
     }
 
+
     /**
      * 查询所有类别
      */
@@ -124,5 +128,16 @@ public class ProductType extends Model {
 
     public List<Product> products(Long typeId) {
         return Product.findByType(typeId);
+    }
+
+
+
+    public Boolean isHaveBrand(Long brandId) {
+        Logger.info("执行 isHaveBrand : %s " , brandId);
+        return TypeBrand.isHaveBrand(this.id , brandId);
+    }
+
+    public Boolean isHaveLable(Long lableId){
+        return TypeLable.isHaveLable(this.id , lableId);
     }
 }

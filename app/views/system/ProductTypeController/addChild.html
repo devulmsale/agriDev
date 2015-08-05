@@ -71,12 +71,12 @@
                     #{paginate.list items:resultPage , as :'bd'}
                     <tr>
                     <td>${bd?.name}</td>
-                    <td>${productType?.parentType?.name}</td>
+                    <td>${productType?.name}</td>
                     <td>
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs">
                                 <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
-                                    <a data-id="${bd.id}" ></a><i class="am-icon-edit">修改名称</i>
+                                    <a href="/system/productType/editChildPage/${bd.id}"><i class="am-icon-edit">修改</i></a>
                                 </button>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
 </div>
 <!-- content end -->
 
-<!-- 名称修改弹出层开始 -->
+*{<!-- 名称修改弹出层开始 -->
 <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
     <div class="am-modal-dialog">
         <div class="am-modal-bd">
@@ -110,7 +110,7 @@
         </div>
     </div>
 </div>
-<!-- 名称修改弹出层结束 -->
+<!-- 名称修改弹出层结束 -->}*
 <script type="text/javascript">
     $(function() {
         $('#doc-modal-list').find('.am-icon-edit').add('#doc-confirm-toggle').

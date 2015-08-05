@@ -1,6 +1,24 @@
 #{extends 'systemMain.html' /}
 #{set title:'管理员后台' /}
+<script>
+    function initType(parentId){
+        $("#sub"+parentId).toggle();
+        $.ajax({
+            url:'/system/brand/getSubClassByParentId',
+            type:'POST',
+            data:{parentId:parentId},
+            success:function(data){
+                var subClasss=data;
+                $("#sub"+parentId).html("");
+                $.each(subClasss,function(idx,type){
+                    var _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\"  name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
+                    $("#sub"+parentId).append(_type);
+                })
+            }
 
+        });
+    }
+</script>
 <!-- content start -->
 <div class="admin-content">
 
@@ -26,6 +44,26 @@
                         </div>
                         <div class="am-hide-sm-only am-u-md-6" style="color: red;">
                             * #{error 'lable.name' /}
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            类别
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <div id="nameStyle" class="am-form-group am-form-success">
+                            #{list items:productTypeList , as :'productType'}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" id="productType${productType_index}" onclick="initType(this.value)" name="productType.name" value="${productType?.id}" data-am-ucheck>${productType?.name}
+                                </label><br>
+                                <div id="sub${productType?.id}" style="border:1px solid #ccc;display:none"></div>
+                            #{/list}
+
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" id="nameError">
+                        #{error 'productType.name' /}
                         </div>
                     </div>
                          <div class="am-margin">

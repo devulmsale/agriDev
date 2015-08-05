@@ -56,6 +56,10 @@ public class TypeBrand extends Model {
         this.save();
     }
 
+    //根据brandId
+    public static List<TypeBrand> findProductTypeByBrandId(Long brandId){
+        return TypeBrand.find("deleted = ? and brand.id = ?",DeletedStatus.UN_DELETED,brandId).fetch();
+    }
 
     public static List<TypeBrand> findByProductType(Long parentTypeId){
         return TypeBrand.find("deleted = ? and productType.id = ?" , DeletedStatus.UN_DELETED , parentTypeId).fetch();
@@ -81,5 +85,14 @@ public class TypeBrand extends Model {
          return jsonEntityList;
     }
 
+    public static TypeBrand findByTypeAndBrand(Long typeId , Long brandId) {
+        return TypeBrand.find("productType.id = ? and brand.id = ? and deleted = ?" , typeId , brandId , DeletedStatus.UN_DELETED).first();
+    }
+
+    public static Boolean isHaveBrand(Long typeId , Long brandId) {
+        Logger.info("brandId :%s=  this.ID : %s",brandId , typeId);
+        Long count =  TypeBrand.count("productType.id = ? and brand.id = ? and deleted = ?" , typeId , brandId , DeletedStatus.UN_DELETED);
+        return count > 0 ? true : false;
+    }
 
 }

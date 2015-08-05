@@ -47,10 +47,20 @@ public class ProductTypeController extends Controller {
         render(brandList,lableList);
     }
     public static void addChildPage(Long id) {
-        Logger.info("productType addChilePage :%S="+id);
         List<Brand> brandList=Brand.findBrand();
         List<Lable> lableList=Lable.fingLable();
         render(brandList , lableList , id);
+    }
+
+    public static void editChildPage(Long id){
+        Logger.info("editChildPage : %s=",id);
+        ProductType productType=ProductType.findById(id);
+        //根据id取品牌和属性
+        List<Brand> brandList=Brand.findBrand();
+        List<Lable> lableList=Lable.fingLable();
+        List<TypeBrand> typeBrands=TypeBrand.findByProductType(id);
+        List<TypeLable> typeLables=TypeLable.findByProductType(id);
+        render(productType ,typeBrands , typeLables, brandList , lableList , id);
     }
 
     public static void create(@Valid ProductType productType, TypeBrand typeBrand,TypeLable typeLable,String brandbox,String lablebox) {
@@ -60,11 +70,8 @@ public class ProductTypeController extends Controller {
             validation.keep(); // keep the errors for the next request
             add();
         }
-        Logger.info("productType name %s=",productType.name);
-        //保存类别
-        productType.deleted = DeletedStatus.UN_DELETED;
-        productType.save();
-        if (brandbox == null){
+
+        /*if (brandbox == null){
             flash.error("branderror","品牌不能为空！");
             add();
         }
@@ -72,25 +79,10 @@ public class ProductTypeController extends Controller {
             flash.error("lableerror","属性不能为空！");
             add();
         }
-        //保存品牌
-        String [] boxs=brandbox.split(",");
-        Brand brand =null;
-        for(String brandId : boxs) {
-            brand = Brand.findById(Long.valueOf(brandId.trim()));
-            if(brand != null && productType != null) {
-                new TypeBrand(productType , brand);
-            }
-        }
-        //保存属性
-        String[] lables=lablebox.split(",");
-        Lable lable=null;
-        for(String lableId:lables){
-            lable=Lable.findById(Long.valueOf(lableId.trim()));
-            if(lable != null && productType != null){
-                new TypeLable(productType , lable);
-            }
-        }
+        publicEditAndCreate(productType , brandbox, lablebox);*/
 
+        productType.deleted = DeletedStatus.UN_DELETED;
+        productType.save();
         if(productType.parentType != null) {
             addChild(productType.parentType.id);
         } else {
@@ -98,13 +90,68 @@ public class ProductTypeController extends Controller {
         }
     }
 
-    public static void edit(Long id , Integer pageNumber) {
-        ProductType productType = ProductType.findById(id);
-        render(productType , pageNumber);
+    private static void publicEditAndCreate(ProductType productType ,String brandbox,String lablebox ){
+        //保存类别
+        productType.deleted = DeletedStatus.UN_DELETED;
+        productType.save();
+        //保存品牌
+        String [] boxs=brandbox.split(",");
+        Brand brand =null;
+        Logger.info("类别productType id :%s=",productType.id);
+        List<TypeBrand> typeBrandList = TypeBrand.findByProductType(productType.id);
+        Logger.info("remove 之前 : typeBrandList.size() : %s ---" , typeBrandList.size());
+        for(String brandId : boxs) {
+            brand = Brand.findById(Long.valueOf(brandId.trim()));
+            if(brand != null && productType != null) {
+                //以前已经存在 不管
+                TypeBrand typeBrand = TypeBrand.findByTypeAndBrand(productType.id, brand.id);
+                if(typeBrand == null) {
+                    new TypeBrand(productType , brand);
+                } else {
+                    typeBrandList.remove(typeBrand);
+                }
+            }
+        }
+        Logger.info("remove 以后 : typeBrandList.size() : %s ---" , typeBrandList.size());
+        for(TypeBrand typeBrand : typeBrandList) {
+            typeBrand.deleted = DeletedStatus.DELETED;
+            typeBrand.save();
+        }
+        //保存属性
+        String[] lables=lablebox.split(",");
+        Lable lable=null;
+        List<TypeLable> typeLableList=TypeLable.findByProductType(productType.id);
+        for(String lableId:lables){
+            lable=Lable.findById(Long.valueOf(lableId.trim()));
+            if(lable != null && productType != null){
+                TypeLable typeLable=TypeLable.findByTypeAndLable(productType.id,lable.id);
+                if(typeLable == null) {
+                    new TypeLable(productType, lable);
+                }else {
+                    typeLableList.remove(typeLable);
+                }
+            }
+        }
+        for(TypeLable typeLable : typeLableList){
+            typeLable.deleted=DeletedStatus.DELETED;
+            typeLable.save();
+        }
     }
 
-    public static void update(Long id , ProductType productType) {
+    public static void edit(Long id , Integer pageNumber) {
+        ProductType productType = ProductType.findById(id);
+        List<Brand> brandList=Brand.findBrand();
+        List<Lable> lableList=Lable.fingLable();
+        List<TypeBrand> typeBrands=TypeBrand.findByProductType(id);
+        List<TypeLable> typeLables=TypeLable.findByProductType(id);
+        render(productType , pageNumber , typeBrands , typeLables, brandList , lableList , id);
+    }
+
+    public static void update(Long id , Long parentId, ProductType productType ,String brandbox , String lablebox) {
+        Logger.info("update id %s | %s=",id , parentId);
         ProductType.update(id , productType);
+        productType = ProductType.findById(id);
+       // publicEditAndCreate(productType , brandbox, lablebox);
         redirect(BASE_RETURN_INDEX);
     }
 

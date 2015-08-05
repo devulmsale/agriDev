@@ -8,6 +8,9 @@ import models.mert.Merchant;
 import models.mert.MerchantUser;
 import models.operate.OperateUser;
 import models.product.Brand;
+import models.product.ProductImageType;
+import models.product.ProductType;
+import models.product.TypeBrand;
 import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 import play.data.validation.Valid;
@@ -18,6 +21,7 @@ import util.common.RandomNumberUtil;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,31 +46,64 @@ public class BrandController extends Controller {
     }
 
     public static void add() {
-        render();
+        //查询所有的一级大类
+       List<ProductType> productTypeList=ProductType.findTopType();
+        render(productTypeList);
     }
 
-    public static void create(@Valid Brand brand) {
+    public static void create(@Valid Brand brand ,String productTypes) {
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
             add();
         }
-        brand.deleted = DeletedStatus.UN_DELETED;
-        brand.save();
-        if(brand.brand != null) {
+
+        //创建品牌时选择的类别保存到type_brand
+        Logger.info("品牌类 :%s=",productTypes);
+        createAndEdit(brand , productTypes);
+        redirect(BASE_RETURN_INDEX);
+        /*if(brand.brand != null) {
             addChild(brand.brand.id);
         } else {
             redirect(BASE_RETURN_INDEX);
+        }*/
+    }
+
+    private static void createAndEdit(Brand brand , String productTypes){
+        //保存品牌
+        brand.deleted = DeletedStatus.UN_DELETED;
+        brand.save();
+        //保存typebrand
+        ProductType productType=null;
+        String[] productTypess=productTypes.split(",");
+        List<TypeBrand> typeBrandList = TypeBrand.findProductTypeByBrandId(brand.id);
+        for(String typeId:productTypess){
+            productType= ProductType.findById(Long.valueOf(typeId.trim()));
+            Logger.info("productType %s= | brand.id %s=",productType , brand.id);
+            if(productType != null && brand != null){
+                //以前已经存在 不管
+                TypeBrand typeBrand = TypeBrand.findByTypeAndBrand(productType.id, brand.id);
+                if(typeBrand == null) {
+                    new TypeBrand(productType, brand);
+                }else {
+                    typeBrandList.remove(typeBrand);
+                }
+            }
         }
     }
 
     public static void edit(Long id , Integer pageNumber) {
         Brand brand = Brand.findById(id);
-        render(brand , pageNumber);
+        //查询所有的一级大类
+        List<ProductType> productTypeList=ProductType.findTopType();
+        //根据品牌id取已经选择的类别
+        List<TypeBrand> typeBrands=TypeBrand.findProductTypeByBrandId(id);
+        render(brand , productTypeList , typeBrands , pageNumber);
     }
 
-    public static void update(Long id , Brand brand) {
+    public static void update(Long id , Brand brand , String productTypes) {
         Brand.update(id , brand);
+        createAndEdit(brand , productTypes);
         redirect(BASE_RETURN_INDEX);
     }
 
@@ -106,8 +143,19 @@ public class BrandController extends Controller {
         }
     }
 
+    /**
+     * 根据一级类别Id取二级类别
+     */
+    public static void getSubClassByParentId(Long parentId , Long brandId){
+        Logger.info("parentId : %s , brandId : %s" , parentId , brandId);
+        List<ProductType> productTypeList=ProductType.findByParentType(parentId);
+        for(ProductType productType : productTypeList) {
+            productType.isHave = TypeBrand.isHaveBrand(productType.id, brandId);
+            Logger.info(" productType.isHave : %s | parentId : %s , brandId : %s" , productType.isHave ,  parentId , brandId);
+        }
 
-
+        renderJSON(productTypeList);
+    }
 
     /*private static void initData() {
         MerchantUser merchantUser = MerchantSecure.getMerchantUser();

@@ -1,4 +1,4 @@
-package controllers.system;
+package controllers.merchant;
 
 import controllers.system.auth.Secure;
 import helper.imageupload.ImageUploadResult;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class ProductController extends Controller {
 
     public static Integer PAGE_SIZE = 15;
-    public static String  BASE_RETURN_INDEX = "/system/product";
+    public static String  BASE_RETURN_INDEX = "/merchant/product";
 
     public static void index(Integer pageNumber  , String searchName) {
         initData();
@@ -51,6 +51,8 @@ public class ProductController extends Controller {
     public static void add() {
         //查询所有类别
         List<ProductType> productTypelist=ProductType.findProductType();
+        //查询一级类别
+        List<ProductType> productTopTypeList=ProductType.findTopType();
         //储藏方式
         StoreMethod[] storeMethods=StoreMethod.values();
         //包装方式
@@ -59,7 +61,7 @@ public class ProductController extends Controller {
         ShippingMethod[] shippingMethods=ShippingMethod.values();
         //营销模式
         MarketingMode[] marketingModes=MarketingMode.values();
-        render(productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
+        render(productTypelist ,productTopTypeList, storeMethods , packageMethods , shippingMethods , marketingModes);
     }
 
     public static void create(@Valid Product product , String lablebox , File image) throws Exception {
@@ -98,7 +100,8 @@ public class ProductController extends Controller {
 
     public static void edit(Long id , Integer pageNumber) {
         Product product = Product.findById(id);
-
+        //查询一级类别
+        List<ProductType> productTopTypeList=ProductType.findTopType();
         //查询所有类别
         List<ProductType> productTypelist=ProductType.findProductType();
         //储藏方式
@@ -109,7 +112,7 @@ public class ProductController extends Controller {
         ShippingMethod[] shippingMethods=ShippingMethod.values();
         //营销模式
         MarketingMode[] marketingModes=MarketingMode.values();
-        render(product , pageNumber , productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
+        render(product ,productTopTypeList , pageNumber , productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
     }
 
     public static void update(Long id , Product product) {
@@ -137,6 +140,15 @@ public class ProductController extends Controller {
         resultMap.put("lables" , typeLableList);
         renderJSON(resultMap);
 
+    }
+
+    public static void getSubClass(Long parentTypeId){
+        Logger.info("parentTypeIdsubclass :%s=",parentTypeId);
+        Map<String , Object> resultMap = new HashMap<>();
+        //查询二级类别
+        List<ProductType> productTypeList=ProductType.findByParentType(parentTypeId);
+        resultMap.put("subclasss",productTypeList);
+        renderJSON(resultMap);
     }
 
     private static void initData() {

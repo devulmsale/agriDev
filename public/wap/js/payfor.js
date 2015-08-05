@@ -116,19 +116,19 @@ var setAmount = {
         return new RegExp("^[1-9]\\d*$").test(x);
     },
     amount:function(obj, mode) {
-        var x = $(obj).val();
-        if (this.reg(x)) {
-            if (mode) {
-                x++;
+            var x = $(obj).val();
+            if (this.reg(x)) {
+                if (mode) {
+                    x++;
+                } else {
+                    x--;
+                }
             } else {
-                x--;
+                alert("请输入正确的数量！");
+                $(obj).val(1);
+                $(obj).focus();
             }
-        } else {
-            alert("请输入正确的数量！");
-            $(obj).val(1);
-            $(obj).focus();
-        }
-        return x;
+            return x;
     },
     reduce:function(obj) {
         var x = this.amount(obj, false);
@@ -203,10 +203,11 @@ function recalc() {
         },
 
         function ($this) {
+
             var sum = $this.sum();
-            $("[id^=total_item]").text(
-                "￥" + sum.toFixed(2)
-            );
+           // $("[id^=total_item]").text(
+            //    "￥" + sum.toFixed(2)
+           // );
             $("#total_price").val($("[id^=total_item]").text());
         }
     );
