@@ -1,12 +1,14 @@
 package jobs;
 
 import models.constants.DeletedStatus;
+import models.mert.Event;
 import models.mert.Merchant;
 import models.mert.MerchantUser;
 import models.mert.enums.MerchantStatus;
 import play.Logger;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
+import util.DateHelper;
 
 import java.util.Date;
 
@@ -22,38 +24,45 @@ public class BootstrapMerchantData extends Job {
 //        } else {
 //            Logger.info("没有要加载的数据");
 //        }
-        createMerchant();
+        createYouLiangMerchant();
     }
 
-    private static void createMerchant() {
-        Logger.info("执行 createMerchant 方法");
-        String linkId = "111"; //一个特殊公司
-        Merchant merchant= Merchant.findByLinkId(linkId);
-        Logger.info("获取到的 Merchant : %s " , merchant);
-        if(merchant == null) {
-            merchant = new Merchant();
-            merchant.fullName = "日照优粮城电子商务";
-            merchant.linkId = linkId;
-            merchant.phone="18265428637";
-            merchant.status= MerchantStatus.OPEN;
-            merchant.createdAt = new Date();
-            merchant.deleted= DeletedStatus.UN_DELETED;
-            merchant.save();
-            MerchantUser merchantUser=new MerchantUser();
-            merchantUser.loginName="ulmsale";
-            merchantUser.encryptedPassword="123456";
-          /*  merchant = new Merchant();
-            merchant.fullName = "日照优粮城电子商务2";
-            merchant.linkId = "22222";
-            merchant.phone="18265428637";
-            merchant.address="日照市东港区济南路11号";
-            merchant.status=MerchantStatus.OPEN;
-            merchant.createdAt = new Date();
-            merchant.save();*/
-            Logger.info("init merInfo success.!");
+    public static void createYouLiangMerchant() {
+        String code = "ulm";  //用于URL中配置，需要保证在系统中唯一
+
+        Merchant merchant = Merchant.findByLinkId(code);
+        if (merchant != null) {
+            Logger.info("已经存在" + code + "对应的公司");
+            return;
         }
 
+        // 生成公司.
+        merchant = new Merchant();
+        merchant.shortName = "ulm";
+        merchant.fullName = "ulm";
+        merchant.linkId = code;
+        merchant.weixinAppId = "wx8616734787f27575";
+        merchant.weixinAppSecret = "affe5a74ace7c2b116e28e53da7a9b40";
+        merchant.weixinToken = "weixin2015";
+        merchant.weixinAesKey = "04IC6il8kEo6ayCy0kmG1btzuTc0mX71NlrYYWdvs05";
 
+        merchant.status = MerchantStatus.OPEN;
+        merchant.expiredAt = DateHelper.afterDays(360);
+        merchant.createdAt = new Date();
+        merchant.updatedAt = new Date();
+        merchant.deleted = DeletedStatus.UN_DELETED;
+        merchant.save();
+
+        Event event = new Event();
+        event.name = "ulm";
+        event.merchant = merchant;
+        event.beginAt = new Date();
+        event.endAt = DateHelper.afterDays(360);
+        event.createdAt = new Date();
+        event.updatedAt = new Date();
+        event.save();
+
+        Logger.info("加载ulm帐号成功:" + merchant.shortName);
     }
 
 

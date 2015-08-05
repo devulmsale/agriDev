@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                                 Application.index
+GET     /weixin/{linkId}                                  weixin.Application.index
 
 # Ignore favicon requests
 GET     /favicon.ico                                      404
@@ -78,11 +79,21 @@ POST  /merchant/product/update/{id}                          merchant.ProductCon
 GET   /merchant/product/delete/{id}                          merchant.productController.delete
 POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
 POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
+
+
+
 # WAP
 *     /wap/productInfo/{id}                                  Application.productInfo
 *     /wap/cart                                              wap.CartController.cart
 *     /showCart                                              wap.CartController.showCart
 *     /wap/cart/shoppingCart                                 wap.CartController.shoppingCart
 *     /wap/order/cartToPay                                   wap.OrderController.cartToPay
+
+
+
+# ======================  微信接口服务  =========================
+GET     /api/{linkId}/weixin                     api.WeixinAPI.heartbeat
+POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'xml')
+
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}

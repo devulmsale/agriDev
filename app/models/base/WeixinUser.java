@@ -5,6 +5,7 @@
 package models.base;
 
 import jodd.bean.BeanCopy;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import models.base.enums.Gender;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
@@ -151,6 +152,35 @@ public class WeixinUser extends Model {
             weixinUser.subcribed = Boolean.FALSE;
             weixinUser.save();
 
+        }
+        return weixinUser;
+    }
+
+    /**
+     * 查询出商户指定OpenId的用户.
+     */
+    public static WeixinUser findOrCreateMerchantWxUser(Merchant merchant, WxMpUser wxMpUser) {
+        WeixinUser weixinUser = WeixinUser.find("merchant.id=? and weixinOpenId=?", merchant.id, wxMpUser.getOpenId()).first();
+        if (weixinUser == null) {
+            User user = User.findByOpenId(wxMpUser.getOpenId());
+            if(user == null) {
+                user = new User();
+                user.createdAt = new Date();
+                user.fullName = wxMpUser.getNickname();
+                user.address = wxMpUser.getCity();
+                user.headImgUrl = wxMpUser.getHeadImgUrl();
+                user.sex = wxMpUser.getSex();
+                user.validated = true;
+                user.wxOpenId = wxMpUser.getOpenId();
+                user.save();
+            }
+            weixinUser = new WeixinUser();
+            weixinUser.user = user;
+            weixinUser.merchant = Merchant.findById(merchant.id);
+            weixinUser.weixinOpenId = wxMpUser.getOpenId();
+            weixinUser.nickName = wxMpUser.getNickname();
+            weixinUser.subcribed = Boolean.FALSE;
+            weixinUser.save();
         }
         return weixinUser;
     }

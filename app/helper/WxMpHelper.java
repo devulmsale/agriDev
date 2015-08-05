@@ -68,7 +68,7 @@ public class WxMpHelper {
      * 转换wxMpUser为User.
      */
     public static WeixinUser createOrUpdateUserFromWxMpUser(Merchant merchant, WxMpUser wxMpUser) throws Exception {
-        WeixinUser user = WeixinUser.findOrCreateMerchantWxUser(merchant, wxMpUser.getOpenId());
+        WeixinUser user = WeixinUser.findOrCreateMerchantWxUser(merchant, wxMpUser);
         user.nickName = wxMpUser.getNickname();
         user.headImgUrl = wxMpUser.getHeadImgUrl();
         user.city = wxMpUser.getCity();
