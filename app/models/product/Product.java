@@ -165,6 +165,7 @@ public class Product extends Model {
     /**
      * 产品介绍
      */
+    @Required(message = "商品介绍不能为空.")
     @Lob
     @Column(name = "content")
     public String content;
