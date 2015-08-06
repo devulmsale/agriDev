@@ -9,11 +9,10 @@ import play.mvc.With;
 /**
  * Created by upshan on 15/8/5.
  */
-@With(UserSecure.class)
+@With(WxMpAuth.class)
 public class Application extends Controller {
 
     public static void index() {
-
-       // render(wxUser);
+       render();
     }
 }
