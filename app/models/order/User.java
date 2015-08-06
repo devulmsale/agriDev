@@ -1,5 +1,6 @@
 package models.order;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import play.Logger;
 import play.db.jpa.Model;
 
@@ -20,6 +21,10 @@ public class User extends Model {
 
     private static final long   serialVersionUID = 21943311362L;
     public static final  String CACHEKEY         = "OpUser_";
+    public static final  String LOGIN_ID             = "user_loginId"; //登陆ID
+    public static final  String LOGIN_NAME           = "user_Name"; //登陆密码
+    public static final  String LOST_USER_ID         = "user_lostUserId"; // 找回密码时候用到的Session
+    public static final  String LOGIN_SESSION_USER   = "user_LoginUser_";
 
     @Column(name = "login_name")
     public String  loginName;
@@ -37,10 +42,16 @@ public class User extends Model {
     @Column(name = "password_hash")
     public String passwordHash;
 
+    @Column(name = "encrypted_password")
+    public String encryptedPassword;
+
     public Boolean validated;
 
     @Column(name = "created_at")
     public Date createdAt;
+
+    @Column(name = "updated_at")
+    public Date updatedAt;
 
     /**
      * 用户头像路径.
@@ -119,5 +130,24 @@ public class User extends Model {
             selectMap.put(user.id.toString(), user.loginName+"("+user.phone+")");
         }
         return selectMap;
+    }
+
+    /**
+     * 检查用户是否可以登录.
+     * @param loginName 登录名
+     * @param password 密码
+     * @return 是否登录成功.
+     */
+    public static User findByLoginNameAndPassword(String loginName, String password) {
+        User user = User.find("loginName = ?", loginName).first();
+        if(user != null ) {
+            String encryptedPassword = DigestUtils.md5Hex(password + user.passwordSalt);
+            if (encryptedPassword.equals(user.encryptedPassword)) {
+                return user;
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 }

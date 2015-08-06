@@ -18,6 +18,8 @@
             });
         });
     });
+
+
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -348,11 +350,11 @@
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
                         <textarea id="editor_id" name="product.content" style="width:700px;height:300px;">
-
+                            ${product?.content}
                         </textarea>
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
-                        * #{error 'product.content' /}
+                         #{error 'product.content' /}
                     </div>
                 </div>
 
