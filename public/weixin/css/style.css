@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+
+/* index */
+.logo{width:100%; height:40px; overflow:hidden; position:absolute; z-index:10; text-align:center;}
+.logo em{ float:left; display:inline-block; width:50px; height:40px; overflow:hidden; background:url(../images/logo.png) no-repeat center center; background-size:cover; margin-left:10px;}
+.logo span{ float:left; display:inline-block; line-height:40px; margin-left:10px; color:#fff; font-size:16px; font-family:Microsoft YaHei;}
+
+.topcontact{width:100%; height:40px; line-height:40px; overflow:hidden; text-align:center; background:#333;}
+.topcontact a{ display:inline-block; width:30%; height:40px; line-height:40px; overflow:hidden; color:#fff;}
+.topcontact a:link,.topcontact a:visited{ background:#333;}
+.topcontact a:hover{ background:#454545;}
+
+.about{ padding:20px; background:#f1f1f1; border-bottom:1px #e9e9e9 solid;}
+.about h3{ font-size:16px; line-height:2em; color:#f60; text-align:left;}
+.about p{ text-align:left; line-height:2em; font-size:14px; color:#666;}
+
+nav{width:100%; height:auto; overflow:hidden; padding:5% 3%;}
+nav a{ height:100px; line-height:100px; display:inline-block; overflow:hidden; -moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px; margin:0 0 3% 3%;}
+nav a i.iconfont{ color:#fff; font-size:24px;}
+nav a em{ color:#fff; font-size:16px; margin-left:5px;}
+nav a.na0{width:65%; float:left; display:inline; background:#ff994e; margin-left:0;}
+nav a.na0 i{ font-size:30px;}
+nav a.na0 em{ font-size:22px;}
+nav a.na1{width:32%; float:left; display:inline; background:#00c140;}
+nav a.na2{width:31%; float:left; display:inline; background:#ff76bc; margin-left:0;}
+nav a.na3{width:31%; float:left; display:inline; background:#f4b301;}
+nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
+
+.tuijian{}
+.tuijian .tit{width:100%; height:10px; border-top:1px #dddddd solid; text-align:center; position:relative;}
+.tuijian .tit span{ font-size:18px; line-height:16px; display:inline-block; background:#fff; padding:10px 20px; margin-top:-30px;}
+.tuijian .tjlist{width:100%; height:auto; overflow:hidden; margin-top:20px;}
+.tuijian .tjlist li{ margin:10px 0 20px 0; position:relative; border:1px #f0e5bd solid; -moz-border-radius:3px; -webkit-border-radius:3px;  border-radius:3px;}
+.tuijian .tjlist li img{width:100%; overflow:hidden;}
+.tuijian .tjlist li div{width:100%; height:40px; overflow:hidden; background:url(../images/tbg.png) repeat-x top; position:absolute; bottom:0; z-index:10; text-align:left; text-indent:10px;}
+.tuijian .tjlist li div h3{ font-size:14px; color:#333; font-weight:normal; line-height:1.6em;}
+.tuijian .tjlist li div p{ font-size:12px; color:#999;}

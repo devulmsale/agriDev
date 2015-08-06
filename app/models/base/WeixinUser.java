@@ -4,6 +4,7 @@
  */
 package models.base;
 
+import helper.GlobalConfig;
 import jodd.bean.BeanCopy;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import models.base.enums.Gender;
@@ -153,6 +154,7 @@ public class WeixinUser extends Model {
             weixinUser.save();
 
         }
+
         return weixinUser;
     }
 

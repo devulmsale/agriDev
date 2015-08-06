@@ -108,6 +108,12 @@ public class Merchant extends Model {
     public Date expiredAt;
 
     /**
+     * 该微信号是否认证
+     */
+    @Column(name = "is_auth")
+    public Boolean isAuth;
+
+    /**
      * 商户状态.
      */
     @Column(name = "status")

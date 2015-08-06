@@ -2,6 +2,7 @@ package controllers.api;
 
 import ext.weixin.WxMpContext;
 import ext.weixin.WxMpInvocation;
+import helper.GlobalConfig;
 import helper.WxMpHelper;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -9,6 +10,7 @@ import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
 import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
+import models.base.WeixinUser;
 import models.mert.Merchant;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
@@ -23,6 +25,7 @@ import util.extension.ExtensionResult;
  */
 public class WeixinAPI extends Controller {
 
+    private final static ThreadLocal<WeixinUser> _currentUser = new ThreadLocal<>();
     /**
      * 响应微信心跳检查.
      *
@@ -103,6 +106,18 @@ public class WeixinAPI extends Controller {
         }
 
         WxMpContext wxMpContext = WxMpContext.build(merchant, wxMpConfigStorage, wxMpService, inMessage);
+
+        // 如果没有认证 创建 WeixinUser
+        if(!merchant.isAuth) {
+            WeixinUser wxUser = WeixinUser.findOrCreateMerchantWxUser(merchant, inMessage.getFromUserName());
+            if (wxUser != null) {
+                session.put(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, wxUser.id);
+                renderArgs.put("currentUser", wxUser);
+                _currentUser.set(wxUser);
+            }
+        }
+
+
         ExtensionResult result = ExtensionInvoker.run(WxMpInvocation.class, wxMpContext, new DefaultAction<WxMpContext>() {
             @Override
             public ExtensionResult execute(WxMpContext context) {
@@ -111,17 +126,6 @@ public class WeixinAPI extends Controller {
                 if (StringUtils.isBlank(content)) {
                     content = "欢迎使用微信公众号.";
                 }
-                /*
-                String url = GlobalConfig.WEIXIN_BASE_DOMAIN + "/register/"
-                        + context.merchant.linkId + "/"
-                        + context.inMessage.getFromUserName()
-                        + "?" + System.currentTimeMillis();
-                context.outMessage = WxMpXmlOutMessage.TEXT()
-                        .fromUser(context.inMessage.getToUserName())
-                        .toUser(context.inMessage.getFromUserName())
-                        .content("欢迎加入龙南高中95届同学会，您还没设置姓名和头像，请先点击：<a href=\"" + url + "\">签到</a>")
-                        .build();
-                        */
                 return ExtensionResult.SUCCESS;
             }
         });

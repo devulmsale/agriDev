@@ -14,40 +14,25 @@ public class WelcomeInvocation extends WxMpInvocation {
 
     @Override
     protected WxMpXmlOutMessage doExecute(final WxMpContext context) {
-        //sendAsyncTextMessage("测试异步发送加密消息");
-
-//        // 尝试读取用户基本信息.
-//        try {
-//            Logger.info("尝试读取用户信息.");
-//            WxMpUser wxMpUser = context.wxService.userInfo(context.inMessage.getFromUserName(), "zh_CN");
-//            Logger.info("wxMpUser=" + wxMpUser);
-//        } catch (WxErrorException e) {
-//            Logger.warn(e, "读取用户信息异常");
-//        }
-/*
-        return WxMpXmlOutMessage.TEXT()
-                .fromUser(context.inMessage.getToUserName())
-                .toUser(context.inMessage.getFromUserName())
-                .content("测试加密消息2.")
-                .build(); */
-
+        Logger.info("执行  WelcomeInvocation ---------");
         WeixinUser weixinUser = WeixinUser.findOrCreateMerchantWxUser(context.merchant, context.inMessage.getFromUserName());
 
         Logger.info("weixinUser=" + weixinUser);
 
-        if (!weixinUser.subcribed) {
-            return getRegisterTextMessage(context);
-        }
-
-        String url = GlobalConfig.WEIXIN_BASE_DOMAIN + "/register/"
-                + context.merchant.linkId + "/"
-                + context.inMessage.getFromUserName()
-                + "?" + System.currentTimeMillis();
-        return WxMpXmlOutMessage.TEXT()
-                .fromUser(context.inMessage.getToUserName())
-                .toUser(context.inMessage.getFromUserName())
-                .content("你已经设置姓名和头像，消息可直接上墙，可点击修改个人信息：<a href=\"" + url + "\">修改</a>")
-                .build();
+        return null;
+//        if (!weixinUser.subcribed) {
+//            return getRegisterTextMessage(context);
+//        }
+//
+//        String url = GlobalConfig.WEIXIN_BASE_DOMAIN + "/register/"
+//                + context.merchant.linkId + "/"
+//                + context.inMessage.getFromUserName()
+//                + "?" + System.currentTimeMillis();
+//        return WxMpXmlOutMessage.TEXT()
+//                .fromUser(context.inMessage.getToUserName())
+//                .toUser(context.inMessage.getFromUserName())
+//                .content("你已经设置姓名和头像，消息可直接上墙，可点击修改个人信息：<a href=\"" + url + "\">修改</a>")
+//                .build();
     }
 
     @Override
