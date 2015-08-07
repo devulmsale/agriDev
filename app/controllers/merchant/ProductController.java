@@ -1,5 +1,6 @@
 package controllers.merchant;
 
+import controllers.merchant.auth.MerchantSecure;
 import controllers.system.auth.Secure;
 import helper.imageupload.ImageUploadResult;
 import helper.imageupload.ImageUploader;
@@ -28,9 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 类别管理
+ * 商品管理
  */
-@With(Secure.class)
+@With(MerchantSecure.class)
 public class ProductController extends Controller {
 
     public static Integer PAGE_SIZE = 15;

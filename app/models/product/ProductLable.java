@@ -1,6 +1,7 @@
 package models.product;
 
 import models.constants.DeletedStatus;
+import play.Logger;
 import play.db.jpa.Model;
 import javax.persistence.*;
 import java.util.Date;
@@ -50,5 +51,11 @@ public class ProductLable extends Model {
         this.deleted = DeletedStatus.UN_DELETED;
         this.createdAt = new Date();
         this.save();
+    }
+
+    public static Boolean isHaveLable(Long productId , Long lableId) {
+        Logger.info("lableId :%s=  this.ID : %s", lableId, productId);
+        Long count =  ProductLable.count("product.id = ? and lable.id = ? and deleted = ?" , productId , lableId , DeletedStatus.UN_DELETED);
+        return count > 0 ? true : false;
     }
 }

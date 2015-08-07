@@ -165,7 +165,6 @@ public class Product extends Model {
     /**
      * 产品介绍
      */
-    @Required(message = "商品介绍不能为空.")
     @Lob
     @Column(name = "content")
     public String content;
@@ -277,6 +276,10 @@ public class Product extends Model {
     public static List<TypeLable> alllables(Long productId) {
         List<TypeLable> typeLableList = TypeLable.findByProduct(productId);
         return typeLableList;
+    }
+
+    public Boolean isHaveLable(Long lableId){
+        return ProductLable.isHaveLable(this.id , lableId);
     }
 
 }
