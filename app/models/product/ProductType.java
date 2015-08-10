@@ -127,6 +127,7 @@ public class ProductType extends Model {
     }
 
     public List<Product> products(Long typeId) {
+        Logger.info("商品类别ID :%s=",typeId);
         return Product.findByType(typeId);
     }
 
@@ -138,6 +139,7 @@ public class ProductType extends Model {
     }
 
     public Boolean isHaveLable(Long lableId){
+
         return TypeLable.isHaveLable(this.id , lableId);
     }
 }

@@ -90,7 +90,7 @@
                             一级类别名称
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <select name="product.parentType.id" value="${product?.parentType?.name}" onchange="initsubType(this.value)">
+                            <select *{name="product.parentType.id"}* value="${product?.parentType?.name}" onchange="initsubType(this.value)">
                            *{ <option value="">请选择</option>}*
                             #{list items:productTopTypeList , as :'productTypeList'}
                                 <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
@@ -135,7 +135,7 @@
                         <div id="ajaxLable">
                         #{if product?.id != null }
                             #{list product.alllables(product?.id) , as :'pal'}
-                                <label class="am-checkbox-inline"><input type="checkbox"    name="" value="${pal?.lable?.id}" data-am-ucheck> ${pal?.lable?.name}</label>
+                                <label class="am-checkbox-inline"><input type="checkbox"  ${product?.isHaveLable(pal?.lable?.id) ? "checked" : ""}  name="" value="${pal?.lable?.id}" data-am-ucheck> ${pal?.lable?.name}</label>
                             #{/list}
                         #{/if}
                         </div>

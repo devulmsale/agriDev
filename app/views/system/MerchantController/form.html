@@ -66,6 +66,20 @@
                             * #{error 'merchant.status' /}
                         </div>
                 </div>
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        是否微信认证
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select id="status" name="merchant.isAuth">
+                            <option ${merchant?.isAuth == false ? 'selected' : ''} value="0">未认证</option>
+                            <option ${merchant?.isAuth == true ? 'selected' : ''} value="1">已认证</option>
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'merchant.status' /}
+                    </div>
+                </div>
             </div>
         </div>
 
