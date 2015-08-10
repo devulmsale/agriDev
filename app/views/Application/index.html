@@ -627,7 +627,7 @@
         </ul>
         <div class="tab_box">
           #{list type?.findByParentType(type?.id) , as :'productType'}
-            <div class="${productType_index == 1 ? '' : 'hide'}" >
+            <div *{class="${productType_index == 1 ? '' : 'hide'}"}* >
                 <ul>
 
                       #{list productType.products(productType?.id) , as :'product'}

@@ -44,8 +44,8 @@
                         </th>
                         <th class="table-id">ID</th>
                         <th class="table-title">品牌名称</th>
-                        <th class="table-type">所属类别</th>
-                       *{ <th class="table-date">状态</th>}*
+                    *{ <th class="table-type">所属类别</th>
+                        <th class="table-date">状态</th>}*
                         <th class="table-set">操作</th>
                     </tr>
                     </thead>
@@ -55,7 +55,7 @@
                         <td><input type="checkbox" /></td>
                         <td>${brand?.id}</td>
                         <td>${brand?.name}</td>
-                        <td>${brand?.brand?.name}</td>
+                        *{<td>${brand?.brand?.name}</td>}*
                         <td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">

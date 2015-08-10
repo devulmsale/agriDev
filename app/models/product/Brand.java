@@ -115,4 +115,6 @@ public class Brand extends Model{
     public static List<Brand> findBrand(){
         return Brand.find("deleted = ? ",DeletedStatus.UN_DELETED).fetch();
     }
+
+
 }

@@ -1,5 +1,7 @@
 <script charset="utf-8" src="/public/editor/kindeditor.js"></script>
 <script charset="utf-8" src="/public/editor/lang/zh_CN.js"></script>
+
+
 <script>
     KindEditor.ready(function(K) {
         var editor;
@@ -14,7 +16,10 @@
                 items : [
                     'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
                     'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','|', 'justifyfull']
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','|', 'justifyfull'],
+                afterBlur: function(){
+                    this.sync();
+                }
             });
         });
     });
@@ -349,17 +354,15 @@
                         商品描述
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
-                        <textarea id="editor_id" name="product.content" style="width:700px;height:300px;">
-                            ${product?.content}
-                        </textarea>
+                        <textarea id="editor_id" name="product.content" style="width:700px;height:300px;">${product?.content}</textarea>
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
                          #{error 'product.content' /}
                     </div>
                 </div>
-
         </div>
     </div>
 </div>
 </div>
 <!-- content end -->
+<input  type="hidden" id="imageId" name="imageName">

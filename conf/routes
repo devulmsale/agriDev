@@ -91,7 +91,8 @@ POST  /kindedit/imageUpload                                  KindEditUploads.upl
 *     /wap/cart/shoppingCart                                 wap.CartController.shoppingCart
 *     /wap/order/cartToPay                                   wap.OrderController.cartToPay
 
-
+#图片上传
+*    /merchant/images                                        merchant.ImageController.index
 
 # ======================  微信接口服务  =========================
 GET     /api/{linkId}/weixin                     api.WeixinAPI.heartbeat
@@ -99,3 +100,5 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 # Catch all
 *       /{controller}/{action}                   {controller}.{action}
+
+

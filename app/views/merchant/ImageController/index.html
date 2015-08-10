@@ -1,0 +1,131 @@
+#{extends 'merchantMain.html' /}
+#{set title:'管理员后台' /}
+
+*{
+<div class="am-form-group">
+    <form action="@{merchant.ImageController.uploadImage()}" method="POST" enctype="multipart/form-data">
+       <input type="file" name="pic">
+        <button type="submit">提交</button>
+    </form>
+</div>
+<div id="file-list"></div>}*
+
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate icon" type="image/png" href="/public/bootstrap/amaze/assets/i/favicon.png">
+    <link rel="stylesheet" href="/public/bootstrap/amaze/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/public/bootstrap/amaze/tree/amazeui.tree.min.css"/>
+    <script type="text/javascript" src="/public/bootstrap/amaze/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/bootstrap/amaze/tree/amazeui.tree.min.js"></script>
+    <style>
+        .header {
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 200%;
+            color: #333;
+            margin-top: 30px;
+        }
+        .header p {
+            font-size: 14px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var dataJSON = "";
+            $.ajax({
+                type: 'POST',
+                url: "http://gxf.tunnel.mobi/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
+                dataType : "jsonp",
+                success: function (data){
+                    dataJSON = data;
+                } ,
+                error:function (data){
+                    alert(9)
+                    //dataJSON = data;
+                }
+
+            });
+
+
+            $('#firstTree').tree({
+                dataSource: function(options, callback) {
+                    // 模拟异步加载
+                    setTimeout(function() {
+                        callback({data: options.products || dataJSON});
+                    }, 400);
+                },
+                multiSelect: false,
+                cacheItems: true,
+                folderSelect: true
+            });
+
+            $('#firstTree').on('selected.tree.amui', function (event, data) {
+                var id = $('.am-tree-selected').attr("id");
+                $('#firstTree').tree('openFolder', $('#'+id+"-label"));
+                $('#folderId').val(id);
+                // do something with data: { selected: [array], target: [object] }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="am-g">
+        <h1>Web ide</h1>
+        <p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p>
+    </div>
+    <hr />
+</div>
+<div class="am-container">
+    <div class="am-u-lg-4 am-u-sm-center">
+        <ul class="am-tree" id="firstTree">
+            <li class="am-tree-branch am-hide" data-template="treebranch">
+                <div class="am-tree-branch-header">
+                    <button class="am-tree-branch-name">
+                        <span class="am-tree-icon am-tree-icon-folder"></span>
+                        <span class="am-tree-label"></span>
+                    </button>
+                </div>
+                <ul class="am-tree-branch-children"></ul>
+                <div class="am-tree-loader"><span class="am-icon-spin am-icon-spinner"></span></div>
+            </li>
+            <li class="am-tree-item am-hide" data-template="treeitem">
+                <button class="am-tree-item-name">
+                    <span class="am-tree-icon am-tree-icon-item"></span>
+                    <span class="am-tree-label"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="am-u-lg-8">
+        <input  type="hidden" id="imageId" name="imageName">
+        <ul data-am-widget="gallery" id="image_ul" class="am-gallery am-avg-sm-2
+am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery="{ pureview: false }">
+        #{list imageList,as:'img'}
+            <li>
+                <div class="am-gallery-item">
+
+                    <img  src="${img?.url}" onclick="chockBox(${img?.id})" id="imgId${img?.id}"/>
+                    <h3 class="am-gallery-title" style="text-align: center">*</h3>
+                </div>
+            </li>
+        #{/list}
+
+        </ul>
+
+    </div>
+</div>
+
+</body>
+</html>

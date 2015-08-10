@@ -23,7 +23,7 @@ public class Application extends Controller {
         HttpRequest httpRequest = HttpRequest
                 .get(FOLID_JSON_URL)
                 .form(
-                        "code", "N9RXXkr6sss",
+                        "code", "N9RXXkr6",
                         "loginName", "admin",
                         "password",  "123456"
                 );

@@ -279,6 +279,7 @@ public class Product extends Model {
     }
 
     public Boolean isHaveLable(Long lableId){
+        
         return ProductLable.isHaveLable(this.id , lableId);
     }
 

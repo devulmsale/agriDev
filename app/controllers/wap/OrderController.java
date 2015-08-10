@@ -48,13 +48,11 @@ public class OrderController extends Controller {
         User user = User.all().first();
         Order order = null;
         if(StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-            Logger.info("if ");
             //生成订单 并初初始化订单
             OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC);
             order = orderBuilder.save();  //生成订单号
             cartToOrder(orderBuilder , carts);
         }
-        Logger.info("else");
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
         render(order, orderItems);
     }

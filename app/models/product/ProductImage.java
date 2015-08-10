@@ -32,7 +32,6 @@ public class ProductImage extends Model {
 
     /**
      * 图片路径.
-     * 图片路径.
      */
     @Column(name = "img_url", length = 200)
     public String imgUrl;

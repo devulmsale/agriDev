@@ -65,7 +65,7 @@ public class ProductController extends Controller {
         render(productTypelist ,productTopTypeList, storeMethods , packageMethods , shippingMethods , marketingModes);
     }
 
-    public static void create(@Valid Product product , String lablebox , File image) throws Exception {
+    public static void create(@Valid Product product , String lablebox , File image , String imageName) throws Exception {
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -74,16 +74,32 @@ public class ProductController extends Controller {
         product.createdAt= new Date();
         product.deleted=DeletedStatus.UN_DELETED;
 
-        if (image != null && image.getName() != null) {
+        /*if (image != null && image.getName() != null) {
             // 图片上传上去
             ImageUploadResult imageUploadResult = ImageUploader.upload(image);
             //121312310010231  adbdsdf
             product.listUFID =  imageUploadResult.ufId;
             //http://121.42.146.152:9292/images/121312310010231.jpg
             product.listImage = ImageUploader.getImageUrl(imageUploadResult.ufId, "640x320");
-        }
+        }*/
 
+        Logger.info("商品描述信息 :%s=",product.content);
         product.save();
+
+        //保存图片UFID
+        Logger.info("商品图片ufid : %s=",imageName);
+        String [] ufids=imageName.split(",");
+
+        for(String ufid:ufids){
+            ProductImage productImage=new ProductImage();
+            Logger.info("UFID :%s=",ufid);
+            productImage.deleted=DeletedStatus.UN_DELETED;
+            productImage.createdAt=new Date();
+            productImage.product=product;
+            productImage.uFid=ufid;
+            productImage.save();
+            Logger.info("商品图片保存");
+        }
 
         //保存属性
         String[] lables=lablebox.split(",");
