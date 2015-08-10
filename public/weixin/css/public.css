@@ -1,13 +1,51 @@
 @charset "utf-8";
 
 
-header{ }
 .titbg{ background:rgba(0, 0, 0, 0.6) none repeat scroll 0 0;}
+.editbox{ height:36px; line-height:36px; overflow:hidden; text-indent:5px; border:1px #dddddd solid; color:#666; background:#fff; -moz-border-radius:6px; -webkit-border-radius:6px;  border-radius:6px;}
+.selectbox{ height:36px; line-height:36px; overflow:hidden; text-indent:0px; border:1px #dddddd solid; color:#666; background:#fff; -moz-border-radius:6px; -webkit-border-radius:6px;  border-radius:6px;}
+.areabox{ border:1px #dddddd solid; padding:5px; overflow-y:auto;}
+
+/* layout */
+.topbar{width:100%; height:40px; overflow:hidden; position:fixed; z-index:10; text-align:center; }
+
+.logo { display: inline-block; margin-top:0px;}
+.logo em{ float:left; display:inline-block; width:36px; height:36px; overflow:hidden; background:url(../images/logo.png) no-repeat center center; background-size:cover; margin-top:2px;}
+.logo span{ float:left; display:inline-block; line-height:40px; color:#fff; font-size:20px; margin-left:5px; font-family:Microsoft YaHei;}
+
+.headtit{ display: inline-block; margin-top:0px; line-height:38px; font-size:20px; color:#fff;}
+
+a.backBtn
+{
+	display: inline-block; 
+	text-align:center;
+	width: 40px;
+	height: 40px; 
+	line-height:40px;
+	position: absolute;
+	left: 0px; color:#fff;
+}
+
+
+a.btn_search
+
+{
+	display:inline-block;
+	width: 40px;
+	height: 40px;
+	line-height:40px;
+	position: absolute;
+	color:#fff;
+	right: 0;
+}
 
 footer{width:100%; height:40px; overflow:hidden; position:fixed; bottom:0; z-index:100;}
-footer a{width:32%; height:40px; display:inline-block; text-align:center;}
+footer a{width:23%; height:40px; display:inline-block; text-align:center;}
 footer a i.iconfont{ color:#fff; font-size:20px; display:block; line-height:24px; margin-top:0px;}
 footer a em{ display:inline-block; color:#fff; font-size:12px;}
+
+
+
 
 
 /* 滑动焦点图 */
@@ -30,19 +68,182 @@ footer a em{ display:inline-block; color:#fff; font-size:12px;}
 
 
 
-/* 四图应用 */
+/*	--------------------------------------------------
+	Reveal Modals
+	-------------------------------------------------- */
 
-.i-icon{ background:#FFF; padding:1em 0; }	
+	.reveal-modal-bg { 
+		position: fixed; 
+		height: 100%;
+		width: 100%;
+		background: #000;
+		background: rgba(0,0,0,.8);
+		z-index: 100;
+		display: none;
+		top: 0;
+		left: 0; 
+		}
+	
+	.reveal-modal {
+		visibility: hidden;
+		top: 50px; 
+		background: #fff;
+		position: absolute;
+		z-index: 101;
+		width:90%;
+		padding: 30px 20px 24px 20px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
+		-webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
+		-box-shadow: 0 0 10px rgba(0,0,0,.4);
+		margin:20px;
+		}
+	
+	.reveal-modal .close-reveal-modal {
+		font-size: 22px;
+		line-height: .5;
+		position: absolute;
+		top: 8px;
+		right: 11px;
+		color: #aaa;
+		text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+		font-weight: bold;
+		cursor: pointer;
+		} 
 
-.i-icon ul li{ float:left; width:20%; margin:0 0 0 4%;}
+.topsearch{ overflow:hidden; height:36px; line-height:36px; background:#fff; border:1px #dddddd solid; 
+        -moz-border-radius: 5px;
+		-webkit-border-radius:5px;
+		border-radius:5px; overflow:hidden;  margin:10px 0; position:relative;}
+.searchexitbox{outline-style:none;
+	width:100%; background:none;
+ 	border:0; margin-right:40px;
+	font-size:14px;
+	vertical-align:middle;
+	height:38px;
+	line-height:38px; 
+	color:#999;
+	font-size:12px;
+}
+.searchbtn{ 
+	border:0;
+	background:#fff;
+ 	width:40px;
+ 	height:36px;
+	cursor:pointer;position:absolute; right:0; top:0;
+	font-size:20px; color:#999;
+}
+.search_class{ clear:both; position:relative; border-bottom:0px #dddddd solid;}
+.search_class p{ display:inline-block;}
+.search_class a{height:24px; line-height:24px; display:inline-block; padding:0 5px; font-size:12px; text-align:center; white-space:nowrap; margin:0 0px 5px 0;}
+.search_class a:link,.search_class a:visited{ color:#626262;background:#eeeeee; }
+.search_class a:hover{ color:#fff; background:#22b14c; display:inline-block; text-decoration:none; }
+.search_class a:active{ color:#626262; }
+.search_class a:link.current,.search_class a:visited.current{color:#fff; background:#22b14c; }
 
-.i-icon ul li a{ display:block; height:100%; width:100%; text-indent:-200px; border-radius:0.3em;}
 
-.i-icon ul li a img{ display:block; width:100%;}
+/* spinner jquery加减 */
+
+.spinner-sprite, .spinner .decrease, .spinner .decrease[disabled], .spinner .increase, .spinner .value, .spinner .value.passive {
+	background: url('../images/spinner.png') no-repeat
+}
+.spinner { 
+	height: 25px;
+	width: 72px; 
+	background:none;
+	overflow: hidden;
+}
+.spinner button, .spinner .value {
+	text-align: center;
+	display: block;
+	float: left;
+	height: 100%;
+	line-height: 25px;
+	margin: 0
+}
+.spinner button {
+	border: none;
+	width: 24px;
+	color: #e5312a;
+	font: 22px Arial bold;
+	padding: 0;
+	outline: none; overflow:hidden;
+}
+.spinner .decrease {
+	background-position: 0 -50px;
+	cursor: pointer;
+	text-indent: -10000px
+}
+.spinner .decrease[disabled] {
+	background-position: 0 -75px;
+	cursor: default
+}
+.spinner .increase {
+	background-position: 0 0;
+	cursor: pointer;
+	text-indent: -10000px
+}
+.spinner .value {
+	background-position: 0 -100px;
+	width: 24px;
+	height: 27px;
+	border: none;
+	font-family: Arial;
+	color: #f60; font-weight:bold; font-size:16px;
+	text-indent:0;
+	padding: 0px
+}
+.spinner .value.passive {
+	background-position: 0 -1000px;
+	color: #fff; text-indent:100px;
+}
+.spinner .error, .spinner .invalid {
+	background: #aa0000
+}
 
 
 
-/* 最新推荐 */
+/* 评论 */
+
+.comment{ height:auto; overflow:hidden;}
+.comment_tit{width:100%; height:35px; line-height:35px; text-align:left; margin-bottom:5px;}
+.comment_tit span{ font-size:16px;}
+.comment_form{}
+.comment_form .areabox{width:100%; height:120px; font-size:12px; color:#454545; border:1px #cccccc solid; background:#f9f9f9; line-height:1.5em;}
+.comment_form .button{width:150px; height:36px; line-height:36px; border:2px #f90 solid; background:#fff; color:#666; margin:10px 0px 0 0; font-size:16px; -moz-border-radius:18px;-webkit-border-radius:18px; border-radius:18px;}
+.comment_form p{width:100%; height:auto; overflow:hidden; clear:both;}
+.comment_form p span{ float:left; display:block; width:16px; height:12px; overflow:hidden; background:url(../images/icon.png) no-repeat 0 -48px; margin:20px 0 0 10px; cursor:pointer;}
+.comment_list{width:100%;}
+.comment_list dt{width:100%; height:auto; overflow:hidden; text-align:left; margin:10px auto;border-bottom:1px #eeeeee solid; padding-bottom:10px;}
+.comment_list_l{float:left; display:block;}
+.comment_list_l img{ margin-top:5px; -moz-border-radius:50%;-webkit-border-radius:50%; border-radius:50%;}
+.comment_list_r{ margin-left:60px; display:block;}
+.comment_list_rt a:link,.comment_list dt .comment_list_rt a:visited{ color:#f60;}
+.comment_list_rt a:hover{ color:#090;}
+.comment_list_rc{width:100%; height:auto; overflow:hidden; text-align:left; line-height:1.8em; font-size:14px; color:#454545;}
+.comment_list_rc p{ font-size:14px; margin:0; padding:0;}
+.comment_list_rb{ height:auto; overflow:hidden; position:relative; text-align:right; color:#F60;}
+.comment_list_rb span{ float:right; display:block; height:24px; line-height:24px; margin-left:15px; cursor:pointer; color:#999; }
+.comment_list_rb span:hover{ color:#f90;}
+.comment_list_rb span.ico_ding{ position:absolute; right:90px; text-align:right;}
+.comment_list_rb em{ float:right; display:inline; cursor:pointer; margin-left:15px;}
+.comment_list_rt{width:100%; height:24px; line-height:24px; overflow:hidden;}
+.comment_list_rt a{ float:left; display:inline;}
+.comment_list_rt span{ float:left; display:inline-block; margin-left:10px; color:#999; padding:0; cursor:default;}
+.comment_list_rt1{width:100%;}
+.comment_list_rt1 a{ color:#090; font-size:16px;}
+.comment_list_rt1 span{ margin-left:10px; color:#999; padding:0; cursor:default;}
+
+.comment_reply_form{ display:none; clear:both; background:#f6f6f6; padding:0 10px 10px 10px;}
+.comment_reply_form .areabox{width:100%; height:60px; border:1px #dddddd solid;line-height:1.5em; font-size:12px; color:#454545; float:right;}
+.comment_reply_form .button{width:80px; height:30px; line-height:30px; border:0px; color:#fff; margin:10px 0px 0 0; font-size:14px;}
+.comment_reply{padding:10px 0; margin:10px 0; border-top:1px #dddddd dashed;}
+.comment_areabox{width:100%; }
+.comment_more a{ width:100%; height:26px; line-height:26px; display:block; background:#f3f3f3;  text-align:center; font-size:14px; color:#333;}
+
+
 
    /* 表格 */
 

@@ -1,0 +1,124 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+<script src="/public/weixin/js/stickUp.min.js"></script>
+<script type="text/javascript">
+    //initiating jQuery
+    jQuery(function($) {
+        $(document).ready( function() {
+            //为 '.navbar-wrapper' class 启用stickUp插件
+            $('.leftbar').stickUp({
+                parts: {
+                    0:'r0',
+                    1:'r1',
+                    2: 'r2',
+                    3: 'r3',
+                    4: 'r4',
+                    5: 'r5',
+                    6: 'r6',
+                    7: 'r7'
+                },
+                itemClass: 'menuItem',
+                itemHover: 'active'
+            });
+        });
+    });
+
+</script>
+<header class="topbar titbg">
+    <div class="logo"><em></em><span>悠悠点餐</span></div>
+</header>
+<aside class="leftbar">
+    <h3>全部菜单</h3>
+    <ul>
+        <li class="menuItem active"><a href="#r0">商家推荐<em>2</em></a></li>
+        <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
+        <li class="menuItem"><a href="#r2">套餐系列</a></li>
+        <li class="menuItem"><a href="#r3">特色菜品</a></li>
+        <li class="menuItem"><a href="#r4">热菜类</a></li>
+        <li class="menuItem"><a href="#r5">凉菜类</a></li>
+        <li class="menuItem"><a href="#r6">粥/汤</a></li>
+        <li class="menuItem"><a href="#r7">饮料/甜品</a></li>
+        <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
+        <li class="menuItem"><a href="#r2">套餐系列</a></li>
+        <li class="menuItem"><a href="#r3">特色菜品</a></li>
+        <li class="menuItem"><a href="#r4">热菜类</a></li>
+        <li class="menuItem"><a href="#r5">凉菜类</a></li>
+        <li class="menuItem"><a href="#r6">粥/汤1</a></li>
+        <li class="menuItem"><a href="#r7">饮料/甜品b</a></li>
+    </ul>
+
+</aside>
+<section class="rightbar">
+    <dl id="r0">
+        <dt>商家推荐</dt>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>
+    </dl>
+    <dl id="r1">
+        <dt>每日特价</dt>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
+
+    </dl>
+    <dl id="r2">
+        <dt>套餐系列</dt>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>
+    </dl>
+    <dl id="r3">
+        <dt>特色菜品</dt>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
+        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
+    </dl>
+    <dl id="r4">
+        <dt>热菜类</dt>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p4.jpg"></a></dd>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p1.jpg"></a></dd>
+    </dl>
+    <dl id="r5">
+        <dt>凉菜类</dt>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p1.jpg"></a></dd>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p3.jpg"></a></dd>
+    </dl>
+    <dl id="r6">
+        <dt>粥/汤</dt>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p2.jpg"></a></dd>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p3.jpg"></a></dd>
+    </dl>
+    <dl id="r7">
+        <dt>饮料/甜点</dt>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p4.jpg"></a></dd>
+        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p2.jpg"></a></dd>
+    </dl>
+    <div class="footspace"></div>
+</section>
+
+<div id="myModal" class="reveal-modal">
+    <a class="close-reveal-modal">&#215;</a>
+    <div class="topsearch">
+        <form action="#" name="search">
+            <input type="text" name="" title="Search" class="searchexitbox" id="searchinput" onfocus="if(value==defaultValue){value='';this.style.color='#666'}" onBlur="if(!value){value=defaultValue;this.style.color='#959595'}" value="请输入搜索内容" size="10"/>
+            <input type="submit" name="button2" class="searchbtn iconfont" id="button2" value="&#xe663;">
+        </form>
+    </div>
+    <div class="search_con">
+        <div class="search_class overflow">
+            <p>
+                <a href="#" class="current">即将开始</a>
+                <a href="#">竞价中</a>
+                <a href="#">竞价结束</a>
+            </p>
+        </div>
+
+
+
+    </div>
+</div>
+<div class="footcart" >
+    <p class="active"><em>2</em><span>19.6元</span></p><a href="@{weixin.Application.confirm()}" class="btn0">选好了</a>
+</div>
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+</script>

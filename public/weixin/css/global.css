@@ -12,12 +12,20 @@
 
 *, *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
-html, body{padding: 0;margin: 0;}
+html, body{padding: 0;margin: 0; height:100%;line-height: 1;}
 
-body{ font-family: Microsoft YaHei, Arial, sans-serif;font-weight: normal; font-style: normal; font-size: 12px; line-height: 1; position: relative; 
-   -webkit-font-smoothing: antialiased; 
-	color: #333;
-	-webkit-text-size-adjust: none; text-align:center;}
+body{ font-family: Microsoft YaHei, Arial, sans-serif;
+font-weight: normal; 
+font-style: normal; 
+font-size: 12px; 
+line-height: 1; 
+position: relative; 
+-webkit-font-smoothing: antialiased; 
+color: #333; vertical-align: baseline;
+-webkit-text-size-adjust: none; -webkit-font-smoothing: antialiased;  
+text-align:center;
+
+}
 
 body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,code,form,fieldset,legend,button,input,textarea{padding:0px; margin:0px; border:none;}
 
@@ -43,7 +51,7 @@ em,
 
 cite { font-style: normal; }
 
-li{ overflow:hidden; list-style-type:none;}
+ul,li,dl,dt,dd{ overflow:hidden; list-style:none; margin:0; padding:0;}
 
 body, 
 
@@ -141,14 +149,14 @@ img{ max-width:100%; height:auto;border:none; interpolation-mode: bicubic;}
 
 .area{ width:100%;}
 
-#wrap{ max-width:640px; position:relative; margin:0 auto;}
+.wrap{ max-width:640px; position:relative; margin:0 auto;}
 
 
 @media screen and (max-width : 360px) {	
 
 	body{ font-size:11px;}
 
-	#wrap{ width:100%;}
+	.wrap{ width:100%;}
 
 }
 
@@ -158,7 +166,7 @@ img{ max-width:100%; height:auto;border:none; interpolation-mode: bicubic;}
 
 	body{ font-size:12px;}
 
-	#wrap{ width:100%;}	
+	.wrap{ width:100%;}	
 
 }
 
@@ -168,11 +176,13 @@ img{ max-width:100%; height:auto;border:none; interpolation-mode: bicubic;}
 
 	body{ font-size:15px;}
 
-	#wrap{ width:100%;}	
+	.wrap{ width:100%;}	
 
 }
 
 
 .page{ padding:20px 15px;}
 .hr0{height:1px;border:none;border-top:1px solid #dddddd; margin:20px 0;}
+.hr1{height:1px;border:none;border-top:1px dashed #eeeeee; margin:20px 0;}
 .radius5{-moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px;}
+
