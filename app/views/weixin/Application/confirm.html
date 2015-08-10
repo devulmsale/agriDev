@@ -1,0 +1,59 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+<header class="topbar titbg">
+    <a href="" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+        确认订单
+    </div>
+    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+</header>
+
+
+<section class="warp confirm page">
+
+    <ul>
+        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>炸鸡堡</h3><em>￥15</em></a><span><input type="text" class="txtadd"/></span></li>
+        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>炸鸡堡</h3><em>￥15</em></a><span><input type="text" class="txtadd"/></span></li>
+    </ul>
+    <div class="price">
+
+        <p>总价：<em>￥30</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="btn2">删除此订单</a>
+    </div>
+    <div class="notice">
+        <label for="textarea">订单备注：</label>
+        <textarea name="textarea" class="areabox" id="textarea"></textarea>
+    </div>
+
+
+</section>
+<div class="footspace"></div>
+
+<div id="myModal" class="reveal-modal">
+    <a class="close-reveal-modal">&#215;</a>
+    <div class="topsearch">
+        <form action="#" name="search">
+            <input type="text" name="" title="Search" class="searchexitbox" id="searchinput" onfocus="if(value==defaultValue){value='';this.style.color='#666'}" onBlur="if(!value){value=defaultValue;this.style.color='#959595'}" value="请输入搜索内容" size="10"/>
+            <input type="submit" name="button2" class="searchbtn iconfont" id="button2" value="&#xe663;">
+        </form>
+    </div>
+    <div class="search_con">
+        <div class="search_class overflow">
+            <p>
+                <a href="#" class="current">即将开始</a>
+                <a href="#">竞价中</a>
+                <a href="#">竞价结束</a>
+            </p>
+        </div>
+
+
+
+    </div>
+</div>
+<div class="footbtn" >
+    <a href="@{weixin.Application.detail()}" class="btn1">选好了</a>
+</div>
+
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+</script>

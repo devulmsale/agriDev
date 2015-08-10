@@ -1,101 +1,66 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>悠悠点餐</title>
-
-    <!-- Set render engine for 360 browser -->
-    <meta name="renderer" content="webkit">
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    *{<link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">}*
-
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    *{<link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">}*
-
-    <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
-    <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
-    <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
-
-    <script type="text/javascript" src="/public/weixin/js/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="/public/weixin/js/swiper-2.1.min.js"></script>
-    <script type="text/javascript" src="/public/weixin/js/yoyo.js"></script>
-</head>
-<body >
-
-<header id="wrap">
-    <div class="logo titbg"><em></em><span>悠悠点餐</span></div>
-    <!--焦点图开始-->
-    <div class="banner swiper-container">
-        <div class="swiper-wrapper" id="swiper-wrapper">
-
-            <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/1.jpg" title="嘀嘀打车"></a></div>
-
-            <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/2.jpg" title="MYOTee脸萌" width="640px" height="327px"></a></div>
-
-            <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/3.jpg" title="百度魔图" width="640px" height="327px"></a></div>
-
-            <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/4.jpg" title="QQ" width="640px" height="327px"></a></div>
-
-            <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/5.jpg" title="天天动听" width="640px" height="327px"></a></div>
-
-        </div>
-        <div class="pagination"></div>
-        <script type="text/javascript">
-            var newSlideSize = function slideSize(){
-                var w = Math.ceil($(".swiper-container").width()/1.96);
-                $(".swiper-container,.swiper-wrapper,.swiper-slide").height(w);
-            };
-            newSlideSize();
-            $(window).resize(function(){
-                newSlideSize();
-            });
-
-            var mySwiper = new Swiper('.swiper-container',{
-                pagination: '.pagination',
-                loop:true,
-                autoplay:3000,
-                paginationClickable: true,
-                onSlideChangeStart: function(){
-                    //回调函数
-                }
-            });
-        </script>
-    </div>
-    <!--焦点图结束-->
-    <div class="topcontact">
-        <a href="tel:+1 234 567 890"><i class="iconfont">&#xe623;</i> 电话</a>
-        <a href="#"><i class="iconfont">&#xe650;</i> 地址</a>
-        <a href="#"><i class="iconfont">&#xe61d;</i> 邮箱</a>
-    </div>
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<header class="topbar titbg">
+    <div class="logo"><em></em><span>悠悠点餐</span></div>
 </header>
-<div class="about" id="wrap">
-    <h3>青岛悠悠小镇电子科技有限公司</h3>
-    <p>青岛悠悠小镇电子科技有限公司,前身为青岛百达通支付服务有限公司,系一家高端电子消费卡运营服务公司,注册资本三千万,为青岛市获得“第三方支付牌照”的三家企业之一. </p>
+<!--焦点图开始-->
+<div class="wrap banner swiper-container">
+    <div class="swiper-wrapper" id="swiper-wrapper">
+
+        <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/1.jpg" title="嘀嘀打车"></a></div>
+
+        <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/2.jpg" title="MYOTee脸萌" width="640px" height="327px"></a></div>
+
+        <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/3.jpg" title="百度魔图" width="640px" height="327px"></a></div>
+
+        <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/4.jpg" title="QQ" width="640px" height="327px"></a></div>
+
+        <div class="swiper-slide" style="height: 327px; width: 640px;"><a href="#"><img src="/public/weixin/img/5.jpg" title="天天动听" width="640px" height="327px"></a></div>
+
+    </div>
+    <div class="pagination"></div>
+    <script type="text/javascript">
+        var newSlideSize = function slideSize(){
+            var w = Math.ceil($(".swiper-container").width()/1.96);
+            $(".swiper-container,.swiper-wrapper,.swiper-slide").height(w);
+        };
+        newSlideSize();
+        $(window).resize(function(){
+            newSlideSize();
+        });
+
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:true,
+            autoplay:3000,
+            paginationClickable: true,
+            onSlideChangeStart: function(){
+                //回调函数
+            }
+        });
+    </script>
 </div>
-<nav>
-    <a href="#" class="na0"><i class="iconfont">&#xe603;</i><em>我要点餐</em></a>
-    <a href="#" class="na1"><i class="iconfont">&#xe665;</i><em>我要预定</em></a>
-    <a href="#" class="na2"><i class="iconfont">&#xe62b;</i><em>我要外卖</em></a>
-    <a href="#" class="na3"><i class="iconfont">&#xe61a;</i><em>我要打包</em></a>
-    <a href="#" class="na4"><i class="iconfont">&#xe610;</i><em>优惠套餐</em></a>
+<!--焦点图结束-->
+<nav class="wrap">
+    <a href="@{weixin.Application.products()}" class="na0"><i class="iconfont">&#xe662;</i><em>我要点餐</em></a>
+    <a href="order.html" class="na1"><i class="iconfont">&#xe655;</i><em>我要预定</em></a>
+    <a href="order.html" class="na2"><i class="iconfont">&#xe646;</i><em>我要外卖</em></a>
+    <a href="order.html" class="na3"><i class="iconfont">&#xe653;</i><em>我要打包</em></a>
+    <a href="order.html" class="na4"><i class="iconfont">&#xe661;</i><em>精品套餐</em></a>
 </nav>
-<section class="page tuijian" id="wrap">
+<div class="contact wrap" id="wrap">
+    <h3>青岛悠悠小镇电子科技有限公司</h3>
+    <ul>
+        <li><a href="tel:+1 234 567 890"><i class="iconfont">&#xe63a;</i> <p><em>400-6577-707  0532-55719827</em><span>[咨询]</span></p></a></li>
+        <li><a href="#"><i class="iconfont">&#xe608;</i> <p><em>青岛市崂山区银川东路18-2号201、202</em><span>[地图]</span></p></a></li>
+        <li><i class="iconfont">&#xe635;</i> <p><em>联系人：张经理</em></p></li>
+    </ul>
+</div>
+
+<section class="wrap page tuijian" id="wrap">
     <div class="tit"><span>优惠推荐</span></div>
     <ul class="tjlist">
         <li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p1.jpg"></a></li>
         <li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p3.jpg"></a></li>
     </ul>
 </section>
-<footer class="titbg">
-    <a href="#"><i class="iconfont">&#xe6b8;</i><em>首页</em></a>
-    <a href="#"><i class="iconfont">&#xe6af;</i><em>购物车</em></a>
-    <a href="#"><i class="iconfont">&#xe686;</i><em>会员中心</em></a>
-</footer>
-
-</body>
-</html>
