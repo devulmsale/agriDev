@@ -7,6 +7,7 @@ import helper.imageupload.ImageUploader;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.JSONEntity;
 import models.constants.DeletedStatus;
+import models.mert.MerchantProductType;
 import models.operate.OperateUser;
 import models.product.*;
 import models.product.enums.MarketingMode;
@@ -62,7 +63,11 @@ public class ProductController extends Controller {
         ShippingMethod[] shippingMethods=ShippingMethod.values();
         //营销模式
         MarketingMode[] marketingModes=MarketingMode.values();
-        render(productTypelist ,productTopTypeList, storeMethods , packageMethods , shippingMethods , marketingModes);
+       //取商户商品类别
+        Logger.info("商户Id的 :%s=",MerchantSecure.getMerchant().id);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(MerchantSecure.getMerchant().id);
+        Logger.info("商户商品类别:%s=",merchantProductTypeList.size());
+        render(productTypelist, productTopTypeList, storeMethods, packageMethods, shippingMethods, marketingModes, merchantProductTypeList);
     }
 
     public static void create(@Valid Product product , String lablebox , File image , String imageName) throws Exception {
@@ -102,12 +107,14 @@ public class ProductController extends Controller {
         }
 
         //保存属性
-        String[] lables=lablebox.split(",");
-        Lable lable=null;
-        for(String lableId:lables){
-            lable=Lable.findById(Long.valueOf(lableId.trim()));
-            if(lable != null && product != null){
-                new ProductLable(product , lable);
+        if( null != lablebox) {
+            String[] lables = lablebox.split(",");
+            Lable lable = null;
+            for (String lableId : lables) {
+                lable = Lable.findById(Long.valueOf(lableId.trim()));
+                if (lable != null && product != null) {
+                    new ProductLable(product, lable);
+                }
             }
         }
         redirect(BASE_RETURN_INDEX);

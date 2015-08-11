@@ -33,6 +33,12 @@ public class MerchantProductType extends Model {
     @Column(name = "name")
     public String name;
 
+    /**
+     * 商户信息
+     */
+    @ManyToOne
+    @JoinColumn(name = "merchant_id")
+    public Merchant merchant;
 
     /**
      * 创建时间
@@ -74,6 +80,13 @@ public class MerchantProductType extends Model {
         MerchantProductType oldproductType = MerchantProductType.findById(id);
         BeanCopy.beans(newObject, oldproductType).ignoreNulls(true).copy();
         oldproductType.save();
+    }
+
+    /**
+     * 根据商户查询类别
+     */
+    public static List<MerchantProductType> findMerchantProductType(Long merchantId){
+        return MerchantProductType.find("deleted = ? and merchant.id = ?" , DeletedStatus.UN_DELETED , merchantId).fetch();
     }
 
 }

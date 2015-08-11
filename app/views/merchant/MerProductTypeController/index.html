@@ -1,0 +1,98 @@
+#{extends 'merchantMain.html' /}
+#{set title:'管理员后台' /}
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">类别管理</strong>  <small></small></div>
+    </div>
+
+    <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs">
+                    <a href="/merchant/merProductType/add">
+                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-3">
+            <form action="/merchant/merProductType" id="searchForm" name="searchForm" method="POST" >
+            <div class="am-input-group am-input-group-sm">
+                    <input type="hidden" id="pageNumber" name="pageNumber" value="${pageNumber}">
+                    <input type="text" class="am-form-field" name="searchName" placeholder="请输入类别名称搜索">
+                      <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="submit">搜索</button>
+                      </span>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <form class="am-form">
+                <table class="am-table am-table-striped am-table-hover table-main">
+                    <thead>
+                    <tr>
+                        <th class="table-check">
+                            <input type="checkbox" />
+                        </th>
+                        <th class="table-id">ID</th>
+                        <th class="table-title">类别名称</th>
+                        <th class="table-set">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #{paginate.list items:resultPage , as :'merproductType'}
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>${merproductType?.id}</td>
+                        <td>${merproductType?.name}</td>
+                        <td>
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='/merchant/merProductType/edit/${merproductType?.id}/${pageNumber}'">
+                                       <span class="am-icon-pencil-square-o"></span> 编辑
+                                    </button>
+                                    *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="location.href='/merchant/productType/delete/${productType?.id}/${pageNumber}'">
+                                        <span class="am-icon-trash-o"></span> 删除
+                                    </button>}*
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                   #{/paginate.list}
+                    </tbody>
+                </table>
+                <div class="am-cf" id="layerPage">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<!-- content end -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        laypage({
+            cont: $('#layerPage'), //容器。值支持id名、原生dom对象，jquery对象,
+            pages: '${resultPage?.pageCount}', //总页数
+            skin: '#AF0000',
+            curr:'${pageNumber}',
+            jump: function(e){ //触发分页后的回调
+                if(e.curr != '${pageNumber}'){
+                    $('#pageNumber').val(e.curr);
+                    $('#searchForm').submit();
+                }
+            }
+        });
+    });
+
+</script>

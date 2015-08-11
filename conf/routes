@@ -21,6 +21,14 @@ GET     /public/                                          staticDir:public
 # Merchant 商户后台管理
 GET   /merchants                                          merchant.Application.index
 GET   /merchants/login                                    merchant.auth.MerchantSecure.login
+
+#MerchantProductType商户类别管理
+*     /merchant/merProductType                            merchant.MerProductTypeController.index
+GET   /merchant/merProductType/add                        merchant.MerProductTypeController.add
+*     /merchant/merProductType/create                     merchant.MerProductTypeController.create
+*     /merchant/merProductType/edit/{id}/{pageNumber}     merchant.MerProductTypeController.edit
+*     /merchant/merProductType/update/{id}                merchant.MerProductTypeController.update
+
 #   Merchant Brand 管理
 *     /system/brands                                      system.BrandController.index
 GET   /system/updateName/{id}/{name}                      system.BrandController.updateName
