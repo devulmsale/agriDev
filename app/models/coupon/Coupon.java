@@ -1,6 +1,8 @@
 package models.coupon;
 
+import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
+import models.order.Goods;
 import models.order.User;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -8,9 +10,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
+import util.common.RandomNumberUtil;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,6 +80,27 @@ public class Coupon extends Model {
 
 
     /**
+     * 构建 Goods
+     * @return
+     */
+    public Goods findOrCreateGoods() {
+        Goods goods = Goods.find("serial = ?", "COUPON_" + this.id).first();
+        if (goods == null) {
+            goods = new Goods();
+            goods.createdAt = new Date();
+            goods.name = this.couponBatch.name;
+            goods.deleted = DeletedStatus.UN_DELETED;
+            goods.facePrice = this.couponBatch.costPrice;
+            goods.originalPrice = this.couponBatch.salePrice;
+            goods.salePrice = this.couponBatch.salePrice;
+            goods.status = GoodsStatus.OPEN;
+            goods.serial = "COUPON_" + this.id;
+            goods.save();
+        }
+        return goods;
+    }
+
+    /**
      * 分页查询
      *
      */
@@ -95,6 +121,22 @@ public class Coupon extends Model {
         memberCardPage.setBoundaryControlsEnabled(false);
         return memberCardPage;
     }
+
+
+    public static Coupon findByBatchAndUnBind(Long batchId) {
+        return Coupon.find("couponBatch.id = ? and user = null and deleted = ?" , batchId , DeletedStatus.UN_DELETED).first();
+    }
+
+    public static String getCouponNumber(Long merchantId) {
+        // sdf000285wsd
+        String merchantID =  new DecimalFormat("00000").format(merchantId);
+        return RandomNumberUtil.generateRandomNumberString(3)+"_"+ merchantID + RandomNumberUtil.generateRandomNumberString(4);
+    }
+
+    public static List<Coupon> findByTimesAndNotUser(Date beginAt , Date endAt) {
+        return Coupon.find("createdAt between ? and ? and user = null and deleted = ?" , beginAt , endAt , DeletedStatus.UN_DELETED).fetch();
+    }
+
 
     @Override
     public String toString() {

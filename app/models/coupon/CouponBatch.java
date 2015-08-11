@@ -50,6 +50,12 @@ public class CouponBatch extends Model{
     public BigDecimal salePrice;
 
     /**
+     * 图片路径
+     */
+    @Column(name = "image")
+    public String image;
+
+    /**
      * 开始生效期  如果不限制为空
      */
     @Column(name = "begin_at")
@@ -68,10 +74,16 @@ public class CouponBatch extends Model{
     public Date createdAt;
 
     /**
-     * 生成优惠券数量
+     * 总生成优惠券数量
      */
     @Column(name = "count")
     public Integer count;
+
+    /**
+     * 剩余数量
+     */
+    @Column(name = "surplus_count")
+    public Integer surplusCount;
 
     /**
      * 逻辑删除,0:未删除，1:已删除

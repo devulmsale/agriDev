@@ -1,0 +1,36 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+<header class="topbar titbg">
+    <a href="" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+        确认订单
+    </div>
+    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+</header>
+
+
+<section class="warp confirm page">
+
+    <ul>
+        <li><a href="#"><img src="/public/weixin/images/coupon/quan${batch?.salePrice?.format("#")}.jpg"><h3>${batch?.name}</h3><em>￥${batch?.salePrice}</em></a><span><input type="text" class="txtadd"/></span></li>
+    </ul>
+    <div class="price">
+
+        <p>总价：<em>￥${batch?.salePrice}</em></p><a href="#" class="btn2">删除此订单</a>
+    </div>
+    <div class="notice">
+        <label for="textarea">订单备注：</label>
+        <textarea name="textarea" class="areabox" id="textarea"></textarea>
+    </div>
+
+
+</section>
+<div class="footspace"></div>
+<div class="footbtn" >
+    <a href="@{weixin.CouponController.pay(batch?.id , 2)}" class="btn1">选好了</a>
+</div>
+
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+</script>

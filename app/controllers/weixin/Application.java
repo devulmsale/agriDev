@@ -2,6 +2,7 @@ package controllers.weixin;
 
 import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
+import models.coupon.CouponBatch;
 import models.mert.Merchant;
 import models.product.Product;
 import play.Logger;
@@ -19,7 +20,8 @@ public class Application extends Controller {
 
     public static void index() {
 //        Merchant merchant = WxMpAuth.currentUser().merchant;
-        render();
+        List<CouponBatch> couponBatchList = CouponBatch.findAll();
+        render(couponBatchList);
     }
 
     public static void products() {

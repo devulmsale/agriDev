@@ -43,6 +43,7 @@ public class CouponBatchController extends Controller {
     public static void create(CouponBatch batch) {
         batch.createdAt = new Date();
         batch.deleted = DeletedStatus.UN_DELETED;
+        batch.surplusCount = 0;
         batch.merchant = MerchantSecure.getMerchant();
         batch.save();
         redirect(BASE_RETURN_INDEX);

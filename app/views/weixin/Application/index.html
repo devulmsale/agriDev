@@ -60,7 +60,10 @@
 <section class="wrap page tuijian" id="wrap">
     <div class="tit"><span>优惠推荐</span></div>
     <ul class="tjlist">
-        <li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p1.jpg"></a></li>
-        <li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p3.jpg"></a></li>
+        #{list couponBatchList , as :'batch'}
+            <li><a href="@{weixin.CouponController.show(batch?.id)}"><div><h3>${batch?.name}</h3></div><img src="/public/weixin/images/coupon/quan${batch?.salePrice?.format("#")}.jpg"></a></li>
+        #{/list}
+        *{<li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p1.jpg"></a></li>}*
+        *{<li><a href="#"><div><h3>悠悠点餐8折优惠券</h3><p>先拿券后下单，优惠享不完！</p></div><img src="/public/weixin/img/p3.jpg"></a></li>}*
     </ul>
 </section>
