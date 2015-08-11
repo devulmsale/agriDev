@@ -39,20 +39,19 @@ public class MerProductTypeController extends Controller {
     }
 
     public static void add(MerchantProductType merchantProductType) {
-
         render(merchantProductType);
     }
 
     public static void create(@Valid MerchantProductType merchantProductType ) throws Exception {
-       Logger.info("商户添加--类别");
         if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
             add(merchantProductType);
         }
-        Logger.info("商户类别添加");
         merchantProductType.deleted=DeletedStatus.UN_DELETED;
         merchantProductType.createdAt=new Date();
+        Logger.info("MerchantSecure :%s===",MerchantSecure.getMerchant());
+        merchantProductType.merchant=MerchantSecure.getMerchant();
         merchantProductType.save();
         redirect(BASE_RETURN_INDEX);
 
@@ -65,7 +64,6 @@ public class MerProductTypeController extends Controller {
     }
 
     public static void update(Long id , MerchantProductType merchantProductType) {
-        Logger.info("商品类别更新 id :%s=",id);
         MerchantProductType.update(id , merchantProductType);
         redirect(BASE_RETURN_INDEX);
     }

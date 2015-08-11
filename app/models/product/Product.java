@@ -4,6 +4,7 @@ import jodd.bean.BeanCopy;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.mert.MerchantProductType;
 import models.order.Goods;
 import models.product.enums.*;
 import net.sf.oval.constraint.MaxLength;
@@ -58,6 +59,13 @@ public class Product extends Model {
     @JoinColumn(name = "parent_type_id")
     @ManyToOne
     public ProductType parentType;
+
+    /**
+     * 商户商品类别
+     */
+    @JoinColumn(name = "merchant_type_id")
+    @ManyToOne
+    public MerchantProductType merchantProductType;
 
     /**
      * 售价
