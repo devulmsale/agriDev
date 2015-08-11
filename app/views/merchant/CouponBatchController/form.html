@@ -1,0 +1,97 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-tabs am-margin" data-am-tabs>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        批次名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="batch.name" value="${batch?.name}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'batch.name' /}
+                    </div>
+                </div>
+
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        原价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="batch.costPrice" value="${batch?.costPrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6"style="color: red;">
+                        *#{error 'batch.costPrice' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        售价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="salePrice" name="batch.salePrice" value="${batch?.salePrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.salePrice' /}
+                    </div>
+                </div>
+
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        开始有效期
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="beginAt" name="batch.beginAt" placeholder="选择开始时间" data-am-datepicker readonly class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.salePrice' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        结束有效期
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="endAt" name="batch.endAt" value="${batch?.endAt}" placeholder="选择开始时间" data-am-datepicker readonly  class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.salePrice' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        生成数量
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="count" name="batch.count" value="${product?.count}" placeholder="最大数量9999" maxlength="4" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'batch.count' /}
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- content end -->
+<input  type="hidden" id="imageId" name="imageName">

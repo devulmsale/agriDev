@@ -169,11 +169,9 @@ public class ProductController extends Controller {
     }
 
     private static void initData() {
-        // 绠＄悊鍛樹俊鎭�
         OperateUser operateUser = Secure.getOperateUser();
         renderArgs.put("operateUser" , operateUser);
 
-        //绠＄悊鍛橀偖绠�
         Long count = 8l;
         renderArgs.put("emailCount" , count);
     }

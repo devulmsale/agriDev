@@ -25,6 +25,12 @@ GET   /merchants/login                                    merchant.auth.Merchant
 *     /system/brands                                      system.BrandController.index
 GET   /system/updateName/{id}/{name}                      system.BrandController.updateName
 
+# Merchant Coupon 商家优惠券管理
+GET  /merchant/coupons                                    merchant.CouponBatchController.index
+GET  /merchant/coupon/add                                 merchant.CouponBatchController.add
+POST /merchant/coupon/create                              merchant.CouponBatchController.create
+
+
 #   productType 类别管理
 *     /system/productType                                 system.ProductTypeController.index
 *     /system/productType/create                          system.ProductTypeController.create
