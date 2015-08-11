@@ -3,6 +3,7 @@ package models.product;
 import jodd.bean.BeanCopy;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
+import models.mert.Merchant;
 import models.order.Goods;
 import models.product.enums.*;
 import net.sf.oval.constraint.MaxLength;
@@ -43,6 +44,13 @@ public class Product extends Model {
     @MaxLength(value = 20 , message = "商品简称不能大于20个字符")
     @Column(name = "short_name")
     public String shortName;
+
+    /**
+     * 所属商户
+     */
+    @ManyToOne
+    @JoinColumn(name = "merchant_id")
+    public Merchant merchant;
 
     /**
      * 所属类别
@@ -283,4 +291,7 @@ public class Product extends Model {
         return ProductLable.isHaveLable(this.id , lableId);
     }
 
+    public static List<Product> findProduct(){
+        return Product.find("deleted = ?",DeletedStatus.UN_DELETED).fetch();
+    }
 }

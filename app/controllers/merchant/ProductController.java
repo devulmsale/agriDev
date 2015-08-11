@@ -73,7 +73,8 @@ public class ProductController extends Controller {
         }
         product.createdAt= new Date();
         product.deleted=DeletedStatus.UN_DELETED;
-
+        Logger.info("商品所属商户: %s=",MerchantSecure.getMerchant());
+        product.merchant=MerchantSecure.getMerchant();
         /*if (image != null && image.getName() != null) {
             // 图片上传上去
             ImageUploadResult imageUploadResult = ImageUploader.upload(image);
@@ -83,7 +84,6 @@ public class ProductController extends Controller {
             product.listImage = ImageUploader.getImageUrl(imageUploadResult.ufId, "640x320");
         }*/
 
-        Logger.info("商品描述信息 :%s=",product.content);
         product.save();
 
         //保存图片UFID

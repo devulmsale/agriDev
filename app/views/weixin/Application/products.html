@@ -50,12 +50,29 @@
 
 </aside>
 <section class="rightbar">
+
     <dl id="r0">
         <dt>商家推荐</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>
+    #{list productList , as : 'product'}
+        <dd>
+            <div class="tit">
+                <a href="detail.html">
+                    <h3>
+                        <span>${product?.name}</span>
+                        <em>${product?.salePrice}元</em>
+                    </h3>
+                </a>
+                <p>
+                    <input type="text" value="1" class="txtadd"/>
+                </p>
+           </div>
+            <a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a>
+        </dd>
+*{  <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>}*
+    #{/list}
     </dl>
-    <dl id="r1">
+
+    *{<dl id="r1">
         <dt>每日特价</dt>
         <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
         <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
@@ -91,7 +108,7 @@
         <dt>饮料/甜点</dt>
         <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p4.jpg"></a></dd>
         <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p2.jpg"></a></dd>
-    </dl>
+    </dl>}*
     <div class="footspace"></div>
 </section>
 

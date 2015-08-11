@@ -61,6 +61,7 @@ public class MerchantController extends Controller {
         }
         merchant.createdAt=new Date();
         merchant.deleted= DeletedStatus.UN_DELETED;
+        merchant.linkId=RandomNumberUtil.generateRandomNumberString(6);
         merchant.save();
 
         merchantUser.merchant = merchant;
