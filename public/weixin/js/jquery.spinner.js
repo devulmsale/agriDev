@@ -6,7 +6,7 @@
       var keyCodes = {up:38, down:40}
       var container = $('<div></div>')
       container.addClass('spinner')
-      var textField = $(this).addClass('value').attr('maxlength', '2').val(options.value)
+      var textField = $(this).addClass('value').attr('maxlength', '2').attr('id','sumCount').val(options.value)
         .bind('keyup paste change', function (e) {
           var field = $(this)
           if (e.keyCode == keyCodes.up) changeValue(1)
@@ -24,16 +24,21 @@
       textField.after(increaseButton)
 
       function changeValue(delta) {
-        textField.val(getValue() + delta)
+        textField.val(getValue() + delta);
+
         validateAndTrigger(textField)
       }
 
       function validateAndTrigger(field) {
         clearTimeout(container.data('timeout'))
-        var value = validate(field)
+        var value = validate(field);
+        var price = $('#price').val();
+        $('#sumPrice').html(value * price);
         if (!isInvalid(value)) {
           textField.trigger('update', [field, value])
         }
+        var sumcount=$('#sumCount').val();
+        document.getElementById("number").value=sumcount;
       }
 
       function validate(field) {

@@ -31,12 +31,14 @@
 <aside class="leftbar">
     <h3>全部菜单</h3>
     <ul>
-        <li class="menuItem active"><a href="#r0">商家推荐<em>2</em></a></li>
+        *{<li class="menuItem active"><a href="#r0">商家推荐<em>2</em></a></li>
         <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
-        <li class="menuItem"><a href="#r3">特色菜品</a></li>
-        <li class="menuItem"><a href="#r4">热菜类</a></li>
-        <li class="menuItem"><a href="#r5">凉菜类</a></li>
+        <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
+        #{list merchantProductTypeList , as :'productType'}
+        <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
+        #{/list}
+        *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤</a></li>
         <li class="menuItem"><a href="#r7">饮料/甜品</a></li>
         <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
@@ -45,33 +47,19 @@
         <li class="menuItem"><a href="#r4">热菜类</a></li>
         <li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤1</a></li>
-        <li class="menuItem"><a href="#r7">饮料/甜品b</a></li>
+        <li class="menuItem"><a href="#r7">饮料/甜品b</a></li>}*
     </ul>
 
 </aside>
 <section class="rightbar">
 
-    <dl id="r0">
-        <dt>商家推荐</dt>
-    #{list productList , as : 'product'}
-        <dd>
-            <div class="tit">
-                <a href="detail.html">
-                    <h3>
-                        <span>${product?.name}</span>
-                        <em>${product?.salePrice}元</em>
-                    </h3>
-                </a>
-                <p>
-                    <input type="text" value="1" class="txtadd"/>
-                </p>
-           </div>
-            <a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a>
-        </dd>
+#{list productList , as : 'product'}
+    <dl id="r${product_index}">
+        <dt>${product?.merchantProductType?.name}</dt>
+        <dd><div class="tit"><a href="detail.html"><h3><span>${product?.name}</span><em>${product?.salePrice}元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
 *{  <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>}*
-    #{/list}
     </dl>
-
+#{/list}
     *{<dl id="r1">
         <dt>每日特价</dt>
         <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>

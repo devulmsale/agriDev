@@ -4,9 +4,11 @@ import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderType;
 import models.coupon.Coupon;
 import models.coupon.CouponBatch;
+import models.order.Cart;
 import models.order.Order;
 import models.order.User;
 import order.OrderBuilder;
+import play.Logger;
 import play.modules.redis.Redis;
 import play.mvc.Controller;
 
@@ -24,14 +26,20 @@ public class CouponController extends Controller {
     public static void show(Long batchId) {
         CouponBatch batch = CouponBatch.findById(batchId);
         render(batch);
+        //redirect("/showCoupon");
     }
 
+    public static void showCoupon(Long batchId) {
+        CouponBatch batch = CouponBatch.findById(batchId);
+        render(batch);
+    }
     /**
      * 确定购买卡券
      * @param batchId
-     * @param size
+     * @param number
      */
-    public static void pay(Long batchId , Integer size) {
+    public static void createpay(Long batchId , Integer number) {
+        Logger.info("卡券数量size :%s=",number);
         CouponBatch batch = CouponBatch.findById(batchId);
         //TODO 用户需要改成 登录用户
         User user = User.all().first();
@@ -39,7 +47,7 @@ public class CouponController extends Controller {
         Order order = orderBuilder.save();  //生成订单号
         // 第一  数据库中 有没有 没有被绑定的卡券
         // 第二  没有被绑定的卡券 我要判断下 是否在 redis 中被锁定
-            for(int i = 0 ; i < size ; i++) {
+            for(int i = 0 ; i < number ; i++) {
                 Coupon cn = new Coupon(Coupon.getCouponNumber(batch.merchant.id) , batch);
                 cn.couponBatch.surplusCount -=1;
                 cn.couponBatch.save();
@@ -50,7 +58,15 @@ public class CouponController extends Controller {
                         .build()
                         .changeToUnPaid();
             }
-        render(order);
+        //render(order);
+        redirect("/pay");
 
     }
+
+    public static void pay(Long batchId , Integer number) {
+        //TODO 查询此用户的订单
+        Order order= Order.all().first();
+        render(order);
+    }
+
 }

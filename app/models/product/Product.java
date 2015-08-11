@@ -300,6 +300,12 @@ public class Product extends Model {
     }
 
     public static List<Product> findProduct(){
+
         return Product.find("deleted = ?",DeletedStatus.UN_DELETED).fetch();
+    }
+
+    //根据商户号和商户类别id获取商品
+    public static List<Product> findProductByMerIdAndMerProductType(Long merchantId , Long merProductTypeId){
+        return Product.find("deleted = ? and merchant.id = ? and merchantProductType.id = ?" , DeletedStatus.UN_DELETED , merchantId , merProductTypeId).fetch();
     }
 }
