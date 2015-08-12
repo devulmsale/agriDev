@@ -33,3 +33,6 @@ imageType.CART_SMALL=购物车展示
 imageType.ORDER_SMALL=订单展示
 imageType.USER_CENTER=个人中心
 
+deltedStatus.DELETED=已删除
+deletedStatus.UN_DELETED=正常状态
+

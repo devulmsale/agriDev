@@ -37,6 +37,14 @@ GET   /system/updateName/{id}/{name}                      system.BrandController
 GET  /merchant/coupons                                    merchant.CouponBatchController.index
 GET  /merchant/coupon/add                                 merchant.CouponBatchController.add
 POST /merchant/coupon/create                              merchant.CouponBatchController.create
+#大厅管理
+GET  /merchant/hall/index                                 merchant.MerHallController.index
+GET  /merchant/add                                        merchant.MerHallController.add
+POST /merchant/create                                     merchant.MerHallController.create
+GET /merchant/edit/{id}                                   merchant.MerHallController.edit
+POST /merchant/update/{id}                                merchant.MerHallController.update
+
+
 
 
 #   productType 类别管理
@@ -65,6 +73,7 @@ GET   /system/merchant/delete                             system.MerchantControl
 POST  /system/merchant/create                             system.MerchantController.create
 GET   /system/merchantUser/{id}/renew                     system.MerchantRenewController.renew
 POST  /system/merchantRenew/renew/update/{id}             system.MerchantRenewController.renewUpdate
+
 
 
 

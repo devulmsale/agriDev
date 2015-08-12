@@ -1,5 +1,6 @@
 package models.mert.hall;
 
+import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -24,7 +25,7 @@ public class HallTable extends Model {
 
 
     /**
-     * 所属商家
+     * 所属大厅
      */
     @ManyToOne
     @JoinColumn(name = "hall_id")
@@ -49,6 +50,17 @@ public class HallTable extends Model {
     @Column(name = "created_at")
     public Date createdAt;
 
+
+    /**
+     * 更新
+     * @param id
+     * @param newObject
+     */
+    public static void update(Long id, MerchantHall newObject) {
+        HallTable hallTable=HallTable.findById(id);
+        BeanCopy.beans(newObject, hallTable).ignoreNulls(true).copy();
+        hallTable.save();
+    }
 
     /**
      * 分页查询
