@@ -1,6 +1,7 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+
 <header class="topbar titbg">
     <a href="" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
@@ -13,11 +14,22 @@
 <section class="warp confirm page">
 
     <ul>
-        <li><a href="#"><img src="/public/weixin/images/coupon/quan${batch?.salePrice?.format("#")}.jpg"><h3>${batch?.name}</h3><em>￥${batch?.salePrice}</em></a><span><input type="text" class="txtadd"/></span></li>
+        <li>
+            <a href="#">
+                <img src="/public/weixin/images/coupon/quan${batch?.salePrice?.format("#")}.jpg">
+                <h3>${batch?.name}
+                <input type="hidden" id="price" name="price" value="${batch?.salePrice}" />
+                </h3>
+                <em>￥ ${batch?.salePrice}</em>
+            </a>
+            <span>
+                <input  type="text" class="txtadd"/>
+            </span>
+        </li>
     </ul>
     <div class="price">
 
-        <p>总价：<em>￥${batch?.salePrice}</em></p><a href="#" class="btn2">删除此订单</a>
+        <p>总价：<em>￥<span id="sumPrice">${batch?.salePrice}</span></em></p><a href="#" class="btn2">删除此订单</a>
     </div>
     <div class="notice">
         <label for="textarea">订单备注：</label>
@@ -28,9 +40,16 @@
 </section>
 <div class="footspace"></div>
 <div class="footbtn" >
-    <a href="@{weixin.CouponController.pay(batch?.id , 2)}" class="btn1">选好了</a>
+    <form name="couponform" method="post" action="@{weixin.CouponController.createpay()}" >
+        <input type="hidden" name="batchId" value="${batch?.id}">
+        <input type="hidden" id="number" name="number" value="1">
+    <a class="btn1" onclick="getCouponSubmit()">选好了</a>
+    </form>
 </div>
 
 <script type="text/javascript">
     $('.txtadd').spinner({});
+    function getCouponSubmit(){
+        document.couponform.submit();
+    }
 </script>
