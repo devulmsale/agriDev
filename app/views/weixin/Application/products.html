@@ -86,6 +86,7 @@
             $('#productType_'+product_type).html(parseInt(typeCount) + 1)
         }
         var carts=$('#product_id_value').val();
+        document.getElementById("carts").value=carts;
     }
 </script>
 <header class="topbar titbg">
@@ -209,14 +210,14 @@
 </div>
 <div class="footcart" >
     <p class="active"><em>2</em><span>19.6元</span></p>
-    <form name="subform" action="/weixin/confirm" method="post">
-        <a onclick="getSub()" class="btn0">选好了</a>
+    <form name="subform" id="subform" method="POST" action="/weixin/confirm" >
         <input type="hidden" name="carts" id="carts" value="">
+        <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
     </form>
 </div>
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){
-       document.subform.submit();
+        $('#subform').submit();
     }
 </script>

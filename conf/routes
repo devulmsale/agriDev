@@ -5,10 +5,10 @@
 # Home page
 GET     /                                                 Application.index
 GET     /weixin/products                                  weixin.Application.products
-GET     /weixin/confirm                                   weixin.Application.confirm
-GET     /weixin/detail                                    weixin.Application.detail
-GET     /weixin/pay                                       weixin.Application.pay
-GET     /weixin/{linkId}                                  weixin.Application.index
+POST    /weixin/confirm                                   weixin.Application.confirm
+POST    /weixin/detail                                    weixin.Application.detail
+POST    /weixin/pay                                       weixin.Application.pay
+
 
 
 # Ignore favicon requests
@@ -133,9 +133,10 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 #Coupon 卡券管理
 *      /pay                                      weixin.CouponController.pay
-POST   /weixin/confirm                           weixin.Application.confirm
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct
+
+GET     /weixin/{linkId}                                  weixin.Application.index
 
 

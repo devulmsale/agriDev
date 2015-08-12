@@ -20,7 +20,7 @@
     </div>
     <div class="tit">填写订单信息</div>
     <div class="submit_info">
-        <form name="form1" method="post" action="">
+        *{<form name="form1" method="post" action="">}*
             <ul>
                 <li><strong><i>*</i>姓名：</strong><span><input type="text" name="textfield" style="width:100%;" class="editbox" id="textfield"></span></li>
                 <li><strong><i>*</i>电话：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
@@ -44,7 +44,15 @@
 
 </section>
 <div class="footbtn" >
-    <a href="@{weixin.Application.pay()}" class="btn1">提交订单</a>
+    <form id="subform" method="POST" action="@{weixin.Application.pay()}">
+        <input type="hidden" name="orderNumber" value="${orderNumber}">
+    <a href="javascript:void(0)" class="btn1" onclick="getSub()">提交订单</a>
+    </form>
 </div>
-</form>
+*{</form>}*
+<script>
+    function getSub(){
+        $('#subform').submit();
+    }
+</script>
 <div class="footspace"></div>

@@ -13,12 +13,13 @@
 <section class="warp confirm page">
 
     <ul>
-        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>炸鸡堡</h3><em>￥15</em></a><span><input type="text" class="txtadd"/></span></li>
-        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>炸鸡堡</h3><em>￥15</em></a><span><input type="text" class="txtadd"/></span></li>
+    #{list orderItems , as :'oi'}
+        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>${oi?.goods?.name}</h3><em>￥${oi?.goods?.salePrice}</em></a><span><input type="text" class="txtadd"/></span></li>
+    #{/list}
     </ul>
     <div class="price">
 
-        <p>总价：<em>￥30</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="btn2">删除此订单</a>
+        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="btn2">删除此订单</a>
     </div>
     <div class="notice">
         <label for="textarea">订单备注：</label>
@@ -51,9 +52,15 @@
     </div>
 </div>
 <div class="footbtn" >
-    <a href="@{weixin.Application.detail()}" class="btn1">选好了</a>
+    <form id="subform" method="POST" action="@{weixin.Application.detail()}">
+        <input type="hidden" name="orderNumber" value="${order?.orderNumber}">
+        <a  href="javascript:void(0)" onclick="getSub()" class="btn1">选好了</a>
+    </form>
 </div>
 
 <script type="text/javascript">
     $('.txtadd').spinner({});
+    function getSub(){
+        $('#subform').submit();
+    }
 </script>
