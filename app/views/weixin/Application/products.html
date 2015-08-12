@@ -25,6 +25,70 @@
     });
 
 </script>
+<script type="text/javascript">
+    function privateOperation(value , product_id , product_type) {
+        var productIds = $('#productIds').val();
+        var typeCount = $('#productType_'+product_type).html();
+        var isHave = false;
+        if(productIds != null && productIds.indexOf(",") >= 0) {
+            var ids = productIds.split(",");
+            for (var i=0; i < ids.length ;i++ )   {
+                if(ids[i] == product_id) {
+                    isHave = true;
+                }
+            }
+        }
+        if(value == 0) {
+            var newIds = "";
+            var ids = productIds.split(",");
+            for (i=0;i<ids.length ;i++ )   {
+                if(ids[i] != '' && ids[i] != product_id) {
+                    newIds += ","+ids[i];
+                }
+            }
+            $('#productIds').val(newIds);
+            $('#productType_'+product_type).html(parseInt(typeCount) - 1)
+        }
+
+        var ids_count = $('#product_id_value').val();
+        var newIds_count = "";
+        //  4_5,5_2,6_1
+        if(ids_count != null && ids_count != '' && ids_count.indexOf(",") >= 0) {
+            var isHave2 = false;
+            var ids_countArray = ids_count.split(",");
+            for(var k = 0 ; k < ids_countArray.length ; k++) {
+                var id_count = ids_countArray[k];
+                if(id_count != null && id_count != '' && id_count.indexOf("_")) {
+                    var pId = id_count.split("_")[0];
+                    if(pId == product_id) {
+                        if(value > 0) {
+                            newIds_count += pId+"_"+value + ",";
+                        }
+                        isHave2 = true;
+                    } else {
+                        newIds_count += id_count + ",";
+                    }
+                }
+            }
+            if(!isHave2) {
+                newIds_count += product_id+"_"+value;
+            }
+            $('#product_id_value').val(newIds_count);
+        } else {
+            var id_value = product_id+"_"+value+",";
+            $('#product_id_value').val(id_value);
+        }
+
+
+        if(!isHave) {
+            $('#productIds').val(productIds + "," + product_id);
+
+            $('#productType_'+product_type).html(parseInt(typeCount) + 1)
+        }
+        var carts=$('#product_id_value').val();
+        document.getElementById("carts").value=carts;
+    }
+</script>
 <header class="topbar titbg">
     <div class="logo"><em></em><span>悠悠点餐</span></div>
 </header>
@@ -36,7 +100,12 @@
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
         <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
         #{list merchantProductTypeList , as :'productType'}
-        <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
+        <!-- a_r5  -->
+            <li class="menuItem"><a href="#r${productType_index}" >${productType?.name}
+                <em id="productType_${productType?.id}">0</em>
+                <input type="hidden" name="productIds" id="productIds">
+                <input type="hidden" name="product_id_value" id="product_id_value">
+            </a></li>
         #{/list}
         *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤</a></li>
@@ -53,13 +122,31 @@
 </aside>
 <section class="rightbar">
 
-#{list productList , as : 'product'}
-    <dl id="r${product_index}">
-        <dt>${product?.merchantProductType?.name}</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>${product?.name}</span><em>${product?.salePrice}元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-*{  <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>}*
-    </dl>
+#{list merchantProductTypeList , as :'mpt'}
+  #{list productMap.get(mpt?.id.toString()) , as :'product'}
+      <dl id="r${mpt_index}">
+          <dt>${mpt?.name}</dt>
+          <dd>
+              <div class="tit">
+                  <a href="detail.html">
+                      <h3>
+                          <span>${product?.name}</span>
+                          <em>${product?.salePrice}元</em>
+                      </h3>
+                  </a>
+                  <p>
+                      <input type="text"  product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                  </p>
+              </div>
+              <a href="detail.html">
+              <img src="/public/weixin/img/p1.jpg">
+              </a>
+          </dd>
+      </dl>
+  #{/list}
 #{/list}
+
+
     *{<dl id="r1">
         <dt>每日特价</dt>
         <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
@@ -122,8 +209,15 @@
     </div>
 </div>
 <div class="footcart" >
-    <p class="active"><em>2</em><span>19.6元</span></p><a href="@{weixin.Application.confirm()}" class="btn0">选好了</a>
+    <p class="active"><em>2</em><span>19.6元</span></p>
+    <form name="subform" id="subform" method="POST" action="/weixin/confirm" >
+        <input type="hidden" name="carts" id="carts" value="">
+        <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
+    </form>
 </div>
 <script type="text/javascript">
     $('.txtadd').spinner({});
+    function getSub(){
+        $('#subform').submit();
+    }
 </script>

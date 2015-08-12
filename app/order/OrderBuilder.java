@@ -2,6 +2,7 @@ package order;
 
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.GoodsStatus;
+import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
@@ -89,6 +90,15 @@ public class OrderBuilder {
             throw new IllegalStateException("Order can NOT change user after save!");
         }
         order.amount = amount;
+        return this;
+    }
+
+
+    public OrderBuilder goodsType(OrderGoodsType goodsType) {
+        if (order.isPersistent()) {
+            throw new IllegalStateException("Order can NOT change user after save!");
+        }
+        order.goodsType = goodsType;
         return this;
     }
 

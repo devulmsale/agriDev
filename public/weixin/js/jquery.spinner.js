@@ -6,6 +6,7 @@
       var keyCodes = {up:38, down:40}
       var container = $('<div></div>')
       container.addClass('spinner')
+      var obj = $(this);
       var textField = $(this).addClass('value').attr('maxlength', '2').attr('id','sumCount').val(options.value)
         .bind('keyup paste change', function (e) {
           var field = $(this)
@@ -32,13 +33,12 @@
       function validateAndTrigger(field) {
         clearTimeout(container.data('timeout'))
         var value = validate(field);
-        var price = $('#price').val();
-        $('#sumPrice').html(value * price);
+        var product_id = obj.attr("product_id");
+        var product_type = obj.attr("product_type");
+        privateOperation(value , product_id , product_type);
         if (!isInvalid(value)) {
           textField.trigger('update', [field, value])
         }
-        var sumcount=$('#sumCount').val();
-        document.getElementById("number").value=sumcount;
       }
 
       function validate(field) {

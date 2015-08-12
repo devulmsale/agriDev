@@ -5,10 +5,10 @@
 # Home page
 GET     /                                                 Application.index
 GET     /weixin/products                                  weixin.Application.products
-GET     /weixin/confirm                                   weixin.Application.confirm
-GET     /weixin/detail                                    weixin.Application.detail
-GET     /weixin/pay                                       weixin.Application.pay
-GET     /weixin/{linkId}                                  weixin.Application.index
+POST    /weixin/confirm                                   weixin.Application.confirm
+POST    /weixin/detail                                    weixin.Application.detail
+POST    /weixin/pay                                       weixin.Application.pay
+
 
 
 # Ignore favicon requests
@@ -46,6 +46,13 @@ POST /merchant/update/{id}                                merchant.MerHallContro
 
 
 
+# Merchant Coupon Pay
+*   /order/qrCode                                         weixin.OrderController.qrCode
+*   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult
+
+# 微信支付回调
+POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
+
 
 #   productType 类别管理
 *     /system/productType                                 system.ProductTypeController.index
@@ -61,6 +68,9 @@ GET   /system/productType/editChildPage/{id}              system.ProductTypeCont
 
 # Brand 品牌管理
 POST  /system/brand/getSubClassByParentId                 system.BrandController.getSubClassByParentId
+
+
+
 
 
 # SYSTEM 后台管理
@@ -135,5 +145,7 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct
+
+GET     /weixin/{linkId}                                  weixin.Application.index
 
 

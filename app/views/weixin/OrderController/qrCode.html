@@ -13,20 +13,7 @@
 
 
 <section class="warp pay page">
-
-    <div class="tit">预定订单</div>
-    <div class="payinfo">
-        <p>就餐时间：<span>8月10日 17点</span></p>
-        <p>订单合计（含送餐费、打包费）:<em>￥40</em></p>
-    </div>
-    <div class="payfor">
-        <a href="#" class="btn2">网银支付</a>
-        <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">微信支付</a>
-        <a href="#" class="btn1">取消</a>
-    </div>
-
-
-
+  <img src="${order?.qrImage}">
 </section>
 <footer class="titbg">
     <a href="#"><i class="iconfont">&#xe636;</i><em>首页</em></a>

@@ -5,6 +5,7 @@ import models.base.enums.MemberCardType;
 import models.base.enums.VenuePriceType;
 import models.common.DateUtil;
 import models.common.enums.GoodsStatus;
+import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
@@ -106,6 +107,13 @@ public class Order extends Model {
 
 
     /**
+     * 二维码
+     */
+    @Column(name = "qr_image")
+    public String qrImage;
+
+
+    /**
      * 分销商订单号
      */
     @Column(name = "resaler_order_number")
@@ -117,6 +125,13 @@ public class Order extends Model {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     public OrderStatus status;
+
+    /**
+     *  订单产品类型
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "goods_type")
+    public OrderGoodsType goodsType;
 
     /**
      * 逻辑删除,0:未删除，1:已删除

@@ -1,6 +1,7 @@
 package controllers.weixin;
 
 import me.chanjar.weixin.common.util.StringUtils;
+import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderType;
 import models.coupon.Coupon;
 import models.coupon.CouponBatch;
@@ -43,7 +44,7 @@ public class CouponController extends Controller {
         CouponBatch batch = CouponBatch.findById(batchId);
         //TODO 用户需要改成 登录用户
         User user = User.all().first();
-        OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC);
+        OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(OrderGoodsType.COUPON);
         Order order = orderBuilder.save();  //生成订单号
         // 第一  数据库中 有没有 没有被绑定的卡券
         // 第二  没有被绑定的卡券 我要判断下 是否在 redis 中被锁定
@@ -58,9 +59,7 @@ public class CouponController extends Controller {
                         .build()
                         .changeToUnPaid();
             }
-        //render(order);
-        redirect("/pay");
-
+        redirect("/order/qrCode?orderNumber="+order.orderNumber);
     }
 
     public static void pay(Long batchId , Integer number) {

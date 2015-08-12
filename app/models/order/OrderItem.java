@@ -118,4 +118,9 @@ public class OrderItem extends Model {
     public static List<OrderItem> getListByOrder(Order order) {
         return OrderItem.find("order.id = ? and deleted = ?", order.id, DeletedStatus.UN_DELETED).fetch();
     }
+
+
+    public static OrderItem getByOrder(Order order) {
+        return OrderItem.find("order.id = ? and deleted = ?", order.id, DeletedStatus.UN_DELETED).first();
+    }
 }
