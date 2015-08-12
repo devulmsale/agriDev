@@ -17,7 +17,7 @@ public class WxpayFactory {
     private static final String PAY_KEY    = "asdfasdf009r0q90qw9r01wq09rtyeer"; //支付密钥
     //private static final String MCH_ID = "1223805701";
     private static final String MCH_ID     = "1251164801";
-    private static final String NOTIFY_URL = "http://wxtest.ulmsale.cn/pay/notify/weixin";
+    private static final String NOTIFY_URL = "http://agritest.ulmsale.cn/pay/notify/weixin";
 
     // CONFIG
     protected Properties conf;

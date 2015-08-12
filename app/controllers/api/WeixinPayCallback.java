@@ -54,6 +54,7 @@ public class WeixinPayCallback extends Controller {
                     renderText("<xml><return_code>SUCCESS</return_code></xml>");
                 }
 
+                //TODO  订单改成支付.  优惠券需要绑定用户
                 OrderBuilder.orderNumber(orderNumber).changeToPaid();
                 Logger.info("OrderNumber: {} 状态改为Paid", orderNumber);
                 WeixinUser wxUser = WeixinUser.findByUser(order.user);

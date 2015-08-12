@@ -47,7 +47,7 @@ public class PayResult extends Controller {
         String sign = XPath.selectText("sign", messageNode);
 
         Order order = Order.findByOrderNumber(product_id);
-        Merchant merchant = Merchant.findByLinkId("youliang");
+        Merchant merchant = Merchant.findByLinkId("ulm");
         WeixinUser wxUser =  WeixinUser.findOrCreateMerchantWxUser(merchant, openid);
         OrderItem orderItem = OrderItem.getByOrder(order);
         GetBrandWCPayRequest gbpq = createJsAPI(order , openid , orderItem.goods);
@@ -81,7 +81,7 @@ public class PayResult extends Controller {
             String remoteAddr = request.remoteAddress.split(",")[0];
             UnifiedOrder unifiedWxOrder = wxpayFactory.newUnifiedOrder()
                     .setBody("产品名称 : "+ goods.name)
-                    .setTotalFee(orderPrice.intValue())
+                    .setTotalFee(1) // TODO 暂时定支付价格为1
                     .setOpenid(openId)
                     .setOutTradeNo(orderData.orderNumber)
                     .setSpbillCreateIp(remoteAddr)
