@@ -133,7 +133,7 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 #Coupon 卡券管理
 *      /pay                                      weixin.CouponController.pay
-*      /weixin/confirm                           weixin.Application.confirm
+POST   /weixin/confirm                           weixin.Application.confirm
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct

@@ -95,7 +95,7 @@
 
           $('#productType_'+product_type).html(parseInt(typeCount) + 1)
         }
-        alert($('#product_id_value').val());
+       // alert($('#product_id_value').val());
         var carts=$('#product_id_value').val();
         document.getElementById("carts").value=carts;
         $('#sumPrice').html(value * price);

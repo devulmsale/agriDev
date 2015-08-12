@@ -49,7 +49,8 @@ public class Application extends Controller {
         render(productList);
     }
 
-    public static void confirm() {
+    public static void confirm(String carts) {
+        Logger.info("微信端选择商品数量:%s=",carts);
         render();
     }
 

@@ -146,23 +146,14 @@
 </div>
 <div class="footcart" >
     <p class="active"><em>2</em><span>19.6元</span></p>
-    <a onclick="getSub()" class="btn0">选好了</a>
-    <form name="subForm" action="@{weixin.Application.confirm()}" method="post">
+    <form name="subform" action="/weixin/confirm" method="post">
+        <a onclick="getSub()" class="btn0">选好了</a>
         <input type="hidden" name="carts" id="carts" value="">
     </form>
 </div>
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){
-        var chk_value =[];//定义一个数组
-        //循环input框
-        $("input[id='sumCount']").each(function(){
-            var product_number="";
-            product_number=$(this).val();
-            alert(product_number)
-        })
-        //取到单个商品的Id和数量拼成 10_2,形式
-        //把循环取到的值添加到carts中
-
+       document.subform.submit();
     }
 </script>
