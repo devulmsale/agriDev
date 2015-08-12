@@ -11,7 +11,9 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by upshan on 15/8/5.
@@ -28,17 +30,22 @@ public class Application extends Controller {
     public static void products() {
         //查询商户商品的类别  TODO 获取商户号
         //Merchant merchant = WxMpAuth.currentUser().merchant;
+        Map<String , List<Product>> productMap = new HashMap<>();
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12L);
+        for(MerchantProductType mpt : merchantProductTypeList) {
+            List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
+            Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
+            productMap.put(mpt.id.toString() , productList);
+        }
+
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
-        //获取商品
-        List<Product> productList=Product.findProduct();
-        Logger.info("productList :%s=",productList.size());
-        render(merchantProductTypeList , productList);
+
+        render(merchantProductTypeList , productMap);
     }
 
     //根据类别Id取商户商品
     public static void getProduct(Long productTypeId){
-        List<Product> productList =Product.findProductByMerIdAndMerProductType(12L,productTypeId);
+        List<Product> productList =Product.findProductByMerIdAndMerProductType(productTypeId);
         render(productList);
     }
 

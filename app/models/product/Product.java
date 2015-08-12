@@ -305,7 +305,7 @@ public class Product extends Model {
     }
 
     //根据商户号和商户类别id获取商品
-    public static List<Product> findProductByMerIdAndMerProductType(Long merchantId , Long merProductTypeId){
-        return Product.find("deleted = ? and merchant.id = ? and merchantProductType.id = ?" , DeletedStatus.UN_DELETED , merchantId , merProductTypeId).fetch();
+    public static List<Product> findProductByMerIdAndMerProductType(Long merProductTypeId){
+        return Product.find("deleted = ?  and merchantProductType.id = ?" , DeletedStatus.UN_DELETED  , merProductTypeId).fetch();
     }
 }

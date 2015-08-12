@@ -36,7 +36,7 @@
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
         <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
         #{list merchantProductTypeList , as :'productType'}
-        <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
+            <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
         #{/list}
         *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤</a></li>
@@ -53,13 +53,33 @@
 </aside>
 <section class="rightbar">
 
-#{list productList , as : 'product'}
-    <dl id="r${product_index}">
-        <dt>${product?.merchantProductType?.name}</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>${product?.name}</span><em>${product?.salePrice}元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-*{  <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>}*
-    </dl>
+#{list merchantProductTypeList , as :'mpt'}
+  #{list productMap.get(mpt?.id.toString()) , as :'product'}
+      <dl id="r${mpt_index}">
+          <dt>${mpt?.name}</dt>
+          <dd>
+              <div class="tit">
+                  <a href="detail.html">
+                      <h3>
+                          <span>${product?.name}</span>
+                          <em>${product?.salePrice}元</em>
+                          <input type="hidden" name="number" id="number" >
+                          <input type="hidden" name="product" value="${product?.id}">
+                      </h3>
+                  </a>
+                  <p>
+                      <input type="text" value="1" class="txtadd"/>
+                  </p>
+              </div>
+              <a href="detail.html">
+              <img src="/public/weixin/img/p1.jpg">
+              </a>
+          </dd>
+      </dl>
+  #{/list}
 #{/list}
+
+
     *{<dl id="r1">
         <dt>每日特价</dt>
         <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
@@ -122,8 +142,16 @@
     </div>
 </div>
 <div class="footcart" >
-    <p class="active"><em>2</em><span>19.6元</span></p><a href="@{weixin.Application.confirm()}" class="btn0">选好了</a>
+    <p class="active"><em>2</em><span>19.6元</span></p>
+    <a onclick="getSub()" class="btn0">选好了</a>
+    <form name="subForm" action="@{weixin.Application.confirm()}" method="post">
+        <input type="hidden" name="carts" id="carts">
+    </form>
 </div>
 <script type="text/javascript">
     $('.txtadd').spinner({});
+    function getSub(){
+        var chk_value =[];//定义一个数组
+
+    }
 </script>
