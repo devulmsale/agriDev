@@ -50,7 +50,6 @@ public class CouponController extends Controller {
                         .build()
                         .changeToUnPaid();
             }
-        render(order);
-
+        redirect("/order/qrCode?orderNumber="+order.orderNumber);
     }
 }

@@ -12,12 +12,12 @@ import java.util.Properties;
  */
 public class WxpayFactory {
     // CONSTANT
-    private static final String APP_ID     = "wxde945ba07ea568ad";
-    private static final String APP_SECRET = "43fbd254daec35a8c62fdb54e69271e0";
-    private static final String PAY_KEY    = "819765a0d0489cb1d58354388c8a2b0c"; //支付密钥
+    private static final String APP_ID     = "wxbe347cb53e58db0a";
+    private static final String APP_SECRET = "8f09f34a6759df80962dc516d5978cf3";
+    private static final String PAY_KEY    = "asdfasdf009r0q90qw9r01wq09rtyeer"; //支付密钥
     //private static final String MCH_ID = "1223805701";
-    private static final String MCH_ID     = "10031272";
-    private static final String NOTIFY_URL = "http://wxtest.ps321.net/pay/notify/weixin";
+    private static final String MCH_ID     = "1251164801";
+    private static final String NOTIFY_URL = "http://wxtest.ulmsale.cn/pay/notify/weixin";
 
     // CONFIG
     protected Properties conf;

@@ -106,6 +106,13 @@ public class Order extends Model {
 
 
     /**
+     * 二维码
+     */
+    @Column(name = "qr_image")
+    public String qrImage;
+
+
+    /**
      * 分销商订单号
      */
     @Column(name = "resaler_order_number")

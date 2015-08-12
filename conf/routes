@@ -38,6 +38,13 @@ GET  /merchant/coupons                                    merchant.CouponBatchCo
 GET  /merchant/coupon/add                                 merchant.CouponBatchController.add
 POST /merchant/coupon/create                              merchant.CouponBatchController.create
 
+# Merchant Coupon Pay
+*   /order/qrCode                                         weixin.OrderController.qrCode
+*   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult
+
+# 微信支付回调
+POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
+
 
 #   productType 类别管理
 *     /system/productType                                 system.ProductTypeController.index
@@ -53,6 +60,9 @@ GET   /system/productType/editChildPage/{id}              system.ProductTypeCont
 
 # Brand 品牌管理
 POST  /system/brand/getSubClassByParentId                 system.BrandController.getSubClassByParentId
+
+
+
 
 
 # SYSTEM 后台管理
