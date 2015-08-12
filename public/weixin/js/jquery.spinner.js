@@ -6,6 +6,8 @@
       var keyCodes = {up:38, down:40}
       var container = $('<div></div>')
       container.addClass('spinner')
+      var obj = $(this);
+
       var textField = $(this).addClass('value').attr('maxlength', '2').attr('id','sumCount').val(options.value)
         .bind('keyup paste change', function (e) {
           var field = $(this)
@@ -33,6 +35,67 @@
         clearTimeout(container.data('timeout'))
         var value = validate(field);
         var price = $('#price').val();
+        var product_id = obj.attr("product_id");
+        var product_type = obj.attr("product_type");
+        var productIds = $('#productIds').val();
+        var typeCount = $('#productType_'+product_type).html();
+        var isHave = false;
+        if(productIds != null && productIds.indexOf(",") >= 0) {
+          var ids = productIds.split(",");
+          for (i=0;i<ids.length ;i++ )   {
+            if(ids[i] == product_id) {
+              isHave = true;
+            }
+          }
+        }
+        if(value == 0) {
+          var newIds = "";
+          var ids = productIds.split(",");
+          for (i=0;i<ids.length ;i++ )   {
+            if(ids[i] != '' && ids[i] != product_id) {
+              newIds += ","+ids[i];
+            }
+          }
+          $('#productIds').val(newIds);
+          $('#productType_'+product_type).html(parseInt(typeCount) - 1)
+        }
+
+        var ids_count = $('#product_id_value').val();
+        var newIds_count = "";
+        //  4_5,5_2,6_1
+        if(ids_count != null && ids_count != '' && ids_count.indexOf(",") >= 0) {
+          var isHave2 = false;
+          var ids_countArray = ids_count.split(",");
+          for(var k = 0 ; k < ids_countArray.length ; k++) {
+            var id_count = ids_countArray[k];
+            if(id_count != null && id_count != '' && id_count.indexOf("_")) {
+              var pId = id_count.split("_")[0];
+              if(pId == product_id) {
+                if(value > 0) {
+                  newIds_count += pId+"_"+value + ",";
+                  isHave2 = true;
+                }
+              } else {
+                newIds_count += id_count + ",";
+              }
+            }
+          }
+          if(!isHave2) {
+            newIds_count += product_id+"_"+value;
+          }
+          $('#product_id_value').val(newIds_count);
+        } else {
+          var id_value = product_id+"_"+value+",";
+          $('#product_id_value').val(id_value);
+        }
+
+
+        if(!isHave) {
+          $('#productIds').val(productIds + "," + product_id);
+
+          $('#productType_'+product_type).html(parseInt(typeCount) + 1)
+        }
+        alert($('#product_id_value').val());
         $('#sumPrice').html(value * price);
         if (!isInvalid(value)) {
           textField.trigger('update', [field, value])

@@ -8,8 +8,11 @@ import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import models.base.WeixinUser;
+import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
+import models.coupon.Coupon;
 import models.order.Order;
+import models.order.OrderItem;
 import order.OrderBuilder;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
@@ -17,6 +20,8 @@ import play.libs.IO;
 import play.mvc.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import static ext.pay.weixin.v3.util.XMLParser.parseXML;
@@ -54,8 +59,11 @@ public class WeixinPayCallback extends Controller {
                     renderText("<xml><return_code>SUCCESS</return_code></xml>");
                 }
 
-                //TODO  订单改成支付.  优惠券需要绑定用户
                 OrderBuilder.orderNumber(orderNumber).changeToPaid();
+                // 根据 订单产品类型. 修改响应产品 状态
+                changeOrderItemByGoodsType(order);
+
+
                 Logger.info("OrderNumber: {} 状态改为Paid", orderNumber);
                 WeixinUser wxUser = WeixinUser.findByUser(order.user);
                 Logger.info("获取 Order.User : %s  | wxUser : %s ----" , order.user , wxUser);
@@ -99,6 +107,24 @@ public class WeixinPayCallback extends Controller {
         }
         Logger.info("OrderNumber: {} 处理异常", parsedProp.get("out_trade_no"));
         renderText("<xml><return_code>FAIL</return_code><return_msg>ERROR</return_msg></xml>");
+    }
+
+
+    private static void changeOrderItemByGoodsType(Order order) {
+        // 如果是优惠券  需要把 优惠券绑定到 用户身上
+        if(order.goodsType == OrderGoodsType.COUPON) {
+            List<OrderItem> orderItemList = OrderItem.getListByOrder(order);
+            for(OrderItem orderItem : orderItemList) {
+                String goodsName = orderItem.goods.serial;
+                String couponId = goodsName.substring(7, goodsName.length());
+                Coupon coupon = Coupon.findById(Long.valueOf(couponId));
+                if(coupon != null) {
+                    coupon.user = order.user;
+                    coupon.bindUserAt = new Date();
+                    coupon.save();
+                }
+            }
+        }
     }
 
 }

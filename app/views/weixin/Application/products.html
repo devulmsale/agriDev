@@ -36,7 +36,12 @@
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
         <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
         #{list merchantProductTypeList , as :'productType'}
-            <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
+        <!-- a_r5  -->
+            <li class="menuItem"><a href="#r${productType_index}" >${productType?.name}
+                <em id="productType_${productType?.id}">0</em>
+                <input type="hidden" name="productIds" id="productIds">
+                <input type="hidden" name="product_id_value" id="product_id_value">
+            </a></li>
         #{/list}
         *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤</a></li>
@@ -63,12 +68,10 @@
                       <h3>
                           <span>${product?.name}</span>
                           <em>${product?.salePrice}元</em>
-                          <input type="hidden" name="number" id="number" >
-                          <input type="hidden" name="product" value="${product?.id}">
                       </h3>
                   </a>
                   <p>
-                      <input type="text"  value="1" class="txtadd"/>
+                      <input type="text"  product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
                   </p>
               </div>
               <a href="detail.html">
@@ -152,6 +155,14 @@
     $('.txtadd').spinner({});
     function getSub(){
         var chk_value =[];//定义一个数组
-        
+        //循环input框
+        $("input[id='sumCount']").each(function(){
+            var product_number="";
+            product_number=$(this).val();
+            alert(product_number)
+        })
+        //取到单个商品的Id和数量拼成 10_2,形式
+        //把循环取到的值添加到carts中
+
     }
 </script>
