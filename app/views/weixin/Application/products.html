@@ -36,7 +36,10 @@
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
         <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
         #{list merchantProductTypeList , as :'productType'}
-            <li class="menuItem"><a href="#r${productType_index}">${productType?.name}</a></li>
+        <!-- a_r5  -->
+            <li class="menuItem"><a href="#r${productType_index}" >${productType?.name}
+                <em id="productType_${productType?.id}">0</em>
+            </a></li>
         #{/list}
         *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
         <li class="menuItem"><a href="#r6">粥/汤</a></li>
@@ -68,7 +71,7 @@
                       </h3>
                   </a>
                   <p>
-                      <input type="text" value="1" class="txtadd"/>
+                      <input type="text" product_type="${mpt?.id}" product_id="${product?.id}" value="1" class="txtadd"/>
                   </p>
               </div>
               <a href="detail.html">
