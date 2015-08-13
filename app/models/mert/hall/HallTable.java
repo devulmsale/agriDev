@@ -3,10 +3,12 @@ package models.mert.hall;
 import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import net.sf.oval.constraint.MaxLength;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
@@ -32,8 +34,10 @@ public class HallTable extends Model {
     public MerchantHall hall;
 
     /**
-     * 大厅名称
+     * 桌号
      */
+    @Required(message = "桌号不能为空")
+    @MaxLength(value = 30,message = "桌号字符不能超过30个字符")
     @Column(name = "name")
     public String name;
 

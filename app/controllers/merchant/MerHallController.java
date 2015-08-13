@@ -27,7 +27,7 @@ public class MerHallController extends Controller {
     private static final String  BASE_INDEX_URL = "/merchant/hall/index";
     /**
      *
-     * Ìø×ªµ½´óÌüÁĞ±íÒ³Ãæ
+     * è·³è½¬åˆ°å¤§å…åˆ—è¡¨é¡µé¢
      *
      */
     public static  void index(Integer pageNumber){
@@ -40,7 +40,7 @@ public class MerHallController extends Controller {
     }
 
     /**
-     * Ìø×ªµ½Ôö¼Ó´óÌüÒ³Ãæ
+     * è·³è½¬åˆ°å¢åŠ å¤§å…é¡µé¢
      */
 
     public static void add(){
@@ -48,15 +48,15 @@ public class MerHallController extends Controller {
     }
 
     /**
-     * Ìø×ªµ½¸üĞÂÒ³Ãæ
+     * è·³è½¬åˆ°æ›´æ–°é¡µé¢
      */
-     public static void edit(Long  id,Integer pageNumber){
-      MerchantHall merchantHall=MerchantHall.findById(id);
-         render(merchantHall,pageNumber);
-     }
+    public static void edit(Long  id,Integer pageNumber){
+        MerchantHall merchantHall=MerchantHall.findById(id);
+        render(merchantHall,pageNumber);
+    }
 
     /**
-     * Ôö¼Ó´óÌü·½·¨
+     * å¢åŠ å¤§å…æ–¹æ³•
      * @param merchantHall
      */
     public static  void  create(@Valid MerchantHall merchantHall){
@@ -74,7 +74,7 @@ public class MerHallController extends Controller {
 
 
     /**
-     * ¸üĞÂ´óÌü·½·¨
+     * æ›´æ–°å¤§å…æ–¹æ³•
      * @param merchantHall
      */
     public static  void  update(Long id , @Valid MerchantHall merchantHall,Integer pageNumber){
@@ -83,8 +83,8 @@ public class MerHallController extends Controller {
             validation.keep();
             edit(id,pageNumber);
         }
-       MerchantHall.update(id, merchantHall);
-     //  redirect(BASE_INDEX_URL+"?page");
+        MerchantHall.update(id, merchantHall);
+        //  redirect(BASE_INDEX_URL+"?page");
         index(pageNumber);
     }
 
