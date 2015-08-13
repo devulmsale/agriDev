@@ -14,7 +14,7 @@
 
     <ul>
     #{list orderItems , as :'oi'}
-        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>${oi?.goods?.name}</h3><em>￥${oi?.goods?.salePrice}</em></a><span><input type="text" class="txtadd"/></span></li>
+        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>${oi?.goods?.name}</h3><em>￥${oi?.goods?.salePrice}</em></a><span><input type="text" class="txtadd" value="${oi?.buyNumber}"/></span></li>
     #{/list}
     </ul>
     <div class="price">

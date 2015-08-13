@@ -8,7 +8,7 @@ GET     /weixin/products                                  weixin.Application.pro
 POST    /weixin/confirm                                   weixin.Application.confirm
 POST    /weixin/detail                                    weixin.Application.detail
 POST    /weixin/pay                                       weixin.Application.pay
-
+GET     /weixin/{linkId}                                  weixin.Application.index
 
 
 # Ignore favicon requests
@@ -137,6 +137,6 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct
 
-GET     /weixin/{linkId}                                  weixin.Application.index
+
 
 
