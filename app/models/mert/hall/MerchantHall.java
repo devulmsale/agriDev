@@ -73,6 +73,12 @@ public class MerchantHall extends Model {
     }
 
 
+    /**
+     * 根据商户查找大厅
+     */
+    public static List<MerchantHall> findByMerchant(Merchant merchant){
+        return MerchantHall.find("deleted = ? and merchant.id = ?",DeletedStatus.UN_DELETED,merchant.id).fetch();
+    }
 
     /**
      * 分页查询
