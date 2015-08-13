@@ -1,16 +1,20 @@
 package models.mert.hall;
 
+import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import net.sf.oval.constraint.MaxLength;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.common.RandomNumberUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,8 +40,12 @@ public class MerchantHall extends Model {
     /**
      * 大厅名称
      */
+    @Required(message = "大厅名称不能为空")
+    @MaxLength(value = 50,message = "大厅名称不能超过50个字符")
     @Column(name = "name")
     public String name;
+
+
 
     /**
      * 逻辑删除,0:未删除，1:已删除
@@ -51,6 +59,19 @@ public class MerchantHall extends Model {
      */
     @Column(name = "created_at")
     public Date createdAt;
+
+
+    /**
+     * 更新
+     * @param id
+     * @param newObject
+     */
+    public static void update(Long id, MerchantHall newObject) {
+        MerchantHall merchantHall=MerchantHall.findById(id);
+        BeanCopy.beans(newObject, merchantHall).ignoreNulls(true).copy();
+        merchantHall.save();
+    }
+
 
 
     /**
