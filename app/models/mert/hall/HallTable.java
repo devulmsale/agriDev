@@ -12,6 +12,7 @@ import play.modules.paginate.JPAExtPaginator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,6 +114,10 @@ public class HallTable extends Model {
                 .isEquals();
     }
 
+    //根据merchanthall 的大厅号获取
+    public static List<HallTable> findByMerchantHallId(Long MerchantHallId){
+        return HallTable.find("deleted = ? and hall.id = ?",DeletedStatus.UN_DELETED , MerchantHallId).fetch();
+    }
 
 
 }

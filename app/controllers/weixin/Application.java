@@ -4,13 +4,13 @@ import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderType;
+import models.constants.DeletedStatus;
 import models.coupon.CouponBatch;
 import models.mert.Merchant;
 import models.mert.MerchantProductType;
-import models.order.Cart;
-import models.order.Order;
-import models.order.OrderItem;
-import models.order.User;
+import models.mert.hall.HallTable;
+import models.mert.hall.MerchantHall;
+import models.order.*;
 import models.product.Product;
 import order.OrderBuilder;
 import play.Logger;
@@ -19,6 +19,7 @@ import play.mvc.With;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +52,6 @@ public class Application extends Controller {
         render(merchantProductTypeList , productMap);
     }
 
-    //根据类别Id取商户商品
-    public static void getProduct(Long productTypeId){
-        List<Product> productList =Product.findProductByMerIdAndMerProductType(productTypeId);
-        render(productList);
-    }
 
     public static void confirm(String carts) {
         Logger.info("微信端选择商品数量:%s=",carts);
@@ -94,12 +90,31 @@ public class Application extends Controller {
     }
     public static void detail(String orderNumber)
     {
-        render(orderNumber);
+        //取大厅，桌号
+        //TODO 取商户Id
+        //  Merchant merchant = WxMpAuth.currentUser().merchant;
+        Map<String , List<HallTable>> hallMap=new HashMap<>();
+        List<MerchantHall> merchantHallList=MerchantHall.findMerHall(21L);
+        for(MerchantHall mh :merchantHallList){
+            List<HallTable> hallTableList=HallTable.findByMerchantHallId(mh.id);
+            hallMap.put(mh.id.toString() , hallTableList);
+        }
+        Logger.info("大厅 :%s || 桌号 %s=",merchantHallList.size() ,hallMap.values());
+        render(orderNumber, merchantHallList , hallMap);
     }
 
-    public static void pay(String orderNumber) throws Exception{
+    public static void pay(String orderNumber,OrderUser orderUser) throws Exception{
+//        User user = WxMpAuth.currentUser().user;
+        //保存orderUser
+        Order order = Order.findByOrderNumber(orderNumber);
+        // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
+        if(order != null) {
+            orderUser.deleted = DeletedStatus.UN_DELETED;
+            orderUser.createdAt = new Date();
+            orderUser.order = order;
+            orderUser.save();
+        }
         Logger.info("orderNumber :%s=",orderNumber);
-       // OrderController.qrCode(orderNumber);
         render(orderNumber);
     }
 

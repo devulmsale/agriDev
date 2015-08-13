@@ -1,58 +1,55 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 
-<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
-
 <header class="topbar titbg">
-    <a href="" class="backBtn iconfont">&#xe621;</a>
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
-        提交订单
+       提交订单
     </div>
-    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
 </header>
 
 
 <section class="warp submit page">
-
-
-    <div class="price">
-        <p>总价：<em>￥30</em></p><a href="#" class="btn2">取消此订单</a>
-    </div>
-    <div class="tit">填写订单信息</div>
-    <div class="submit_info">
-        *{<form name="form1" method="post" action="">}*
-            <ul>
-                <li><strong><i>*</i>姓名：</strong><span><input type="text" name="textfield" style="width:100%;" class="editbox" id="textfield"></span></li>
-                <li><strong><i>*</i>电话：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
-                <li><strong><i>*</i>时间：</strong>
-          <span>
-          <select name="select" style="width:49%; float:left;"  class="selectbox" id="select">
-              <option>今天</option>
-              <option>明天</option>
-          </select>
-
-          <input type="text" name="textfield2" style="width:49%; float:right;" class="editbox" id="textfield2" ></span>
-                </li>
-                <li><strong><i>*</i>桌号：</strong>
-          <span><select name="select2" style="width:100%" class="selectbox" id="select2">
-              <option>1楼大厅2号桌（2-4人）</option>
-              <option>1楼大厅3号桌（4-8人）</option>
-          </select></span>
-                </li>
-            </ul>
-    </div>
+  <div class="submit_quan">
+     <div class="tit">您可使用的现金券(现金券不可叠加使用)</div>
+     <ul>
+       <li><a href="#"><img src="images/quan50.jpg"><h3>50元现金券</h3><em>￥40</em></a><span><input type="text" class="txtadd"/></span></li>
+     </ul>
+  </div>
+  <div class="price">
+    <p>总价：<em>￥30</em></p><a href="#" class="btn2">取消此订单</a>
+  </div>
+  <div class="tit">填写订单信息</div>
+  <div class="submit_info">
+	
+     <ul>
+        <li><strong>姓名：</strong><span><input type="text" name="textfield" style="width:100%;" class="editbox" id="textfield"></span></li>
+        <li><strong><i>*</i>电话：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+        <li><strong><i>*</i>桌号：</strong>
+          <dl>
+          #{list merchantHallList , as : 'hall'}
+              #{list hallMap.get(hall?.id.toString()) , as :'table'}
+            <dt>${hall?.name}</dt>
+            <dd class="current"><span>${table?.name}</span><em>${table?.peopleNum}</em></dd>
+           #{/list}
+          #{/list}
+          </dl>
+        </li>
+        <li><strong><i>*</i>备注：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+     </ul>
+    
+  </div>
+ 
 
 </section>
 <div class="footbtn" >
-    <form id="subform" method="POST" action="@{weixin.Application.pay()}">
-        <input type="hidden" name="orderNumber" value="${orderNumber}">
-    <a href="javascript:void(0)" class="btn1" onclick="getSub()">提交订单</a>
-    </form>
+  <a href="pay.html" class="btn1 radius5">提交订单</a>
 </div>
-*{</form>}*
-<script>
-    function getSub(){
-        $('#subform').submit();
-    }
-</script>
-<div class="footspace"></div>
+
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+    </script>
+
+</body>
+</html>

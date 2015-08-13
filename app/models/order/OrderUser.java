@@ -1,12 +1,17 @@
 package models.order;
 
 import jodd.bean.BeanCopy;
+import models.common.ChinaPhone;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.mert.hall.HallTable;
+import models.mert.hall.MerchantHall;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import play.Logger;
+import play.data.validation.CheckWith;
 import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
@@ -25,30 +30,47 @@ public class OrderUser extends Model {
     /**
      * 订单用户名称
      */
-    @Required(message = "用户名称不能为空.")
-    @MinLength(value = 2 , message = "用户名称不能低于2个字符")
-    @MaxLength(value = 20 , message = "用户名称不能大于20个字符")
+    @Required(message = "姓名不能为空.")
+    @MinLength(value = 2 , message = "姓名不能低于2个字符")
+    @MaxLength(value = 20 , message = "姓名不能大于20个字符")
     @Column(name = "name")
     public String name;
 
     /**
      * 订单
      */
+
+    @JoinColumn(name = "order_no")
     @ManyToOne
-    @JoinColumn(name = "order_id")
     public Order order;
 
     /**
      * 手机号
      */
-    @Column(name = "phone")
+    @Required(message = "手机号不能为空")
+    @CheckWith(value = ChinaPhone.class , message = "手机号码不正确")
+    @Column(name = "phone", length = 20)
     public String phone;
 
     /**
      * 时间
      */
+    @Required(message = "请选择时间")
     @Column(name = "time")
     public Date time;
+
+    /**
+     * 厅号
+     */
+    @ManyToOne
+    @JoinColumn(name = "merchanthall_id")
+    public MerchantHall merchantHall;
+    /**
+     * 桌号
+     */
+    @ManyToOne
+    @JoinColumn(name = "halltable_id")
+    public HallTable hallTable;
     /**
      * 创建时间
      */
@@ -60,6 +82,12 @@ public class OrderUser extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+    /**
+     * 备注
+     */
+    @Column(name = "remark", length = 1000)
+    public String remark;
 
     /**
      * 分页查询.

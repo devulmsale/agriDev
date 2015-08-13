@@ -125,5 +125,10 @@ public class MerchantHall extends Model {
                 .isEquals();
     }
 
+    //根据商户号取大厅
+    public static List<MerchantHall> findMerHall(Long merchantId){
+        return MerchantHall.find("deleted = ? and merchant.id = ?",DeletedStatus.UN_DELETED,merchantId).fetch();
+    }
+
 
 }
