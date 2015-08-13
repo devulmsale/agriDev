@@ -3,10 +3,12 @@ package models.mert.hall;
 import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import net.sf.oval.constraint.MaxLength;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 
@@ -29,14 +31,24 @@ public class HallTable extends Model {
      * 所属大厅
      */
     @ManyToOne
+    @Required(message = "大厅不能为空")
     @JoinColumn(name = "hall_id")
     public MerchantHall hall;
 
     /**
-     * 大厅名称
+     * 桌号
      */
+    @Required(message = "桌号不能为空")
+    @MaxLength(value = 30,message = "桌号字符不能超过30个字符")
     @Column(name = "name")
     public String name;
+
+    /**
+     * 人数
+     */
+    @Required(message = "人数不能为空")
+    @Column(name = "people_num")
+    public Integer peopleNum;
 
     /**
      * 逻辑删除,0:未删除，1:已删除
@@ -57,7 +69,7 @@ public class HallTable extends Model {
      * @param id
      * @param newObject
      */
-    public static void update(Long id, MerchantHall newObject) {
+    public static void update(Long id, HallTable newObject) {
         HallTable hallTable=HallTable.findById(id);
         BeanCopy.beans(newObject, hallTable).ignoreNulls(true).copy();
         hallTable.save();

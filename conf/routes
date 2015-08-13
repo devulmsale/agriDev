@@ -37,6 +37,7 @@ GET   /system/updateName/{id}/{name}                      system.BrandController
 GET  /merchant/coupons                                    merchant.CouponBatchController.index
 GET  /merchant/coupon/add                                 merchant.CouponBatchController.add
 POST /merchant/coupon/create                              merchant.CouponBatchController.create
+
 #大厅管理
 GET  /merchant/hall/index                                 merchant.MerHallController.index
 GET  /merchant/add                                        merchant.MerHallController.add
@@ -44,7 +45,12 @@ POST /merchant/create                                     merchant.MerHallContro
 GET /merchant/edit/{id}                                   merchant.MerHallController.edit
 POST /merchant/update/{id}                                merchant.MerHallController.update
 
-
+#桌号管理
+GET  /merchant/table/index                                merchant.HallTableController.index
+GET  /merchant/table/add                                  merchant.HallTableController.add
+POST /merchant/table/create                               merchant.HallTableController.create
+GET /merchant/table/edit/{id}                             merchant.HallTableController.edit
+POST /merchant/table/update/{id}                          merchant.HallTableController.update
 
 # Merchant Coupon Pay
 *   /order/qrCode                                         weixin.OrderController.qrCode
