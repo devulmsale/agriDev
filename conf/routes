@@ -5,7 +5,8 @@
 # Home page
 GET     /                                                 Application.index
 GET     /weixin/products                                  weixin.Application.products
-POST    /weixin/confirm                                   weixin.Application.confirm
+POST    /weixin/confirms                                  weixin.Application.confirms
+*       /weixin/confirm                                   weixin.Application.confirm
 POST    /weixin/detail                                    weixin.Application.detail
 POST    /weixin/pay                                       weixin.Application.pay
 GET     /weixin/{linkId}                                  weixin.Application.index

@@ -52,7 +52,7 @@ public class Application extends Controller {
     }
 
 
-    public static void confirm(String carts) {
+    public static void confirms(String carts) {
         Logger.info("微信端选择商品数量:%s=",carts);
         //TODO 需要修改用户
         User user = User.all().first();
@@ -64,7 +64,15 @@ public class Application extends Controller {
             cartToOrder(orderBuilder , carts);
         }
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
-        render(order, orderItems);
+        //render(order, orderItems);
+        redirect("/weixin/confirm?orderNumber="+order.orderNumber);
+    }
+
+    public static void confirm(String orderNumber){
+        Logger.info("confirm--orderNumber %s==",orderNumber);
+        Order order = Order.findByOrderNumber(orderNumber);
+        List<OrderItem> orderItems = OrderItem.getListByOrder(order);
+        render(order,orderItems);
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
