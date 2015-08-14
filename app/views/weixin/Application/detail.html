@@ -1,7 +1,7 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
-
+<script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <header class="topbar titbg">
   <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
@@ -32,8 +32,8 @@
         <form id="subform" method="POST" action="@{weixin.Application.pay()}">
 
     <ul>
-        <li><strong>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="textfield"></span></li>
-        <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+        <li><strong><i>*</i>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="name"></span></li>
+        <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="phone"></span></li>
         <li><strong><i>*</i>桌号：</strong>
           <dl>
           #{list tableMap , as : 'tableList'}
@@ -44,7 +44,7 @@
           #{/list}
           </dl>
         </li>
-        <li><strong>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+        <li><strong>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="remark"></span></li>
         <li> #{error 'orderUser.name' /} </li>
         <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
         <input type="hidden" name="orderNumber" value="${orderNumber}">
@@ -58,11 +58,30 @@
 <div class="footbtn" >
   <a href="javascript:void(0)" class="btn1 radius5"  onclick="getSub()">提交订单</a>
 </div>
-
+#{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
     $('.txtadd').spinner({});
 
     function getSub(){
+        var name=$("#name").val();
+        if (required(name) == false) {
+            showAlart("姓名不能为空！");
+            return;
+        }
+        var phone = $("#phone").val();
+        if (required(phone) == false) {
+            showAlart("手机号不能为空！");
+            return;
+        }
+        if (isMobile(phone) == false) {
+            showAlart("请输入正确的手机号！");
+            return;
+        }
+        var hallTalbe=$("#selectableId").val();
+        if (required(hallTalbe) == false) {
+            showAlart("请选择桌号！");
+            return;
+        }
         $('#subform').submit();
     }
     function changeSpan(id){

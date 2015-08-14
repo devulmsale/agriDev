@@ -136,7 +136,7 @@ public class Application extends Controller {
             orderUser.save();
         }
         Logger.info("orderNumber :%s=",orderNumber);
-        render(orderNumber);
+        render(orderNumber,order);
     }
 
     //删除订单
@@ -155,6 +155,10 @@ public class Application extends Controller {
         order.status= OrderStatus.CANCELED;
         order.save();
         redirect("/weixin/products");
+    }
+
+    public static void member(){
+        render();
     }
 
 }

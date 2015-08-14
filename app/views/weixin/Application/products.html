@@ -230,12 +230,13 @@
         <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
     </form>
 </div>
+#{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){
         var carts=document.getElementById("carts").value;
         if(carts== "" ||carts== null){
-            alert("请选择商品！")
+            showAlart("请选择商品！")
             return;
         }
         $('#subform').submit();
