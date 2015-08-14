@@ -131,5 +131,8 @@ public class HallTable extends Model {
         return HallTable.find("deleted = ? and hall.id = ?",DeletedStatus.UN_DELETED , MerchantHallId).fetch();
     }
 
+    public static List<HallTable> findByMerchant(Long mertchantId){
+        return HallTable.find("deleted = ? and hall.merchant.id = ? ",DeletedStatus.UN_DELETED,mertchantId).fetch();
+    }
 
 }

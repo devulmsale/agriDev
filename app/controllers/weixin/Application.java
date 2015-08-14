@@ -19,10 +19,7 @@ import play.mvc.With;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by upshan on 15/8/5.
@@ -66,7 +63,6 @@ public class Application extends Controller {
         }
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
         render(order, orderItems);
-        render();
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
@@ -81,10 +77,10 @@ public class Application extends Controller {
             if(product != null) {
                 orderBuilder.addProduct(product)
                         .originalPrice(BigDecimal.ONE)
-                        .salePrice(product.salePrice)
-                        .buyNumber(number)
-                        .build()
-                        .changeToUnPaid();
+                        .salePrice(product.salePrice.multiply(new BigDecimal(number)))
+                                .buyNumber(number)
+                                .build()
+                                .changeToUnPaid();
             }
         }
     }
@@ -93,29 +89,61 @@ public class Application extends Controller {
         //取大厅，桌号
         //TODO 取商户Id
         //  Merchant merchant = WxMpAuth.currentUser().merchant;
-        Map<String , List<HallTable>> hallMap=new HashMap<>();
-        List<MerchantHall> merchantHallList=MerchantHall.findMerHall(21L);
-        for(MerchantHall mh :merchantHallList){
-            List<HallTable> hallTableList=HallTable.findByMerchantHallId(mh.id);
-            hallMap.put(mh.id.toString() , hallTableList);
+//        Map<String , List<HallTable>> hallMap=new HashMap<>();
+//        List<MerchantHall> merchantHallList=MerchantHall.findMerHall(21L);
+//        for(MerchantHall mh :merchantHallList){
+//            List<HallTable> hallTableList=HallTable.findByMerchantHallId(mh.id);
+//            hallMap.put(mh.id.toString() , hallTableList);
+//        }
+//        Logger.info("大厅 :%s || 桌号 %s=",merchantHallList.size() ,hallMap.values());
+        List<HallTable> hallTableList=HallTable.findByMerchant(21L);
+
+        Map<MerchantHall,List<HallTable>> tableMap=new HashMap<MerchantHall,List<HallTable>>();
+
+        for(HallTable ht:hallTableList){
+            List<HallTable> tableList=new ArrayList<>();
+            if(tableMap.get(ht.hall)==null){
+                tableList.add(ht);
+                tableMap.put(ht.hall,tableList);
+            }else{
+                tableList= tableMap.get(ht.hall);
+                tableList.add(ht);
+                tableMap.put(ht.hall, tableList);
+            }
         }
-        Logger.info("大厅 :%s || 桌号 %s=",merchantHallList.size() ,hallMap.values());
-        render(orderNumber, merchantHallList , hallMap);
+        Order order=Order.findByOrderNumber(orderNumber);
+//        System.out.println("通过Map.entrySet遍历key和value");
+//        for (Map.Entry<String, List<HallTable>> entry : tableMap.entrySet()) {
+//            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().size());
+//        }
+
+        render(orderNumber, tableMap , order);
     }
 
     public static void pay(String orderNumber,OrderUser orderUser) throws Exception{
 //        User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
+        Logger.info("orderUser :%s=",orderUser.hallTable.hall);
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
             orderUser.deleted = DeletedStatus.UN_DELETED;
             orderUser.createdAt = new Date();
             orderUser.order = order;
+            orderUser.merchantHall=orderUser.hallTable.hall;
             orderUser.save();
         }
         Logger.info("orderNumber :%s=",orderNumber);
         render(orderNumber);
+    }
+
+    //删除订单
+    public static void deleteOrder(String orderNumber){
+        Logger.info("删除订单");
+        Order order = Order.findByOrderNumber(orderNumber);
+        order.deleted=DeletedStatus.DELETED;
+        order.save();
+        redirect("/weixin/confirm");
     }
 
 }

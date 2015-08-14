@@ -1,5 +1,6 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
 
 <header class="topbar titbg">
   <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
@@ -11,44 +12,67 @@
 
 
 <section class="warp submit page">
-  <div class="submit_quan">
-     <div class="tit">您可使用的现金券(现金券不可叠加使用)</div>
-     <ul>
-       <li><a href="#"><img src="images/quan50.jpg"><h3>50元现金券</h3><em>￥40</em></a><span><input type="text" class="txtadd"/></span></li>
-     </ul>
-  </div>
-  <div class="price">
-    <p>总价：<em>￥30</em></p><a href="#" class="btn2">取消此订单</a>
-  </div>
-  <div class="tit">填写订单信息</div>
-  <div class="submit_info">
-	
-     <ul>
-        <li><strong>姓名：</strong><span><input type="text" name="textfield" style="width:100%;" class="editbox" id="textfield"></span></li>
-        <li><strong><i>*</i>电话：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+    <div class="price1">
+        <p>您的菜品总金额：<em>￥${order?.amount}</em></p>
+    </div>
+    <div class="submit_quan">
+        <div class="tit">可使用的现金券(<i>10</i>张)</div>
+        <ul>
+            <li><a href="#"><img src="/public/weixin/images/quan50.jpg"><h3>50元现金券（<i>2</i>张）</h3><p>可抵扣<em>50元</em></p></a><span><input type="text" class="txtadd"/></span></li>
+        </ul>
+        <div class="tips">提示：现金券可叠加使用，现金券不找零不退款。</div>
+    </div>
+    <div class="price">
+        <p>需支付：<em>￥${order?.amount}</em></p><a href="#" class="btn2">取消此订单</a>
+    </div>
+    <div class="tit">填写订单信息</div>
+    <div class="submit_info">
+        <form id="subform" method="POST" action="@{weixin.Application.pay()}">
+
+    <ul>
+        <li><strong>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="textfield"></span></li>
+        <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="textfield1"></span></li>
         <li><strong><i>*</i>桌号：</strong>
           <dl>
-          #{list merchantHallList , as : 'hall'}
-              #{list hallMap.get(hall?.id.toString()) , as :'table'}
-            <dt>${hall?.name}</dt>
-            <dd class="current"><span>${table?.name}</span><em>${table?.peopleNum}</em></dd>
+          #{list tableMap , as : 'tableList'}
+              <dt>${tableList.key.name}</dt>
+              #{list tableList.value , as :'table'}
+            <dd id="spanid${table?.id}" onclick="changeSpan('${table?.id}')" ><span  >${table?.name}</span><em>${table?.peopleNum}</em></dd>
            #{/list}
           #{/list}
           </dl>
         </li>
-        <li><strong><i>*</i>备注：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
-     </ul>
-    
+        <li><strong><i>*</i>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+
+        <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
+        <input type="hidden" name="orderNumber" value="${orderNumber}">
+    </ul>
+    </form>
   </div>
  
 
 </section>
 <div class="footbtn" >
-  <a href="pay.html" class="btn1 radius5">提交订单</a>
+  <a href="javascript:void(0)" class="btn1 radius5"  onclick="getSub()">提交订单</a>
 </div>
 
 <script type="text/javascript">
     $('.txtadd').spinner({});
+
+    function getSub(){
+        $('#subform').submit();
+    }
+    function changeSpan(id){
+        var span=$("#spanid"+id)
+        if(span.hasClass("current")){
+           span.removeClass("current")
+            $("#selectableId").val("");
+        }else{
+            $("#selectableId").val("");
+            $("#selectableId").val(id);
+            span.addClass("current")
+        }
+    }
     </script>
 
 </body>

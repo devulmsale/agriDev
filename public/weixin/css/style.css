@@ -165,17 +165,27 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .submit_quan li{ padding:10px 0; border-bottom:1px #eeeeee solid; text-align:left; position:relative;}
 .submit_quan li a img{width:35%; float:left; display:inline; margin-right:10px;-moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px;}
 .submit_quan li a h3{ font-size:14px; font-weight:normal; color:#454545; line-height:3em;}
+.submit_quan li a h3 i{ color:#f90; font-size:16px;}
 .submit_quan li em{ color:#f60; font-size:16px;}
 .submit_quan li span{ position:absolute; right:0; top:30%; text-align:right;}
+.submit .price0{ height:40px; line-height:40px; overflow:hidden; text-align:left; margin-top:0px; }
+.submit .price0 p{ float:left; display:inline; font-size:14px; color:#666;}
+.submit .price0 p em{ font-size:20px; color:#f60;}
+.submit .price1{ height:40px; line-height:40px; overflow:hidden; padding:0 10px; background:#f3f3f3; text-align:left; margin-top:10px;}
+.submit .price1 p{ float:left; display:inline; font-size:14px;}
+.submit .price1 p em{ font-size:20px; color:#f60;}
+
+.submit_quan .tips{ margin-top:10px; text-align:left; color:#666;}
 
 .submit .price{ height:40px; line-height:40px; overflow:hidden; padding:0 10px; background:#f3f3f3; text-align:left; margin-top:20px;}
-.submit .price p{ float:left; display:inline;}
+.submit .price p{ float:left; display:inline; font-size:14px;}
 .submit .price p em{ font-size:20px; color:#f60;}
 .submit .price a.btn2{ float:right; display:inline-block; width:100px; height:30px; line-height:27px; text-align:center; font-size:14px; background:#f9f9f9; color:#ccc; border:1px #ccc solid; -moz-border-radius:15px; -webkit-border-radius:15px;  border-radius:15px; margin-top:5px; }
 .submit .price p label{ margin-left:10px; color:#999;}
 .submit .price p label input{ vertical-align:middle; margin-right:3px;}
 
 .submit .tit{ text-align:left; font-size:14px; padding-bottom:10px; border-bottom:1px #dddddd solid; margin:20px 0; color:#666;}
+.submit .tit i{ font-size:16px; color:#f90;}
 .submit .submit_info{width:100%; height:auto; overflow:hidden; margin:20px auto;}
 .submit .submit_info li{width:100%; height:auto; overflow:hidden; text-align:left; margin:10px 0;}
 .submit .submit_info strong{width:20%; line-height:40px; font-size:14px; overflow:hidden; float:left; display:inline-block; text-align:left; font-weight:normal;}

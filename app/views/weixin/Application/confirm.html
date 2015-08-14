@@ -1,6 +1,8 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+<script src="/public/weixin/js/popup.js"></script>
+
 <header class="topbar titbg">
     <a href="" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
@@ -14,23 +16,41 @@
 
     <ul>
     #{list orderItems , as :'oi'}
-        <li><a href="#"><img src="/public/weixin/img/p1.jpg"><h3>${oi?.goods?.name}</h3><em>￥${oi?.goods?.salePrice}</em></a>
+        <li>
+            <a href="#">
+                <img src="/public/weixin/img/p1.jpg">
+                <h3>${oi?.goods?.name}</h3>
+                <em>￥${oi?.goods?.salePrice}</em>
+                <h3>数量:${oi?.buyNumber}</h3>
+            </a>
             *{<span><input type="text" class="txtadd" value="${oi?.buyNumber}"/></span>}*
         </li>
     #{/list}
     </ul>
     <div class="price">
 
-        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="btn2">删除此订单</a>
+        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="cd-popup-trigger btn radius10 btn2">删除此订单</a>
     </div>
-    <div class="notice">
+    *{<div class="notice">
         <label for="textarea">订单备注：</label>
         <textarea name="textarea" class="areabox" id="textarea"></textarea>
-    </div>
+    </div>}*
 
 
 </section>
 <div class="footspace"></div>
+
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <p>你确定你要删除此订单吗?</p>
+        <ul class="cd-buttons">
+            <li><a href="@{weixin.Application.deleteOrder(order?.orderNumber)}">是</a></li>
+
+        </ul>
+        <a href="#" class="cd-popup-close img-replace">关闭</a>
+    </div> <!-- cd-popup-container -->
+</div>
+
 
 <div id="myModal" class="reveal-modal">
     <a class="close-reveal-modal">&#215;</a>
