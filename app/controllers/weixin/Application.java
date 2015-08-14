@@ -3,6 +3,7 @@ package controllers.weixin;
 import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
 import me.chanjar.weixin.common.util.StringUtils;
+import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.coupon.CouponBatch;
@@ -14,6 +15,7 @@ import models.order.*;
 import models.product.Product;
 import order.OrderBuilder;
 import play.Logger;
+import play.data.validation.Valid;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -84,22 +86,13 @@ public class Application extends Controller {
             }
         }
     }
-    public static void detail(String orderNumber)
+    public static void detail(String orderNumber , String useCoupon)
     {
+        Logger.info("orderNumber :%s || useCoupon :%s",orderNumber , useCoupon);
         //取大厅，桌号
         //TODO 取商户Id
-        //  Merchant merchant = WxMpAuth.currentUser().merchant;
-//        Map<String , List<HallTable>> hallMap=new HashMap<>();
-//        List<MerchantHall> merchantHallList=MerchantHall.findMerHall(21L);
-//        for(MerchantHall mh :merchantHallList){
-//            List<HallTable> hallTableList=HallTable.findByMerchantHallId(mh.id);
-//            hallMap.put(mh.id.toString() , hallTableList);
-//        }
-//        Logger.info("大厅 :%s || 桌号 %s=",merchantHallList.size() ,hallMap.values());
         List<HallTable> hallTableList=HallTable.findByMerchant(21L);
-
         Map<MerchantHall,List<HallTable>> tableMap=new HashMap<MerchantHall,List<HallTable>>();
-
         for(HallTable ht:hallTableList){
             List<HallTable> tableList=new ArrayList<>();
             if(tableMap.get(ht.hall)==null){
@@ -112,16 +105,17 @@ public class Application extends Controller {
             }
         }
         Order order=Order.findByOrderNumber(orderNumber);
-//        System.out.println("通过Map.entrySet遍历key和value");
-//        for (Map.Entry<String, List<HallTable>> entry : tableMap.entrySet()) {
-//            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().size());
-//        }
-
-        render(orderNumber, tableMap , order);
+        render(orderNumber, tableMap , order , useCoupon);
     }
 
-    public static void pay(String orderNumber,OrderUser orderUser) throws Exception{
-//        User user = WxMpAuth.currentUser().user;
+    public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon) throws Exception{
+        /*if(validation.hasErrors()) {
+            params.flash(); // add http parameters to the flash scope
+            validation.keep(); // keep the errors for the next request
+            Logger.info("校验失败！");
+            detail(orderNumber, useCoupon);
+        }*/
+        // User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
         Logger.info("orderUser :%s=",orderUser.hallTable.hall);
@@ -139,11 +133,20 @@ public class Application extends Controller {
 
     //删除订单
     public static void deleteOrder(String orderNumber){
-        Logger.info("删除订单");
+        Logger.info("删除订单 :%s=",orderNumber);
         Order order = Order.findByOrderNumber(orderNumber);
         order.deleted=DeletedStatus.DELETED;
         order.save();
-        redirect("/weixin/confirm");
+        redirect("/weixin/products");
+    }
+
+    //取消订单
+    public static void cancelOrder(String orderNumber){
+        Logger.info("取消订单 orderNumber :%s=",orderNumber);
+        Order order=Order.findByOrderNumber(orderNumber);
+        order.status= OrderStatus.CANCELED;
+        order.save();
+        redirect("/weixin/products");
     }
 
 }

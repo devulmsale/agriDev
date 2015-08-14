@@ -11,7 +11,7 @@
     <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
 </header>
 
-
+<form id="subform" method="POST" action="@{weixin.Application.detail()}">
 <section class="warp confirm page">
 
     <ul>
@@ -29,7 +29,7 @@
     </ul>
     <div class="price">
 
-        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" value="" id="checkbox1">使用抵扣券</label></p><a href="#" class="cd-popup-trigger btn radius10 btn2">删除此订单</a>
+        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" name="useCoupon" value="1" id="checkbox1">使用抵扣券</label></p><a href="#" class="cd-popup-trigger btn radius10 btn2">删除此订单</a>
     </div>
     *{<div class="notice">
         <label for="textarea">订单备注：</label>
@@ -52,7 +52,7 @@
 </div>
 
 
-<div id="myModal" class="reveal-modal">
+*{<div id="myModal" class="reveal-modal">
     <a class="close-reveal-modal">&#215;</a>
     <div class="topsearch">
         <form action="#" name="search">
@@ -69,14 +69,14 @@
             </p>
         </div>
     </div>
-</div>
+</div>}*
 <div class="footbtn" >
-    <form id="subform" method="POST" action="@{weixin.Application.detail()}">
+
         <input type="hidden" name="orderNumber" value="${order?.orderNumber}">
         <a  href="javascript:void(0)" onclick="getSub()" class="btn1">选好了</a>
-    </form>
-</div>
 
+</div>
+</form>
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){

@@ -55,7 +55,7 @@ public class OrderUser extends Model {
     /**
      * 时间
      */
-    @Required(message = "请选择时间")
+
     @Column(name = "time")
     public Date time;
 

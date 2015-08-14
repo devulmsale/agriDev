@@ -15,6 +15,7 @@
     <div class="price1">
         <p>您的菜品总金额：<em>￥${order?.amount}</em></p>
     </div>
+    #{if useCoupon == '1'}
     <div class="submit_quan">
         <div class="tit">可使用的现金券(<i>10</i>张)</div>
         <ul>
@@ -22,8 +23,9 @@
         </ul>
         <div class="tips">提示：现金券可叠加使用，现金券不找零不退款。</div>
     </div>
+    #{/if}
     <div class="price">
-        <p>需支付：<em>￥${order?.amount}</em></p><a href="#" class="btn2">取消此订单</a>
+        <p>需支付：<em>￥${order?.amount}</em></p><a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>
     </div>
     <div class="tit">填写订单信息</div>
     <div class="submit_info">
@@ -42,10 +44,11 @@
           #{/list}
           </dl>
         </li>
-        <li><strong><i>*</i>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="textfield1"></span></li>
-
+        <li><strong>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+        <li> #{error 'orderUser.name' /} </li>
         <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
         <input type="hidden" name="orderNumber" value="${orderNumber}">
+        <input type="text" name="useCoupon" value="${useCoupon}">
     </ul>
     </form>
   </div>
@@ -63,6 +66,10 @@
         $('#subform').submit();
     }
     function changeSpan(id){
+
+        $(".current").each(function(){
+            $(this).removeClass("current");
+        });
         var span=$("#spanid"+id)
         if(span.hasClass("current")){
            span.removeClass("current")

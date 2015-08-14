@@ -27,15 +27,16 @@
       function changeValue(delta) {
         textField.val(getValue() + delta);
 
-        validateAndTrigger(textField)
+        validateAndTrigger(textField,delta)
       }
 
-      function validateAndTrigger(field) {
+      function validateAndTrigger(field,type) {
         clearTimeout(container.data('timeout'))
         var value = validate(field);
         var product_id = obj.attr("product_id");
         var product_type = obj.attr("product_type");
-        privateOperation(value , product_id , product_type);
+        var product_salePrice=obj.attr("product_salePrice");
+        privateOperation(value , product_id , product_type , product_salePrice,type);
         if (!isInvalid(value)) {
           textField.trigger('update', [field, value])
         }
