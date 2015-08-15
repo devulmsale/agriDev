@@ -16,6 +16,7 @@
     <div class="price1">
         <p>您的菜品总金额：<em>￥${order?.amount}</em></p>
     </div>
+
     #{if useCoupon == '1'}
     <div class="submit_quan">
         <div class="tit">可使用的现金券*{(<i>10</i>张)}*</div>
@@ -33,10 +34,18 @@
     <div class="tit">填写订单信息</div>
     <div class="submit_info">
         <form id="subform" method="POST" action="@{weixin.Application.pay()}">
-
+            <input type="hidden" name="goodsType" id= "goodsType" value="${goods}">
     <ul>
         <li><strong><i>*</i>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="name"></span></li>
         <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="phone"></span></li>
+        #{if goods == 'TAKE_AYAY'}
+            <li><strong><i>*</i>地址：</strong><span><input type="text" name="orderUser.address" style="width:100%;"  class="editbox" id="address"></span></li>
+        #{/if}
+        #{if goods == 'BOOK_FOOD'|| goods =='TAKE_AYAY' || goods == 'PACK'}
+            <li><strong><i>*</i>日期：</strong><span><input type="date" name="date" style="width:100%;"  class="editbox" id="date"></span></li>
+            <li><strong><i>*</i>时间：</strong><span><input type="time" name="time" style="width:100%;"  class="editbox" id="time"></span></li>
+        #{/if}
+        #{if goods == 'BOOK_FOOD'|| goods == 'DOT_FOOD'}
         <li><strong><i>*</i>桌号：</strong>
           <dl>
           #{list tableMap , as : 'tableList'}
@@ -47,6 +56,7 @@
           #{/list}
           </dl>
         </li>
+        #{/if}
         <li><strong>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="remark"></span></li>
         <li> #{error 'orderUser.name' /} </li>
         <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
@@ -94,6 +104,8 @@
 
 
     function getSub(){
+        var goodType=$("#goodsType").val();
+
         var name=$("#name").val();
         if (required(name) == false) {
             showAlart("姓名不能为空！");
@@ -108,10 +120,31 @@
             showAlart("请输入正确的手机号！");
             return;
         }
-        var hallTalbe=$("#selectableId").val();
-        if (required(hallTalbe) == false) {
-            showAlart("请选择桌号！");
-            return;
+        if(goodType == 'TAKE_AYAY' || goodType == 'BOOK_FOOD' || goodType == 'PACK') {
+            var date = $("#date").val();
+            if (required(date) == false) {
+                showAlart("日期不能为空！");
+                return;
+            }
+            var time = $("#time").val();
+            if (required(time) == false) {
+                showAlart("时间不能为空！");
+                return;
+            }
+        }
+        if(goodType == 'DOT_FOOD' || goodType == 'BOOK_FOOD'){
+            var hallTalbe=$("#selectableId").val();
+            if (required(hallTalbe) == false) {
+                showAlart("请选择桌号！");
+                return;
+        }
+        }
+        if(goodType == 'TAKE_AYAY'){
+            var address = $("#address").val();
+            if (required(address) == false) {
+                showAlart("地址不能为空！");
+                return;
+            }
         }
         $('#subform').submit();
     }

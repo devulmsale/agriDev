@@ -3,6 +3,7 @@ package controllers.weixin;
 import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
 import me.chanjar.weixin.common.util.StringUtils;
+import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
@@ -19,9 +20,11 @@ import play.Logger;
 import play.data.validation.Valid;
 import play.mvc.Controller;
 import play.mvc.With;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -36,7 +39,8 @@ public class Application extends Controller {
         render(couponBatchList);
     }
 
-    public static void products() {
+    public static void products(OrderGoodsType goodsType) {
+        Logger.info("OrderGoodsType :%s",goodsType);
         //查询商户商品的类别  TODO 获取商户号
         //Merchant merchant = WxMpAuth.currentUser().merchant;
         Map<String , List<Product>> productMap = new HashMap<>();
@@ -49,31 +53,34 @@ public class Application extends Controller {
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
 
-        render(merchantProductTypeList, productMap);
+        render(merchantProductTypeList, productMap ,goodsType);
     }
 
 
-    public static void confirms(String carts) {
+    public static void confirms(String carts , OrderGoodsType goodsType) {
         Logger.info("微信端选择商品数量:%s=",carts);
+        Logger.info("点餐类型:%s",goodsType);
+        goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
         //TODO 需要修改用户
         User user = User.all().first();
         Order order = null;
         if(StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
             //生成订单 并初初始化订单
-            OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC);
+            OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType);
             order = orderBuilder.save();  //生成订单号
             cartToOrder(orderBuilder , carts);
         }
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
         //render(order, orderItems);
-        redirect("/weixin/confirm?orderNumber="+order.orderNumber);
+        redirect("/weixin/confirm?orderNumber="+order.orderNumber+"&goodsType="+goodsType);
     }
 
-    public static void confirm(String orderNumber){
-        Logger.info("confirm--orderNumber %s==",orderNumber);
+    public static void confirm(String orderNumber ,OrderGoodsType goodsType){
+        Logger.info("confirm--orderNumber:%s==",orderNumber);
+        Logger.info("confirm--goodsType:%s",goodsType);
         Order order = Order.findByOrderNumber(orderNumber);
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
-        render(order,orderItems);
+        render(order , orderItems , goodsType);
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
@@ -95,8 +102,10 @@ public class Application extends Controller {
             }
         }
     }
-    public static void detail(String orderNumber , String useCoupon)
+    public static void detail(String orderNumber , String useCoupon , OrderGoodsType goodsType)
     {
+        Logger.info("detail OrderGoodsType:%s==",goodsType);
+        String goods=goodsType.toString();
         Logger.info("orderNumber :%s || useCoupon :%s",orderNumber , useCoupon);
         //取大厅，桌号
         //TODO 取商户Id
@@ -118,10 +127,10 @@ public class Application extends Controller {
         // User user = WxMpAuth.currentUser().user;TODO 上线时需要获取微信用户
         List<Coupon> couponList=Coupon.findCouponByLoginUser(2l);
         Logger.info("用户卡券数量 :%s",couponList.size());
-        render(orderNumber, tableMap , order , useCoupon , couponList);
+        render(orderNumber, tableMap , order , useCoupon , couponList , goods);
     }
 
-    public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds) throws Exception{
+    public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds , String date ,String time ,OrderGoodsType goodsType) throws Exception{
         /*if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -131,14 +140,21 @@ public class Application extends Controller {
         // User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
-        Logger.info("orderUser :%s=",orderUser.hallTable.hall);
-
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            if(null != date && null != time) {
+                String dt = date + " " + time;
+                Date date1 = new Date();
+                date1 = formatter.parse(dt);
+                orderUser.time=date1;
+            }
+            if(goodsType.toString().equals("DOT_FOOD") || goodsType.toString().equals("BOOK_FOOD")){
+                orderUser.merchantHall=orderUser.hallTable.hall;
+            }
             orderUser.deleted = DeletedStatus.UN_DELETED;
             orderUser.createdAt = new Date();
             orderUser.order = order;
-            orderUser.merchantHall=orderUser.hallTable.hall;
             orderUser.save();
         }
         Logger.info("orderNumber :%s=",orderNumber);
@@ -163,7 +179,7 @@ public class Application extends Controller {
             }
             Logger.info("needPay :%s",needPay);
         }
-        render(orderNumber,order ,needPay ,useCoupon);
+        render(orderNumber, order, needPay, useCoupon);
     }
 
     //删除订单

@@ -60,6 +60,12 @@ public class OrderUser extends Model {
     public Date time;
 
     /**
+     * 地点
+     */
+    @Column(name = "address")
+    public String address;
+
+    /**
      * 厅号
      */
     @ManyToOne
