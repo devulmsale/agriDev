@@ -181,8 +181,14 @@ img{ max-width:100%; height:auto;border:none; interpolation-mode: bicubic;}
 }
 
 
-.page{ padding:20px 15px;}
+.page{ padding:50px 15px 60px 15px;}
+.page1{ padding:20px 15px; background:#fff; margin-bottom:20px;}
+
 .hr0{height:1px;border:none;border-top:1px solid #dddddd; margin:20px 0;}
 .hr1{height:1px;border:none;border-top:1px dashed #eeeeee; margin:20px 0;}
 .radius5{-moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px;}
+.radius10{-moz-border-radius:10px; -webkit-border-radius:10px;  border-radius:10px;}
+.radius25{-moz-border-radius:25px; -webkit-border-radius:25px;  border-radius:25px;}
+.radius5p{-moz-border-radius:50%; -webkit-border-radius:50%;  border-radius:50%;}
 
+.pad50{ padding:50px 0;}

@@ -26,7 +26,22 @@
 
 </script>
 <script type="text/javascript">
-    function privateOperation(value , product_id , product_type) {
+    function privateOperation(value , product_id , product_type , product_salePrice,type) {
+        var totalCount=$("#productCount").html();
+        var counts;
+        var salePrice=$("#totalPrice").html();
+        var totalPrice;
+        if(type==1){
+            counts=parseInt(totalCount)+1;
+            totalPrice=parseFloat(salePrice)+parseFloat(product_salePrice);
+        }else if(type==-1){
+            counts=parseInt(totalCount)-1;
+            totalPrice=parseFloat(salePrice)-parseFloat(product_salePrice);
+        }
+        document.getElementById("productCount").innerHTML=counts;
+        document.getElementById("totalPrice").innerHTML=totalPrice;
+
+
         var productIds = $('#productIds').val();
         var typeCount = $('#productType_'+product_type).html();
         var isHave = false;
@@ -135,7 +150,7 @@
                       </h3>
                   </a>
                   <p>
-                      <input type="text"  product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                      <input type="text" product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
                   </p>
               </div>
               <a href="detail.html">
@@ -209,15 +224,21 @@
     </div>
 </div>
 <div class="footcart" >
-    <p class="active"><em>2</em><span>19.6元</span></p>
-    <form name="subform" id="subform" method="POST" action="/weixin/confirm" >
+    <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p>
+    <form name="subform" id="subform" method="POST" action="/weixin/confirms" target="_blank" >
         <input type="hidden" name="carts" id="carts" value="">
         <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
     </form>
 </div>
+#{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){
+        var carts=document.getElementById("carts").value;
+        if(carts== "" ||carts== null){
+            showAlart("请选择商品！")
+            return;
+        }
         $('#subform').submit();
     }
 </script>

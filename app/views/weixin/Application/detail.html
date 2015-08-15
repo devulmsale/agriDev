@@ -1,58 +1,136 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
-
-<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
-
+*{<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>}*
+<script type="text/javascript" src="/public/weixin/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <header class="topbar titbg">
-    <a href="" class="backBtn iconfont">&#xe621;</a>
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
-        提交订单
+       提交订单
     </div>
-    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
 </header>
 
 
 <section class="warp submit page">
-
-
+    <div class="price1">
+        <p>您的菜品总金额：<em>￥${order?.amount}</em></p>
+    </div>
+    #{if useCoupon == '1'}
+    <div class="submit_quan">
+        <div class="tit">可使用的现金券*{(<i>10</i>张)}*</div>
+        <ul>
+            #{list couponList , as : 'coupons'}
+            <li><a href="#"><img src="/public/weixin/images/quan${coupons?.couponBatch?.salePrice.format("#")}.jpg"><h3>${coupons?.couponBatch?.name}*{（<i>2</i>张）}*</h3><p>可抵扣<em>${coupons?.couponBatch?.costPrice}元</em></p></a><span><input type="checkbox" name="check" class="txtadd" value="${coupons?.couponBatch?.costPrice}" coupon_id="${coupons?.id}" id="coupon_${coupons?.id}" /></span></li>
+            #{/list}
+        </ul>
+        <div class="tips">提示：现金券可叠加使用，现金券不找零不退款。</div>
+    </div>
+    #{/if}
     <div class="price">
-        <p>总价：<em>￥30</em></p><a href="#" class="btn2">取消此订单</a>
+        <p>需支付：<em id="needPay">￥${order?.amount}</em></p><a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>
     </div>
     <div class="tit">填写订单信息</div>
     <div class="submit_info">
-        *{<form name="form1" method="post" action="">}*
-            <ul>
-                <li><strong><i>*</i>姓名：</strong><span><input type="text" name="textfield" style="width:100%;" class="editbox" id="textfield"></span></li>
-                <li><strong><i>*</i>电话：</strong><span><input type="text" name="textfield" style="width:100%;"  class="editbox" id="textfield1"></span></li>
-                <li><strong><i>*</i>时间：</strong>
-          <span>
-          <select name="select" style="width:49%; float:left;"  class="selectbox" id="select">
-              <option>今天</option>
-              <option>明天</option>
-          </select>
+        <form id="subform" method="POST" action="@{weixin.Application.pay()}">
 
-          <input type="text" name="textfield2" style="width:49%; float:right;" class="editbox" id="textfield2" ></span>
-                </li>
-                <li><strong><i>*</i>桌号：</strong>
-          <span><select name="select2" style="width:100%" class="selectbox" id="select2">
-              <option>1楼大厅2号桌（2-4人）</option>
-              <option>1楼大厅3号桌（4-8人）</option>
-          </select></span>
-                </li>
-            </ul>
-    </div>
+    <ul>
+        <li><strong><i>*</i>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="name"></span></li>
+        <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="phone"></span></li>
+        <li><strong><i>*</i>桌号：</strong>
+          <dl>
+          #{list tableMap , as : 'tableList'}
+              <dt>${tableList.key.name}</dt>
+              #{list tableList.value , as :'table'}
+            <dd id="spanid${table?.id}" onclick="changeSpan('${table?.id}')" ><span  >${table?.name}</span><em>${table?.peopleNum}</em></dd>
+           #{/list}
+          #{/list}
+          </dl>
+        </li>
+        <li><strong>备注：</strong><span><input type="text" name="orderUser.remark" style="width:100%;"  class="editbox" id="remark"></span></li>
+        <li> #{error 'orderUser.name' /} </li>
+        <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
+        <input type="hidden" name="orderNumber" value="${orderNumber}">
+        <input type="hidden" id="needPayPrice" value="${order?.amount}" name="needPayPrice">
+        <input type="hidden" id="couponIds" name="couponIds">
+        <input type="hidden" name="useCoupon" value="${useCoupon}">
+    </ul>
+    </form>
+  </div>
+ 
 
 </section>
 <div class="footbtn" >
-    <form id="subform" method="POST" action="@{weixin.Application.pay()}">
-        <input type="hidden" name="orderNumber" value="${orderNumber}">
-    <a href="javascript:void(0)" class="btn1" onclick="getSub()">提交订单</a>
-    </form>
+  <a href="javascript:void(0)" class="btn1 radius5"  onclick="getSub()">提交订单</a>
 </div>
-*{</form>}*
-<script>
+#{include 'weixin/Application/modal.html'/}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".txtadd").click(function(){
+            var needPay='${order?.amount}';
+            var couponIds = "";
+            var count = 0;
+            $('input[name="check"]:checked').each(function(){
+                count++;
+                if(parseFloat(needPay) > 0) {
+                    var coupon_id = $(this).attr("coupon_id");
+                    var coupon_price = $(this).val();
+                    needPay = parseFloat(needPay) - parseFloat(coupon_price);
+                    couponIds += coupon_id+",";
+                } else {
+                    $(this).attr("checked",false);
+                    showAlart("钱多了");
+                }
+                $('#couponIds').val(couponIds);
+                $('#needPayPrice').val(parseFloat(needPay) < 0 ? 0 : needPay);
+                document.getElementById("needPay").innerHTML="￥"+ (parseFloat(needPay) < 0 ? 0 : needPay);
+            });
+            if(count == 0) {
+                $('#couponIds').val('');
+                $('#needPayPrice').val('${order?.amount}');
+            }
+        });
+    });
+
+
     function getSub(){
+        var name=$("#name").val();
+        if (required(name) == false) {
+            showAlart("姓名不能为空！");
+            return;
+        }
+        var phone = $("#phone").val();
+        if (required(phone) == false) {
+            showAlart("手机号不能为空！");
+            return;
+        }
+        if (isMobile(phone) == false) {
+            showAlart("请输入正确的手机号！");
+            return;
+        }
+        var hallTalbe=$("#selectableId").val();
+        if (required(hallTalbe) == false) {
+            showAlart("请选择桌号！");
+            return;
+        }
         $('#subform').submit();
     }
-</script>
-<div class="footspace"></div>
+    function changeSpan(id){
+
+        $(".current").each(function(){
+            $(this).removeClass("current");
+        });
+        var span=$("#spanid"+id)
+        if(span.hasClass("current")){
+           span.removeClass("current")
+            $("#selectableId").val("");
+        }else{
+            $("#selectableId").val("");
+            $("#selectableId").val(id);
+            span.addClass("current")
+        }
+    }
+    </script>
+
+</body>
+</html>

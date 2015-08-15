@@ -1,0 +1,68 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+
+<header class="topbar titbg">
+    <a href="" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+        提交订单
+    </div>
+    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+</header>
+
+
+<section class="warp submit page">
+
+
+    <div class="price">
+        <p>总价：<em>￥30</em></p><a href="#" class="btn2">取消此订单</a>
+    </div>
+    <div class="tit">填写订单信息</div>
+    <div class="submit_info">
+        <form id="subform" method="POST" action="@{weixin.Application.pay()}">
+            <ul>
+                <li><strong><i>*</i>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="textfield"></span></li>
+                <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="textfield1"></span></li>
+                <li><strong><i>*</i>时间：</strong>
+          <span>
+          <select name="orderUser.time" style="width:49%; float:left;"  class="selectbox" id="select">
+              <option>今天</option>
+              <option>明天</option>
+          </select>
+
+          <input type="text" name="textfield2" style="width:49%; float:right;" class="editbox" id="textfield2" ></span>
+                </li>
+                <li><strong><i>*</i>桌号：</strong>
+          <span>
+              <select name="orderUser.merchantHall.id" style="width:49%; float:left;"  class="selectbox" id="select">
+                  #{list merchantHallList , as : 'merchantHall'}
+                  <option value="${merchantHall?.id}">${merchantHall?.name}</option>
+                  #{/list}
+              </select>
+             <select name="orderUser.hallTable.id" style="width:49%; float:left;"  class="selectbox" id="select">
+                 <option value="1">1号桌</option>
+                 <option value="2">2号桌</option>
+             </select>
+          </span>
+
+                </li>
+                <input type="hidden" name="orderNumber" value="${orderNumber}">
+            </ul>
+        </form>
+    </div>
+
+</section>
+<div class="footbtn" >
+    *{<form id="subform" method="POST" action="@{weixin.Application.pay()}">}*
+
+    <a href="javascript:void(0)" class="btn1" onclick="getSub()">提交订单</a>
+    *{</form>}*
+</div>
+
+<script>
+    function getSub(){
+        $('#subform').submit();
+    }
+</script>
+<div class="footspace"></div>

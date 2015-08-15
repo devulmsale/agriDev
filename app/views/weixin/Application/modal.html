@@ -1,0 +1,25 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/modal.css">
+    <script type="text/javascript" src="/public/weixin/js/zepto.modal.js"></script>
+</head>
+<body >
+
+
+<div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <p id="alertModalContent" style="padding-bottom:10px; padding-left:5px; padding-top:10px; font-size: 20px"></p>
+        <button class="btn-fh" data-dismiss="modal" aria-hidden="true">确定</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showAlart(str) {
+        $('#alertModalContent').html(str);
+        $('#alertModal').modal('show');
+    }
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@ package models.coupon;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.order.Goods;
+import models.order.Order;
 import models.order.User;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -45,6 +46,13 @@ public class Coupon extends Model {
     @JoinColumn(name = "user_id", nullable = true)
     @ManyToOne
     public User user;
+
+    /**
+     * 绑定订单
+     */
+    @JoinColumn(name = "order_id", nullable = true)
+    @ManyToOne
+    public Order order;
 
     /**
      * 创建时间
@@ -137,6 +145,10 @@ public class Coupon extends Model {
         return Coupon.find("createdAt between ? and ? and user = null and deleted = ?" , beginAt , endAt , DeletedStatus.UN_DELETED).fetch();
     }
 
+    //查询登录用户所购买的优惠券
+    public static List<Coupon> findCouponByLoginUser(Long userId){
+        return Coupon.find("deleted = ? and user.id = ? and order = null ",DeletedStatus.UN_DELETED,userId).fetch();
+    }
 
     @Override
     public String toString() {
