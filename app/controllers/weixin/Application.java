@@ -27,20 +27,20 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class Application extends Controller {
 
     public static void index() {
-//        Merchant merchant = WxMpAuth.currentUser().merchant;
+        Merchant merchant = WxMpAuth.currentUser().merchant;
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
     }
 
     public static void products() {
         //查询商户商品的类别  TODO 获取商户号
-        //Merchant merchant = WxMpAuth.currentUser().merchant;
+        Merchant merchant = WxMpAuth.currentUser().merchant;
         Map<String , List<Product>> productMap = new HashMap<>();
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12L);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
         for(MerchantProductType mpt : merchantProductTypeList) {
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());

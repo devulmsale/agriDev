@@ -2,7 +2,6 @@ package controllers.auth;
 
 import cache.CacheCallBack;
 import cache.CacheHelper;
-import com.google.gson.JsonObject;
 import ext.weixin.CacheableWxMpConfigStorage;
 import helper.GlobalConfig;
 import helper.WxMpHelper;
@@ -12,7 +11,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import models.base.WeixinUser;
-import models.member.MemberCard;
+import models.common.DateUtil;
 import models.mert.Merchant;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
@@ -21,6 +20,7 @@ import play.mvc.Before;
 import play.mvc.Controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,6 +81,7 @@ public class WxMpAuth extends Controller {
             }
             Merchant merchant = Merchant.findByLinkId(linkId);
             Logger.info("merchant ---- %s | linkId : %s | merchant.isAuth : %s" , merchant , linkId , merchant.isAuth);
+            Logger.info("执行 WxMpAuth 开始 : %s " , DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
             if(merchant.isAuth != null && merchant.isAuth) {
                 WxMpService wxCpService = WxMpHelper.getWxMpService(wxCpConfigStorage);
                 //是否有code&state参数？如果有，就是重定向回来的，否则就是进行重定向到微信OAuth地址.
@@ -104,7 +105,7 @@ public class WxMpAuth extends Controller {
                 }
             }
         }
-
+        Logger.info("执行 WxMpAuth 结束 : %s " , DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
         if (user != null) {
             session.put(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, user.id);
             renderArgs.put("currentUser", user);
