@@ -11,6 +11,7 @@ import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
 import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 import models.base.WeixinUser;
+import models.common.DateUtil;
 import models.mert.Merchant;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
@@ -19,6 +20,8 @@ import play.mvc.Controller;
 import util.extension.DefaultAction;
 import util.extension.ExtensionInvoker;
 import util.extension.ExtensionResult;
+
+import java.util.Date;
 
 /**
  * 微信统一响应处理接口.
@@ -107,8 +110,9 @@ public class WeixinAPI extends Controller {
 
         WxMpContext wxMpContext = WxMpContext.build(merchant, wxMpConfigStorage, wxMpService, inMessage);
 
+        Logger.info("执行 weixinAPI 开始 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
         // 如果没有认证 创建 WeixinUser
-        if(!merchant.isAuth) {
+        if(merchant.isAuth == null || !merchant.isAuth) {
             WeixinUser wxUser = WeixinUser.findOrCreateMerchantWxUser(merchant, inMessage.getFromUserName());
             if (wxUser != null) {
                 session.put(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, wxUser.id);
@@ -116,7 +120,7 @@ public class WeixinAPI extends Controller {
                 _currentUser.set(wxUser);
             }
         }
-
+        Logger.info("执行 weixinAPI 结束 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
 
         ExtensionResult result = ExtensionInvoker.run(WxMpInvocation.class, wxMpContext, new DefaultAction<WxMpContext>() {
             @Override

@@ -53,6 +53,21 @@ POST /merchant/table/create                               merchant.HallTableCont
 GET /merchant/table/edit/{id}                             merchant.HallTableController.edit
 POST /merchant/table/update/{id}                          merchant.HallTableController.update
 
+#套餐管理
+GET  /merchant/package/index                                merchant.ProductSetMealController.index
+GET  /merchant/package/add                                  merchant.ProductSetMealController.add
+POST /merchant/package/create                               merchant.ProductSetMealController.create
+GET /merchant/package/edit/{id}                             merchant.ProductSetMealController.edit
+POST /merchant/package/update/{id}                          merchant.ProductSetMealController.update
+GET /merchant/package/show/{id}                             merchant.ProductSetMealController.show
+GET /merchant/package/pic                                   merchant.ProductSetMealController.upPic
+POST /merchant/package/createPic                            merchant.ProductSetMealController.createPic
+GET /merchant/package/editPic/{id}                          merchant.ProductSetMealController.editPic
+POST /merchant/package/updatePic                             merchant.ProductSetMealController.updatePic
+GET /merchant/package/upEditPic                             merchant.ProductSetMealController.upEditPic
+
+
+
 # Merchant Coupon Pay
 *   /order/qrCode                                         weixin.OrderController.qrCode
 *   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult

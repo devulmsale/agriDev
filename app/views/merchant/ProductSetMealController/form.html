@@ -1,0 +1,172 @@
+
+
+<script>
+
+    function changeChoke(){
+        $('#priceSpanId').html(getAllprice())
+    }
+
+    function getAllprice(){
+        var allPrice =0;
+        $("input[name='productId']:checkbox:checked").each(function (i,item) {
+            //alert(item.id)
+            allPrice= Number(allPrice)+Number( item.id)
+        })
+        return allPrice
+    }
+    $(document).ready(function(){
+        $('#priceSpanId').html(getAllprice())
+    })
+</script>
+<div class="admin-content">
+    <div class="am-tabs am-margin" data-am-tabs>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="setMeal.name" value="${setMeal?.name}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'setMeal.name'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                    添加的商品
+                </div>
+                <div class="am-u-sm-8 am-u-md-4">
+                    <div class="am-form-group">
+                            #{list productList,as:'product'}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" ${product.checkIsHave(setMeal?.id , product?.id) ? 'checked' : ''}  name="productId" onclick="changeChoke()" id="${product.salePrice}"  value="${product.id}" data-am-ucheck> ${product.shortName} ${product.salePrice}
+                                </label>
+                            #{/list}
+
+                    </div>
+                </div>
+                <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                ${flash.get("msg")}
+                #{error 'productSetMeal.product'/}
+                </div>
+            </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        总价
+                    </div>
+
+                    <span style="margin-left: 10px;" id="priceSpanId"></span>
+
+                </div>
+
+            </div>
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        购买须知
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="setMeal.content" value="${setMeal?.content}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'setMeal.content'/}
+                    </div>
+                </div>
+
+
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        现价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="setMeal.presentPrice" value="${setMeal?.presentPrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'setMeal.presentPrice'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐使用时间
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <div class="am-g">
+                            <div class="am-u-sm-6">
+                                <p><input type="text" name="setMeal.beginDate" class="am-form-field" placeholder="" id="my-start-2" value="${setMeal?.beginDate?.format('yyyy-MM-dd')}"/></p>
+                            </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'setMeal.beginDate'/}
+                    </div>
+                </div>
+
+
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐结束时间
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <div class="am-g">
+                                <div class="am-u-sm-6">
+                                    <p><input type="text" name="setMeal.endDate" class="am-form-field" id="my-end-2" value="${setMeal?.endDate?.format('yyyy-MM-dd')}" /></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'setMeal.endDate'/}
+                    </div>
+                </div>
+                <script>
+                    $(function() {
+                        var nowTemp = new Date();
+                        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+                        var $myStart2 = $('#my-start-2');
+
+                        var checkin = $myStart2.datepicker({
+                            onRender: function(date) {
+                                return date.valueOf() < now.valueOf() ? 'am-disabled' : '';
+                            }
+                        }).on('changeDate.datepicker.amui', function(ev) {
+                            if (ev.date.valueOf() > checkout.date.valueOf()) {
+                                var newDate = new Date(ev.date)
+                                newDate.setDate(newDate.getDate() + 1);
+                                checkout.setValue(newDate);
+                            }
+                            checkin.close();
+                            $('#my-end-2')[0].focus();
+                        }).data('amui.datepicker');
+
+                        var checkout = $('#my-end-2').datepicker({
+                            onRender: function(date) {
+                                return date.valueOf() <= checkin.date.valueOf() ? 'am-disabled' : '';
+                            }
+                        }).on('changeDate.datepicker.amui', function(ev) {
+                            checkout.close();
+                        }).data('amui.datepicker');
+
+                    })
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>

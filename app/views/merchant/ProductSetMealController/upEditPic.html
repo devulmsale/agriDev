@@ -1,0 +1,155 @@
+#{extends 'merchantMain.html' /}
+#{set title:'管理员后台' /}
+
+
+<script type="text/javascript" src="/public/bootstrap/amaze/assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="/public/bootstrap/amaze/tree/amazeui.tree.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dataJSON = "";
+        $.ajax({
+            type: 'GET',
+            //  url: "/folder/json" ,
+            url: "http://img.ulmsale.cn/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
+            dataType : "jsonp",
+            // data:{code : 'N9RXXkr6' , loginName : 'admin' , password : '123456',callback :'dd'},
+            success: function (data){
+                //   alert(0)
+                dataJSON = data;
+
+            },
+            error: function(){
+                alert("数据出错")
+            }
+
+        });
+
+
+        $('#firstTree').tree({
+            dataSource: function(options, callback) {
+                // 模拟异步加载
+                setTimeout(function() {
+                    callback({data: options.products || dataJSON});
+                }, 400);
+            },
+            multiSelect: false,
+            cacheItems: false,
+            folderSelect: true
+        });
+
+        $('#firstTree').on('selected.tree.amui', function (event, data) {
+            var id = $('.am-tree-selected').attr("id");
+            $('#firstTree').tree('openFolder', $('#'+id+"-label"));
+            $('#folderId').val(id);
+           // alert(id)
+            $.ajax({
+                type: 'GET',
+                url: "http://img.ulmsale.cn/imageJSON?code=N9RXXkr6&callback=?" ,
+                data: {folderId:id} ,
+                dataType : "jsonp",
+                success: function (data){
+                    $('#image_ul').html('');
+                    //alert(0)
+                    // 构造 li ...
+                    var li="";
+                    $.each(data,function(idx,type){
+                        // alert(idx + "," + type.url);
+                        li=li+"<li> <div class=\"am-gallery-item\">  <img src="+type.url+"  onclick=\"chockBox("+type.id+",'"+type.uFid+"')\" id=\"imgId"+type.id+"\"/> <h3 class=\"am-gallery-title\" style=\"text-align: center\">"+type.width+"*"+type.height+"</h3>    </div> </li>"
+
+                    })
+                    $('#image_ul').html(li);
+                } ,
+                error:function (){
+                    alert("数据异常")
+                }
+
+            });
+
+            // do something with data: { selected: [array], target: [object] }
+        });
+    });
+
+    function processResponse(res){
+        alert('totalInterestPmtAmt='+ res.totalInterestPmtAmt);
+        alert('totalPmtAmt='+ res.totalPmtAmt);
+    }
+    //
+    function chockBox(id,ufid){
+        // 1,2,3,5
+        //$('#imgId'+id).addClass("am-img-thumbnail");
+//        if ($('#imgId'+id).hasClass("am-img-thumbnail")){
+//            $('#imgId'+id).removeClass("am-img-thumbnail")
+//            var value=$('#imageId').val()
+//
+//            $('#imageId').val(value.replace(ufid+",",""))
+//        }else {
+//            var value=$('#imageId').val()
+//
+//            $('#imageId').val(value+ufid+',')
+//            $('#imgId'+id).addClass("am-img-thumbnail")
+//        }
+        $(function () {
+            $("img").each(function (i,item) {
+              // alert(item.id)
+                $('#'+item.id).removeClass("am-img-thumbnail")
+            })
+        })
+        $('#imageId').val("")
+        $('#imgId'+id).addClass("am-img-thumbnail")
+        $('#imageId').val(ufid)
+
+    }
+</script>
+
+
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加图片</strong></div>
+    </div>
+    <div class="am-tabs am-margin" data-am-tabs>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-container">
+                        <div class="am-u-lg-4 am-u-sm-center">
+                            <ul class="am-tree" id="firstTree">
+                                <li class="am-tree-branch am-hide" data-template="treebranch">
+                                    <div class="am-tree-branch-header">
+                                        <button class="am-tree-branch-name">
+                                            <span class="am-tree-icon am-tree-icon-folder"></span>
+                                            <span class="am-tree-label"></span>
+                                        </button>
+                                    </div>
+                                    <ul class="am-tree-branch-children"></ul>
+                                    <div class="am-tree-loader"><span class="am-icon-spin am-icon-spinner"></span></div>
+                                </li>
+                                <li class="am-tree-item am-hide" data-template="treeitem">
+                                    <button class="am-tree-item-name">
+                                        <span class="am-tree-icon am-tree-icon-item"></span>
+                                        <span class="am-tree-label"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="am-u-lg-8">
+                            <ul data-am-widget="gallery" id="image_ul" class="am-gallery am-avg-sm-2
+am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery="{ pureview: false }">
+                            </ul>
+                        </div>
+                    </div>
+                <form class="am-form" id= "createform" action="/merchant/package/updatePic" method="POST" data-am-validator>
+                    <input  type="hidden"  name="setMealPicId" value="${setMealPicId}">
+                    <input  type="hidden" id="imageId" name="uFid">
+                    <input type="hidden"  name="id" value="${id}">
+                    <div class="am-margin">
+                        <button type="submit" id="sub_Btn" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">取消</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
