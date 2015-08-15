@@ -6,6 +6,7 @@ import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
+import models.coupon.Coupon;
 import models.coupon.CouponBatch;
 import models.mert.Merchant;
 import models.mert.MerchantProductType;
@@ -48,7 +49,7 @@ public class Application extends Controller {
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
 
-        render(merchantProductTypeList , productMap);
+        render(merchantProductTypeList, productMap);
     }
 
 
@@ -113,10 +114,14 @@ public class Application extends Controller {
             }
         }
         Order order=Order.findByOrderNumber(orderNumber);
-        render(orderNumber, tableMap , order , useCoupon);
+        //根据用户查询用户购买的优惠券，判断用户购买的优惠券未绑定订单
+        // User user = WxMpAuth.currentUser().user;TODO 上线时需要获取微信用户
+        List<Coupon> couponList=Coupon.findCouponByLoginUser(2l);
+        Logger.info("用户卡券数量 :%s",couponList.size());
+        render(orderNumber, tableMap , order , useCoupon , couponList);
     }
 
-    public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon) throws Exception{
+    public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds) throws Exception{
         /*if(validation.hasErrors()) {
             params.flash(); // add http parameters to the flash scope
             validation.keep(); // keep the errors for the next request
@@ -127,6 +132,7 @@ public class Application extends Controller {
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
         Logger.info("orderUser :%s=",orderUser.hallTable.hall);
+
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
             orderUser.deleted = DeletedStatus.UN_DELETED;
@@ -136,7 +142,28 @@ public class Application extends Controller {
             orderUser.save();
         }
         Logger.info("orderNumber :%s=",orderNumber);
-        render(orderNumber,order);
+        BigDecimal orderAmount=order.amount;
+        Logger.info("couponIds:%s=",couponIds);
+        BigDecimal couponPirce= BigDecimal.valueOf(0.0);
+        BigDecimal needPay=BigDecimal.valueOf(0.0);
+        Coupon coupon=null;
+        if(null != couponIds && !couponIds.equals("")){
+            String [] coupons=couponIds.split(",");
+            for(String couponId :coupons) {
+                coupon = Coupon.findById(Long.valueOf(couponId));
+                CouponBatch couponBatch= CouponBatch.findById(Long.valueOf(coupon.couponBatch.id));
+                couponPirce= couponPirce.add(couponBatch.costPrice);
+            }
+            needPay=orderAmount.subtract(couponPirce);
+            int pay =needPay.compareTo(BigDecimal.ZERO);
+            if(pay ==0 || pay == -1){
+                needPay=BigDecimal.ZERO;
+            }else if(pay == 1){
+                needPay=needPay;
+            }
+            Logger.info("needPay :%s",needPay);
+        }
+        render(orderNumber,order ,needPay ,useCoupon);
     }
 
     //删除订单

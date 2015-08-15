@@ -1,6 +1,7 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
-<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+*{<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>}*
+<script type="text/javascript" src="/public/weixin/js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <header class="topbar titbg">
   <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
@@ -17,15 +18,17 @@
     </div>
     #{if useCoupon == '1'}
     <div class="submit_quan">
-        <div class="tit">可使用的现金券(<i>10</i>张)</div>
+        <div class="tit">可使用的现金券*{(<i>10</i>张)}*</div>
         <ul>
-            <li><a href="#"><img src="/public/weixin/images/quan50.jpg"><h3>50元现金券（<i>2</i>张）</h3><p>可抵扣<em>50元</em></p></a><span><input type="text" class="txtadd"/></span></li>
+            #{list couponList , as : 'coupons'}
+            <li><a href="#"><img src="/public/weixin/images/quan${coupons?.couponBatch?.salePrice.format("#")}.jpg"><h3>${coupons?.couponBatch?.name}*{（<i>2</i>张）}*</h3><p>可抵扣<em>${coupons?.couponBatch?.costPrice}元</em></p></a><span><input type="checkbox" name="check" class="txtadd" value="${coupons?.couponBatch?.costPrice}" coupon_id="${coupons?.id}" id="coupon_${coupons?.id}" /></span></li>
+            #{/list}
         </ul>
         <div class="tips">提示：现金券可叠加使用，现金券不找零不退款。</div>
     </div>
     #{/if}
     <div class="price">
-        <p>需支付：<em>￥${order?.amount}</em></p><a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>
+        <p>需支付：<em id="needPay">￥${order?.amount}</em></p><a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>
     </div>
     <div class="tit">填写订单信息</div>
     <div class="submit_info">
@@ -48,7 +51,9 @@
         <li> #{error 'orderUser.name' /} </li>
         <input type="hidden" id="selectableId" name="orderUser.hallTable.id" value="">
         <input type="hidden" name="orderNumber" value="${orderNumber}">
-        <input type="text" name="useCoupon" value="${useCoupon}">
+        <input type="hidden" id="needPayPrice" value="${order?.amount}" name="needPayPrice">
+        <input type="hidden" id="couponIds" name="couponIds">
+        <input type="hidden" name="useCoupon" value="${useCoupon}">
     </ul>
     </form>
   </div>
@@ -60,7 +65,33 @@
 </div>
 #{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
-    $('.txtadd').spinner({});
+    $(document).ready(function(){
+        $(".txtadd").click(function(){
+            var needPay='${order?.amount}';
+            var couponIds = "";
+            var count = 0;
+            $('input[name="check"]:checked').each(function(){
+                count++;
+                if(parseFloat(needPay) > 0) {
+                    var coupon_id = $(this).attr("coupon_id");
+                    var coupon_price = $(this).val();
+                    needPay = parseFloat(needPay) - parseFloat(coupon_price);
+                    couponIds += coupon_id+",";
+                } else {
+                    $(this).attr("checked",false);
+                    showAlart("钱多了");
+                }
+                $('#couponIds').val(couponIds);
+                $('#needPayPrice').val(parseFloat(needPay) < 0 ? 0 : needPay);
+                document.getElementById("needPay").innerHTML="￥"+ (parseFloat(needPay) < 0 ? 0 : needPay);
+            });
+            if(count == 0) {
+                $('#couponIds').val('');
+                $('#needPayPrice').val('${order?.amount}');
+            }
+        });
+    });
+
 
     function getSub(){
         var name=$("#name").val();
