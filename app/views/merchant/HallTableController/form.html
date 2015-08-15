@@ -11,7 +11,7 @@
                            <select name="hallTable.hall.id">
                            #{list hallsList,as:'hall'}
                                *{<option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>}*
-                         <option ${hall?.id==hallTable?.hall.id ? 'selected="selected"':''} value="${hall?.id}">${hall?.name}</option>
+                         <option ${hall?.id==hallTable?.hall?.id ? 'selected="selected"':''} value="${hall?.id}">${hall?.name}</option>
                            #{/list}
                            </select>
                        </div>

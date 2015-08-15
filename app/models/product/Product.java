@@ -222,6 +222,12 @@ public class Product extends Model {
     public DeletedStatus deleted;
 
 
+    public static Boolean checkIsHave(Long setMealId , Long id) {
+        ProductSetMeal productSetMeal =   ProductSetMeal.findProductSetMealBySetMealAndProduct(setMealId, id);
+        return productSetMeal == null ? false : true;
+
+    }
+
     public static List<Product> findByType(Long typeId) {
         return Product.find("parentType.id = ? and deleted = ?", typeId, DeletedStatus.UN_DELETED).fetch();
     }
@@ -307,5 +313,9 @@ public class Product extends Model {
     //根据商户号和商户类别id获取商品
     public static List<Product> findProductByMerIdAndMerProductType(Long merProductTypeId){
         return Product.find("deleted = ?  and merchantProductType.id = ?" , DeletedStatus.UN_DELETED  , merProductTypeId).fetch();
+    }
+
+    public static List<Product> findProductByMerchant(Long merChantId){
+        return Product.find("deleted = ? and merchant.id = ? ",DeletedStatus.UN_DELETED,merChantId).fetch();
     }
 }

@@ -2,21 +2,26 @@ package models.product;
 
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import play.Logger;
+import play.data.validation.Required;
+
+import play.db.jpa.JPA;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/13.
  */
 @Entity
-@Table(name = "product_packages")
+@Table(name = "product_setmeals")
 public class ProductSetMeal extends Model {
 
     /**
-     * ËùÊôÌ×²Í
+     * æ‰€å±å¥—é¤
      */
     @JoinColumn(name = "set_meal_id")
     @ManyToOne
@@ -24,15 +29,16 @@ public class ProductSetMeal extends Model {
 
 
     /**
-     * Ìí¼ÓµÄÉÌÆ·
+     * æ·»åŠ çš„å•†å“
      */
+    @Required(message = "è¯·é€‰æ‹©å•†å“ï¼Œä¸èƒ½ä¸ºç©º")
     @JoinColumn(name = "product_id")
     @ManyToOne
     public Product product;
 
 
     /**
-     * ²Ë¼Û
+     * èœä»·
      *
      */
     @Column(name = "price")
@@ -40,16 +46,46 @@ public class ProductSetMeal extends Model {
 
 
     /**
-     * ´´½¨Ê±¼ä
+     * åˆ›å»ºæ—¶é—´
      */
     @Column(name = "created_at")
     public Date createdAt;
 
     /**
-     * Âß¼­É¾³ı,0:Î´É¾³ı£¬1:ÒÑÉ¾³ı
+     * é€»è¾‘åˆ é™¤,0:æœªåˆ é™¤ï¼Œ1:å·²åˆ é™¤
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
+    public static List<ProductSetMeal> findProductSetMealBySetMeal(SetMeal setMeal){
+       return ProductSetMeal.find("deleted = ? and setMeal.id = ?",DeletedStatus.UN_DELETED,setMeal.id).fetch();
+    }
+
+
+    public static ProductSetMeal findProductSetMealBySetMealAndProduct(Long setMealId , Long productId){
+        return ProductSetMeal.find("deleted = ? and setMeal.id = ? and product.id = ?", DeletedStatus.UN_DELETED, setMealId, productId).first();
+    }
+
+    public static void  deleteBySetMealId(Long setMealId){
+       // Query query = JPA.em().createQuery("select * from Article");
+     //   ProductSetMeal.
+     //  String sql = "update product_setmeals p set p.deleted = :deleted where p.set_meal_id = :setMealId";
+     //  Query query =   ProductSetMeal.em().createQuery(sql);
+      //  Query query =  JPA.em().createQuery(" update Order as o set o.amount=o.amount+10 ");
+        //update çš„è®°å½•æ•°
+        StringBuffer sb=new StringBuffer();
+        sb.append("update product_setmeals p set p.deleted =");
+        sb.append(" "+DeletedStatus.DELETED.getValue());
+        sb.append(" where p.set_meal_id =");
+        sb.append(setMealId);
+        sb.append("  and  p.deleted =");
+        sb.append(""+DeletedStatus.UN_DELETED.getValue());
+        //åˆ›å»ºsqlæŸ¥è¯¢
+        Logger.info("sb==="+sb.toString());
+        Query query = ProductSetMeal.em().createNativeQuery(sb.toString(), ProductSetMeal.class);
+        query.executeUpdate();
+    }
 
 
 }
