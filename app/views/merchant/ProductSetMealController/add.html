@@ -1,0 +1,41 @@
+#{extends 'merchantMain.html' /}
+#{set title:'管理员后台' /}
+
+<script>
+    function getSubmit(){
+        $("#createform").submit();
+    }
+</script>
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">桌号添加</strong></div>
+    </div>
+
+    <div class="am-tabs am-margin" data-am-tabs>
+        <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="#tab1">基本信息</a></li>
+        </ul>
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <form class="am-form" id= "createform" action="/merchant/table/create" method="POST" data-am-validator>
+
+                #{include '/merchant/ProductSetMealController/form.html'/}
+
+                    <input  type="hidden" id="imageId" name="imageName">
+                         <div class="am-margin">
+                             <button type="submit" id="sub_Btn" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+                             <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1)">取消</button>
+                         </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- content end -->

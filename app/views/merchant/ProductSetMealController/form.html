@@ -1,0 +1,100 @@
+<div class="admin-content">
+    <div class="am-tabs am-margin" data-am-tabs>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="productPackage.name" value="${productPackage?.name}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'productPackage.name'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                    添加的商品
+                </div>
+                <div class="am-u-sm-8 am-u-md-4">
+                    <div class="am-form-group">
+
+                        #{list productList,as:'product'}
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox"  value="${product.id}" data-am-ucheck> ${product.shortName}
+                            </label>
+                        #{/list}}
+
+                    </div>
+                </div>
+                <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                #{error 'productPackage.product'/}
+                </div>
+            </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        购买须知
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="productPackage.content" value="${productPackage?.content}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'productPackage.content'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        现价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="productPackage.presentPrice" value="${productPackage?.presentPrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'productPackage.presentPrice'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐使用时间
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="productPackage.beginDate" value="${productPackage?.beginDate}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'productPackage.beginDate'/}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        套餐结束时间
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="productPackage.endDate" value="${productPackage?.endDate}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    #{error 'productPackage.endDate'/}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

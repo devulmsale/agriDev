@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "product_packages")
-public class ProductPackage extends Model {
+public class SetMeal extends Model {
     /**
      * 套餐名称
      */
@@ -24,13 +24,6 @@ public class ProductPackage extends Model {
      */
     @Column(name = "content")
     public String content;
-
-    /**
-     * 添加的商品
-     */
-    @JoinColumn(name = "product_id")
-    @ManyToOne
-    public Product product;
 
     /**
      * 所属商家
