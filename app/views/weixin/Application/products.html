@@ -10,14 +10,15 @@
             //为 '.navbar-wrapper' class 启用stickUp插件
             $('.leftbar').stickUp({
                 parts: {
-                    0:'r0',
-                    1:'r1',
-                    2: 'r2',
-                    3: 'r3',
-                    4: 'r4',
-                    5: 'r5',
-                    6: 'r6',
-                    7: 'r7'
+                    0:'r1',
+                    1:'r2',
+                    2: 'r3',
+                    3: 'r4',
+                    4: 'r5',
+                    5: 'r6',
+                    6: 'r7',
+                    7: 'r8',
+                    8: 'r9'
                 },
                 itemClass: 'menuItem',
                 itemHover: 'active'
@@ -116,8 +117,7 @@
         <li class="menuItem"><a href="#r2">套餐系列</a></li>
         <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
         #{list merchantProductTypeList , as :'productType'}
-        <!-- a_r5  -->
-            <li class="menuItem"><a href="#r${productType_index}" >${productType?.name}
+            <li class="menuItem ${productType_index == 1 ? 'active' : ''}"><a href="#r${productType_index}" >${productType?.name}
                 <em id="productType_${productType?.id}">0</em>
                 <input type="hidden" name="productIds" id="productIds">
                 <input type="hidden" name="product_id_value" id="product_id_value">
@@ -138,10 +138,12 @@
 </aside>
 <section class="rightbar">
 
+
+
 #{list merchantProductTypeList , as :'mpt'}
-  #{list productMap.get(mpt?.id.toString()) , as :'product'}
-      <dl id="r${mpt_index}">
-          <dt>${mpt?.name}</dt>
+    <dl id="r${mpt_index}">
+        <dt>${mpt?.name}</dt>
+    #{list productMap.get(mpt?.id.toString()) , as :'product'}
           <dd>
               <div class="tit">
                   <a href="detail.html">
@@ -159,8 +161,8 @@
                  *{ <img src="@{weixin.Application.getProductImg(product?.id)}">}*
               </a>
           </dd>
-      </dl>
-  #{/list}
+    #{/list}
+    </dl>
 #{/list}
 
 
@@ -239,7 +241,6 @@
     $('.txtadd').spinner({});
     function getSub(){
         var carts = $('#carts').val();
-        alert(carts);
         if(carts== "" ||carts== null){
             showAlart("请选择商品！")
             return;

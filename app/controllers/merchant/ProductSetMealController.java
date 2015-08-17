@@ -26,7 +26,7 @@ public class ProductSetMealController extends Controller {
 
     private static final Integer PAGE_SIZE=15;
 
-    private static final String  FOLDER_URL="http://gxf.tunnel.mobi/folderJSON/";
+    private static final String  FOLDER_URL="http://img.ulmsale.cn/folderJSON/";
 
     /**
      * 跳转套餐列表
