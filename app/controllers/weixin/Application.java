@@ -204,4 +204,11 @@ public class Application extends Controller {
         render();
     }
 
+
+    //根据商品id获取商品图片
+    public  static void getProductImg(Long productId){
+
+
+    }
+
 }
