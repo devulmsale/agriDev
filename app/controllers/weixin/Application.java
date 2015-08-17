@@ -67,6 +67,12 @@ public class Application extends Controller {
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
         User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
+        if(order != null) {
+            order.deleted = DeletedStatus.DELETED;
+            order.status = OrderStatus.CANCELED;
+            order.save();
+        }
+        order = null;
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 //生成订单 并初初始化订单
