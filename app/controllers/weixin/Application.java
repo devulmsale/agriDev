@@ -30,11 +30,11 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class Application extends Controller {
 
     public static void index() {
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
+       Merchant merchant = WxMpAuth.currentUser().merchant;
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
     }
