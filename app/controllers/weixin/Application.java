@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class Application extends Controller {
 
     public static void index() {
@@ -43,10 +43,10 @@ public class Application extends Controller {
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
         //查询商户商品的类别  TODO 获取商户号 merchant.id
-       Merchant merchant = WxMpAuth.currentUser().merchant;
-        Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+      // Merchant merchant = WxMpAuth.currentUser().merchant;
+      //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
@@ -65,7 +65,7 @@ public class Application extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        User user = WxMpAuth.currentUser().user;
+       // User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             order.deleted = DeletedStatus.DELETED;
@@ -76,7 +76,8 @@ public class Application extends Controller {
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 //生成订单 并初初始化订单
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
                 cartToOrder(orderBuilder, carts);
             }
