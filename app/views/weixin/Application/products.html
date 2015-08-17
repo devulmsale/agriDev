@@ -228,6 +228,7 @@
     <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p>
     <form name="subform" id="subform" method="POST" action="/weixin/confirms" target="_blank" >
         <input type="hidden" name="carts" id="carts" value="">
+        <input type="hidden" name="uuid" id="uuid" value="${uuid}">
         <input type="hidden" name="goodsType" value="${goodsType}">
         <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
     </form>

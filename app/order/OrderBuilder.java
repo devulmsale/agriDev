@@ -93,6 +93,11 @@ public class OrderBuilder {
         return this;
     }
 
+    public OrderBuilder uuid(String uuid) {
+        order.uuid = uuid;
+        return this;
+    }
+
 
     public OrderBuilder goodsType(OrderGoodsType goodsType) {
         if (order.isPersistent()) {

@@ -99,6 +99,13 @@ public class Order extends Model {
     @ManyToOne
     public User user;
 
+
+    /**
+     * 防止后退刷新一直添加订单
+     */
+    @Column(name = "uuid")
+    public String uuid;
+
     /**
      * 订单用户联系电话
      */
@@ -382,6 +389,11 @@ public class Order extends Model {
 
     public static Long countByCardAndUnPaid(MemberCard card , OrderStatus status) {
         return Order.count("memberCard = ?  and status = ? and deleted = ?", card, status, DeletedStatus.UN_DELETED);
+    }
+
+
+    public static Order findByUuid(String uuid) {
+        return Order.find("uuid = ?  and deleted = ?", uuid , DeletedStatus.UN_DELETED).first();
     }
 
 
