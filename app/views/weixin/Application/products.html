@@ -6,6 +6,7 @@
     //initiating jQuery
     jQuery(function($) {
         $(document).ready( function() {
+            $('#carts').val('');
             //为 '.navbar-wrapper' class 启用stickUp插件
             $('.leftbar').stickUp({
                 parts: {
@@ -237,7 +238,8 @@
 <script type="text/javascript">
     $('.txtadd').spinner({});
     function getSub(){
-        var carts=document.getElementById("carts").value;
+        var carts = $('#carts').val();
+        alert(carts);
         if(carts== "" ||carts== null){
             showAlart("请选择商品！")
             return;
