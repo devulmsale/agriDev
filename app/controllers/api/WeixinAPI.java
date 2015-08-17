@@ -117,11 +117,11 @@ public class WeixinAPI extends Controller {
         if(merchant.isAuth == null || !merchant.isAuth) {
 //            Logger.info(" Merchant 没有认证.  开始 findOrCreateMerchantWxUser" );
             WeixinUser wxUser = WeixinUser.findOrCreateMerchantWxUser(merchant, inMessage.getFromUserName());
-//            Logger.info("Merchant 没有认证. Merchant.wxUser : %s  -------" , wxUser.id);
+            Logger.info("Merchant 没有认证. Merchant.wxUser : %s  -------" , wxUser.id);
             if (wxUser != null) {
-                Cache.add(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY , wxUser.id);
+                Cache.add(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, wxUser.id);
             }
-//            Logger.info("Merchant 没有认证. session.GlobalConfig.WEIXIN_MP_SESSION_USER_KEY : %s" , session.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY));
+            Logger.info("Merchant 没有认证. Cache.GlobalConfig.WEIXIN_MP_SESSION_USER_KEY : %s" , Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY));
         }
 //        Logger.info("执行 weixinAPI 结束 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
 
