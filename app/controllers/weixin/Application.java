@@ -1,6 +1,7 @@
 package controllers.weixin;
 
 import controllers.auth.WxMpAuth;
+import helper.GlobalConfig;
 import jodd.http.HttpRequest;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderGoodsType;
@@ -34,7 +35,6 @@ import java.util.*;
 public class Application extends Controller {
 
     public static void index() {
-       Merchant merchant = WxMpAuth.currentUser().merchant;
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
     }
@@ -42,9 +42,11 @@ public class Application extends Controller {
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
         //查询商户商品的类别  TODO 获取商户号 merchant.id
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
+        Logger.info("products UserId : %s " , session.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY));
+       Merchant merchant = WxMpAuth.currentUser().merchant;
+        Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12L);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
         for(MerchantProductType mpt : merchantProductTypeList) {
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());

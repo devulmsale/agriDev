@@ -15,6 +15,7 @@ import models.common.DateUtil;
 import models.mert.Merchant;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
+import play.cache.Cache;
 import play.mvc.After;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -39,7 +40,6 @@ public class WxMpAuth extends Controller {
     @Before(unless = {"login", "logout", "fail", "validate", "validation", "authenticate", "captcha"})
     public static void filter() throws Throwable {
         Logger.info("[Auth]: Filter for URL -> " + request.url);
-
         // 设置JSAPI
         UseJsApi annoUseJsAPI = getUseJsAPI();
         if (annoUseJsAPI != null) {
@@ -131,6 +131,13 @@ public class WxMpAuth extends Controller {
     private static WeixinUser getUserFromSession() {
         WeixinUser user = null;
         String sessionUserId = session.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
+        if(StringUtils.isBlank(sessionUserId)) {
+            Object CacheUserId = Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
+            if(CacheUserId != null) {
+                sessionUserId =Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY).toString();
+                Cache.delete(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
+            }
+        }
         Logger.info("sessionUserId=" + sessionUserId);
         if (StringUtils.isNotBlank(sessionUserId)) {
             final Long userId = Long.parseLong(sessionUserId);
