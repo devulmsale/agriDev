@@ -1,0 +1,100 @@
+#{extends 'merchantMain.html' /}
+#{set title:'管理员后台' /}
+
+<script>
+    function getSubmit(){
+        $("#createform").submit();
+    }
+</script>
+
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">详情展示</strong></div>
+    </div>
+
+    <div class="am-tabs am-margin" data-am-tabs>
+        <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="#tab1">基本信息</a></li>
+        </ul>
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <div class="admin-content">
+                    <div class="am-tabs am-margin" data-am-tabs>
+                        <div class="am-tabs-bd">
+                            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        套餐名称
+                                    </div>
+                                    ${setMeal?.name}
+
+                                </div>
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        添加的商品
+                                    </div>
+
+                                        #{list productSetMealList,as:'product'}
+                                            <label class="am-checkbox-inline">
+                                            ${product.product.shortName}
+                                            </label>
+                                        #{/list}
+
+
+
+                                </div>
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        购买须知
+                                    </div>
+                                ${setMeal?.content}
+
+                                </div>
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        现价
+                                    </div>
+                                ${setMeal?.presentPrice}
+
+                                </div>
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        套餐使用时间
+                                    </div>
+                                ${setMeal?.beginDate?.format('yyyy-MM-dd')}
+
+                                </div>
+
+
+
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                        套餐结束时间
+                                    </div>
+                                ${setMeal?.endDate?.format('yyyy-MM-dd')}
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- content end -->
