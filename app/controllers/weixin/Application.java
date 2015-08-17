@@ -22,6 +22,7 @@ import play.data.validation.Valid;
 import play.mvc.Controller;
 import play.mvc.With;
 import sun.rmi.runtime.Log;
+import util.common.RandomNumberUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -42,7 +43,6 @@ public class Application extends Controller {
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
         //查询商户商品的类别  TODO 获取商户号 merchant.id
-        Logger.info("products UserId : %s " , session.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY));
        Merchant merchant = WxMpAuth.currentUser().merchant;
         Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
@@ -52,28 +52,29 @@ public class Application extends Controller {
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
             productMap.put(mpt.id.toString() , productList);
         }
+        String uuid = RandomNumberUtil.generateRandomNumberString(16);
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
 
-        render(merchantProductTypeList, productMap ,goodsType);
+        render(merchantProductTypeList, productMap ,goodsType , uuid);
     }
 
 
-    public static void confirms(String carts , OrderGoodsType goodsType) {
+    public static void confirms(String carts , OrderGoodsType goodsType , String uuid) {
         Logger.info("微信端选择商品数量:%s=",carts);
         Logger.info("点餐类型:%s",goodsType);
+        Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        //TODO 需要修改用户
-        User user = User.all().first();
-        Order order = null;
-        if(StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-            //生成订单 并初初始化订单
-            OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType);
-            order = orderBuilder.save();  //生成订单号
-            cartToOrder(orderBuilder , carts);
+        User user = WxMpAuth.currentUser().user;
+        Order order = Order.findByUuid(uuid);
+        if(order == null) {
+            if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+                //生成订单 并初初始化订单
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                order = orderBuilder.save();  //生成订单号
+                cartToOrder(orderBuilder, carts);
+            }
         }
-        List<OrderItem> orderItems = OrderItem.getListByOrder(order);
-        //render(order, orderItems);
         redirect("/weixin/confirm?orderNumber="+order.orderNumber+"&goodsType="+goodsType);
     }
 
