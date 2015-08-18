@@ -3,6 +3,7 @@ package controllers.weixin;
 import controllers.auth.WxMpAuth;
 import helper.GlobalConfig;
 import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
@@ -16,6 +17,9 @@ import models.mert.hall.HallTable;
 import models.mert.hall.MerchantHall;
 import models.order.*;
 import models.product.Product;
+import models.product.ProductImage;
+import models.product.ProductImageType;
+import models.product.enums.ImageType;
 import order.OrderBuilder;
 import play.Logger;
 import play.data.validation.Valid;
@@ -34,6 +38,7 @@ import java.util.*;
  */
 //@With(WxMpAuth.class)
 public class Application extends Controller {
+    private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
 
     public static void index() {
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
@@ -42,23 +47,50 @@ public class Application extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
+<<<<<<< HEAD
     //   Merchant merchant = WxMpAuth.currentUser().merchant;
 //        Merchant merchant = Merchant.findByLinkId("kehao");
       //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
         //查询商户商品的类别  TODO 获取商户号 merchant.id
+=======
+        //查询商户商品的类别  TODO 获取商户号 merchant.id
+       //Merchant merchant = WxMpAuth.currentUser().merchant;
+
+      //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+      // Merchant merchant = WxMpAuth.currentUser().merchant;
+//        Merchant merchant = Merchant.findByLinkId("kehao");
+       // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+        Map<String , List<Product>> productMap = new HashMap<>();
+        List<Product> imgUrlList=new ArrayList<>();
+        //根据商户查询商户商品类别
+>>>>>>> origin/master
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
+            //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
-            productMap.put(mpt.id.toString() , productList);
+           //根据商品Id查询图片
+            for(Product pro:productList){
+                Logger.info("商品Id :%s",pro.id);
+                ProductImage productImage=ProductImage.findProductImage(pro.id);
+                //TODO 商品图片宽高需要获取
+                if(null != productImage) {
+                    String responseBody = images(productImage.uFid, "490", "290");
+                    pro.url = responseBody;
+                }
+                imgUrlList.add(pro);
+                Logger.info("imgUrlList :%s",imgUrlList.size());
+            }
+            productMap.put(mpt.id.toString(), productList);
         }
         String uuid = RandomNumberUtil.generateRandomNumberString(16);
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
-
-        render(merchantProductTypeList, productMap ,goodsType , uuid);
+        //TODO render 中传入merchant 为页面获取linkId
+        render(merchantProductTypeList, productMap ,goodsType , uuid , imgUrlList );
     }
+
 
 
     public static void confirms(String carts , OrderGoodsType goodsType , String uuid) {
@@ -67,9 +99,12 @@ public class Application extends Controller {
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
        // User user = WxMpAuth.currentUser().user;
+<<<<<<< HEAD
         //TODO user的id
         User user=new User();
         user.id=2l;
+=======
+>>>>>>> origin/master
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             order.deleted = DeletedStatus.DELETED;
@@ -79,8 +114,9 @@ public class Application extends Controller {
         order = null;
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                //生成订单 并初初始化订单
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
+                //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
                 cartToOrder(orderBuilder, carts);
             }
@@ -91,9 +127,23 @@ public class Application extends Controller {
     public static void confirm(String orderNumber ,OrderGoodsType goodsType){
         Logger.info("confirm--orderNumber:%s==",orderNumber);
         Logger.info("confirm--goodsType:%s",goodsType);
+        List<OrderItem> imgOrderItemList=new ArrayList<>();
         Order order = Order.findByOrderNumber(orderNumber);
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
-        render(order, orderItems, goodsType);
+        //TODO 获取图片 图片宽度和高度需要修改
+        for(OrderItem oi : orderItems) {
+            String goodsSerial=oi.goods.serial;
+            String[] serial = goodsSerial.split("_");
+            Long productId = Long.valueOf(serial[1]);
+            ProductImage productImage = ProductImage.findProductImage(productId);
+            if(null != productImage) {
+                String responseBody = images(productImage.uFid, "490", "290");
+                oi.url=responseBody;
+            }
+            imgOrderItemList.add(oi);
+        }
+
+        render(order , imgOrderItemList , goodsType);
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
@@ -218,10 +268,19 @@ public class Application extends Controller {
     }
 
 
-    //根据商品id获取商品图片
-    public  static void getProductImg(Long productId){
 
-
+    public static String images(String ufid,String width ,String height){
+        HttpRequest httpRequest = HttpRequest
+                .get(IMG_URL)
+                .form(
+                        "uFid", ufid,
+                        "width", width,
+                        "height", height
+                );
+        HttpResponse httpResponse = httpRequest.send();
+        String responseBody = httpResponse.body();
+        Logger.info("responseBody==="+responseBody);
+        return responseBody;
     }
 
 }

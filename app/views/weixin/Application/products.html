@@ -91,44 +91,44 @@
 <aside class="leftbar">
     <h3>全部菜单</h3>
     <ul>
-        #{list merchantProductTypeList , as :'productType'}
-            <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
-                <a href="#r${productType_index-1}" >${productType?.name}
-                    <em id="productType_${productType?.id}">0</em>
-                </a>
-            </li>
-        #{/list}
-            <input type="hidden" name="productIds" id="productIds">
-            <input type="hidden" name="product_id_value" id="product_id_value">
+    #{list merchantProductTypeList , as :'productType'}
+        <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
+            <a href="#r${productType_index-1}" >${productType?.name}
+                <em id="productType_${productType?.id}">0</em>
+            </a>
+        </li>
+    #{/list}
+        <input type="hidden" name="productIds" id="productIds">
+        <input type="hidden" name="product_id_value" id="product_id_value">
     </ul>
 </aside>
 
 
 <section class="rightbar">
-    #{list merchantProductTypeList , as :'mpt'}
-        <div id="r${mpt_index-1}" class="topspace"></div>
-        <dl>
-            <dt>${mpt?.name}</dt>
-            #{list productMap.get(mpt?.id.toString()) , as :'product'}
-                <dd>
-                    <div class="tit">
-                        <a href="detail.html">
-                            <h3>
-                                <span>${product?.name}</span>
-                                <em>${product?.salePrice}元</em>
-                            </h3>
-                        </a>
-                        <p>
-                            <input type="text" product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
-                        </p>
-                    </div>
-                    <a href="javascript:void(0)">
-                        <img src="/public/weixin/img/p1.jpg">
+#{list merchantProductTypeList , as :'mpt'}
+    <div id="r${mpt_index-1}" class="topspace"></div>
+    <dl>
+        <dt>${mpt?.name}</dt>
+        #{list productMap.get(mpt?.id.toString()) , as :'product'}
+            <dd>
+                <div class="tit">
+                    <a href="detail.html">
+                        <h3>
+                            <span>${product?.name}</span>
+                            <em>${product?.salePrice}元</em>
+                        </h3>
                     </a>
-                </dd>
-            #{/list}
-        </dl>
-    #{/list}
+                    <p>
+                        <input type="text" product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                    </p>
+                </div>
+                <a href="javascript:void(0)">
+                    <img src="${product?.url}">
+                </a>
+            </dd>
+        #{/list}
+    </dl>
+#{/list}
     <div class="footspace"></div>
 </section>
 <div class="footcart" >

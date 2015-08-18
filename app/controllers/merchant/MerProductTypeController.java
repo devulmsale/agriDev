@@ -5,6 +5,7 @@ import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.JSONEntity;
 import models.constants.DeletedStatus;
+import models.mert.Merchant;
 import models.mert.MerchantProductType;
 import models.operate.OperateUser;
 import models.product.*;
@@ -31,6 +32,8 @@ public class MerProductTypeController extends Controller {
         initData();
         pageNumber = pageNumber == null ? 1 : pageNumber;
         Map<String , Object> searchMap = new HashMap<>();
+        Logger.info("商户商品类别，商户号:%s",MerchantSecure.getMerchant());
+        searchMap.put("merchant", MerchantSecure.getMerchant());
         if(StringUtils.isNotBlank(searchName)) {
             searchMap.put("searchName", "%"+searchName+"%");
         }

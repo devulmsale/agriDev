@@ -98,12 +98,18 @@ public class ProductController extends Controller {
         String [] ufids=imageName.split(",");
 
         for(String ufid:ufids){
+            String [] productImageTypeId=ufid.split("_");
+            String uf=productImageTypeId[0];
+            String pid=productImageTypeId[1];
+            ProductImageType productImageType=ProductImageType.findById(Long.valueOf(pid));
+            Logger.info("uf :%s || pid :%s",uf,pid);
             ProductImage productImage=new ProductImage();
             Logger.info("UFID :%s=",ufid);
             productImage.deleted=DeletedStatus.UN_DELETED;
             productImage.createdAt=new Date();
             productImage.product=product;
-            productImage.uFid=ufid;
+            productImage.uFid=uf;
+            productImage.productImageType=productImageType;
             productImage.save();
             Logger.info("商品图片保存");
         }

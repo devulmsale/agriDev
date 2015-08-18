@@ -61,22 +61,42 @@
             // do something with data: { selected: [array], target: [object] }
         });
     });
-
+        var checkType=false;
+        var  num=-1;
+    var map = {};
     function chockBox(id,imgId){
-        // 1,2,3,5
-        //$('#imgId'+id).addClass("am-img-thumbnail");
-        if ($('#imgId'+imgId).hasClass("am-img-thumbnail")){
-            $('#imgId'+imgId).removeClass("am-img-thumbnail")
-            var value=$('#imageId').val()
-            $('#imageId').val(value.replace(id+",",""))
-        }else {
-
-          //  alert($('#imageId').val())
-            var value=$('#imageId').val()
-
-            $('#imageId').val(value+id+',')
-            $('#imgId'+imgId).addClass("am-img-thumbnail")
+        if(checkType ==false){
+            alert("请先选择图片类型");
+            return;
         }
+        var chooseId = $('#img_id_choose').val();
+//       // alert("chooseId="+chooseId);
+//        if ($('#imgId'+imgId).hasClass("am-img-thumbnail")){
+//            $('#imgId'+imgId).removeClass("am-img-thumbnail")
+//            var value=$('#imageId').val();
+//            $('#imageId').val(value.replace(id+"_"+chooseId+",",""))
+//        }else {
+        var value1=$('#imageId').val();
+         $('#img_'+chooseId).attr("src" , $('#imgId'+imgId).attr("src"));
+            $('#imageId').val(value1+id+'_'+num+',')
+        var value=$('#imageId').val();
+        var arr1 = new Array();
+         arr1=value.split(",")
+        for(var i=0;i<arr1.length;i++) {
+            if(arr1[i]!=""){
+                map[''+num] = arr1[i];
+            }
+        }
+        $('#imageId').val("")
+        for(var key in map){
+            $('#imageId').val($('#imageId').val()+map[key]+",");
+    }
+    }
+    function ChangeBorderColor(id){
+        checkType=true;
+        $('#img_'+id).addClass("am-border-color");
+        num=id
+        $('#img_id_choose').val(id);
     }
 </script>
 <!-- content start -->
@@ -127,26 +147,28 @@
                                 </div>
                                     <div class="am-u-sm-12 am-u-md-12" style="border:1px solid #ccc;">
                                         #{list productImageTypeList , as : 'productImageType'}
-                                            <img id="${productImageType?.id}" width="100px" height="100px" src="" title="${productImageType?.imageType}" onclick="ChangeBorderColor('${productImageType?.id}')">
+                                            <img id="img_${productImageType?.id}" width="100px" height="100px" src="" title="&{'imageType.'+productImageType?.imageType}" onclick="ChangeBorderColor('${productImageType?.id}')">
                                         #{/list}
                                     </div>
 
                                 <div class="am-tab-panel">
                                     <input type="file" >
                                 </div>
+                                <input type="hidden" id="img_id_choose" />
                             </div>
                         </div>
 
                     </div>
 
                 </div>
+                <style>
+                    .am-border-color{border:2px solid #f55000;}
+                </style>
                 <script>
                     $(function() {
                         $('#doc-my-tabs').tabs();
                     })
-                    function ChangeBorderColor(){
 
-                    }
                 </script>
 
         </div>
