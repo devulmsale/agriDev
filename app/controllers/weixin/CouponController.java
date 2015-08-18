@@ -1,5 +1,6 @@
 package controllers.weixin;
 
+import controllers.auth.WxMpAuth;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderType;
@@ -12,6 +13,7 @@ import order.OrderBuilder;
 import play.Logger;
 import play.modules.redis.Redis;
 import play.mvc.Controller;
+import play.mvc.With;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,6 +21,7 @@ import java.util.Date;
 /**
  * Created by upshan on 15/8/11.
  */
+@With(WxMpAuth.class)
 public class CouponController extends Controller {
 
     public static final String COUPON_BING_ID = "coupon_bind_id_";
@@ -42,8 +45,7 @@ public class CouponController extends Controller {
     public static void createpay(Long batchId , Integer number) {
         Logger.info("卡券数量size :%s=",number);
         CouponBatch batch = CouponBatch.findById(batchId);
-        //TODO 用户需要改成 登录用户
-        User user = User.all().first();
+        User user = WxMpAuth.currentUser().user;
         OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(OrderGoodsType.COUPON);
         Order order = orderBuilder.save();  //生成订单号
         // 第一  数据库中 有没有 没有被绑定的卡券
