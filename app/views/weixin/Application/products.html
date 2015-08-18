@@ -79,9 +79,18 @@
         var carts=$('#product_id_value').val();
         document.getElementById("carts").value=carts;
     }
+
+    function changeLi(id){
+        $("li").each(function (i,item) {
+            // alert(item.id)
+            $('#'+item.id).removeClass("menuItem active")
+        })
+        $('#liid'+id).addClass("menuItem active")
+
+    }
 </script>
 <header class="topbar titbg">
-    <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <a href="/weixin/youliang" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
         在线订餐
     </div>
@@ -92,7 +101,7 @@
     <h3>全部菜单</h3>
     <ul>
     #{list merchantProductTypeList , as :'productType'}
-        <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
+        <li id="liid${productType_index}" class="menuItem ${productType_index == 1 ? 'active' : ''}"  onclick="changeLi(${productType_index})">
             <a href="#r${productType_index-1}" >${productType?.name}
                 <em id="productType_${productType?.id}">0</em>
             </a>
