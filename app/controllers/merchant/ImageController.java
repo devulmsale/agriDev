@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @With(MerchantSecure.class)
 public class ImageController extends Controller {
-    public static final String FOLID_JSON_URL = "http://gxf.tunnel.mobi/imageJSON1";
+    public static final String FOLID_JSON_URL = "http://img.ulmsale.cn/imageJSON1";
 
     public static void index(File pic) {
 

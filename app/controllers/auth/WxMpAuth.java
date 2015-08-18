@@ -132,10 +132,10 @@ public class WxMpAuth extends Controller {
         WeixinUser user = null;
         String sessionUserId = session.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
         if(StringUtils.isBlank(sessionUserId)) {
-            Object CacheUserId = Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
-            if(CacheUserId != null) {
-                sessionUserId =Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY).toString();
-                Cache.delete(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
+            Object cacheUserId = Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY);
+            Logger.info("cacheUserId  : %s --------------" , cacheUserId);
+            if(cacheUserId != null) {
+                sessionUserId = cacheUserId.toString();
             }
         }
         Logger.info("sessionUserId=" + sessionUserId);

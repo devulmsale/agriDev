@@ -1,11 +1,96 @@
-#{extends 'weixinMain.html' /}
-#{set title:'悠悠点' /}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我要点餐</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
+
+
+
+
+</head>
+<body>
+
+<header class="topbar titbg">
+    <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+        在线点餐
+    </div>
+    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+</header>
+
+<aside class="leftbar">
+    <h3>全部菜单</h3>
+    <ul>
+    #{list merchantProductTypeList , as :'productType'}
+        <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
+            <a href="#r${productType_index-1}" >${productType?.name}
+                <em id="productType_${productType?.id}">0</em>
+            </a>
+        </li>
+    #{/list}
+        <input type="hidden" name="productIds" id="productIds">
+        <input type="hidden" name="product_id_value" id="product_id_value">
+    </ul>
+
+</aside>
+<section class="rightbar">
+
+    #{list merchantProductTypeList , as :'mpt'}
+        <div id="r${mpt_index-1}" class="topspace"></div>
+        <dl>
+            <dt>${mpt?.name}</dt>
+            #{list productMap.get(mpt?.id.toString()) , as :'product'}
+                <dd>
+                    <div class="tit">
+                        <a href="detail.html">
+                            <h3>
+                                <span>${product?.name}</span>
+                                <em>${product?.salePrice}元</em>
+                            </h3>
+                        </a>
+                        <p>
+                            <input type="text" disabled product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                        </p>
+                    </div>
+                    <a href="javascript:void(0)">
+                        <img src="/public/weixin/img/p1.jpg">
+                    </a>
+                </dd>
+            #{/list}
+        </dl>
+    #{/list}
+    <div class="footspace"></div>
+</section>
+<div class="footcart" >
+    <form name="subform" id="subform" method="POST" action="/weixin/confirms" target="_blank" >
+        <input type="hidden" name="carts" id="carts" value="">
+        <input type="hidden" name="uuid" id="uuid" value="${uuid}">
+        <input type="hidden" name="goodsType" value="${goodsType}">
+    </form>
+    <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p><a href="javascript:getSub()" class="btn0">选好了</a>
+</div>
+
+<script type="text/javascript" src="/public/weixin/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
-<script src="/public/weixin/js/stickUp.min.js"></script>
+<script type="text/javascript" src="/public/weixin/js/stickUp.min.js"></script>
+<script type="text/javascript" src="/public/weixin/js/jquery.reveal.js"></script>
 <script type="text/javascript">
     //initiating jQuery
     jQuery(function($) {
         $(document).ready( function() {
+            $('#carts').val('');
             //为 '.navbar-wrapper' class 启用stickUp插件
             $('.leftbar').stickUp({
                 parts: {
@@ -23,18 +108,30 @@
             });
         });
     });
-
 </script>
+
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+    function getSub(){
+        var carts = $('#carts').val();
+        if(carts== "" ||carts== null){
+            showAlart("请选择商品！")
+            return;
+        }
+        $('#subform').submit();
+    }
+</script>
+
 <script type="text/javascript">
     function privateOperation(value , product_id , product_type , product_salePrice,type) {
         var totalCount=$("#productCount").html();
         var counts;
         var salePrice=$("#totalPrice").html();
         var totalPrice;
-        if(type==1){
+        if(type == 1){
             counts=parseInt(totalCount)+1;
             totalPrice=parseFloat(salePrice)+parseFloat(product_salePrice);
-        }else if(type==-1){
+        }else if(type == -1){
             counts=parseInt(totalCount)-1;
             totalPrice=parseFloat(salePrice)-parseFloat(product_salePrice);
         }
@@ -104,144 +201,5 @@
         document.getElementById("carts").value=carts;
     }
 </script>
-<header class="topbar titbg">
-    <div class="logo"><em></em><span>悠悠点餐</span></div>
-</header>
-<aside class="leftbar">
-    <h3>全部菜单</h3>
-    <ul>
-        *{<li class="menuItem active"><a href="#r0">商家推荐<em>2</em></a></li>
-        <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
-        <li class="menuItem"><a href="#r2">套餐系列</a></li>
-        <li class="menuItem"><a href="#r3">特色菜品</a></li>}*
-        #{list merchantProductTypeList , as :'productType'}
-        <!-- a_r5  -->
-            <li class="menuItem"><a href="#r${productType_index}" >${productType?.name}
-                <em id="productType_${productType?.id}">0</em>
-                <input type="hidden" name="productIds" id="productIds">
-                <input type="hidden" name="product_id_value" id="product_id_value">
-            </a></li>
-        #{/list}
-        *{<li class="menuItem"><a href="#r5">凉菜类</a></li>
-        <li class="menuItem"><a href="#r6">粥/汤</a></li>
-        <li class="menuItem"><a href="#r7">饮料/甜品</a></li>
-        <li class="menuItem"><a href="#r1">每日特价<em>16</em></a></li>
-        <li class="menuItem"><a href="#r2">套餐系列</a></li>
-        <li class="menuItem"><a href="#r3">特色菜品</a></li>
-        <li class="menuItem"><a href="#r4">热菜类</a></li>
-        <li class="menuItem"><a href="#r5">凉菜类</a></li>
-        <li class="menuItem"><a href="#r6">粥/汤1</a></li>
-        <li class="menuItem"><a href="#r7">饮料/甜品b</a></li>}*
-    </ul>
-
-</aside>
-<section class="rightbar">
-
-#{list merchantProductTypeList , as :'mpt'}
-  #{list productMap.get(mpt?.id.toString()) , as :'product'}
-      <dl id="r${mpt_index}">
-          <dt>${mpt?.name}</dt>
-          <dd>
-              <div class="tit">
-                  <a href="detail.html">
-                      <h3>
-                          <span>${product?.name}</span>
-                          <em>${product?.salePrice}元</em>
-                      </h3>
-                  </a>
-                  <p>
-                      <input type="text" product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
-                  </p>
-              </div>
-              <a href="detail.html">
-              <img src="/public/weixin/img/p1.jpg">
-                 *{ <img src="@{weixin.Application.getProductImg(product?.id)}">}*
-              </a>
-          </dd>
-      </dl>
-  #{/list}
-#{/list}
-
-
-    *{<dl id="r1">
-        <dt>每日特价</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
-
-    </dl>
-    <dl id="r2">
-        <dt>套餐系列</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p3.jpg"></a></dd>
-    </dl>
-    <dl id="r3">
-        <dt>特色菜品</dt>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p2.jpg"></a></dd>
-        <dd><div class="tit"><a href="detail.html"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="detail.html"><img src="/public/weixin/img/p1.jpg"></a></dd>
-    </dl>
-    <dl id="r4">
-        <dt>热菜类</dt>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p4.jpg"></a></dd>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p1.jpg"></a></dd>
-    </dl>
-    <dl id="r5">
-        <dt>凉菜类</dt>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p1.jpg"></a></dd>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p3.jpg"></a></dd>
-    </dl>
-    <dl id="r6">
-        <dt>粥/汤</dt>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p2.jpg"></a></dd>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p3.jpg"></a></dd>
-    </dl>
-    <dl id="r7">
-        <dt>饮料/甜点</dt>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p4.jpg"></a></dd>
-        <dd><div class="tit"><a href="#"><h3><span>多忙小丸子</span><em>22元</em></h3></a><p><input type="text" value="1" class="txtadd"/></p></div><a href="#"><img src="/public/weixin/img/p2.jpg"></a></dd>
-    </dl>}*
-    <div class="footspace"></div>
-</section>
-
-<div id="myModal" class="reveal-modal">
-    <a class="close-reveal-modal">&#215;</a>
-    <div class="topsearch">
-        <form action="#" name="search">
-            <input type="text" name="" title="Search" class="searchexitbox" id="searchinput" onfocus="if(value==defaultValue){value='';this.style.color='#666'}" onBlur="if(!value){value=defaultValue;this.style.color='#959595'}" value="请输入搜索内容" size="10"/>
-            <input type="submit" name="button2" class="searchbtn iconfont" id="button2" value="&#xe663;">
-        </form>
-    </div>
-    <div class="search_con">
-        <div class="search_class overflow">
-            <p>
-                <a href="#" class="current">即将开始</a>
-                <a href="#">竞价中</a>
-                <a href="#">竞价结束</a>
-            </p>
-        </div>
-
-
-
-    </div>
-</div>
-<div class="footcart" >
-    <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p>
-    <form name="subform" id="subform" method="POST" action="/weixin/confirms" target="_blank" >
-        <input type="hidden" name="carts" id="carts" value="">
-        <input type="hidden" name="uuid" id="uuid" value="${uuid}">
-        <input type="hidden" name="goodsType" value="${goodsType}">
-        <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
-    </form>
-</div>
-#{include 'weixin/Application/modal.html'/}
-<script type="text/javascript">
-    $('.txtadd').spinner({});
-    function getSub(){
-        var carts=document.getElementById("carts").value;
-        if(carts== "" ||carts== null){
-            showAlart("请选择商品！")
-            return;
-        }
-        $('#subform').submit();
-    }
-</script>
+</body>
+</html>

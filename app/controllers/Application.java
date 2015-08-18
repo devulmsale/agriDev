@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Application extends Controller {
 
-    public static final String FOLID_JSON_URL = "http://gxf.tunnel.mobi/folderJSON";
+    public static final String FOLID_JSON_URL = "http://img.ulmsale.cn/folderJSON";
 
     //?code=N9RXXkr6&loginName=admin&password=123456
 

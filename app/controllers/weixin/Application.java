@@ -45,6 +45,9 @@ public class Application extends Controller {
         //查询商户商品的类别  TODO 获取商户号 merchant.id
       // Merchant merchant = WxMpAuth.currentUser().merchant;
       //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+       Merchant merchant = WxMpAuth.currentUser().merchant;
+//        Merchant merchant = Merchant.findByLinkId("kehao");
+       // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
