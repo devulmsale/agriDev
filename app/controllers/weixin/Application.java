@@ -68,7 +68,7 @@ public class Application extends Controller {
                 ProductImage productImage=ProductImage.findProductImage(pro.id);
                 //TODO 商品图片宽高需要获取
                 if(null != productImage) {
-                    String responseBody = images(productImage.uFid, "240", "227");
+                    String responseBody = images(productImage.uFid, "490", "290");
                     pro.url = responseBody;
                 }
                 imgUrlList.add(pro);
@@ -100,7 +100,7 @@ public class Application extends Controller {
         order = null;
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                //生成订单 并初初始化订单
+                //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
                 //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
@@ -123,7 +123,7 @@ public class Application extends Controller {
             Long productId = Long.valueOf(serial[1]);
             ProductImage productImage = ProductImage.findProductImage(productId);
             if(null != productImage) {
-                String responseBody = images(productImage.uFid, "240", "227");
+                String responseBody = images(productImage.uFid, "490", "290");
                 oi.url=responseBody;
             }
             imgOrderItemList.add(oi);
