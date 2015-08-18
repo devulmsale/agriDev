@@ -1,8 +1,10 @@
 package models.product;
 
 import jodd.bean.BeanCopy;
+import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
+import models.order.Goods;
 import net.sf.oval.constraint.MaxLength;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -31,6 +33,7 @@ public class SetMeal extends Model {
     @MaxLength(value = 100,message = "名称不能超过100个字符")
     @Column(name = "name")
     public String name;
+
     /*
     购买须知
      */
@@ -111,6 +114,13 @@ public class SetMeal extends Model {
     }
 
     /**
+     * 根据商户跟套餐Id查找套餐
+     */
+    public static SetMeal findByMerchantAndSetMealId(Long merchantId,Long setMealId ){
+        return SetMeal.find("deleted = ? and merchant.id = ? and id = ?",DeletedStatus.UN_DELETED,merchantId,setMealId).first();
+    }
+
+    /**
      * 分页查询
      *
      */
@@ -128,6 +138,28 @@ public class SetMeal extends Model {
         memberCardPage.setPageSize(pageSize);
         memberCardPage.setBoundaryControlsEnabled(false);
         return memberCardPage;
+    }
+
+
+    /**
+     * 构建 Goods
+     * @return
+     */
+    public Goods findOrCreateGoods() {
+        Goods goods = Goods.find("serial = ?", "SETMEAL_" + this.id).first();
+        if (goods == null) {
+            goods = new Goods();
+            goods.createdAt = new Date();
+            goods.name = this.name;
+            goods.deleted = DeletedStatus.UN_DELETED;
+            goods.facePrice = this.presentPrice;
+            goods.originalPrice = this.originalPrice;
+            goods.salePrice = this.presentPrice;
+            goods.status = GoodsStatus.OPEN;
+            goods.serial = "SETMEAL_" + this.id;
+            goods.save();
+        }
+        return goods;
     }
 
 

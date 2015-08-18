@@ -66,6 +66,12 @@ GET /merchant/package/editPic/{id}                          merchant.ProductSetM
 POST /merchant/package/updatePic                             merchant.ProductSetMealController.updatePic
 GET /merchant/package/upEditPic                             merchant.ProductSetMealController.upEditPic
 
+#套餐管理前台
+GET  /merchant/setmeal/index                                weixin.SetMealController.index
+GET  /merchant/setmeal/detail                               weixin.SetMealController.detail
+POST /merchant/setmeal/pays                                 weixin.SetMealController.pays
+GET  /weixin/setmeals/{linkId}/index                        weixin.SetMealController.confirm
+
 
 
 # Merchant Coupon Pay
