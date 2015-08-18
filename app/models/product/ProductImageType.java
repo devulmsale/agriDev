@@ -137,4 +137,8 @@ public class ProductImageType extends Model{
         return productImageType != null ? productImageType.id : null;
     }
 
+    public static List<ProductImageType> findByproductImageType(){
+        return ProductImageType.find("deleted = ? ",DeletedStatus.UN_DELETED).fetch();
+    }
+
 }

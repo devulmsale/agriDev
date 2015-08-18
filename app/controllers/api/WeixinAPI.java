@@ -15,6 +15,7 @@ import models.common.DateUtil;
 import models.mert.Merchant;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
+import play.cache.Cache;
 import play.libs.IO;
 import play.mvc.Controller;
 import util.extension.DefaultAction;
@@ -110,17 +111,19 @@ public class WeixinAPI extends Controller {
 
         WxMpContext wxMpContext = WxMpContext.build(merchant, wxMpConfigStorage, wxMpService, inMessage);
 
-        Logger.info("执行 weixinAPI 开始 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
+//        Logger.info("执行 weixinAPI 开始 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
         // 如果没有认证 创建 WeixinUser
+//        Logger.info("merchant.isAuth == null : %s  或  merchant.isAuth == false : %s" , merchant.isAuth == null , !merchant.isAuth);
         if(merchant.isAuth == null || !merchant.isAuth) {
+//            Logger.info(" Merchant 没有认证.  开始 findOrCreateMerchantWxUser" );
             WeixinUser wxUser = WeixinUser.findOrCreateMerchantWxUser(merchant, inMessage.getFromUserName());
+            Logger.info("Merchant 没有认证. Merchant.wxUser : %s  -------" , wxUser.id);
             if (wxUser != null) {
-                session.put(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, wxUser.id);
-                renderArgs.put("currentUser", wxUser);
-                _currentUser.set(wxUser);
+                Cache.add(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY, wxUser.id);
             }
+            Logger.info("Merchant 没有认证. Cache.GlobalConfig.WEIXIN_MP_SESSION_USER_KEY : %s" , Cache.get(GlobalConfig.WEIXIN_MP_SESSION_USER_KEY));
         }
-        Logger.info("执行 weixinAPI 结束 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
+//        Logger.info("执行 weixinAPI 结束 : %s " , DateUtil.dateToString(new Date() , "yyyy-MM-dd HH:mm:ss"));
 
         ExtensionResult result = ExtensionInvoker.run(WxMpInvocation.class, wxMpContext, new DefaultAction<WxMpContext>() {
             @Override

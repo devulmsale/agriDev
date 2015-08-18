@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                                                 Application.index
-GET     /weixin/products                                  weixin.Application.products
+GET     /weixin/products/{linkId}/{goodsType}             weixin.Application.products
 POST    /weixin/confirms                                  weixin.Application.confirms
 *       /weixin/confirm                                   weixin.Application.confirm
 POST    /weixin/detail                                    weixin.Application.detail
@@ -70,7 +70,7 @@ GET /merchant/package/upEditPic                             merchant.ProductSetM
 GET  /merchant/setmeal/index                                weixin.SetMealController.index
 GET  /merchant/setmeal/detail                               weixin.SetMealController.detail
 POST /merchant/setmeal/pays                                 weixin.SetMealController.pays
-*    /merchant/setmeal/confirm                              weixin.SetMealController.confirm
+GET  /weixin/setmeals/{linkId}/index                        weixin.SetMealController.confirm
 
 
 

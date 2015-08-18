@@ -4,7 +4,7 @@
         var dataJSON = "";
         $.ajax({
             type: 'GET',
-            url: "http://gxf.tunnel.mobi/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
+            url: "http://img.ulmsale.cn/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
             dataType : "jsonp",
             success: function (data){
                 dataJSON = data;
@@ -36,7 +36,7 @@
             //alert(id)
             $.ajax({
                 type: 'POST',
-                url: "http://gxf.tunnel.mobi/imageJSON?code=N9RXXkr6&callback=?" ,
+                url: "http://img.ulmsale.cn/imageJSON?code=N9RXXkr6&callback=?" ,
                 data: {folderId:id} ,
                 dataType : "jsonp",
                 success: function (data){
@@ -125,6 +125,12 @@
 
                                     </div>
                                 </div>
+                                    <div class="am-u-sm-12 am-u-md-12" style="border:1px solid #ccc;">
+                                        #{list productImageTypeList , as : 'productImageType'}
+                                            <img id="${productImageType?.id}" width="100px" height="100px" src="" title="${productImageType?.imageType}" onclick="ChangeBorderColor('${productImageType?.id}')">
+                                        #{/list}
+                                    </div>
+
                                 <div class="am-tab-panel">
                                     <input type="file" >
                                 </div>
@@ -138,6 +144,9 @@
                     $(function() {
                         $('#doc-my-tabs').tabs();
                     })
+                    function ChangeBorderColor(){
+
+                    }
                 </script>
 
         </div>

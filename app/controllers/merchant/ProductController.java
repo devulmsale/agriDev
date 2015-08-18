@@ -67,7 +67,9 @@ public class ProductController extends Controller {
         Logger.info("商户Id的 :%s=",MerchantSecure.getMerchant().id);
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(MerchantSecure.getMerchant().id);
         Logger.info("商户商品类别:%s=",merchantProductTypeList.size());
-        render(productTypelist, productTopTypeList, storeMethods, packageMethods, shippingMethods, marketingModes, merchantProductTypeList);
+        //取图片类型
+        List<ProductImageType> productImageTypeList=ProductImageType.findByproductImageType();
+        render(productTypelist, productTopTypeList, storeMethods, packageMethods, shippingMethods, marketingModes, merchantProductTypeList ,productImageTypeList);
     }
 
     public static void create(@Valid Product product , String lablebox , File image , String imageName) throws Exception {
