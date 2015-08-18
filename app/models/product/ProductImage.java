@@ -1,10 +1,12 @@
 package models.product;
 
 import models.constants.DeletedStatus;
+import models.product.enums.ImageType;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import play.Logger;
 
 /**
  * 类别 品牌表
@@ -56,5 +58,8 @@ public class ProductImage extends Model {
     public DeletedStatus deleted;
 
 
+    public static ProductImage findProductImage(Long productId){
+        return ProductImage.find("deleted = ? and product.id = ? and productImageType.imageType = ? " , DeletedStatus.UN_DELETED , productId , ImageType.INDEX).first();
+    }
 
 }

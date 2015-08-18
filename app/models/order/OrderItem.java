@@ -90,6 +90,9 @@ public class OrderItem extends Model {
     @Column(name = "updated_at")
     public Date updatedAt;
 
+    @Transient
+    public String url;
+
     /**
      * 更新对象.
      */

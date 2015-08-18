@@ -215,6 +215,9 @@ public class Product extends Model {
     @Column(name = "created_at")
     public Date createdAt;
 
+    @Transient
+    public String url;
+
     /**
      * 逻辑删除,0:未删除，1:已删除
      */
