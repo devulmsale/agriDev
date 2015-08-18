@@ -1,7 +1,6 @@
 package controllers.weixin;
 
 import controllers.auth.WxMpAuth;
-import helper.GlobalConfig;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -11,24 +10,17 @@ import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.coupon.Coupon;
 import models.coupon.CouponBatch;
-import models.mert.Merchant;
 import models.mert.MerchantProductType;
 import models.mert.hall.HallTable;
 import models.mert.hall.MerchantHall;
 import models.order.*;
 import models.product.Product;
 import models.product.ProductImage;
-import models.product.ProductImageType;
-import models.product.enums.ImageType;
 import order.OrderBuilder;
 import play.Logger;
-import play.data.validation.Valid;
 import play.mvc.Controller;
-import play.mvc.With;
-import sun.rmi.runtime.Log;
 import util.common.RandomNumberUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
