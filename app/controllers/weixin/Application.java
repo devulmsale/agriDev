@@ -1,7 +1,6 @@
 package controllers.weixin;
 
 import controllers.auth.WxMpAuth;
-import helper.GlobalConfig;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -11,27 +10,19 @@ import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.coupon.Coupon;
 import models.coupon.CouponBatch;
-import models.mert.Merchant;
 import models.mert.MerchantProductType;
 import models.mert.hall.HallTable;
 import models.mert.hall.MerchantHall;
 import models.order.*;
 import models.product.Product;
 import models.product.ProductImage;
-import models.product.ProductImageType;
-import models.product.enums.ImageType;
 import models.vo.GoodsTypeVO;
 import models.vo.OrderItemVO;
 import models.vo.OrderVO;
 import order.OrderBuilder;
 import play.Logger;
-import play.data.validation.Valid;
 import play.mvc.Controller;
-import play.mvc.With;
-import sun.rmi.runtime.Log;
 import util.common.RandomNumberUtil;
-
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -50,7 +41,8 @@ public class Application extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-        //查询商户商品的类别  TODO 获取商户号 merchant.id
+
+
        //Merchant merchant = WxMpAuth.currentUser().merchant;
 
       //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
@@ -60,6 +52,7 @@ public class Application extends Controller {
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
+        //查询商户商品的类别  TODO 获取商户号 merchant.id
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
@@ -94,6 +87,8 @@ public class Application extends Controller {
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
        // User user = WxMpAuth.currentUser().user;
+
+
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             order.deleted = DeletedStatus.DELETED;
@@ -110,7 +105,7 @@ public class Application extends Controller {
                 cartToOrder(orderBuilder, carts);
             }
         }
-        redirect("/weixin/confirm?orderNumber="+order.orderNumber+"&goodsType="+goodsType);
+        redirect("/weixin/confirm?orderNumber=" + order.orderNumber + "&goodsType=" + goodsType);
     }
 
     public static void confirm(String orderNumber ,OrderGoodsType goodsType){

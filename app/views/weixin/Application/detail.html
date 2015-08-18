@@ -36,7 +36,7 @@
             <input type="hidden" name="goodsType" id= "goodsType" value="${goods}">
     <ul>
         <li><strong><i>*</i>姓名：</strong><span><input type="text" name="orderUser.name" style="width:100%;" class="editbox" id="name"></span></li>
-        <li><strong><i>*</i>电话：</strong><span><input type="text" name="orderUser.phone" style="width:100%;"  class="editbox" id="phone"></span></li>
+        <li><strong><i>*</i>电话：</strong><span><input type="number" name="orderUser.phone" style="width:100%;"  class="editbox" id="phone"></span></li>
         #{if goods == 'TAKE_AYAY'}
             <li><strong><i>*</i>地址：</strong><span><input type="text" name="orderUser.address" style="width:100%;"  class="editbox" id="address"></span></li>
         #{/if}
@@ -106,6 +106,13 @@
         var goodType=$("#goodsType").val();
 
         var name=$("#name").val();
+
+       // alert(!isNaN(name))
+        if(!isNaN(name))
+        {
+            showAlart("姓名不能全是数字");
+            return;
+        }
         if (required(name) == false) {
             showAlart("姓名不能为空！");
             return;

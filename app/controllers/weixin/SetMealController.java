@@ -26,13 +26,11 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/8/17.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class SetMealController extends Controller {
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
     public static void index(){
-        Merchant merchant=new Merchant();
-        // TODO 21 代表 Merchant.Id
-        merchant.id=21l;
+        Merchant merchant= WxMpAuth.currentUser().merchant;
        // List<SetMealPic>  mealPicList= SetMealPic.findByMerchantId(21l);
         Map<SetMeal,String> map=new HashMap<>();
         List<SetMeal> setMealList=SetMeal.findByMerchant(merchant);
@@ -68,8 +66,8 @@ public class SetMealController extends Controller {
      */
     public static void detail(Long setmealId){
         Logger.info("setmealId==="+setmealId);
-        // TODO 21 代表 Merchant.Id
-        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(21l,setmealId);
+        Merchant merchant = WxMpAuth.currentUser().merchant;
+        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(merchant.id,setmealId);
         List<ProductSetMeal> productSetMealList=ProductSetMeal.findProductSetMealBySetMeal(setMeal);
         List<SetMealPic> setMealPicList=SetMealPic.findBySetMeal(setMeal.id);
         List<String> imgUrlList=new ArrayList<>();
@@ -94,12 +92,8 @@ public class SetMealController extends Controller {
     public static void pays(Long setmealId) {
      //   WeixinUser wxUser = WxMpAuth.currentUser();
 
-        WeixinUser wxUser=new WeixinUser();
-        // TODO 2= 代表 user.Id
-        wxUser.id=2l;
-        Logger.info("dddd====="+setmealId);
-        // TODO 21 代表 Merchant.Id
-        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(21l, setmealId);
+        WeixinUser wxUser= WxMpAuth.currentUser();
+        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id, setmealId);
        // SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id,setmealId);
         Logger.info("2");
         Order order = null;

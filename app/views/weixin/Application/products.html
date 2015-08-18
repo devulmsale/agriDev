@@ -1,3 +1,4 @@
+
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
@@ -5,7 +6,7 @@
 <script type="text/javascript">
         $(document).ready(function(){
             var uuid=$("#uuid").val();
-            alert(uuid);
+           // alert(uuid);
             $.ajax({
                 url:'/weixin/getOrderItembyAjax',
                 type:'POST',
@@ -40,10 +41,10 @@
         var totalPrice;
         if(type==1){
             counts=parseInt(totalCount)+1;
-            totalPrice=parseFloat(salePrice)+parseFloat(product_salePrice);
+            totalPrice=(parseFloat(salePrice)+parseFloat(product_salePrice)).toFixed(2);
         }else if(type==-1){
             counts=parseInt(totalCount)-1;
-            totalPrice=parseFloat(salePrice)-parseFloat(product_salePrice);
+            totalPrice=(parseFloat(salePrice)-parseFloat(product_salePrice)).toFixed(2);
         }
         document.getElementById("productCount").innerHTML=counts;
         document.getElementById("totalPrice").innerHTML=totalPrice;
@@ -109,9 +110,18 @@
         var carts=$('#product_id_value').val();
         document.getElementById("carts").value=carts;
     }
+
+    function changeLi(id){
+        $("li").each(function (i,item) {
+            // alert(item.id)
+            $('#'+item.id).removeClass("menuItem active")
+        })
+        $('#liid'+id).addClass("menuItem active")
+
+    }
 </script>
 <header class="topbar titbg">
-    <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <a href="/weixin/youliang" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
         在线订餐
     </div>
@@ -122,7 +132,7 @@
     <h3>全部菜单</h3>
     <ul>
     #{list merchantProductTypeList , as :'productType'}
-        <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
+        <li id="liid${productType_index}" class="menuItem ${productType_index == 1 ? 'active' : ''}"  onclick="changeLi(${productType_index})">
             <a href="#r${productType_index-1}" >${productType?.name}
                 <em id="productType_${productType?.id}">0</em>
             </a>
@@ -167,7 +177,7 @@
         <input type="hidden" name="carts" id="carts" value="">
         <input type="hidden" name="uuid" id="uuid" value="${uuid}">
         <input type="hidden" name="goodsType" value="${goodsType}">
-        <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
+        <a onclick="getSub()" href="javascript:void(0)" class="btn0">确认订单</a>
     </form>
 </div>
 #{include 'weixin/Application/modal.html'/}
