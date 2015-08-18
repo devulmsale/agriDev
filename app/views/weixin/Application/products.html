@@ -80,8 +80,7 @@
     }
 </script>
 <header class="topbar titbg">
-
-    <a href="/weixin/youliang" class="backBtn iconfont">&#xe621;</a>
+    <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
         在线订餐
     </div>
@@ -91,7 +90,6 @@
 <aside class="leftbar">
     <h3>全部菜单</h3>
     <ul>
-
     #{list merchantProductTypeList , as :'productType'}
         <li class="menuItem ${productType_index == 1 ? 'active' : ''}">
             <a href="#r${productType_index-1}" >${productType?.name}
@@ -106,7 +104,6 @@
 
 
 <section class="rightbar">
-
 #{list merchantProductTypeList , as :'mpt'}
     <div id="r${mpt_index-1}" class="topspace"></div>
     <dl>
@@ -125,13 +122,12 @@
                     </p>
                 </div>
                 <a href="javascript:void(0)">
-                    <img src="${product.url}">
+                    <img src="${product?.url}">
                 </a>
             </dd>
         #{/list}
     </dl>
 #{/list}
-
     <div class="footspace"></div>
 </section>
 <div class="footcart" >

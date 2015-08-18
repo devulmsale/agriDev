@@ -67,25 +67,14 @@ public class Application extends Controller {
                 Logger.info("商品Id :%s",pro.id);
                 ProductImage productImage=ProductImage.findProductImage(pro.id);
                 //TODO 商品图片宽高需要获取
-                Logger.info(" proId :%s",pro.id.toString());
-               // Logger.info("pro=="+productImage.uFid);
-               /* HttpRequest httpRequest = HttpRequest
-                        .get(IMG_URL)
-                        .form(
-                                "uFid", productImage.uFid,
-                                "width", "240",
-                                "height", "227"
-                        );
-                HttpResponse httpResponse = httpRequest.send();
-                String responseBody = httpResponse.body();
-                Logger.info("responseBody==="+responseBody);*/
                 if(null != productImage) {
                     String responseBody = images(productImage.uFid, "240", "227");
                     pro.url = responseBody;
                 }
                 imgUrlList.add(pro);
+                Logger.info("imgUrlList :%s",imgUrlList.size());
             }
-            productMap.put(mpt.id.toString(), imgUrlList);
+            productMap.put(mpt.id.toString(), productList);
         }
         String uuid = RandomNumberUtil.generateRandomNumberString(16);
 
