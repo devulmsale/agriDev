@@ -47,14 +47,8 @@ public class Application extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-<<<<<<< HEAD
-    //   Merchant merchant = WxMpAuth.currentUser().merchant;
-//        Merchant merchant = Merchant.findByLinkId("kehao");
-      //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
-        Map<String , List<Product>> productMap = new HashMap<>();
-        //查询商户商品的类别  TODO 获取商户号 merchant.id
-=======
-        //查询商户商品的类别  TODO 获取商户号 merchant.id
+
+
        //Merchant merchant = WxMpAuth.currentUser().merchant;
 
       //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
@@ -64,7 +58,7 @@ public class Application extends Controller {
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
->>>>>>> origin/master
+        //查询商户商品的类别  TODO 获取商户号 merchant.id
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
@@ -98,13 +92,9 @@ public class Application extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-       // User user = WxMpAuth.currentUser().user;
-<<<<<<< HEAD
-        //TODO user的id
-        User user=new User();
-        user.id=2l;
-=======
->>>>>>> origin/master
+        User user = WxMpAuth.currentUser().user;
+
+
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             order.deleted = DeletedStatus.DELETED;
