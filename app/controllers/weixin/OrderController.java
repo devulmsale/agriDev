@@ -31,6 +31,9 @@ public class OrderController extends Controller {
 
     public static void qrCode(String orderNumber) throws IOException, WriterException {
         Order order = Order.findByOrderNumber(orderNumber);
+        if(order == null) {
+            //TODO 如果订单不存在 执行操作
+        }
         StringBuilder wxPayCode = new StringBuilder();
         Properties conf = wxpayFactory.getConf();
         wxPayCode.append("weixin://wxpay/bizpayurl?");

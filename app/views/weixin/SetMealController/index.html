@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>精品套餐</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
+  
+</head>
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       精品套餐
+    </div>
+
+</header>
+
+
+<section class="warp package page">
+
+  <ul>
+      #{list map,as:'setmeal'}
+          <li>
+              <a href="/merchant/setmeal/detail?setmealId=${setmeal.key.id}">
+                  <img src="${setmeal.value}">
+              </a>
+              <h3>
+                  <a href="">${setmeal.key.name}
+                  </a>
+              </h3>
+              <p>
+                  <em>￥${setmeal.key.presentPrice}</em>
+                  <a href="confirm.html" class="radius10">立即购买
+                  </a>
+              </p>
+          </li>
+      #{/list}
+
+    *{<li><a href="package_detail.html"><img src="img/p2.jpg"></a><h3><a href="package_detail.html">豪华炸鸡包套餐（3-4人）</a></h3><p><em>￥15</em><a href="confirm.html" class="radius10">立即购买</a></p></li>}*
+    *{<li><a href="package_detail.html"><img src="img/p3.jpg"></a><h3><a href="package_detail.html">豪华炸鸡包套餐（3-4人）</a></h3><p><em>￥15</em><a href="confirm.html" class="radius10">立即购买</a></p></li>}*
+    *{<li><a href="package_detail.html"><img src="img/p4.jpg"></a><h3><a href="package_detail.html">豪华炸鸡包套餐（3-4人）</a></h3><p><em>￥15</em><a href="confirm.html" class="radius10">立即购买</a></p></li>}*
+    *{<li><a href="package_detail.html"><img src="img/p1.jpg"></a><h3><a href="package_detail.html">豪华炸鸡包套餐（3-4人）</a></h3><p><em>￥15</em><a href="confirm.html" class="radius10">立即购买</a></p></li>}*
+    *{<li><a href="package_detail.html"><img src="img/p1.jpg"></a><h3><a href="package_detail.html">豪华炸鸡包套餐（3-4人）</a></h3><p><em>￥15</em><a href="confirm.html" class="radius10">立即购买</a></p></li>}*
+  </ul>
+ 
+
+</section>
+ 
+<footer class="titbg">
+  <a href="indx.html"><i class="iconfont">&#xe636;</i><em>首页</em></a>
+  <a href="card.html"><i class="iconfont">&#xe66c;</i><em>优惠券</em></a>
+  <a href="confirm.html"><i class="iconfont">&#xe631;</i><em>购物车</em></a>
+  <a href="member_index.html"><i class="iconfont">&#xe666;</i><em>会员</em></a>
+</footer>
+</body>
+</html>
