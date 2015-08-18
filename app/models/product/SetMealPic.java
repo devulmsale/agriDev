@@ -16,13 +16,13 @@ import java.util.List;
 @Table(name = "set_meal_pics")
 public class SetMealPic extends Model {
     /**
-     * ËùÊôÌ×²Í
+     * æ‰€å±å¥—é¤
      */
     @JoinColumn(name = "set_meal_id")
     @ManyToOne
     public SetMeal setMeal;
     /**
-     * Í¼Æ¬Î¨Ò»µÄufId
+     * å›¾ç‰‡å”¯ä¸€çš„ufId
      */
     @Column(name = "ufid")
     public String uFid;
@@ -31,24 +31,40 @@ public class SetMealPic extends Model {
 
 
     /**
-     * ´´½¨Ê±¼ä
+     * åˆ›å»ºæ—¶é—´
      */
     @Column(name = "created_at")
     public Date createdAt;
 
     /**
-     * Âß¼­É¾³ı,0:Î´É¾³ı£¬1:ÒÑÉ¾³ı
+     * é€»è¾‘åˆ é™¤,0:æœªåˆ é™¤ï¼Œ1:å·²åˆ é™¤
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
 
 
+    /**
+     * æ ¹æ®å¥—é¤é€‰å–å›¾ç‰‡
+     * @param id
+     * @return
+     */
     public static List<SetMealPic> findBySetMeal(Long id){
         return SetMealPic.find("deleted = ? and setMeal.id = ?",DeletedStatus.UN_DELETED,id).fetch();
     }
 
+    public static SetMealPic findBySetMealId(Long id){
+       return SetMealPic.find("deleted = ? and setMeal.id = ?",DeletedStatus.UN_DELETED,id).first();
+    }
+
     /**
-     * ¸üĞÂ
+     * æ ¹æ®å•†æˆ·è·å–å›¾ç‰‡è·Ÿå¥—é¤
+     */
+    public static List<SetMealPic> findByMerchantId(Long  merchantId){
+        return SetMealPic.find("deleted = ? and setMeal.merchant.id = ?",DeletedStatus.UN_DELETED,merchantId).fetch();
+    }
+
+    /**
+     * æ›´æ–°
      * @param id
      * @param newObject
      */

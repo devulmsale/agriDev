@@ -3,7 +3,10 @@
 <script>
 
     function changeChoke(){
-        $('#priceSpanId').html(getAllprice())
+        var allprice=getAllprice();
+        $('#priceSpanId').html(allprice)
+        $('#allpriceId').val(allprice)
+
     }
 
     function getAllprice(){
@@ -15,9 +18,12 @@
         return allPrice
     }
     $(document).ready(function(){
-        $('#priceSpanId').html(getAllprice())
+        var allprice=getAllprice();
+        $('#priceSpanId').html(allprice)
+        $('#allpriceId').val(allprice)
     })
 </script>
+<input type="hidden" name="setMeal.originalPrice" id="allpriceId" >
 <div class="admin-content">
     <div class="am-tabs am-margin" data-am-tabs>
         <div class="am-tabs-bd">

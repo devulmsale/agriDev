@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>套餐详情</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
+
+  <script type="text/javascript" src="/public/weixin/js/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="/public/weixin/js/idangerous.swiper.min.js"></script>
+  <script type="text/javascript" src="/public/weixin/js/yoyo.js"></script>
+  <style>
+    body{ background:#f7f7f7;}
+  </style>
+</head>
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       套餐详情
+    </div>
+  *{<a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> }*
+</header>
+
+<!--焦点图开始-->
+<div class="wrap banner swiper-container">
+ <div class="swiper-wrapper" id="swiper-wrapper">
+           #{list imgUrlList,as:'imgUrl' }
+               <div class="swiper-slide" style="height: 327px; width: 640px;" >
+                   <a href="#" >
+                       <img src="${imgUrl}" title="" width="640px" height="327px">
+                   </a>
+               </div>
+           #{/list}
+
+  </div>
+    <div class="pagination"></div>
+    <script type="text/javascript">
+        var newSlideSize = function slideSize(){
+            var w = Math.ceil($(".swiper-container").width()/1.96);
+            $(".swiper-container,.swiper-wrapper,.swiper-slide").height(w);
+        };
+        newSlideSize();
+        $(window).resize(function(){
+            newSlideSize();
+        });
+
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:true,
+            autoplay:3000,
+            paginationClickable: true,
+            onSlideChangeStart: function(){
+                //回调函数
+            }
+        });
+    </script>
+
+</div>
+<!--焦点图结束-->
+<section class="warp detail">
+
+  <div class="tit page1">
+    <h3>${setMeal.name}</h3>
+  </div>
+
+  <div class="price page1"><em>${setMeal.presentPrice}
+      <i>￥${setMeal.originalPrice}</i>
+  </em><p></p></div>
+  <div class="detail_con page1">
+     <h3>套餐包含详情</h3>
+     <div class="detail_list">
+         #{list productSetMealList,as:'productSetMeal'}
+             <dl>
+                 <dt>${productSetMeal.product.shortName}</dt>
+                 <dd><span class="left">原价</span>
+                 <span class="right">${productSetMeal.product.salePrice}元</span>
+                 </dd>
+             </dl>
+         #{/list}
+
+     </div>
+  </div>
+    <form action="/merchant/setmeal/pays" id="orderFormId" method="post">
+        <input type="text" name="setmealId" value="${setMeal.id}">
+    </form>
+  <div class="detail_notice page1">
+     <div class="tit">购买须知</div>
+      ${setMeal.content}
+  </div>
+</section>
+<div class="footspace"></div>
+
+<div class="footbtn" >
+  <a  class="btn1 radius25" onclick="orderForm()">立即购买</a>
+</div>
+</body>
+<script>
+    function orderForm(){
+        //alert(9)
+       $('#orderFormId').submit();
+    }
+
+</script>
+</html>
