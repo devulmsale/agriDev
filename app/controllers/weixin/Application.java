@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class Application extends Controller {
 
     public static void index() {
@@ -42,12 +42,12 @@ public class Application extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-        //查询商户商品的类别  TODO 获取商户号 merchant.id
-       Merchant merchant = WxMpAuth.currentUser().merchant;
+    //   Merchant merchant = WxMpAuth.currentUser().merchant;
 //        Merchant merchant = Merchant.findByLinkId("kehao");
-        Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+      //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
+        //查询商户商品的类别  TODO 获取商户号 merchant.id
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
@@ -66,7 +66,10 @@ public class Application extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        User user = WxMpAuth.currentUser().user;
+       // User user = WxMpAuth.currentUser().user;
+        //TODO user的id
+        User user=new User();
+        user.id=2l;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             order.deleted = DeletedStatus.DELETED;
@@ -82,7 +85,7 @@ public class Application extends Controller {
                 cartToOrder(orderBuilder, carts);
             }
         }
-        redirect("/weixin/confirm?orderNumber="+order.orderNumber+"&goodsType="+goodsType);
+        redirect("/weixin/confirm?orderNumber=" + order.orderNumber + "&goodsType=" + goodsType);
     }
 
     public static void confirm(String orderNumber ,OrderGoodsType goodsType){
@@ -90,7 +93,7 @@ public class Application extends Controller {
         Logger.info("confirm--goodsType:%s",goodsType);
         Order order = Order.findByOrderNumber(orderNumber);
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
-        render(order , orderItems , goodsType);
+        render(order, orderItems, goodsType);
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {

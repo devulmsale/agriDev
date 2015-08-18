@@ -1,3 +1,4 @@
+
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
@@ -9,10 +10,10 @@
         var totalPrice;
         if(type==1){
             counts=parseInt(totalCount)+1;
-            totalPrice=parseFloat(salePrice)+parseFloat(product_salePrice);
+            totalPrice=(parseFloat(salePrice)+parseFloat(product_salePrice)).toFixed(2);
         }else if(type==-1){
             counts=parseInt(totalCount)-1;
-            totalPrice=parseFloat(salePrice)-parseFloat(product_salePrice);
+            totalPrice=(parseFloat(salePrice)-parseFloat(product_salePrice)).toFixed(2);
         }
         document.getElementById("productCount").innerHTML=counts;
         document.getElementById("totalPrice").innerHTML=totalPrice;
@@ -136,7 +137,7 @@
         <input type="hidden" name="carts" id="carts" value="">
         <input type="hidden" name="uuid" id="uuid" value="${uuid}">
         <input type="hidden" name="goodsType" value="${goodsType}">
-        <a onclick="getSub()" href="javascript:void(0)" class="btn0">选好了</a>
+        <a onclick="getSub()" href="javascript:void(0)" class="btn0">确认订单</a>
     </form>
 </div>
 #{include 'weixin/Application/modal.html'/}
