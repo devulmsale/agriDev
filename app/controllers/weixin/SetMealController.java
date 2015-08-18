@@ -119,11 +119,12 @@ public class SetMealController extends Controller {
         }
         Logger.info("4");
        // redirect("/order/qrCode?orderNumber=" + order.orderNumber);
-        redirect("/merchant/setmeal/confirm?orderNumber=" + order.orderNumber+"&setmealId="+setmealId);
+        redirect("/weixin/setmeal/confirm?orderNumber=" + order.orderNumber+"&setmealId="+setmealId);
     }
 
     //防止刷新页面重新插入订单
     public static void confirm(String orderNumber , String setmealId){
+        Logger.info("orderNumber: %s",orderNumber);
         Order order=Order.findByOrderNumber(orderNumber);
         List<OrderItem> orderItems = OrderItem.getListByOrder(order);
         render(order,orderItems);
