@@ -30,7 +30,7 @@
       }
 
       function validateAndTrigger(field , type) {
-        clearTimeout(container.data('timeout'))
+        clearTimeout(container.data('timeout'));
         var value = validate(field);
         var product_id = obj.attr("product_id");
         var product_type = obj.attr("product_type");
