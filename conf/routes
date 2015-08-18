@@ -146,7 +146,7 @@ GET   /merchant/product/delete/{id}                          merchant.productCon
 POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
 POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
 
-=======
+
 # 文本编辑器
 POST  /kindedit/imageUpload                                  KindEditUploads.upload
 
