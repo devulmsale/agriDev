@@ -10,6 +10,7 @@ POST    /weixin/confirms                                  weixin.Application.con
 POST    /weixin/detail                                    weixin.Application.detail
 POST    /weixin/pay                                       weixin.Application.pay
 GET     /weixin/{linkId}                                  weixin.Application.index
+POST    /weixin/getOrderItembyAjax                        weixin.Application.getOrderItembyAjax
 
 
 # Ignore favicon requests

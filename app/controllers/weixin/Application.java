@@ -20,6 +20,9 @@ import models.product.Product;
 import models.product.ProductImage;
 import models.product.ProductImageType;
 import models.product.enums.ImageType;
+import models.vo.GoodsTypeVO;
+import models.vo.OrderItemVO;
+import models.vo.OrderVO;
 import order.OrderBuilder;
 import play.Logger;
 import play.data.validation.Valid;
@@ -267,6 +270,59 @@ public class Application extends Controller {
         String responseBody = httpResponse.body();
         Logger.info("responseBody==="+responseBody);
         return responseBody;
+    }
+
+    //根据uuid获取orderItem商品信息
+    public static void getOrderItembyAjax(String uuid){
+        Logger.info("执行 getOrderItembyAjax  -> uuid : %s" , uuid);
+        Order order = Order.findByUuid(uuid);
+        OrderVO orderVO = new OrderVO();
+        if(order != null) {
+            List<OrderItemVO> orderItemVOs = new ArrayList<>();
+            List<GoodsTypeVO> goodsTypeVOList = new ArrayList<>();
+            List<OrderItem> orderItems = OrderItem.getListByOrder(order);
+            OrderItemVO itemVO = null;
+            GoodsTypeVO goodsTypeVO = null;
+            for (OrderItem orderItem : orderItems) {
+                itemVO = new OrderItemVO();
+                goodsTypeVO = new GoodsTypeVO();
+                Boolean isHaveGoodsType = false;
+                itemVO.number = orderItem.buyNumber;
+                // PRODUCT_12  PRODUCT_15
+                itemVO.productId = orderItem.goods.serial.replace("PRODUCT_", "").trim();
+                Logger.info("商品id:%s",orderItem.goods.serial.replace("PRODUCT_", "").trim());
+                Product product = Product.findById(Long.valueOf(itemVO.productId));
+                itemVO.price = orderItem.goods.salePrice;
+
+
+                goodsTypeVO.goodsTypeId = product.merchantProductType.id.toString();
+                Logger.info("goodsTypeVOs.size() : %s" , goodsTypeVOList.size());
+                for(int i = 0 ; i < goodsTypeVOList.size() ; i++) {
+                    GoodsTypeVO typevo = goodsTypeVOList.get(i);
+                    if (typevo.goodsTypeId.equals(goodsTypeVO.goodsTypeId)) {
+                        isHaveGoodsType = true;
+                        goodsTypeVO = typevo;
+                        goodsTypeVOList.remove(typevo);
+                    }
+                }
+
+                if (isHaveGoodsType) {
+                    goodsTypeVO.number += 1;
+                } else {
+                    goodsTypeVO.number = 1;
+                }
+
+                goodsTypeVOList.add(goodsTypeVO);
+                orderItemVOs.add(itemVO);
+            }
+            orderVO.success = true;
+            orderVO.orderItems = orderItemVOs;
+            orderVO.goodsTypeVOs = goodsTypeVOList;
+            orderVO.price = order.amount;
+        } else {
+            orderVO.success = false;
+        }
+        renderJSON(orderVO);
     }
 
 }

@@ -1,8 +1,39 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+
 <script type="text/javascript">
-    function privateOperation(value , product_id , product_type , product_salePrice,type) {
+        $(document).ready(function(){
+            var uuid=$("#uuid").val();
+            alert(uuid);
+            $.ajax({
+                url:'/weixin/getOrderItembyAjax',
+                type:'POST',
+                data:{uuid:uuid},
+                success:function(data){
+                    if(data.success) {
+                        // 1. 修改总价格
+                        $("#totalPrice").html(data.price);
+                        // 循环产品的
+                        var sumpronum=0;
+                        $.each(data.orderItems,function(idx,type){
+                           // changeValue(type.number);
+                            $("#productCount").html(sumpronum+=type.number);
+                        })
+
+                        // 循环类型的
+                        $.each(data.goodsTypeVOs,function(idx,type){
+                            $('#productType_'+type.goodsTypeId).html(type.number);
+                        })
+                    }
+                },
+                error:function(){
+                    alert("222");
+                }
+
+            });
+        });
+        function privateOperation(value , product_id , product_type , product_salePrice,type) {
         var totalCount=$("#productCount").html();
         var counts;
         var salePrice=$("#totalPrice").html();
@@ -118,7 +149,7 @@
                         </h3>
                     </a>
                     <p>
-                        <input type="text" product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                        <input type="text"  product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
                     </p>
                 </div>
                 <a href="javascript:void(0)">
@@ -132,7 +163,7 @@
 </section>
 <div class="footcart" >
     <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p>
-    <form name="subform" id="subform" method="POST" action="/weixin/confirms" target="_blank" >
+    <form name="subform" id="subform" method="POST" action="/weixin/confirms" >
         <input type="hidden" name="carts" id="carts" value="">
         <input type="hidden" name="uuid" id="uuid" value="${uuid}">
         <input type="hidden" name="goodsType" value="${goodsType}">

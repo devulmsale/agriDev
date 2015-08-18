@@ -18,12 +18,12 @@
                 $.each(subClasss,function(idx,type){
                     var _type = null;
                     if(type.isHave) {
-                          _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\" checked name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
+                        _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\" checked name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
                     } else {
-                          _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\"  name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
+                        _type=$("<label class=\"am-checkbox-inline\"> <input type=\"checkbox\"  name=\"productTypes\" value="+type.id+" data-am-ucheck>"+type.name+"</label>");
 
                     }
-                $("#sub"+parentId).append(_type);
+                    $("#sub"+parentId).append(_type);
                 })
             }
 
