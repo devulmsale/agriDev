@@ -175,6 +175,9 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 #Coupon 卡券管理
 *      /pay                                      weixin.CouponController.pay
 GET    /weixin/coupon/card                       weixin.CouponController.card
+POST   /weixin/coupon/showCouponsBefore          weixin.CouponController.showCouponsBefore
+*      /weixin/coupon/showCoupons                weixin.CouponController.showCoupons
+*      /weixin/coupon/couponsPay                 weixin.CouponController.couponsPay
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct

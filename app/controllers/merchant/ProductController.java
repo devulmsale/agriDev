@@ -101,6 +101,7 @@ public class ProductController extends Controller {
             String [] productImageTypeId=ufid.split("_");
             String uf=productImageTypeId[0];
             String pid=productImageTypeId[1];
+            String imgUrl=productImageTypeId[2];
             ProductImageType productImageType=ProductImageType.findById(Long.valueOf(pid));
             Logger.info("uf :%s || pid :%s",uf,pid);
             ProductImage productImage=new ProductImage();
@@ -110,6 +111,7 @@ public class ProductController extends Controller {
             productImage.product=product;
             productImage.uFid=uf;
             productImage.productImageType=productImageType;
+            productImage.imgUrl=imgUrl;
             productImage.save();
             Logger.info("商品图片保存");
         }
