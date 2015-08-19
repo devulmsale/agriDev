@@ -1,0 +1,161 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<script>
+    $(document).ready(function(){
+        $("#carts").val("");
+        $("#product_id_value").val("");
+    });
+    function privateOperation(value , product_id , product_type , product_salePrice,type) {
+        var totalCount = $("#productCount").html();
+        var counts;
+        var salePrice = $("#totalPrice").html();
+        var totalPrice;
+        if (type == 1) {
+            counts = parseInt(totalCount) + 1;
+            totalPrice = (parseFloat(salePrice) + parseFloat(product_salePrice)).toFixed(2);
+        } else if (type == -1) {
+            counts = parseInt(totalCount) - 1;
+            totalPrice = (parseFloat(salePrice) - parseFloat(product_salePrice)).toFixed(2);
+        }
+        document.getElementById("productCount").innerHTML = counts;
+        document.getElementById("totalPrice").innerHTML = totalPrice;
+
+
+        var productIds = $('#productIds').val();
+        var isHave = false;
+        if(productIds != null && productIds.indexOf(",") >= 0) {
+            var ids = productIds.split(",");
+            for (var i=0; i < ids.length ;i++ )   {
+                if(ids[i] == product_id) {
+                    isHave = true;
+                }
+            }
+        }
+        if(value == 0) {
+            var newIds = "";
+            var ids = productIds.split(",");
+            for (i=0;i<ids.length ;i++ )   {
+                if(ids[i] != '' && ids[i] != product_id) {
+                    newIds += ","+ids[i];
+                }
+            }
+            $('#productIds').val(newIds);
+        }
+
+        var ids_count = $('#product_id_value').val();
+        var newIds_count = "";
+        //  4_5,5_2,6_1
+        if(ids_count != null && ids_count != '' && ids_count.indexOf(",") >= 0) {
+            var isHave2 = false;
+            var ids_countArray = ids_count.split(",");
+            for(var k = 0 ; k < ids_countArray.length ; k++) {
+                var id_count = ids_countArray[k];
+                if(id_count != null && id_count != '' && id_count.indexOf("_")) {
+                    var pId = id_count.split("_")[0];
+                    if(pId == product_id) {
+                        if(value > 0) {
+                            newIds_count += pId+"_"+value + ",";
+                        }
+                        isHave2 = true;
+                    } else {
+                        newIds_count += id_count + ",";
+                    }
+                }
+            }
+            if(!isHave2) {
+                newIds_count += product_id+"_"+value;
+            }
+            $('#product_id_value').val(newIds_count);
+        } else {
+            var id_value = product_id+"_"+value+",";
+            $('#product_id_value').val(id_value);
+        }
+
+        if(!isHave) {
+            $('#productIds').val(productIds + "," + product_id);
+
+        }
+        var carts=$('#product_id_value').val();
+        document.getElementById("carts").value=carts;
+    }
+</script>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       优惠券
+    </div>
+  <a href="member_index.html" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
+</header>
+
+
+<section class="wrap page youhui">
+
+    <ul>
+    #{list couponBatchList , as :'batch'}
+    <li>
+        <img src="/public/weixin/images/quan${batch?.salePrice?.format("#")}.jpg">
+        <h3>${batch?.name}</h3>
+        <p>有效期至${batch?.endAt}</p>
+        <em>￥${batch?.salePrice}</em>
+        <span><input type="text" product_id="${batch?.id}" product_salePrice="${batch?.salePrice}" disabled="disabled" class="txtadd"/></span>
+    </li>
+    #{/list}
+  </ul>
+    <input type="hidden" name="productIds" id="productIds">
+    <input type="hidden" name="product_id_value" id="product_id_value">
+    <form id="couponform" action="/weixin/coupon/showCouponsBefore" method="post">
+        <input type="hidden" name="carts" id="carts" value="">
+        <input type="hidden" name="uuid" id="uuid" value="${uuid}">
+    </form>
+  </ul>
+  <div class="tips">
+    <h3>使用说明</h3>
+    <h4> 一、如何获取优惠券</h4>
+    　<p>　1）本店会不定期举行各种赠券活动，凡是参加活动都有可能获得一定数量的赠送优惠券。我们将优惠券直接赠送到您的账户中；<br>
+    　　2）通过参加线上的各种活动来获取本店优惠券，例如：网易优惠券活动、淘宝店铺相关活动；</p>
+    <h4>二、优惠券使用细则</h4>
+    　<p>　1）消费达到一定的购买金额时优惠券才能使用，请在参与获取优惠券前仔细阅读活动的说明；<br>
+    　　2）使用优惠券支付的订单，如发生退货，退款结算按照实际结算金额退款，优惠券不予兑现；<br>
+    　　3）优惠券必须在有效期内使用，每张订单只能使用一张优惠券，并且不能与其它促销活动同时享用，仅限用于购买正价商品，优惠券一旦使用将无法退回；<br>
+    　　5）本细则最终解释权归本店所有。
+    </p>
+    <h4>三、优惠券使用流程</h4>
+    　<p>　1）在订餐中使用优惠券的步骤；<br>
+    　　进入商品单品页——选择颜色和尺码——放入购物车——选择去结算——填写配送和支付信息——出现产品清单后，在相<br>
+    　　应的位置下面有"使用优惠券"一栏，您只需要在下拉菜单当中选择您已有的优惠券即可使用，选择后，您的订单金额会自动地减<br>
+    　　去所优惠的款项。<br>
+    　　2）什么是激活码？<br>
+    　　激活码是发送给您的类似于手机充值卡的一串代码，您只需要在相应位置输入激活码，即可将对应的优惠券充入您的绿盒<br>
+    　　子官网账户中。接下来即可按照上述优惠券使用步骤享受优惠了。<br>
+    　　3）在哪里激活？<br>
+    　　有两个地方可以激活：<br>
+    　　A．	在提交订单之前，出现产品清单后，在"使用优惠券"一栏可以进行激活。激活之后相应优惠券会立即出现在优惠券选<br>
+    　　择列表里，可以立即使用；<br>
+  　　B．	您也可以直接进入"会员中心"，在"我的优惠券"一栏进行激活。 </p>
+  </div>
+</section>
+<div class="footcart" >
+  <p class="active"><em id="productCount">0</em><span id="totalPrice">0.0元</span></p><a href="javascript:void(0)" onclick="getSub()" class="btn0">选好了</a>
+</div>
+
+<script type="text/javascript" src="/public/weixin/js/jquery-1.8.3.min.js"></script>
+<!-- 加减数值 -->
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+#{include 'weixin/Application/modal.html'/}
+<script type="text/javascript">
+    $('.txtadd').spinner({});
+
+    function getSub(){
+       var carts= $("#carts").val();
+        if(carts == "" ||carts == null){
+            showAlart("请选择卡券");
+            return;
+        }
+        $("#couponform").submit();
+    }
+</script>
+
+
+</body>
+</html>

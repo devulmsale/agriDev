@@ -28,7 +28,7 @@
     </div>
     #{/if}
     <div class="price">
-        <p>需支付：<em id="needPay">￥${order?.amount}</em></p><a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>
+        <p>需支付：<em id="needPay">￥${order?.amount}</em></p>*{<a href="@{weixin.Application.cancelOrder(orderNumber)}" class="btn2">取消此订单</a>}*
     </div>
     <div class="tit">填写订单信息</div>
     <div class="submit_info">

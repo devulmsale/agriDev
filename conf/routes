@@ -10,6 +10,7 @@ POST    /weixin/confirms                                  weixin.Application.con
 POST    /weixin/detail                                    weixin.Application.detail
 POST    /weixin/pay                                       weixin.Application.pay
 GET     /weixin/{linkId}                                  weixin.Application.index
+POST    /weixin/getOrderItembyAjax                        weixin.Application.getOrderItembyAjax
 
 
 # Ignore favicon requests
@@ -82,6 +83,7 @@ GET  /weixin/member/delOrder                             weixin.userCenter.Order
 # Merchant Coupon Pay
 *   /order/qrCode                                         weixin.OrderController.qrCode
 *   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult
+*   /order/ajax/qrCode                                    weixin.OrderController.getAjaxImagePath
 
 # 微信支付回调
 POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
@@ -151,6 +153,8 @@ GET   /merchant/product/delete/{id}                          merchant.productCon
 POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
 POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
 
+#订单管理
+*     /merchant/order                                        merchant.OrderController.index
 
 # 文本编辑器
 POST  /kindedit/imageUpload                                  KindEditUploads.upload
@@ -175,6 +179,10 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 #Coupon 卡券管理
 *      /pay                                      weixin.CouponController.pay
+GET    /weixin/coupon/card                       weixin.CouponController.card
+POST   /weixin/coupon/showCouponsBefore          weixin.CouponController.showCouponsBefore
+*      /weixin/coupon/showCoupons                weixin.CouponController.showCoupons
+*      /weixin/coupon/couponsPay                 weixin.CouponController.couponsPay
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct

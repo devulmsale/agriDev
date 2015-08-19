@@ -1,0 +1,383 @@
+<script charset="utf-8" src="/public/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/public/editor/lang/zh_CN.js"></script>
+
+
+<script>
+    KindEditor.ready(function(K) {
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('#editor_id', {
+                resizeType : 1,
+                allowPreviewEmoticons : false,
+                allowImageUpload : true,
+                uploadJson : '/kindedit/imageUpload',
+                fileManagerJson : '/kindedit/imageUpload',
+                allowFileManager : true,
+                items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','|', 'justifyfull'],
+                afterBlur: function(){
+                    this.sync();
+                }
+            });
+        });
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var nameError =  $.trim($('#nameError').html());
+        if(nameError != '') {
+            $('#nameStyle').removeClass("am-form-success").addClass("am-form-error")
+        }
+    });
+
+    function initsubType(parentTypeId){
+        $.ajax({
+            url:'/merchant/product/getSubClass',
+            type:'post',
+            dateType:'json',
+            data:{parentTypeId:parentTypeId},
+            success:function(data) {
+                var subclasss=data.subclasss;
+                $("#subClassId").html("");
+                // 循环 brands 集合 .  定义 index 和 entity
+                $.each(subclasss, function(idx, sub) {
+                    var _subclasss = $("<option value \="+sub.id+">"+sub.name+"</option>");
+                    $("#subClassId").append(_subclasss);
+                });
+            }
+        });
+
+    }
+
+    function initType(parentTypeId){
+        $.ajax({
+            url:'/merchant/product/getBrandAndLable',
+            type:'post',
+            dataType:'json',
+            beforeSend:function(){
+                $("#ajaxBrand").html("Loading");
+                $("#ajaxLable").html("Loading");
+            },
+            data:{parentTypeId:parentTypeId},
+            success:function(data){
+                $("#ajaxBrand").html("");
+                $("#ajaxLable").html("");
+                var brands = data.brands;  // 从后台 map 中获取 key 为 brands 的 Object 对象
+                var lables = data.lables;  // 从后台 map 中获取  key 为 lables 的 Object 对象
+
+                // 循环 brands 集合 .  定义 index 和 entity
+                $.each(brands, function(idx, brand) {
+                    var _brand = $("<label class\=\"am-checkbox-inline\"><input type=\"radio\"  name=\"product.brand.id\" value="+brand.id+" data-am-ucheck> "+brand.name+" \</label>");
+                    $("#ajaxBrand").append(_brand);
+                });
+                // 循环 lables 集合 .  定义 index 和 entity
+                $.each(lables, function(idx, lable) {
+                    var _lable = $("<label class\=\"am-checkbox-inline\"><input type=\"checkbox\"  name=\"lablebox\" value="+lable.id+" data-am-ucheck> "+lable.name+" \</label>");
+                    $("#ajaxLable").append(_lable);
+                });
+            }
+        });
+    }
+
+</script>
+
+<!-- content start -->
+<div class="admin-content">
+    <div class="am-tabs am-margin" data-am-tabs>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            一级类别名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <select *{name="product.parentType.id"}* value="${product?.parentType?.name}" onchange="initsubType(this.value)">
+                           *{ <option value="">请选择</option>}*
+                            #{list items:productTopTypeList , as :'productTypeList'}
+                                <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
+                            #{/list}
+                            </select>
+                        </div>
+                            <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                                *{#{error 'productType.name' /}}*
+                            </div>
+                    </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        二级类别名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select id="subClassId" name="product.parentType.id" value="${product?.parentType?.name}" onchange="initType(this.value)">
+                            <option value="">请选择</option>
+                        *{#{list items:productTypelist , as :'productTypeList'}
+                            <option ${product?.parentType?.id == productTypeList.id ? 'selected' : ''} value="${productTypeList?.id}">${productTypeList?.name}</option>
+                        #{/list}}*
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    *{#{error 'productType.name' /}}*
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top" >
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">品牌</div>
+                            <div id="ajaxBrand">
+                                #{if product?.id != null }
+                                    #{list product.allBrands(product?.id) , as :'pbl'}
+                                        <label class="am-checkbox-inline"><input type="radio" ${product?.brand?.id == pbl?.brand?.id ? "checked" : ""}   name="product.brand.id" value="${pbl?.id}" data-am-ucheck> ${pbl?.brand?.name}</label>
+                                    #{/list}
+                                #{/if}
+                        </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">属性</div>
+                        <div id="ajaxLable">
+                        #{if product?.id != null }
+                            #{list product.alllables(product?.id) , as :'pal'}
+                                <label class="am-checkbox-inline"><input type="checkbox"  ${product?.isHaveLable(pal?.lable?.id) ? "checked" : ""}  name="" value="${pal?.lable?.id}" data-am-ucheck> ${pal?.lable?.name}</label>
+                            #{/list}
+                        #{/if}
+                        </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        商户商品类别
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select name="product.merchantProductType.id" value="${product?.merchantProductType?.name}" >
+                        #{list items:merchantProductTypeList , as :'productTypeList'}
+                            <option value="${productTypeList?.id}">${productTypeList?.name}</option>
+                        #{/list}
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                    *{#{error 'productType.name' /}}*
+                    </div>
+                </div>
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        商品名称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.name" value="${product?.name}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.name' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        商品简称
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.shortName" value="${product?.shortName}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.shortName' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        原价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.originalPrice" value="${product?.originalPrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6"style="color: red;">
+                        *#{error 'product.originalPrice' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        售价
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.salePrice" value="${product?.salePrice}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.salePrice' /}
+                    </div>
+                </div>
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        库存
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.qty" value="${product?.qty}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.qty' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        产地
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.producingArea" value="${product?.producingArea}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.producingArea' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        净重
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.netWeight" value="${product?.netWeight}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.netWeight' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        毛重
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.roughWeight" value="${product?.roughWeight}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.roughWeight' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        规格
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.standard" value="${product?.standard}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.standard' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        保质期
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <div id="nameStyle" class="am-form-group am-form-success">
+                            <input type="text" id="name" name="product.expirationDate" value="${product?.expirationDate}" id="doc-ipt-warning" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        *#{error 'product.expirationDate' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        储藏方式
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select name="product.storeMethod">
+                        #{list storeMethods , as :'storemethod'}
+                            <option  ${product?.storeMethod == storemethod ? 'selected' : ''} value="${storemethod}">&{'storeMethod.'+ storemethod}</option>
+                        #{/list}
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'product.storeMethod' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        包装方式
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select name="product.packageMethod">
+                        #{list packageMethods , as :'packagemethod'}
+                            <option ${product?.packageMethod == packagemethod ? 'selected' : ''} value="${packagemethod}">&{'packageMethod.'+ packagemethod}</option>
+                        #{/list}
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'product.packageMethod' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        配送方式
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select name="product.shippingMethod">
+                        #{list shippingMethods , as :'shippingmethod'}
+                            <option ${product?.shippingMethod == shippingmethod ? 'selected' : ''} value="${shippingmethod}">&{'shippingMethod.'+ shippingmethod}</option>
+                        #{/list}
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'product.shippingMethod' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        营销模式
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <select name="product.marketingMode">
+                        #{list marketingModes , as :'marketingmode'}
+                            <option  ${product?.marketingMode == marketingmode ? 'selected' : ''} value="${marketingmode}">&{'marketingMode.'+ marketingmode}</option>
+                        #{/list}
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                        * #{error 'product.marketingMode' /}
+                    </div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                        商品描述
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-4">
+                        <textarea id="editor_id" name="product.content" style="width:700px;height:300px;">${product?.content}</textarea>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                         #{error 'product.content' /}
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- content end -->
+<input  type="hidden" id="imageId" name="imageName">

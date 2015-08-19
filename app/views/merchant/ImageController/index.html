@@ -44,12 +44,12 @@
         $(document).ready(function(){
             var dataJSON = "";
             $.ajax({
-                type: 'POST',
-                url: "http://img.ulmsale.cn/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
-                dataType : "jsonp",
-                success: function (data){
-                    dataJSON = data;
-                } ,
+                        type: 'POST',
+                        url: "http://img.ulmsale.cn/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
+                        dataType : "jsonp",
+                        success: function (data){
+                            dataJSON = data;
+                        } ,
                 error:function (data){
                     alert(9)
                     //dataJSON = data;

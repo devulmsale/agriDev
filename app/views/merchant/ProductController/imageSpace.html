@@ -77,8 +77,9 @@
 //            $('#imageId').val(value.replace(id+"_"+chooseId+",",""))
 //        }else {
         var value1=$('#imageId').val();
+        var imgurl=$('#imgId'+imgId).attr("src");
          $('#img_'+chooseId).attr("src" , $('#imgId'+imgId).attr("src"));
-            $('#imageId').val(value1+id+'_'+num+',')
+            $('#imageId').val(value1+id+'_'+num+'_'+imgurl+',')
         var value=$('#imageId').val();
         var arr1 = new Array();
          arr1=value.split(",")

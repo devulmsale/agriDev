@@ -16,11 +16,13 @@ import models.mert.hall.MerchantHall;
 import models.order.*;
 import models.product.Product;
 import models.product.ProductImage;
+import models.vo.GoodsTypeVO;
+import models.vo.OrderItemVO;
+import models.vo.OrderVO;
 import order.OrderBuilder;
 import play.Logger;
 import play.mvc.Controller;
 import util.common.RandomNumberUtil;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -84,16 +86,22 @@ public class Application extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        User user = WxMpAuth.currentUser().user;
+       // User user = WxMpAuth.currentUser().user;
 
 
         Order order = Order.findByUuid(uuid);
         if(order != null) {
-            order.deleted = DeletedStatus.DELETED;
-            order.status = OrderStatus.CANCELED;
-            order.save();
+            List<OrderItem> orderItems = OrderItem.getListByOrder(order);
+            for(OrderItem orderItem : orderItems){
+                orderItem.deleted = DeletedStatus.DELETED;
+                orderItem.save();
+            }
+            if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+                OrderBuilder orderBuilder = OrderBuilder.orderNumber(order.orderNumber);
+                cartToOrder(orderBuilder, carts);
+            }
         }
-        order = null;
+
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
@@ -263,6 +271,59 @@ public class Application extends Controller {
         String responseBody = httpResponse.body();
         Logger.info("responseBody==="+responseBody);
         return responseBody;
+    }
+
+    //根据uuid获取orderItem商品信息
+    public static void getOrderItembyAjax(String uuid){
+        Logger.info("执行 getOrderItembyAjax  -> uuid : %s" , uuid);
+        Order order = Order.findByUuid(uuid);
+        OrderVO orderVO = new OrderVO();
+        if(order != null) {
+            List<OrderItemVO> orderItemVOs = new ArrayList<>();
+            List<GoodsTypeVO> goodsTypeVOList = new ArrayList<>();
+            List<OrderItem> orderItems = OrderItem.getListByOrder(order);
+            OrderItemVO itemVO = null;
+            GoodsTypeVO goodsTypeVO = null;
+            for (OrderItem orderItem : orderItems) {
+                itemVO = new OrderItemVO();
+                goodsTypeVO = new GoodsTypeVO();
+                Boolean isHaveGoodsType = false;
+                itemVO.number = orderItem.buyNumber;
+                // PRODUCT_12  PRODUCT_15
+                itemVO.productId = orderItem.goods.serial.replace("PRODUCT_", "").trim();
+                Logger.info("商品id:%s",orderItem.goods.serial.replace("PRODUCT_", "").trim());
+                Product product = Product.findById(Long.valueOf(itemVO.productId));
+                itemVO.price = orderItem.goods.salePrice;
+
+
+                goodsTypeVO.goodsTypeId = product.merchantProductType.id.toString();
+                Logger.info("goodsTypeVOs.size() : %s" , goodsTypeVOList.size());
+                for(int i = 0 ; i < goodsTypeVOList.size() ; i++) {
+                    GoodsTypeVO typevo = goodsTypeVOList.get(i);
+                    if (typevo.goodsTypeId.equals(goodsTypeVO.goodsTypeId)) {
+                        isHaveGoodsType = true;
+                        goodsTypeVO = typevo;
+                        goodsTypeVOList.remove(typevo);
+                    }
+                }
+
+                if (isHaveGoodsType) {
+                    goodsTypeVO.number += 1;
+                } else {
+                    goodsTypeVO.number = 1;
+                }
+
+                goodsTypeVOList.add(goodsTypeVO);
+                orderItemVOs.add(itemVO);
+            }
+            orderVO.success = true;
+            orderVO.orderItems = orderItemVOs;
+            orderVO.goodsTypeVOs = goodsTypeVOList;
+            orderVO.price = order.amount;
+        } else {
+            orderVO.success = false;
+        }
+        renderJSON(orderVO);
     }
 
 }
