@@ -68,7 +68,7 @@ POST /merchant/package/updatePic                             merchant.ProductSet
 GET /merchant/package/upEditPic                             merchant.ProductSetMealController.upEditPic
 
 #套餐管理前台
-GET  /weixin/setmeal/detail                               weixin.SetMealController.detail
+GET  /weixin/setmeal/{setmealId}/detail                   weixin.SetMealController.detail
 * /weixin/setmeal/pays                                    weixin.SetMealController.pays
 GET  /weixin/setmeals/{linkId}/index                      weixin.SetMealController.index
 GET  /weixin/setmeal/confirm                              weixin.SetMealController.confirm

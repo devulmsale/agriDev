@@ -34,13 +34,11 @@ public class ProductSetMealController extends Controller {
      */
     public static  void index(Integer pageNumber){
 
-        if(pageNumber==null){
-            pageNumber=1;
-        }
+        pageNumber = pageNumber == null ? 1 : pageNumber;
         Map<String ,Object> map=new HashMap<String ,Object>();
+
         JPAExtPaginator<SetMeal> resultPage=SetMeal.findByCondition(map, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage,pageNumber);
-       // render();
     }
 
     /**

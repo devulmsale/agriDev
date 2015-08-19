@@ -50,7 +50,6 @@ public class Application extends Controller {
 //        Merchant merchant = Merchant.findByLinkId("kehao");
        // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
-        List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
         //查询商户商品的类别  TODO 获取商户号 merchant.id
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
@@ -64,11 +63,9 @@ public class Application extends Controller {
                 ProductImage productImage=ProductImage.findProductImage(pro.id);
                 //TODO 商品图片宽高需要获取
                 if(null != productImage) {
-                    String responseBody = images(productImage.uFid, "490", "290");
-                    pro.url = responseBody;
+                    String imageUrl = images(productImage.uFid, "490", "290");
+                    pro.url = imageUrl;
                 }
-                imgUrlList.add(pro);
-                Logger.info("imgUrlList :%s",imgUrlList.size());
             }
             productMap.put(mpt.id.toString(), productList);
         }
@@ -76,7 +73,7 @@ public class Application extends Controller {
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
         //TODO render 中传入merchant 为页面获取linkId
-        render(merchantProductTypeList, productMap ,goodsType , uuid , imgUrlList );
+        render(merchantProductTypeList, productMap ,goodsType , uuid  );
     }
 
 
