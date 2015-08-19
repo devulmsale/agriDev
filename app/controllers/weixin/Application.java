@@ -91,11 +91,17 @@ public class Application extends Controller {
 
         Order order = Order.findByUuid(uuid);
         if(order != null) {
-            order.deleted = DeletedStatus.DELETED;
-            order.status = OrderStatus.CANCELED;
-            order.save();
+            List<OrderItem> orderItems = OrderItem.getListByOrder(order);
+            for(OrderItem orderItem : orderItems){
+                orderItem.deleted = DeletedStatus.DELETED;
+                orderItem.save();
+            }
+            if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+                OrderBuilder orderBuilder = OrderBuilder.orderNumber(order.orderNumber);
+                cartToOrder(orderBuilder, carts);
+            }
         }
-        order = null;
+
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
