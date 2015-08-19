@@ -28,7 +28,7 @@ import java.util.Properties;
 public class OrderController extends Controller {
 
     public static String SEP= "/";
-    public static String  FILE_UPLOAD_EDIT_DIR= SEP+"public"+SEP+"upload"+SEP+"product"+SEP;  //商铺图片
+    public static String  FILE_UPLOAD_EDIT_DIR= SEP+"public"+SEP+"upload"+SEP+"order"+SEP;  //商铺图片
     public static WxpayFactory wxpayFactory = WxpayFactory.getDefaultInstance();
     public static Integer PAGE_SIZE = 15;
 
@@ -49,12 +49,16 @@ public class OrderController extends Controller {
         wxPayCode.append("&time_stamp="+timeStamp);
         wxPayCode.append("&nonce_str="+nonce_str);
         Logger.info("wxPayCode : %s ------", wxPayCode.toString());
+        File orderFile = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR);
+        if(orderFile.exists()) {
+            orderFile.mkdirs();
+        }
+        File qrImage = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR+ order.orderNumber+".png");
+        if(!qrImage.exists()) {
+            qrImage.mkdirs();
+        }
         order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber+".png";
         order.save();
-        File file = new File(FILE_UPLOAD_EDIT_DIR);
-        if(!file.exists()) {
-            file.mkdirs();
-        }
         FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);
         QRCodeGenerator.generateCodeToStream(out, wxPayCode.toString(), BarcodeFormat.QR_CODE, 300, 300, "PNG");
         render(order);
