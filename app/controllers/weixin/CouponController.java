@@ -17,11 +17,12 @@ import play.mvc.With;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by upshan on 15/8/11.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class CouponController extends Controller {
 
     public static final String COUPON_BING_ID = "coupon_bind_id_";
@@ -68,6 +69,11 @@ public class CouponController extends Controller {
         //TODO 查询此用户的订单
         Order order= Order.all().first();
         render(order);
+    }
+
+    public static void card(){
+        List<CouponBatch> couponBatchList = CouponBatch.findAll();
+        render(couponBatchList);
     }
 
 }

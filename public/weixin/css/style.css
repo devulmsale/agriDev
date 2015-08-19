@@ -46,19 +46,20 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 
 /* order */
 .leftbar{width:100px; height:100%; overflow:hidden; position:fixed; left:0; top:40px; border-right:1px #cccccc solid; }
-.rightbar{ height:100%; padding:40px 0 0px 100px; }
+.rightbar{ height:100%; padding:0px 0px 0px 100px;}
+.topspace{width:100%; height:40px; overflow:hidden;}
 .leftbar h3{ font-size:16px; color:#565656; text-align:center; height:40px; line-height:40px; position:relative; z-index:10; background:#eee; border-bottom:1px #dddddd solid;}
 .leftbar ul{width:110px; height:100%; display:block; overflow-y:auto; margin-top:-130px; padding-top:130px;}
 .leftbar li{ font-size:14px; text-align:center; height:50px; border-bottom:1px #dddddd solid;}
-.leftbar li a{width:100%; height:50px; line-height:50px; overflow:hidden; display:block; text-align:left; padding-left:10px;}
-.leftbar li a em{ height:16px; line-height:16px; display:inline-block; background:#f60; color:#fff; font-size:10px; padding:0 5px;-moz-border-radius:8px; -webkit-border-radius:8px;  border-radius:8px;}
+.leftbar li a{width:100%; height:50px; line-height:50px; overflow:hidden; display:block; text-align:left; text-indent:10px; position:relative;}
+.leftbar li a em{ height:16px; line-height:16px; display:inline-block; background:#f60; color:#fff; font-size:10px; padding:0 5px;-moz-border-radius:8px; -webkit-border-radius:8px;  border-radius:8px; position:absolute; right:15px; top:17px; z-index:1; text-indent:0;}
 .leftbar li.active{ background:#eeeeee;}
 .leftbar li.bt{ height:80px; display:block;}
-.rightbar dt{width:100%; height:40px; line-height:40px; background:#eeeeee; text-align:center; text-indent:15px; font-size:16px; font-weight:bold; color:#565656;}
-.rightbar dd{ height:auto; overflow:hidden; position:relative; border-top:1px #cccccc solid; }
+.rightbar dt{width:100%; height:40px; line-height:40px; background:#eeeeee; text-align:center; text-indent:15px; font-size:16px; font-weight:bold; color:#565656; border-bottom:1px #dddddd solid; border-top:1px #dddddd solid}
+.rightbar dd{ height:auto; overflow:hidden; position:relative; border-bottom:0px #eeeeee solid; }
 .rightbar dd a{ display:block;}
 .rightbar dd img{width:100%; overflow:hidden;}
-.rightbar dd .tit{width:100%; height:40px; overflow:hidden; background:url(../images/tbg.png) repeat-x top; position:absolute; bottom:0; z-index:10; text-align:left;}
+.rightbar dd .tit{width:100%; height:40px; overflow:hidden; background:url(../images/tbg.png) repeat-x top; position:absolute; bottom:0; z-index:3; text-align:left;}
 .rightbar dd .tit h3{ font-size:14px; color:#333; font-weight:normal; float:left; display:inline; margin-left:10px;}
 .rightbar dd .tit h3 span{ display:block; font-size:14px; line-height:1.5em;}
 .rightbar dd .tit h3 em{ color:#f60; font-size:14px; font-weight:bold;}
@@ -83,7 +84,7 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .package li h3{ font-size:14px; color:#454545; padding-top:5px; }
 .package li p{ margin-top:15px;}
 .package li p em{ color:#f60; font-size:16px;}
-.package li p a{ height:20px; line-height:18px; float:right; display:inline-block; padding:0px 10px; border:1px #eeeeee solid; color:#ccc; margin-top:0px;}
+.package li p a{ height:20px; line-height:18px; float:right; display:inline-block; padding:0px 5px; border:1px #eeeeee solid; color:#999; margin:0px 0 0 3px;}
 .package li p a:hover{ background:#f90; color:#fff; border:0;}
 
 
@@ -167,7 +168,7 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .submit_quan li a h3{ font-size:14px; font-weight:normal; color:#454545; line-height:3em;}
 .submit_quan li a h3 i{ color:#f90; font-size:16px;}
 .submit_quan li em{ color:#f60; font-size:16px;}
-.submit_quan li span{ position:absolute; right:0; top:30%; text-align:right;}
+.submit_quan li span{ position:absolute; right:0; bottom:15%; text-align:right;}
 .submit .price0{ height:40px; line-height:40px; overflow:hidden; text-align:left; margin-top:0px; }
 .submit .price0 p{ float:left; display:inline; font-size:14px; color:#666;}
 .submit .price0 p em{ font-size:20px; color:#f60;}

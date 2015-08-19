@@ -147,6 +147,8 @@ GET   /merchant/product/delete/{id}                          merchant.productCon
 POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
 POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
 
+#订单管理
+*     /merchant/order                                        merchant.OrderController.index
 
 # 文本编辑器
 POST  /kindedit/imageUpload                                  KindEditUploads.upload
@@ -171,6 +173,7 @@ POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'x
 
 #Coupon 卡券管理
 *      /pay                                      weixin.CouponController.pay
+GET    /weixin/coupon/card                       weixin.CouponController.card
 
 # MerchantProductType 商户类别
 *      /weixin/product/{id}                      weixin.Application.getProduct
