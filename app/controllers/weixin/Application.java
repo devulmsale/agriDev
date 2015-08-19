@@ -125,7 +125,7 @@ public class Application extends Controller {
             imgOrderItemList.add(oi);
         }
 
-        render(order , imgOrderItemList , goodsType);
+        render(order, imgOrderItemList, goodsType);
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
@@ -231,8 +231,9 @@ public class Application extends Controller {
     public static void deleteOrder(String orderNumber){
         Logger.info("删除订单 :%s=",orderNumber);
         Order order = Order.findByOrderNumber(orderNumber);
-        order.deleted=DeletedStatus.DELETED;
-        order.save();
+        if(order != null) {
+            Order.delete(order.id);
+        }
         redirect("/weixin/products");
     }
 
@@ -245,9 +246,8 @@ public class Application extends Controller {
         redirect("/weixin/products");
     }
 
-    public static void member(){
-        render();
-    }
+
+
 
 
 

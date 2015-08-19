@@ -1,0 +1,99 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+  <style>
+  	body{ background:#f9f9f9;}
+  </style>
+<link rel="stylesheet" href="/public/weixin/layer/skin/layer.css"/>
+<script type="text/javascript" src="/public/weixin/layer/layer.js"></script>
+
+
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       我的菜单
+    </div>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+
+
+                <script language="javascript">
+                $(document).ready(function(){
+                #{if flash.get("type")!=null&&flash.get("type")=='true'}
+                  //alert("ddd")
+                    layer.msg('删除成功');
+
+                #{/if}
+                });
+    </script>
+
+</header>
+<div class="tabs member_tit">
+        <a href="#" hidefocus="true" class="active">待支付菜单</a>
+        <a href="#" hidefocus="true">已支付菜单</a>
+  </div>
+<section class="swiper-container member_order">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <ul class="order_list">
+
+                #{list orderUnpaidList,as:'orderUnp'}
+               <li><div class="list_l"><img src="${orderUnp.orderImage}"></div>
+                   <div class="list_r">
+                     <h3>
+                     #{list orderUnp.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
+                     </h3>
+                     <span>菜品<i>${orderUnp.orderItemCount}</i>份<em>&{'goodstype.'+orderUnp.goodsType}</em><a href="@{weixin.OrderController.qrCode(orderUnp.orderNumber)}" class="btn radius10">去支付</a></span>
+                     <p><em>总价：<i>￥${orderUnp.amount}</i></em><a href="/weixin/member/delOrder?orderNum=${orderUnp.orderNumber}" class="btn1 radius10">删除</a></p>
+                   </div>
+               </li>
+                #{/list}
+            </ul>
+          </div>
+
+
+        <div class="swiper-slide">
+            <ul class="order_list">
+            #{list orderPaidList,as:'orderpaid'}
+                <li><div class="list_l"><a href="../../Application/detail.html"><img src="${orderpaid.orderImage}"></a></div>
+                    <div class="list_r">
+                        <h3><a href="../../Application/detail.html">
+                            #{list orderpaid.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
+                        </a></h3>
+                        <span>菜品<i>${orderpaid.orderItemCount}</i>份<em>&{'goodstype.'+orderpaid.goodsType}</em></span>
+                        <p><em>总价：<i>￥${orderpaid.amount}</i></em></p>
+                    </div>
+                </li>
+            #{/list}
+
+            </ul>
+        </div>
+        
+     </div>
+</section>
+
+#{include '/foot.html'/}
+
+  <script type="text/javascript" src="/public/weixin/js/idangerous.swiper.min.js"></script>
+	<script type="text/javascript">
+    var tabsSwiper = new Swiper('.swiper-container',{
+        speed:500,
+        onSlideChangeStart: function(){
+            $(".tabs .active").removeClass('active');
+            $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active');
+        }
+    });
+    
+    $(".tabs a").on('touchstart mousedown',function(e){
+        e.preventDefault()
+        $(".tabs .active").removeClass('active');
+        $(this).addClass('active');
+        tabsSwiper.swipeTo($(this).index());
+    });
+    
+    $(".tabs a").click(function(e){
+        e.preventDefault();
+    });
+    </script>
+</body>
+</html>

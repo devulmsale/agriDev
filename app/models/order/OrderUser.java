@@ -2,6 +2,9 @@ package models.order;
 
 import jodd.bean.BeanCopy;
 import models.common.ChinaPhone;
+import models.common.enums.OrderGoodsType;
+import models.common.enums.OrderStatus;
+import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.mert.Merchant;
 import models.mert.hall.HallTable;
@@ -123,6 +126,11 @@ public class OrderUser extends Model {
         OrderUser oldproductType = OrderUser.findById(id);
         BeanCopy.beans(newObject, oldproductType).ignoreNulls(true).copy();
         oldproductType.save();
+    }
+
+
+    public static List<OrderUser> findByUnpaidAndTimes(Date date){
+        return OrderUser.find("order.status = ? and  deleted = ? and time < ? and (order.goodsType = ? or order.goodsType = ?)" , OrderStatus.UNPAID ,  DeletedStatus.UN_DELETED , date , OrderGoodsType.BOOK_FOOD , OrderGoodsType.TAKE_AYAY).fetch();
     }
 
     /**

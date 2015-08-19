@@ -62,4 +62,8 @@ public class ProductImage extends Model {
         return ProductImage.find("deleted = ? and product.id = ? and productImageType.imageType = ? " , DeletedStatus.UN_DELETED , productId , ImageType.INDEX).first();
     }
 
+    public static ProductImage findProductImageByProductId(Long productId){
+        return ProductImage.find("deleted = ? and product.id = ? " , DeletedStatus.UN_DELETED , productId ).first();
+    }
+
 }

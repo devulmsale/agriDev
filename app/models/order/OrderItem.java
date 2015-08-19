@@ -1,6 +1,7 @@
 package models.order;
 
 import models.common.enums.GoodsStatus;
+import models.common.enums.OrderStatus;
 import models.constants.DeletedStatus;
 import play.db.jpa.Model;
 
@@ -125,5 +126,10 @@ public class OrderItem extends Model {
 
     public static OrderItem getByOrder(Order order) {
         return OrderItem.find("order.id = ? and deleted = ?", order.id, DeletedStatus.UN_DELETED).first();
+    }
+
+
+    public static Long getOrderItemCount(Order order){
+        return OrderItem.count("order.id = ? and deleted = ? ",order.id,DeletedStatus.UN_DELETED);
     }
 }

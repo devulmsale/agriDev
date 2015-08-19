@@ -150,6 +150,11 @@ public class Coupon extends Model {
         return Coupon.find("deleted = ? and user.id = ? and order = null ",DeletedStatus.UN_DELETED,userId).fetch();
     }
 
+    //查询该用户下优惠券的数量
+    public static Long findCouponCountByLoginUser(Long userId){
+        return Coupon.count("deleted = ? and user.id = ? and order = null ", DeletedStatus.UN_DELETED, userId);
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)

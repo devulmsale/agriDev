@@ -266,13 +266,19 @@ public class Product extends Model {
      * @return
      */
     public Goods findOrCreateGoods() {
+        ProductImage productImage=ProductImage.findProductImage(this.id);
         Goods goods = Goods.find("serial = ?", "PRODUCT_" + this.id).first();
+
         if (goods == null) {
             goods = new Goods();
             goods.createdAt = new Date();
             goods.name = this.name;
             goods.deleted = DeletedStatus.UN_DELETED;
             goods.facePrice = this.weixinPrice;
+            if(productImage!=null){
+            goods.mainImageUrl=productImage.imgUrl;
+            goods.mainImageUfid=productImage.uFid;
+            }
             goods.originalPrice = this.originalPrice;
             goods.salePrice = this.salePrice;
             goods.status = GoodsStatus.OPEN;

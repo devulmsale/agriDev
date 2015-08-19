@@ -36,3 +36,11 @@ imageType.USER_CENTER=个人中心
 deltedStatus.DELETED=已删除
 deletedStatus.UN_DELETED=正常状态
 
+goodstype.COUPON=优惠券
+goodstype.DOT_FOOD=点餐
+goodstype.BOOK_FOOD=预订点餐
+goodstype.TAKE_AYAY=外卖
+goodstype.PACK=打包
+goodstype.SET_MEAL=套餐
+goodstype.null=未知
+

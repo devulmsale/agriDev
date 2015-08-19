@@ -1,6 +1,9 @@
 package models.order;
 
+import controllers.weixin.Application;
 import jodd.bean.BeanCopy;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 import models.base.enums.MemberCardType;
 import models.base.enums.VenuePriceType;
 import models.common.DateUtil;
@@ -10,6 +13,7 @@ import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.member.MemberCard;
+import models.product.ProductImage;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -307,8 +311,7 @@ public class Order extends Model {
 
 
 
-        public static Boolean delete(Long id) {
-
+    public static Boolean delete(Long id) {
         Order order = Order.findById(id);
         if (order == null) {
             return Boolean.FALSE;
@@ -405,5 +408,38 @@ public class Order extends Model {
         return Order.find("deleted = ? and user = ? and type = ? and status = ? and createdAt between ? and ?",
                 DeletedStatus.UN_DELETED, user, OrderType.PC, OrderStatus.UNPAID, DateUtil.getBeginOfDay(), DateUtil.getEndOfDay()).first();
     }
+
+    /**
+     * 根据用户查找待支付的订单总数
+     * @param user
+     * @return
+     */
+    public static Long findUnOrderByUser(User user){
+
+      return    Order.count("deleted = ? and user = ? and status = ? ", DeletedStatus.UN_DELETED, user, OrderStatus.UNPAID);
+    }
+
+    public  List<OrderItem> getOrderName() {
+        return OrderItem.getListByOrder(this);
+    }
+
+    public String getOrderImage() {
+        OrderItem orderItem = OrderItem.getByOrder(this);
+       // String[] serials= orderItem.goods.serial.split("_");
+       // ProductImage productImage=ProductImage.findProductImageByProductId(Long.parseLong(serials[1]));
+        if(orderItem!=null){
+            return orderItem.goods.mainImageUrl;
+        }else {
+            return "..";
+        }
+
+    }
+
+    public Long getOrderItemCount(){
+        return OrderItem.getOrderItemCount(this);
+    }
+
+
+
 
 }

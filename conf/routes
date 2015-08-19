@@ -72,6 +72,11 @@ GET  /weixin/setmeal/detail                               weixin.SetMealControll
 GET  /weixin/setmeals/{linkId}/index                      weixin.SetMealController.index
 GET  /weixin/setmeal/confirm                              weixin.SetMealController.confirm
 
+#前台个人中心
+GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
+GET  /weixin/member/memorder                             weixin.userCenter.OrderController.index
+GET  /weixin/member/delOrder                             weixin.userCenter.OrderController.deleted
+
 
 
 # Merchant Coupon Pay

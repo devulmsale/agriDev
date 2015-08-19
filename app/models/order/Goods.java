@@ -58,6 +58,13 @@ public class Goods extends Model {
     @Column(name = "main_image_ufid")
     public String mainImageUfid;// 主图片
 
+
+    /**
+     * 主图片路径
+     */
+    @Column(name = "main_image_url")
+    public String mainImageUrl;
+
     /**
      * 供应商商品编号
      */
