@@ -18,18 +18,21 @@
                         // 循环产品的
                         var sumpronum=0;
                         $.each(data.orderItems,function(idx,type){
-                           // changeValue(type.number);
-                            $('#product_value_'+type.productId).spinner({
-                                value:type.number
+                            var id = '#product_value_'+type.productId;
+                            $(id).spinner({
+                                value : type.number
                             });
-                            $("#productCount").html(sumpronum+=type.number);
+                            $(id).removeClass("txtadd");
+//                            $("#productCount").html(sumpronum+=type.number);
                         })
+
 
                         // 循环类型的
                         $.each(data.goodsTypeVOs,function(idx,type){
                             $('#productType_'+type.goodsTypeId).html(type.number);
                         })
                     }
+                    $('.txtadd').spinner({});
                 },
                 error:function(){
                     alert("222");
@@ -186,7 +189,7 @@
 #{include 'weixin/Application/modal.html'/}
 
 <script type="text/javascript">
-    $('.txtadd').spinner({});
+
     function getSub(){
         var carts = $('#carts').val();
         if(carts== "" ||carts== null){
