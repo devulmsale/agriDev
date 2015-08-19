@@ -5,6 +5,7 @@ import com.google.zxing.WriterException;
 import ext.pay.weixin.MD5Util;
 import ext.pay.weixin.v3.WxpayFactory;
 import helper.QRCodeGenerator;
+import me.chanjar.weixin.common.util.StringUtils;
 import models.common.DateUtil;
 import models.order.Order;
 import models.product.Product;
@@ -37,30 +38,32 @@ public class OrderController extends Controller {
         if(order == null) {
             //TODO 如果订单不存在 执行操作
         }
-        StringBuilder wxPayCode = new StringBuilder();
-        Properties conf = wxpayFactory.getConf();
-        wxPayCode.append("weixin://wxpay/bizpayurl?");
-        String timeStamp = DateUtil.dateToString(new Date(), "yyyyMMddHHmmss");
-        String nonce_str = RandomNumberUtil.generateRandomChars(16);
-        wxPayCode.append("sign="+getSign(conf.getProperty("appid") ,  conf.getProperty("mch_id") , order.orderNumber , conf.getProperty("KEY") , timeStamp , nonce_str));
-        wxPayCode.append("&appid="+conf.getProperty("appid"));
-        wxPayCode.append("&mch_id="+conf.getProperty("mch_id"));
-        wxPayCode.append("&product_id="+order.orderNumber);
-        wxPayCode.append("&time_stamp="+timeStamp);
-        wxPayCode.append("&nonce_str="+nonce_str);
-        Logger.info("wxPayCode : %s ------", wxPayCode.toString());
-        File orderFile = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR);
-        if(orderFile.exists()) {
-            orderFile.mkdirs();
+        if(StringUtils.isBlank(order.qrImage)) {
+            StringBuilder wxPayCode = new StringBuilder();
+            Properties conf = wxpayFactory.getConf();
+            wxPayCode.append("weixin://wxpay/bizpayurl?");
+            String timeStamp = DateUtil.dateToString(new Date(), "yyyyMMddHHmmss");
+            String nonce_str = RandomNumberUtil.generateRandomChars(16);
+            wxPayCode.append("sign=" + getSign(conf.getProperty("appid"), conf.getProperty("mch_id"), order.orderNumber, conf.getProperty("KEY"), timeStamp, nonce_str));
+            wxPayCode.append("&appid=" + conf.getProperty("appid"));
+            wxPayCode.append("&mch_id=" + conf.getProperty("mch_id"));
+            wxPayCode.append("&product_id=" + order.orderNumber);
+            wxPayCode.append("&time_stamp=" + timeStamp);
+            wxPayCode.append("&nonce_str=" + nonce_str);
+            Logger.info("wxPayCode : %s ------", wxPayCode.toString());
+            File orderFile = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR);
+            if (orderFile.exists()) {
+                orderFile.mkdirs();
+            }
+            File qrImage = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png");
+            if (!qrImage.exists()) {
+                qrImage.mkdirs();
+            }
+            order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png";
+            order.save();
+            FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);
+            QRCodeGenerator.generateCodeToStream(out, wxPayCode.toString(), BarcodeFormat.QR_CODE, 300, 300, "PNG");
         }
-        File qrImage = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR+ order.orderNumber+".png");
-        if(!qrImage.exists()) {
-            qrImage.mkdirs();
-        }
-        order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber+".png";
-        order.save();
-        FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);
-        QRCodeGenerator.generateCodeToStream(out, wxPayCode.toString(), BarcodeFormat.QR_CODE, 300, 300, "PNG");
         render(order);
     }
 
@@ -82,28 +85,32 @@ public class OrderController extends Controller {
         Map<String , Object> resultmap = new HashMap<>();
         Order order = Order.findByOrderNumber(orderNumber);
         if(order == null) {
-            //TODO 如果订单不存在 执行操作
+            resultmap.put("success" , false);
+            resultmap.put("msg" , "订单信息不存在,或订单已删除!");
+            renderJSON(resultmap);
         }
-        StringBuilder wxPayCode = new StringBuilder();
-        Properties conf = wxpayFactory.getConf();
-        wxPayCode.append("weixin://wxpay/bizpayurl?");
-        String timeStamp = DateUtil.dateToString(new Date(), "yyyyMMddHHmmss");
-        String nonce_str = RandomNumberUtil.generateRandomChars(16);
-        wxPayCode.append("sign="+getSign(conf.getProperty("appid") ,  conf.getProperty("mch_id") , order.orderNumber , conf.getProperty("KEY") , timeStamp , nonce_str));
-        wxPayCode.append("&appid="+conf.getProperty("appid"));
-        wxPayCode.append("&mch_id="+conf.getProperty("mch_id"));
-        wxPayCode.append("&product_id="+order.orderNumber);
-        wxPayCode.append("&time_stamp="+timeStamp);
-        wxPayCode.append("&nonce_str="+nonce_str);
-        Logger.info("wxPayCode : %s ------", wxPayCode.toString());
-        order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber+".png";
-        order.save();
-        File file = new File(FILE_UPLOAD_EDIT_DIR);
-        if(!file.exists()) {
-            file.mkdirs();
+        if(StringUtils.isBlank(order.qrImage)) {
+            StringBuilder wxPayCode = new StringBuilder();
+            Properties conf = wxpayFactory.getConf();
+            wxPayCode.append("weixin://wxpay/bizpayurl?");
+            String timeStamp = DateUtil.dateToString(new Date(), "yyyyMMddHHmmss");
+            String nonce_str = RandomNumberUtil.generateRandomChars(16);
+            wxPayCode.append("sign=" + getSign(conf.getProperty("appid"), conf.getProperty("mch_id"), order.orderNumber, conf.getProperty("KEY"), timeStamp, nonce_str));
+            wxPayCode.append("&appid=" + conf.getProperty("appid"));
+            wxPayCode.append("&mch_id=" + conf.getProperty("mch_id"));
+            wxPayCode.append("&product_id=" + order.orderNumber);
+            wxPayCode.append("&time_stamp=" + timeStamp);
+            wxPayCode.append("&nonce_str=" + nonce_str);
+            Logger.info("wxPayCode : %s ------", wxPayCode.toString());
+            order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png";
+            order.save();
+            File file = new File(FILE_UPLOAD_EDIT_DIR);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);
+            QRCodeGenerator.generateCodeToStream(out, wxPayCode.toString(), BarcodeFormat.QR_CODE, 300, 300, "PNG");
         }
-        FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);
-        QRCodeGenerator.generateCodeToStream(out, wxPayCode.toString(), BarcodeFormat.QR_CODE, 300, 300, "PNG");
         resultmap.put("success" , true);
         resultmap.put("path" , order.qrImage);
         renderJSON(resultmap);
