@@ -4,6 +4,7 @@ import controllers.merchant.auth.MerchantSecure;
 import controllers.system.auth.Secure;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.common.JSONEntity;
+import models.common.enums.OrderStatus;
 import models.constants.DeletedStatus;
 import models.operate.OperateUser;
 import models.product.*;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 商品管理
+ * 订单管理
  */
 @With(MerchantSecure.class)
 public class OrderController extends Controller {
@@ -35,7 +36,7 @@ public class OrderController extends Controller {
         if(StringUtils.isNotBlank(searchName)) {
             searchMap.put("searchName", "%"+searchName+"%");
         }
-       // searchMap.put("isTop" , true);
+        searchMap.put("status", OrderStatus.UNPAID);
         JPAExtPaginator<Order> resultPage = Order.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage, pageNumber);
     }
