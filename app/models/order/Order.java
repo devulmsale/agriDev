@@ -183,7 +183,7 @@ public class Order extends Model {
      * 分页查询.
      */
     public static JPAExtPaginator<Order>  findByCondition(Map<String, Object> conditionMap, String orderByExpress, int pageNumber, int pageSize) {
-        StringBuilder xsqlBuilder = new StringBuilder(" 1=1 ")
+        StringBuilder xsqlBuilder = new StringBuilder("t.deleted=models.constants.DeletedStatus.UN_DELETED ")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.orderNumber = {orderNumber} ~/")
                 .append("/~ and t.description = {description} ~/")
