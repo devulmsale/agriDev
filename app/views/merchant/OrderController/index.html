@@ -1,6 +1,5 @@
 #{extends 'merchantMain.html' /}
 #{set title:'管理员后台' /}
-
 <!-- content start -->
 <div class="admin-content">
 
@@ -64,12 +63,13 @@
                         <td>
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='@{weixin.OrderController.qrCode(order?.orderNumber)}'">
+                                    *{//location.href='@{weixin.OrderController.qrCode(order?.orderNumber)}}*
+                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="createRQCode(${order?.orderNumber})">
                                        <span class="am-icon-pencil-square-o"></span> 生成二维码
                                     </button>
-                                    *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
-                                        <a data-id="${product?.id}" href="#"></a><i class="am-icon-trash-o">删除</i>
-                                    </button>}*
+                                    *{<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">}*
+                                        *{<a data-id="${order?.orderNumber}" href="#"></a><i class="am-icon-trash-o">生成二维码</i>}*
+                                    *{</button>}*
 
                                 </div>
                             </div>
@@ -86,40 +86,45 @@
     </div>
 </div>
 <!-- content end -->
-<!-- 删除弹出提示开始 -->
-<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+
+<!-- 弹出层开始 -->
+<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">删除</div>
-        <div class="am-modal-bd">
-            你，确定删除吗？
-        </div>
-        <div class="am-modal-footer">
-            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
-            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        <div class="am-modal-hd">订单支付二维码</div>
+        <div class="am-modal-bd" id="am_alert_content">
+            <img id="rqCode_image" src="http://agritest.ulmsale.cn/public/upload/order/150812683486638.png">
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    $(function() {
-        $('#doc-modal-list').find('.am-icon-trash-o').add('#doc-confirm-toggle').
-                on('click', function() {
-                    $('#my-confirm').modal({
-                        relatedTarget: this,
-                        onConfirm: function(options) {
-                            var $link = $(this.relatedTarget).prev('a');
-                            var id = $link.data('id');
-                            location.href="/merchant/product/delete/"+id;
-                        },
-//                        closeOnConfirm: false,
-                        onCancel: function() {
-                            alert('抱歉，您未重置密码！');
-                        }
-                    });
-                });
-    });
+    function createRQCode(orderNumber) {
+        $.ajax({
+            type: 'POST',
+            url: "/order/ajax/qrCode" ,
+            data:{orderNumber : orderNumber},
+            success: function (data){
+               if(data.success) {
+                   $("#rqCode_image").attr("src",data.path);
+                   $('#my-prompt').modal({
+                       relatedTarget: this,
+                   });
+               } else {
+                   alert("生成支付二维码失败");
+               }
+            } ,
+            error:function (data){
+                alert("系统错误")
+                //dataJSON = data;
+            }
 
+        });
+
+
+
+    }
 </script>
-<!-- 删除弹出提示结束 -->
+<!-- 弹出层结束 -->
+
 <script type="text/javascript">
     $(document).ready(function(){
         laypage({

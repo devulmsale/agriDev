@@ -78,6 +78,7 @@ GET  /weixin/setmeal/confirm                              weixin.SetMealControll
 # Merchant Coupon Pay
 *   /order/qrCode                                         weixin.OrderController.qrCode
 *   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult
+*   /order/ajax/qrCode                                    weixin.OrderController.getAjaxImagePath
 
 # 微信支付回调
 POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
