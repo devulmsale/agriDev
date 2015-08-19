@@ -37,7 +37,7 @@ public class OrderController extends Controller {
             searchMap.put("searchName", "%"+searchName+"%");
         }
         searchMap.put("status", OrderStatus.UNPAID);
-        JPAExtPaginator<Order> resultPage = Order.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
+        JPAExtPaginator<Order> resultPage = Order.findByCondition(searchMap, "id desc", pageNumber, PAGE_SIZE);
         render(resultPage, pageNumber);
     }
 
@@ -124,25 +124,6 @@ public class OrderController extends Controller {
     }
 
 
-    public static void getBrandAndLable(Long parentTypeId ) {
-        Logger.info("parentTypeId :%s=",parentTypeId);
-        Map<String , Object> resultMap = new HashMap<>();
-        List<JSONEntity> typeBrandList=TypeBrand.getMapProductType(parentTypeId);
-        List<JSONEntity> typeLableList=TypeLable.getMapProductType(parentTypeId);
-        resultMap.put("brands" , typeBrandList);
-        resultMap.put("lables" , typeLableList);
-        renderJSON(resultMap);
-
-    }
-
-    public static void getSubClass(Long parentTypeId){
-        Logger.info("parentTypeIdsubclass :%s=",parentTypeId);
-        Map<String , Object> resultMap = new HashMap<>();
-        //查询二级类别
-        List<ProductType> productTypeList=ProductType.findByParentType(parentTypeId);
-        resultMap.put("subclasss",productTypeList);
-        renderJSON(resultMap);
-    }
 
     private static void initData() {
         OperateUser operateUser = Secure.getOperateUser();
