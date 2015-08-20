@@ -91,6 +91,7 @@ public class ChooseDishController extends Controller {
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
             for(OrderItem orderItem : orderItems){
                 orderItem.deleted = DeletedStatus.DELETED;
+                orderItem.salePrice=BigDecimal.ZERO;
                 orderItem.save();
             }
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
@@ -191,6 +192,7 @@ public class ChooseDishController extends Controller {
         // User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
+        String goods=goodsType.toString();
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
             if(StringUtils.isNotBlank(date) && StringUtils.isNotBlank(time)) {
@@ -235,7 +237,7 @@ public class ChooseDishController extends Controller {
             // 订单绑定优惠券 放到 redis 中
             Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber, 15 * 60, couponIds);
         }
-        render(orderNumber, order, needPay, useCoupon);
+        render(orderNumber, order, needPay, useCoupon , goods);
     }
 
     //删除订单
