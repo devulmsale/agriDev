@@ -11,6 +11,7 @@ import models.order.*;
 import models.product.Product;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
+import play.Logger;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -277,6 +278,7 @@ public class OrderBuilder {
      */
     public OrderBuilder recalcOrderItem() {
         if (order.orderItems != null) {
+            Logger.info("orderItem 不为null");
             order.amount = BigDecimal.ZERO;
             for (OrderItem orderItem : order.orderItems) {
                 if (orderItem.salePrice == null) {
