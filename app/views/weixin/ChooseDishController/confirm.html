@@ -18,7 +18,7 @@
     #{list imgOrderItemList , as :'oi'}
         <li>
             <a href="#">
-                <img src="${oi?.url}">
+                <img src="${oi?.url == null || oi?.url == ''  ? "/public/weixin/img/p1.jpg" : oi.url}">
                 <h3>${oi?.goods?.name}</h3>
                 <em>￥${oi?.goods?.salePrice}</em>
                 <h3>数量:${oi?.buyNumber}</h3>
