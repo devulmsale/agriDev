@@ -75,6 +75,10 @@
 #{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
     $(document).ready(function(){
+        var couponError = '${flash.get("error")}';
+        if(couponError != null && couponError != "") {
+            showAlart(couponError);
+        }
         $(".txtadd").click(function(){
             var needPay='${order?.amount}';
             var couponIds = "";
