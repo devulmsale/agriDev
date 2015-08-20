@@ -2,6 +2,7 @@ package controllers.weixin;
 
 import controllers.auth.WxMpAuth;
 import models.coupon.CouponBatch;
+import models.mert.Merchant;
 import play.mvc.Controller;
 import play.mvc.With;
 import java.util.*;
