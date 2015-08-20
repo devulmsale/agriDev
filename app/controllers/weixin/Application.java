@@ -37,15 +37,10 @@ import java.util.*;
 //@With(WxMpAuth.class)
 public class Application extends Controller {
 
-    private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
-
     public static void index() {
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
     }
-
-
-
 
 
 }

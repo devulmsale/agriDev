@@ -90,18 +90,23 @@ public class ChooseDishController extends Controller {
         //User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
+            Logger.info("order不为空");
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
             for(OrderItem orderItem : orderItems){
                 orderItem.deleted = DeletedStatus.DELETED;
+                orderItem.salePrice=BigDecimal.ZERO;
                 orderItem.save();
+                Logger.info("删除orderItem");
             }
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+                Logger.info("order2:%s",order.orderNumber);
                 OrderBuilder orderBuilder = OrderBuilder.orderNumber(order.orderNumber);
                 cartToOrder(orderBuilder, carts);
             }
         }
 
         if(order == null) {
+            Logger.info("order 为空！");
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 //TODO 发布时改成注释的orderBuilder增加user
                 //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
