@@ -1,20 +1,24 @@
 package controllers.weixin;
 
+import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import me.chanjar.weixin.common.util.StringUtils;
+import models.common.DateUtil;
 import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.coupon.Coupon;
 import models.coupon.CouponBatch;
+import models.mert.Merchant;
 import models.mert.MerchantProductType;
 import models.mert.hall.HallTable;
 import models.mert.hall.MerchantHall;
 import models.order.Order;
 import models.order.OrderItem;
 import models.order.OrderUser;
+import models.order.User;
 import models.product.Product;
 import models.product.ProductImage;
 import models.vo.GoodsTypeVO;
@@ -22,7 +26,9 @@ import models.vo.OrderItemVO;
 import models.vo.OrderVO;
 import order.OrderBuilder;
 import play.Logger;
+import play.modules.redis.Redis;
 import play.mvc.Controller;
+import play.mvc.With;
 import util.common.RandomNumberUtil;
 
 import java.math.BigDecimal;
@@ -39,36 +45,38 @@ public class ChooseDishController extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-       //Merchant merchant = WxMpAuth.currentUser().merchant;
-       // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
-      //  Merchant merchant = Merchant.findByLinkId("kehao");
-       // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+        //Merchant merchant = WxMpAuth.currentUser().merchant; //TODO 12L修改成merchant.id
+
+        //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
+//        Merchant merchant = Merchant.findByLinkId("kehao");
+        // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
+        List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        //查询商户商品的类别  TODO 获取商户号 merchant.id
         List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
             Logger.info(" id = %s  |  productList : %s" ,mpt.id.toString() , productList.size());
-           //根据商品Id查询图片
+            //根据商品Id查询图片
             for(Product pro:productList){
                 Logger.info("商品Id :%s",pro.id);
                 ProductImage productImage=ProductImage.findProductImage(pro.id);
                 //TODO 商品图片宽高需要获取
                 if(null != productImage) {
-                    String imageUrl = images(productImage.uFid, "490", "290");
-                    pro.url = imageUrl;
+                    String responseBody = images(productImage.uFid, "490", "290");
+                    pro.url = responseBody;
                 }
+                imgUrlList.add(pro);
+                Logger.info("imgUrlList :%s",imgUrlList.size());
             }
             productMap.put(mpt.id.toString(), productList);
         }
         String uuid = RandomNumberUtil.generateRandomNumberString(16);
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
-        //TODO render 中传入merchant 为页面获取linkId
-        render(merchantProductTypeList, productMap ,goodsType , uuid  );
+        //TODO 发布时去掉render的注释
+        render(merchantProductTypeList, productMap ,goodsType , uuid , imgUrlList /*, merchant*/);
     }
 
 
@@ -78,9 +86,8 @@ public class ChooseDishController extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-       // User user = WxMpAuth.currentUser().user;
-
-
+        //TODO 发布时去掉user的注释
+        //User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
@@ -96,7 +103,7 @@ public class ChooseDishController extends Controller {
 
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
+                //TODO 发布时改成注释的orderBuilder增加user
                 //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
@@ -124,7 +131,6 @@ public class ChooseDishController extends Controller {
             }
             imgOrderItemList.add(oi);
         }
-
         render(order, imgOrderItemList, goodsType);
     }
 
@@ -135,20 +141,18 @@ public class ChooseDishController extends Controller {
             String[] cart_Num_Array = cartStr.split("_");
             Long ProductId = Long.valueOf(cart_Num_Array[0]);
             Integer number = Integer.valueOf(cart_Num_Array[1]);
-           // Cart cart = Cart.findById(cartId);
             Product product=Product.findById(ProductId);
             if(product != null) {
                 orderBuilder.addProduct(product)
                         .originalPrice(BigDecimal.ONE)
                         .salePrice(product.salePrice.multiply(new BigDecimal(number)))
-                                .buyNumber(number)
-                                .build()
-                                .changeToUnPaid();
+                        .buyNumber(number)
+                        .build()
+                        .changeToUnPaid();
             }
         }
     }
-    public static void detail(String orderNumber , String useCoupon , OrderGoodsType goodsType)
-    {
+    public static void detail(String orderNumber , String useCoupon , OrderGoodsType goodsType){
         Logger.info("detail OrderGoodsType:%s==",goodsType);
         String goods=goodsType.toString();
         Logger.info("orderNumber :%s || useCoupon :%s",orderNumber , useCoupon);
@@ -169,33 +173,36 @@ public class ChooseDishController extends Controller {
         }
         Order order=Order.findByOrderNumber(orderNumber);
         //根据用户查询用户购买的优惠券，判断用户购买的优惠券未绑定订单
-        // User user = WxMpAuth.currentUser().user;TODO 上线时需要获取微信用户
-        List<Coupon> couponList=Coupon.findCouponByLoginUser(2l);
+        //User user = WxMpAuth.currentUser().user; TODO 获取用户user_id
+        // 查询出所有可用的优惠券
+        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(2l);
+        // 定义一个返回的优惠券
+        List<Coupon> couponList = new ArrayList<>();
+        // 循环优惠券.  查看 是否在 redis 中存在. 即 该优惠券 是否已经绑定其他订单. 如果绑定 则前台不再显示该优惠券
+        for(Coupon coupon : userAllCanUsedList) {
+            String redisCouponId = Redis.get(coupon.getRedisLockKey());
+            // redis 中 不存在.   添加到 返回页面的 couponList 中
+            if(StringUtils.isBlank(redisCouponId)) {
+                couponList.add(coupon);
+            }
+        }
         Logger.info("用户卡券数量 :%s",couponList.size());
         render(orderNumber, tableMap , order , useCoupon , couponList , goods);
     }
 
     public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds , String date ,String time ,OrderGoodsType goodsType) throws Exception{
-        /*if(validation.hasErrors()) {
-            params.flash(); // add http parameters to the flash scope
-            validation.keep(); // keep the errors for the next request
-            Logger.info("校验失败！");
-            detail(orderNumber, useCoupon);
-        }*/
         // User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            if(null != date && null != time) {
-                String dt = date + " " + time;
-                Date date1 = new Date();
-                date1 = formatter.parse(dt);
-                orderUser.time=date1;
+            if(StringUtils.isNotBlank(date) && StringUtils.isNotBlank(time)) {
+                String dateTimes = date + " " + time;
+                orderUser.time = DateUtil.stringToDate(dateTimes, "yyyy-MM-dd HH:mm");
             }
+
             if(goodsType.toString().equals("DOT_FOOD") || goodsType.toString().equals("BOOK_FOOD")){
-                orderUser.merchantHall=orderUser.hallTable.hall;
+                orderUser.merchantHall = orderUser.hallTable.hall;
             }
             orderUser.deleted = DeletedStatus.UN_DELETED;
             orderUser.createdAt = new Date();
@@ -203,29 +210,35 @@ public class ChooseDishController extends Controller {
             orderUser.save();
         }
         Logger.info("orderNumber :%s=",orderNumber);
-        BigDecimal orderAmount=order.amount;
-        Logger.info("couponIds:%s=",couponIds);
-        BigDecimal couponPirce= BigDecimal.valueOf(0.0);
-        BigDecimal needPay=BigDecimal.valueOf(0.0);
-        Coupon coupon=null;
-        if(null != couponIds && !couponIds.equals("")){
-            String [] coupons=couponIds.split(",");
-            for(String couponId :coupons) {
-                coupon = Coupon.findById(Long.valueOf(couponId));
-                CouponBatch couponBatch= CouponBatch.findById(Long.valueOf(coupon.couponBatch.id));
-                couponPirce= couponPirce.add(couponBatch.costPrice);
+        // 订单总金额
+        BigDecimal orderAmount = order.amount;
+        // 卡券支付金额
+        BigDecimal couponPirce = BigDecimal.ZERO;
+        BigDecimal needPay = BigDecimal.ZERO;
+        if(StringUtils.isNotBlank(couponIds)){
+            String[] coupons = couponIds.split(",");
+            for(String couponId : coupons) {
+                Coupon coupon = Coupon.findById(Long.valueOf(couponId));
+                String redisCouponId = Redis.get(coupon.getRedisLockKey());
+                // 证明这张会员卡 在 redis中存在 . 也就是说 这样优惠券 正在被别的订单所使用
+                if(StringUtils.isNotBlank(redisCouponId)) {
+                    flash.put("error" , "券号:"+ coupon.couponNumber + "被其他订单使用.");
+                    detail(orderNumber, useCoupon, goodsType);
+                } else {
+                    CouponBatch couponBatch = CouponBatch.findById(Long.valueOf(coupon.couponBatch.id));
+                    couponPirce = couponPirce.add(couponBatch.costPrice);
+                    Redis.setex(coupon.getRedisLockKey(), 15 * 60, couponId);
+                }
             }
-            needPay=orderAmount.subtract(couponPirce);
-            int pay =needPay.compareTo(BigDecimal.ZERO);
-            if(pay ==0 || pay == -1){
-                needPay=BigDecimal.ZERO;
-            }else if(pay == 1){
-                needPay=needPay;
+
+            needPay = orderAmount.subtract(couponPirce);
+            if(needPay.compareTo(BigDecimal.ZERO) < 1) {
+                needPay = BigDecimal.ZERO;
             }
-            Logger.info("needPay :%s",needPay);
+            // 订单绑定优惠券 放到 redis 中
+            Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.id, 15 * 60, couponIds);
         }
-        String goods=goodsType.toString();
-        render(orderNumber, order, needPay, useCoupon , goods);
+        render(orderNumber, order, needPay, useCoupon);
     }
 
     //删除订单
@@ -246,10 +259,6 @@ public class ChooseDishController extends Controller {
         order.save();
         redirect("/weixin/products");
     }
-
-
-
-
 
 
     public static String images(String ufid,String width ,String height){
