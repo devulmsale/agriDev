@@ -1,0 +1,62 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+
+<header class="topbar titbg">
+    <a href="" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+        支付订单
+    </div>
+    <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
+</header>
+
+
+<section class="warp pay page">
+    #{if goods == 'DOT_FOOD'}
+        <div class="tit">点餐订单</div>
+    #{/if}
+    #{if goods == 'BOOK_FOOD'}
+        <div class="tit">预订订单</div>
+    #{/if}
+    #{if goods == 'TAKE_AYAY'}
+        <div class="tit">外卖订单</div>
+    #{/if}
+    #{if goods == 'PACK'}
+        <div class="tit">打包订单</div>
+    #{/if}
+    <div class="payinfo">
+        *{<p>就餐时间：<span>8月10日 17点</span></p>}*
+        #{if useCoupon == ''}
+            <p>订单合计*{（含送餐费、打包费）}*:<em>￥${order?.amount}</em></p>
+        #{/if}
+        #{if useCoupon == '1'}
+            <p>订单合计*{（含送餐费、打包费）}*:<em>￥${needPay}</em></p>
+        #{/if}
+    </div>
+    #{if useCoupon == ''}
+        <div class="payfor">
+            <a href="#" class="btn2">网银支付</a>
+            <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">微信支付</a>
+            <a href="javascript:history.go(-1);" class="btn1">取消</a>
+        </div>
+    #{/if}
+    #{if useCoupon == '1'}
+
+        <div class="payfor">
+            #{if needPay > 0}
+              <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">确认支付</a>
+            #{/if}
+            #{if needPay <= 0}
+                <a href="#" class="btn2">确认支付</a>*{更新订单}*
+            #{/if}
+            <a href="javascript:history.go(-1);" class="btn1">取消</a>
+        </div>
+    #{/if}
+
+
+
+</section>
+#{include '/foot.html'/}
+
+<div class="footspace"></div>

@@ -1,8 +1,6 @@
-
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
 <script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
-
 <script type="text/javascript">
         $(document).ready(function(){
             var uuid=$("#uuid").val();
@@ -169,7 +167,12 @@
                     </p>
                 </div>
                 <a href="javascript:void(0)">
-                    <img src="${product?.url}">
+                    #{if product?.url != null && product?.url != ''}
+                        <img src="${product?.url}">
+                    #{/if}
+                    #{else}
+                        <img src="/public/weixin/img/p1.jpg">
+                    #{/else}
                 </a>
             </dd>
         #{/list}

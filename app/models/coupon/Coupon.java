@@ -26,6 +26,7 @@ import java.util.Map;
 @Table(name = "coupons")
 public class Coupon extends Model {
 
+    public static final String REDIS_LOCK_KEY = "LocalCouponLock";
 
     /**
      * 优惠券券号
@@ -154,6 +155,12 @@ public class Coupon extends Model {
     public static Long findCouponCountByLoginUser(Long userId){
         return Coupon.count("deleted = ? and user.id = ? and order = null ", DeletedStatus.UN_DELETED, userId);
     }
+
+    @Transient
+    public String getRedisLockKey() {
+        return Coupon.REDIS_LOCK_KEY + this.id + "@coupon";
+    }
+
 
     @Override
     public String toString() {

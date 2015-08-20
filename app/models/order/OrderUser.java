@@ -98,6 +98,11 @@ public class OrderUser extends Model {
     @Column(name = "remark", length = 1000)
     public String remark;
 
+    public OrderUser() {
+        super();
+    }
+
+
     /**
      * 分页查询.
      */
