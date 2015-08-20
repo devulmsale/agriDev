@@ -38,7 +38,7 @@ import java.util.*;
 public class Application extends Controller {
 
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
-    
+
     public static void index() {
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
