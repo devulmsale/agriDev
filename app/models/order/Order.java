@@ -40,6 +40,7 @@ public class Order extends Model {
     private static final long serialVersionUID = 2194331136652323L;
     public static final String ORDER_CHECKOUT_ERROR = "error";
     public static final String ORDER_CHECKOUT_OK = "ok";
+    public static final String ORDDR_LOCK_COUPON_IDS = "orderLockCouponIds";
 
     /**
      * 订单号
