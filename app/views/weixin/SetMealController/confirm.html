@@ -29,7 +29,8 @@
     </ul>
     <div class="price">
 
-        <p>总价：<em>￥${order?.amount}</em><label for="checkbox1"> <input type="checkbox" name="useCoupon" value="1" id="checkbox1">使用抵扣券</label></p><a href="#" class="cd-popup-trigger btn radius10 btn2">删除此订单</a>
+        <p>总价：<em>￥${order?.amount}</em></p>
+        *{<a href="#" class="cd-popup-trigger btn radius10 btn2">删除此订单</a>}*
     </div>
     *{<div class="notice">
         <label for="textarea">订单备注：</label>
@@ -73,7 +74,7 @@
 <div class="footbtn" >
         <input type="hidden" name="goodsType" value="${goodsType}">
         <input type="hidden" name="orderNumber" value="${order?.orderNumber}">
-        <a  href="javascript:void(0)" onclick="getSub()" class="btn1">选好了</a>
+        <a  href="javascript:void(0)" onclick="getSub()" class="btn1">提交订单</a>
 
 </div>
 </form>

@@ -93,7 +93,8 @@
      </div>
   </div>
     <form action="/weixin/setmeal/pays" id="orderFormId" method="POST">
-        <input type="text" name="setmealId" value="${setMeal.id}">
+        <input type="hidden" name="setmealId" value="${setMeal.id}">
+        <input type="hidden" name="uuid" value="${uuid}">
     </form>
   <div class="detail_notice page1">
      <div class="tit">购买须知</div>

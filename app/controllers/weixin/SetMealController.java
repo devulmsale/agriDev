@@ -16,6 +16,7 @@ import order.OrderBuilder;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.With;
+import util.common.RandomNumberUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -87,36 +88,48 @@ public class SetMealController extends Controller {
             Logger.info("responseBody==="+responseBody);
             imgUrlList.add(responseBody);
         }
-        Logger.info("imgUrlList==="+imgUrlList.size());
-        render(setMeal, imgUrlList, productSetMealList);
+        //生成uuId
+        String uuid = RandomNumberUtil.generateRandomNumberString(16);
+        render(setMeal, imgUrlList, productSetMealList,uuid);
     }
 
 
-    public static void pays(Long setmealId) {
+    public static void pays(Long setmealId , String uuid) {
      //   WeixinUser wxUser = WxMpAuth.currentUser();
       //TODO weixin_User_Id
         WeixinUser wxUser= WeixinUser.findById(2l);
         SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id, setmealId);
        // SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id,setmealId);
-        Logger.info("2");
-        Order order = null;
-        if(setMeal != null) {
-            Logger.info("3");
-            // 生成订单
 
-            OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.PC).goodsType(OrderGoodsType.SET_MEAL);
-            order = orderBuilder.save();  //生成订单号
-            // 生成 orderItem  如果有多个 需要多条
-            orderBuilder.addGoods(setMeal.findOrCreateGoods())
-                    .originalPrice(setMeal.originalPrice)
-                    .salePrice(setMeal.presentPrice)
-                    .buyNumber(1)
-                    .build()
-                    .changeToUnPaid();
+        Order uuidOrder = Order.findByUuid(uuid);
+
+        if(uuidOrder!=null){
+           // redirect("/weixin/setmeal/confirm?orderNumber=" + uuidOrder.orderNumber+"&setmealId="+setmealId);
+            redirect("/weixin/setmeal/"+uuidOrder.orderNumber+"/"+setmealId+"/confirm");
+        }else{
+            Logger.info("2");
+            Order order = null;
+            if(setMeal != null) {
+                Logger.info("3");
+                // 生成订单
+
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.PC).goodsType(OrderGoodsType.SET_MEAL).uuid(uuid);
+                order = orderBuilder.save();  //生成订单号
+                // 生成 orderItem  如果有多个 需要多条
+                orderBuilder.addGoods(setMeal.findOrCreateGoods())
+                        .originalPrice(setMeal.originalPrice)
+                        .salePrice(setMeal.presentPrice)
+                        .buyNumber(1)
+                        .build()
+                        .changeToUnPaid();
+            }
+            Logger.info("4");
+            // redirect("/order/qrCode?orderNumber=" + order.orderNumber);
+            redirect("/weixin/setmeal/"+order.orderNumber+"/"+setmealId+"/confirm");
         }
-        Logger.info("4");
-       // redirect("/order/qrCode?orderNumber=" + order.orderNumber);
-        redirect("/weixin/setmeal/confirm?orderNumber=" + order.orderNumber+"&setmealId="+setmealId);
+
+
+
     }
 
     //防止刷新页面重新插入订单

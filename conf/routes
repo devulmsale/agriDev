@@ -71,7 +71,7 @@ GET /merchant/package/upEditPic                             merchant.ProductSetM
 GET  /weixin/setmeal/{setmealId}/detail                   weixin.SetMealController.detail
 * /weixin/setmeal/pays                                    weixin.SetMealController.pays
 GET  /weixin/setmeals/{linkId}/index                      weixin.SetMealController.index
-GET  /weixin/setmeal/confirm                              weixin.SetMealController.confirm
+GET  /weixin/setmeal/{orderNumber}/{setmealId}/confirm    weixin.SetMealController.confirm
 
 #前台个人中心
 GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
