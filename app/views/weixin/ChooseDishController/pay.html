@@ -27,14 +27,14 @@
     #{/if}
     <div class="payinfo">
         *{<p>就餐时间：<span>8月10日 17点</span></p>}*
-        #{if useCoupon == ''}
+        #{if useCoupon == '0'|| useCoupon == ''}
             <p>订单合计*{（含送餐费、打包费）}*:<em>￥${order?.amount}</em></p>
         #{/if}
         #{if useCoupon == '1'}
             <p>订单合计*{（含送餐费、打包费）}*:<em>￥${needPay}</em></p>
         #{/if}
     </div>
-    #{if useCoupon == ''}
+    #{if useCoupon == '' || useCoupon == '0'}
         <div class="payfor">
             <a href="#" class="btn2">网银支付</a>
             <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">微信支付</a>
