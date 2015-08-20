@@ -56,10 +56,7 @@ public class OrderController extends Controller {
             if (orderFile.exists()) {
                 orderFile.mkdirs();
             }
-            File qrImage = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png");
-            if (!qrImage.exists()) {
-                qrImage.mkdirs();
-            }
+//            File qrImage = new File(Play.applicationPath.getAbsolutePath() + FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png");
             order.qrImage = FILE_UPLOAD_EDIT_DIR + order.orderNumber + ".png";
             order.save();
             FileOutputStream out = new FileOutputStream(Play.applicationPath.getAbsolutePath() + order.qrImage);

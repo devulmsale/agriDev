@@ -233,7 +233,7 @@ public class ChooseDishController extends Controller {
                 needPay = BigDecimal.ZERO;
             }
             // 订单绑定优惠券 放到 redis 中
-            Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.id, 15 * 60, couponIds);
+            Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber, 15 * 60, couponIds);
         }
         render(orderNumber, order, needPay, useCoupon);
     }
