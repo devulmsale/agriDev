@@ -55,9 +55,9 @@
         <div class="swiper-slide">
             <ul class="order_list">
             #{list orderPaidList,as:'orderpaid'}
-                <li><div class="list_l"><a href="../../Application/detail.html"><img src="${orderpaid.orderImage}"></a></div>
+                <li><div class="list_l"><a href="../../ChooseDishController/detail.html"><img src="${orderpaid.orderImage}"></a></div>
                     <div class="list_r">
-                        <h3><a href="../../Application/detail.html">
+                        <h3><a href="../../ChooseDishController/detail.html">
                             #{list orderpaid.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
                         </a></h3>
                         <span>菜品<i>${orderpaid.orderItemCount}</i>份<em>&{'goodstype.'+orderpaid.goodsType}</em></span>
