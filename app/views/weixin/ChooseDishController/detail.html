@@ -84,7 +84,7 @@
                 if(parseFloat(needPay) > 0) {
                     var coupon_id = $(this).attr("coupon_id");
                     var coupon_price = $(this).val();
-                    needPay = parseFloat(needPay) - parseFloat(coupon_price);
+                    needPay = (parseFloat(needPay) - parseFloat(coupon_price)).toFixed(2);
                     couponIds += coupon_id+",";
                 } else {
                     $(this).attr("checked",false);
