@@ -18,7 +18,6 @@ import play.mvc.Controller;
 import play.mvc.With;
 import util.common.RandomNumberUtil;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,15 +26,13 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/8/17.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class SetMealController extends Controller {
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
     public static void index(){
-        //TODO merchant_id
-      //  Merchant merchant= WxMpAuth.currentUser().merchant;
+        Merchant merchant= WxMpAuth.currentUser().merchant;
        // List<SetMealPic>  mealPicList= SetMealPic.findByMerchantId(21l);
         Map<SetMeal,String> map=new HashMap<>();
-       Merchant merchant = Merchant.findById(21l);
         List<SetMeal> setMealList=SetMeal.findByMerchant(merchant);
 //        HttpRequest httpRequest = HttpRequest
 //                .get("http://img.ulmsale.cn/getImageUrl")
@@ -69,9 +66,8 @@ public class SetMealController extends Controller {
      */
     public static void detail(Long setmealId){
         Logger.info("setmealId==="+setmealId);
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
-        //TODO merchant_id
-        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(21l,setmealId);
+       Merchant merchant = WxMpAuth.currentUser().merchant;
+        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(merchant.id,setmealId);
         List<ProductSetMeal> productSetMealList=ProductSetMeal.findProductSetMealBySetMeal(setMeal);
         List<SetMealPic> setMealPicList=SetMealPic.findBySetMeal(setMeal.id);
         List<String> imgUrlList=new ArrayList<>();
@@ -96,8 +92,7 @@ public class SetMealController extends Controller {
 
     public static void pays(Long setmealId , String uuid) {
      //   WeixinUser wxUser = WxMpAuth.currentUser();
-      //TODO weixin_User_Id
-        WeixinUser wxUser= WeixinUser.findById(2l);
+        WeixinUser wxUser= WxMpAuth.currentUser();
         SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id, setmealId);
        // SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id,setmealId);
 
@@ -123,7 +118,6 @@ public class SetMealController extends Controller {
                         .build()
                         .changeToUnPaid();
             }
-            Logger.info("4");
             // redirect("/order/qrCode?orderNumber=" + order.orderNumber);
             redirect("/weixin/setmeal/"+order.orderNumber+"/"+setmealId+"/confirm");
         }

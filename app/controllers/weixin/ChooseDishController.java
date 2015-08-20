@@ -38,14 +38,14 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class ChooseDishController extends Controller {
 
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-        //Merchant merchant = WxMpAuth.currentUser().merchant; //TODO 12L修改成merchant.id
+        Merchant merchant = WxMpAuth.currentUser().merchant;
 
         //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
 //        Merchant merchant = Merchant.findByLinkId("kehao");
@@ -53,7 +53,7 @@ public class ChooseDishController extends Controller {
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
@@ -75,8 +75,7 @@ public class ChooseDishController extends Controller {
         String uuid = RandomNumberUtil.generateRandomNumberString(16);
 
         Logger.info("获取商户商品类别 :%s=",merchantProductTypeList.size());
-        //TODO 发布时去掉render的注释
-        render(merchantProductTypeList, productMap ,goodsType , uuid , imgUrlList /*, merchant*/);
+        render(merchantProductTypeList, productMap ,goodsType , uuid , imgUrlList , merchant);
     }
 
 
@@ -86,8 +85,7 @@ public class ChooseDishController extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        //TODO 发布时去掉user的注释
-        //User user = WxMpAuth.currentUser().user;
+        User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             Logger.info("order不为空");
@@ -108,9 +106,8 @@ public class ChooseDishController extends Controller {
         if(order == null) {
             Logger.info("order 为空！");
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                //TODO 发布时改成注释的orderBuilder增加user
-                //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+//                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
                 cartToOrder(orderBuilder, carts);
             }
@@ -178,9 +175,9 @@ public class ChooseDishController extends Controller {
         }
         Order order=Order.findByOrderNumber(orderNumber);
         //根据用户查询用户购买的优惠券，判断用户购买的优惠券未绑定订单
-        //User user = WxMpAuth.currentUser().user; TODO 获取用户user_id
+        User user = WxMpAuth.currentUser().user;
         // 查询出所有可用的优惠券
-        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(2l);
+        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(user.id);
         // 定义一个返回的优惠券
         List<Coupon> couponList = new ArrayList<>();
         // 循环优惠券.  查看 是否在 redis 中存在. 即 该优惠券 是否已经绑定其他订单. 如果绑定 则前台不再显示该优惠券

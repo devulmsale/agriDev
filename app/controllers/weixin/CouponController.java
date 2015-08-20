@@ -79,10 +79,9 @@ public class CouponController extends Controller {
     public static void showCouponsBefore(String carts, String uuid) {
         Order order=null;
         if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-            //生成订单 并初初始化订单 TODO 发布时需要改成注释的orderBuilder,添加user
-            //User user = WxMpAuth.currentUser().user;
-            //OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(OrderGoodsType.COUPON);
-            OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(OrderGoodsType.COUPON).uuid(uuid);
+            User user = WxMpAuth.currentUser().user;
+            OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(OrderGoodsType.COUPON);
+//            OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(OrderGoodsType.COUPON).uuid(uuid);
             order = orderBuilder.save();  //生成订单号
             cartToOrder(orderBuilder, carts);
 
