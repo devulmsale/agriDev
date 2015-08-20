@@ -34,15 +34,16 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class Application extends Controller {
 
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
-    
+
     public static void index() {
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList);
     }
+
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
@@ -327,5 +328,6 @@ public class Application extends Controller {
         }
         renderJSON(orderVO);
     }
+
 
 }
