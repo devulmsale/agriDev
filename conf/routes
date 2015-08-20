@@ -7,7 +7,7 @@ GET     /                                                 Application.index
 GET     /weixin/products/{linkId}/{goodsType}             weixin.ChooseDishController.products
 POST    /weixin/confirms                                  weixin.ChooseDishController.confirms
 *       /weixin/confirm                                   weixin.ChooseDishController.confirm
-POST    /weixin/detail                                    weixin.ChooseDishController.detail
+*       /weixin/detail                                    weixin.ChooseDishController.detail
 POST    /weixin/pay                                       weixin.ChooseDishController.pay
 GET     /weixin/{linkId}                                  weixin.Application.index
 POST    /weixin/getOrderItembyAjax                        weixin.ChooseDishController.getOrderItembyAjax

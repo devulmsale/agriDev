@@ -88,18 +88,23 @@ public class ChooseDishController extends Controller {
         User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
+            Logger.info("order不为空");
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
             for(OrderItem orderItem : orderItems){
                 orderItem.deleted = DeletedStatus.DELETED;
+                orderItem.salePrice=BigDecimal.ZERO;
                 orderItem.save();
+                Logger.info("删除orderItem");
             }
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
+                Logger.info("order2:%s",order.orderNumber);
                 OrderBuilder orderBuilder = OrderBuilder.orderNumber(order.orderNumber);
                 cartToOrder(orderBuilder, carts);
             }
         }
 
         if(order == null) {
+            Logger.info("order 为空！");
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
                 OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
 //                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
@@ -191,6 +196,7 @@ public class ChooseDishController extends Controller {
         // User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
+        String goods=goodsType.toString();
         // TODO 上线后 判断 订单用户跟登录用户是否一致  if(order != null && order.user == user) {
         if(order != null) {
             if(StringUtils.isNotBlank(date) && StringUtils.isNotBlank(time)) {
@@ -227,15 +233,17 @@ public class ChooseDishController extends Controller {
                     Redis.setex(coupon.getRedisLockKey(), 15 * 60, couponId);
                 }
             }
-
+            Logger.info("orderAmount :%s",orderAmount);
             needPay = orderAmount.subtract(couponPirce);
+            Logger.info("needPay11 :%s",needPay);
             if(needPay.compareTo(BigDecimal.ZERO) < 1) {
                 needPay = BigDecimal.ZERO;
             }
+            Logger.info("needPay22 :%s",needPay);
             // 订单绑定优惠券 放到 redis 中
             Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.id, 15 * 60, couponIds);
         }
-        render(orderNumber, order, needPay, useCoupon);
+        render(orderNumber, order, needPay, useCoupon , goods);
     }
 
     //删除订单
