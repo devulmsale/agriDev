@@ -62,7 +62,7 @@
         <input type="hidden" name="orderNumber" value="${orderNumber}">
         <input type="hidden" id="needPayPrice" value="${order?.amount}" name="needPayPrice">
         <input type="hidden" id="couponIds" name="couponIds">
-        <input type="hidden" name="useCoupon" value="${useCoupon}">
+        <input type="hidden" id="useCoupon" name="useCoupon" value="${useCoupon}">
     </ul>
     </form>
   </div>
@@ -75,6 +75,7 @@
 #{include 'weixin/Application/modal.html'/}
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#useCoupon').val(0);
         $(".txtadd").click(function(){
             var needPay='${order?.amount}';
             var couponIds = "";
@@ -91,12 +92,16 @@
                     showAlart("钱多了");
                 }
                 $('#couponIds').val(couponIds);
+                $('#useCoupon').val(1);
                 $('#needPayPrice').val(parseFloat(needPay) < 0 ? 0 : needPay);
-                document.getElementById("needPay").innerHTML="￥"+ (parseFloat(needPay) < 0 ? 0 : needPay);
+                $('#needPay').html(parseFloat(needPay) < 0 ? 0 : needPay);
+               // document.getElementById("needPay").innerHTML="￥"+ (parseFloat(needPay) < 0 ? 0 : needPay);
             });
             if(count == 0) {
                 $('#couponIds').val('');
                 $('#needPayPrice').val('${order?.amount}');
+                $('#needPay').html('${order?.amount}');
+               $('#useCoupon').val(0);
             }
         });
     });
