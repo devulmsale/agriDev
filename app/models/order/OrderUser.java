@@ -42,7 +42,6 @@ public class OrderUser extends Model {
     /**
      * 订单
      */
-
     @JoinColumn(name = "order_no")
     @ManyToOne
     public Order order;
@@ -135,7 +134,7 @@ public class OrderUser extends Model {
 
 
     public static List<OrderUser> findByUnpaidAndTimes(Date date){
-        return OrderUser.find("order.status = ? and  deleted = ? and time < ? and (order.goodsType = ? or order.goodsType = ?)" , OrderStatus.UNPAID ,  DeletedStatus.UN_DELETED , date , OrderGoodsType.BOOK_FOOD , OrderGoodsType.TAKE_AYAY).fetch();
+        return OrderUser.find("order.status = ? and  deleted = ? and time < ? " , OrderStatus.UNPAID ,  DeletedStatus.UN_DELETED , date).fetch();
     }
 
     /**
