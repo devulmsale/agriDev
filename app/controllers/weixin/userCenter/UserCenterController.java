@@ -12,7 +12,7 @@ public class UserCenterController extends Controller {
 
     public static  void index(){
         // User user=WxMpAuth.currentUser().user;
-        //TODO ÔİÊ±È¡µ½userId
+        //TODO æš‚æ—¶å–åˆ°userId
         User user=User.findById(2l);
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);

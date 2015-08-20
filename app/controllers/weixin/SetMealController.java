@@ -26,13 +26,15 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/8/17.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class SetMealController extends Controller {
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
     public static void index(){
-        Merchant merchant= WxMpAuth.currentUser().merchant;
+        //TODO merchant_id
+      //  Merchant merchant= WxMpAuth.currentUser().merchant;
        // List<SetMealPic>  mealPicList= SetMealPic.findByMerchantId(21l);
         Map<SetMeal,String> map=new HashMap<>();
+       Merchant merchant = Merchant.findById(21l);
         List<SetMeal> setMealList=SetMeal.findByMerchant(merchant);
 //        HttpRequest httpRequest = HttpRequest
 //                .get("http://img.ulmsale.cn/getImageUrl")
@@ -66,8 +68,9 @@ public class SetMealController extends Controller {
      */
     public static void detail(Long setmealId){
         Logger.info("setmealId==="+setmealId);
-        Merchant merchant = WxMpAuth.currentUser().merchant;
-        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(merchant.id,setmealId);
+       // Merchant merchant = WxMpAuth.currentUser().merchant;
+        //TODO merchant_id
+        SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(21l,setmealId);
         List<ProductSetMeal> productSetMealList=ProductSetMeal.findProductSetMealBySetMeal(setMeal);
         List<SetMealPic> setMealPicList=SetMealPic.findBySetMeal(setMeal.id);
         List<String> imgUrlList=new ArrayList<>();
@@ -91,8 +94,8 @@ public class SetMealController extends Controller {
 
     public static void pays(Long setmealId) {
      //   WeixinUser wxUser = WxMpAuth.currentUser();
-
-        WeixinUser wxUser= WxMpAuth.currentUser();
+      //TODO weixin_User_Id
+        WeixinUser wxUser= WeixinUser.findById(2l);
         SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id, setmealId);
        // SetMeal setMeal=SetMeal.findByMerchantAndSetMealId(wxUser.merchant.id,setmealId);
         Logger.info("2");

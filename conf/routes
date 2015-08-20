@@ -4,13 +4,13 @@
 
 # Home page
 GET     /                                                 Application.index
-GET     /weixin/products/{linkId}/{goodsType}             weixin.Application.products
-POST    /weixin/confirms                                  weixin.Application.confirms
-*       /weixin/confirm                                   weixin.Application.confirm
-POST    /weixin/detail                                    weixin.Application.detail
-POST    /weixin/pay                                       weixin.Application.pay
+GET     /weixin/products/{linkId}/{goodsType}             weixin.ChooseDishController.products
+POST    /weixin/confirms                                  weixin.ChooseDishController.confirms
+*       /weixin/confirm                                   weixin.ChooseDishController.confirm
+POST    /weixin/detail                                    weixin.ChooseDishController.detail
+POST    /weixin/pay                                       weixin.ChooseDishController.pay
 GET     /weixin/{linkId}                                  weixin.Application.index
-POST    /weixin/getOrderItembyAjax                        weixin.Application.getOrderItembyAjax
+POST    /weixin/getOrderItembyAjax                        weixin.ChooseDishController.getOrderItembyAjax
 
 
 # Ignore favicon requests
@@ -68,7 +68,7 @@ POST /merchant/package/updatePic                             merchant.ProductSet
 GET /merchant/package/upEditPic                             merchant.ProductSetMealController.upEditPic
 
 #套餐管理前台
-GET  /weixin/setmeal/detail                               weixin.SetMealController.detail
+GET  /weixin/setmeal/{setmealId}/detail                   weixin.SetMealController.detail
 * /weixin/setmeal/pays                                    weixin.SetMealController.pays
 GET  /weixin/setmeals/{linkId}/index                      weixin.SetMealController.index
 GET  /weixin/setmeal/confirm                              weixin.SetMealController.confirm

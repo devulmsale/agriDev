@@ -11,7 +11,7 @@
     <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a>
 </header>
 
-<form id="subform"  method="POST" action="@{weixin.Application.detail()}">
+<form id="subform"  method="POST" action="@{weixin.ChooseDishController.detail()}">
 <section class="warp confirm page">
 
     <ul>
@@ -44,7 +44,7 @@
     <div class="cd-popup-container">
         <p>你确定你要删除此订单吗?</p>
         <ul class="cd-buttons">
-            <li><a href="@{weixin.Application.deleteOrder(order?.orderNumber)}">是</a></li>
+            <li><a href="@{weixin.ChooseDishController.deleteOrder(order?.orderNumber)}">是</a></li>
 
         </ul>
         <a href="#" class="cd-popup-close img-replace">关闭</a>

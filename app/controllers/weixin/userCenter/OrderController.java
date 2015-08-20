@@ -14,17 +14,17 @@ public class OrderController extends Controller {
 
     /**
      *
-     * @param type //typeÎªÈç¹ûÖ´ĞĞÁË¶©µ¥É¾³ı£¬ÔòtypeÎª£º¡°delete¡± ·ñÔğÎªnull
+     * @param type //typeä¸ºå¦‚æœæ‰§è¡Œäº†è®¢å•åˆ é™¤ï¼Œåˆ™typeä¸ºï¼šâ€œdeleteâ€ å¦è´£ä¸ºnull
      */
     public static void index(String type) {
-        //TODO ÔİÊ±È¡µ½userId
+        //TODO æš‚æ—¶å–åˆ°userId
         User user=User.findById(2l);
         List<Order> orderUnpaidList=Order.getUserUnPayOrders(user);
         List<Order> orderPaidList=Order.getUserPaidOrders(user);
 
 
         if(type!=null&&type.equals("delete")){
-            flash.put("type" , "true");
+            flash.put("type", "true");
         }
         render(orderUnpaidList,orderPaidList);
     }
