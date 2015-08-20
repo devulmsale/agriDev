@@ -17,6 +17,7 @@ import order.OrderBuilder;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.libs.IO;
+import play.modules.redis.Redis;
 import play.mvc.Controller;
 
 import java.io.UnsupportedEncodingException;
@@ -125,6 +126,21 @@ public class WeixinPayCallback extends Controller {
                 }
             }
         }
+
+        // 如果优惠券绑定订单. 那么 优惠券跟 order 绑定
+        String couponIds = Redis.get(Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber);
+        if(StringUtils.isNotBlank(couponIds)) {
+            String[] idArray = couponIds.split(",");
+            for(String id : idArray) {
+                Coupon coupon = Coupon.findById(Long.valueOf(id));
+                if(coupon != null) {
+                    coupon.order = order;
+                    coupon.bindUserAt = new Date();
+                    coupon.save();
+                }
+            }
+        }
+        Redis.del(new String[]{Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber});
     }
 
 }
