@@ -271,7 +271,7 @@ public class Application extends Controller {
                 );
         HttpResponse httpResponse = httpRequest.send();
         String responseBody = httpResponse.body();
-        Logger.info("responseBody==="+responseBody);
+        Logger.info("responseBody===" + responseBody);
         return responseBody;
     }
 
