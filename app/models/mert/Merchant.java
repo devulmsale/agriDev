@@ -128,6 +128,13 @@ public class Merchant extends Model {
     public String address; //地址
 
     /**
+     * 联系人
+     */
+    @Required (message = "请输入联系人")   //必填项目
+    @Column(name = "person")
+    public String person;
+
+    /**
      * 逻辑删除,0:未删除，1:已删除
      */
     @Enumerated(EnumType.ORDINAL)

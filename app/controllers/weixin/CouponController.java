@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by upshan on 15/8/11.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class CouponController extends Controller {
 
     public static final String COUPON_BING_ID = "coupon_bind_id_";
