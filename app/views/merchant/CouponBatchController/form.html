@@ -38,8 +38,18 @@
                         售价
                     </div>
                     <div class="am-u-sm-8 am-u-md-4">
+
+
                         <div id="nameStyle" class="am-form-group am-form-success">
-                            <input type="text" id="salePrice" name="batch.salePrice" value="${batch?.salePrice}" id="doc-ipt-warning" class="am-form-field">
+                            <select name="batch.salePrice">
+                                <option   ${batch?.salePrice?.format('#')=='50' ? 'selected="selected"':''} value="50">50元</option>
+                                <option   ${batch?.salePrice?.format('#')=='60' ? 'selected="selected"':''} value="60">60元</option>
+                                <option   ${batch?.salePrice?.format('#')=='70' ? 'selected="selected"':''} value="70">70元</option>
+                                <option   ${batch?.salePrice?.format('#')=='80' ? 'selected="selected"':''} value="80">80元</option>
+                                <option   ${batch?.salePrice?.format('#')=='90' ? 'selected="selected"':''} value="90">90元</option>
+                                <option   ${batch?.salePrice?.format('#')=='100' ? 'selected="selected"':''} value="100">100元</option>
+                            </select>
+
                         </div>
                     </div>
                     <div class="am-hide-sm-only am-u-md-6" style="color: red;">
