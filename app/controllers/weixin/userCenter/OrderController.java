@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/8/19.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class OrderController extends Controller {
 
     /**
@@ -24,9 +24,7 @@ public class OrderController extends Controller {
      * @param type //type为如果执行了订单删除，则type为：“delete” 否责为null
      */
     public static void index(String type) {
-        //TODO 暂时取到userId
-       // WeixinUser wxUser = WxMpAuth.currentUser();
-        WeixinUser wxUser = WeixinUser.findById(2l);
+       WeixinUser wxUser = WxMpAuth.currentUser();
         List<Order> orderUnpaidList=Order.getUserUnPayOrders(wxUser.user);
         List<Order> orderPaidList=Order.getUserPaidOrders(wxUser.user);
 

@@ -38,15 +38,14 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class ChooseDishController extends Controller {
 
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-        //TODO 获取商户
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
+       Merchant merchant = WxMpAuth.currentUser().merchant;
 
         //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
 //        Merchant merchant = Merchant.findByLinkId("kehao");
@@ -54,7 +53,7 @@ public class ChooseDishController extends Controller {
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
@@ -86,8 +85,6 @@ public class ChooseDishController extends Controller {
         Logger.info("点餐类型:%s",goodsType);
         Logger.info("获取到的UUID  : %s -----" , uuid);
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
-        //TODO user_id
-        //User user = WxMpAuth.currentUser().user;
         Order order = Order.findByUuid(uuid);
         if(order != null) {
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
@@ -156,9 +153,8 @@ public class ChooseDishController extends Controller {
         Logger.info("detail OrderGoodsType:%s==",goodsType);
         String goods=goodsType.toString();
         Logger.info("orderNumber :%s || useCoupon :%s",orderNumber , useCoupon);
-        //取大厅，桌号TODO merchant_id
-       // Merchant merchant = WxMpAuth.currentUser().merchant;
-        List<HallTable> hallTableList=HallTable.findByMerchant(21l);
+       Merchant merchant = WxMpAuth.currentUser().merchant;
+        List<HallTable> hallTableList=HallTable.findByMerchant(merchant.id);
         Map<MerchantHall,List<HallTable>> tableMap=new HashMap<MerchantHall,List<HallTable>>();
         for(HallTable ht:hallTableList){
             List<HallTable> tableList=new ArrayList<>();
@@ -173,10 +169,9 @@ public class ChooseDishController extends Controller {
         }
         Order order=Order.findByOrderNumber(orderNumber);
         //根据用户查询用户购买的优惠券，判断用户购买的优惠券未绑定订单
-        //TODO user_id
-       // User user = WxMpAuth.currentUser().user;
+       User user = WxMpAuth.currentUser().user;
         // 查询出所有可用的优惠券
-        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(2l);
+        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(user.id);
         // 定义一个返回的优惠券
         List<Coupon> couponList = new ArrayList<>();
         // 循环优惠券.  查看 是否在 redis 中存在. 即 该优惠券 是否已经绑定其他订单. 如果绑定 则前台不再显示该优惠券
