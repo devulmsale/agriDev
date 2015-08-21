@@ -13,12 +13,14 @@
 
 <section class="warp member_index page">
   <div class="tit">
-    <a href="member_account.html" class="radius5"><img src="public/weixin/img/tx1.jpg">
-    <strong>${user?.phone? user.phone:"未绑定手机号"}<em>V1</em></strong><i class="iconfont">&#xe62c;</i></a>
+    <a class="radius5">
+        <img src="/public/weixin/img/tx3.jpg">
+    <strong>${user?.phone? user.phone:"未绑定手机号"}<em>V1</em></strong><i class="iconfont">&#xe62c;</i>
+    </a>
   </div>
   <dl class="con">
     <dt><a href="/weixin/member/memorder" class="btn_cd fl">我的菜单<em>(${unPayCount})</em></a>
-        <a href="member_favorite.html" class="btn_sc fr">我的抵用券 <em>(${couponCount})</em></a>
+        <a href="/weixin/member/coupon" class="btn_sc fr">我的抵用券 <em>(${couponCount})</em></a>
     </dt>
     *{<dd><a href="member_card.html" class="radius5">我的抵用券<em>(1)</em><i class="iconfont">&#xe62c;</i></a></dd>}*
     *{<dd><a href="member_comment.html" class="radius5">我的评价<em>(10)</em><i class="iconfont">&#xe62c;</i></a></dd>}*

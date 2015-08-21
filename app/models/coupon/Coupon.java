@@ -9,15 +9,15 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import play.Logger;
+import play.db.jpa.JPA;
 import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.common.RandomNumberUtil;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by upshan on 15/8/11.
@@ -146,6 +146,28 @@ public class Coupon extends Model {
         return Coupon.find("createdAt between ? and ? and user = null and deleted = ?" , beginAt , endAt , DeletedStatus.UN_DELETED).fetch();
     }
 
+    public static List<Coupon> findByOrder(Order order) {
+        return Coupon.find("order = ? and deleted = ?" , order , DeletedStatus.UN_DELETED).fetch();
+    }
+
+
+    public static Map findByOrderRetrunNaneAndCount(Order order) {
+       Map<String , Integer> resultMap =  new HashMap<>();
+       List<Coupon> couponList =  Coupon.find("order = ? and deleted = ?", order, DeletedStatus.UN_DELETED).fetch();
+       for(Coupon coupon : couponList) {
+           String _name = coupon.couponBatch.name;
+            if(resultMap.keySet().contains(_name)) {
+                resultMap.put(_name , resultMap.get(_name)+1);
+            } else {
+                resultMap.put(_name , 1);
+            }
+       }
+        return resultMap;
+    }
+
+
+
+
     //查询登录用户所购买的优惠券
     public static List<Coupon> findCouponByLoginUser(Long userId){
         return Coupon.find("deleted = ? and user.id = ? and order = null ",DeletedStatus.UN_DELETED,userId).fetch();
@@ -161,6 +183,9 @@ public class Coupon extends Model {
         return Coupon.REDIS_LOCK_KEY + this.id + "@coupon";
     }
 
+    public Long  getCountCouponByCouponBatch(Long couponBatchId){
+        return Coupon.count("deleted = ? and couponBatch.id = ? and order = null ", DeletedStatus.UN_DELETED, couponBatchId);
+    }
 
     @Override
     public String toString() {

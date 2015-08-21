@@ -38,13 +38,13 @@
             <ul class="order_list">
 
                 #{list orderUnpaidList,as:'orderUnp'}
-               <li><div class="list_l"><img src="${orderUnp?.orderImage == null || orderUnp?.orderImage == "" ? "/public/weixin/img/p1.jpg":orderUnp.orderImage}"></div>
+               <li><div class="list_l"><a href="/weixin/order/${orderUnp.orderNumber}/detail"><img src="${orderUnp?.orderImage == null || orderUnp?.orderImage == "" ? "/public/weixin/img/cp1.jpg":orderUnp.orderImage}"></a></div>
                    <div class="list_r">
-                     <h3>
+                     <h3><a href="/weixin/order/${orderUnp.orderNumber}/detail">
                      #{list orderUnp.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
-                     </h3>
+                     </a></h3>
                      <span>菜品<i>${orderUnp.orderItemCount}</i>份<em>&{'goodstype.'+orderUnp.goodsType}</em><a href="@{weixin.OrderController.qrCode(orderUnp.orderNumber)}" class="btn radius10">去支付</a></span>
-                     <p><em>总价：<i>￥${orderUnp.amount}</i></em><a href="/weixin/member/delOrder?orderNum=${orderUnp.orderNumber}" class="btn1 radius10">删除</a></p>
+                     <p><em>总价：<i>￥${orderUnp.amount}</i></em><a href="/weixin/member/${orderUnp.orderNumber}/delOrder" class="btn1 radius10">删除</a></p>
                    </div>
                </li>
                 #{/list}
@@ -55,9 +55,9 @@
         <div class="swiper-slide">
             <ul class="order_list">
             #{list orderPaidList,as:'orderpaid'}
-                <li><div class="list_l"><a href="../../ChooseDishController/detail.html"><img src="${orderpaid.orderImage == null || orderpaid.orderImage == "" ? "/public/weixin/img/p1.jpg":orderpaid.orderImage}"></a></div>
+                <li><div class="list_l"><a href="/weixin/order/${orderpaid.orderNumber}/detail"><img src="${orderpaid.orderImage == null || orderpaid.orderImage == "" ? "/public/weixin/img/cp1.jpg":orderpaid.orderImage}"></a></div>
                     <div class="list_r">
-                        <h3><a href="../../ChooseDishController/detail.html">
+                        <h3><a href="/weixin/order/${orderpaid.orderNumber}/detail">
                             #{list orderpaid.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
                         </a></h3>
                         <span>菜品<i>${orderpaid.orderItemCount}</i>份<em>&{'goodstype.'+orderpaid.goodsType}</em></span>

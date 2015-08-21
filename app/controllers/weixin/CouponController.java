@@ -36,6 +36,19 @@ public class CouponController extends Controller {
         render(batch);
     }
 
+    /**
+     * 查询该用户下所有的能用的卡券
+     * 个人中心中的卡券用到
+     */
+    public static void showCoupon(){
+        //TODO user_id
+        //User user = WxMpAuth.currentUser().user;
+        User user=new User();
+        user.id=2l;
+        List<Coupon> couponList= Coupon.findCouponByLoginUser(user.id);
+        render(couponList);
+    }
+
 
     /**
      * 确定购买卡券

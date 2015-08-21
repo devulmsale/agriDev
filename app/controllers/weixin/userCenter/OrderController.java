@@ -2,18 +2,21 @@ package controllers.weixin.userCenter;
 
 import controllers.auth.WxMpAuth;
 import models.base.WeixinUser;
+import models.coupon.Coupon;
 import models.order.Order;
+import models.order.OrderItem;
 import models.order.User;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.With;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/8/19.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class OrderController extends Controller {
 
     /**
@@ -22,7 +25,8 @@ public class OrderController extends Controller {
      */
     public static void index(String type) {
         //TODO 暂时取到userId
-        WeixinUser wxUser = WxMpAuth.currentUser();
+       // WeixinUser wxUser = WxMpAuth.currentUser();
+        WeixinUser wxUser = WeixinUser.findById(2l);
         List<Order> orderUnpaidList=Order.getUserUnPayOrders(wxUser.user);
         List<Order> orderPaidList=Order.getUserPaidOrders(wxUser.user);
 
@@ -40,5 +44,12 @@ public class OrderController extends Controller {
             index("delete");
         }
         index(null);
+    }
+
+    public  static void detail(String orderNumber){
+        Order order=Order.findByOrderNumber(orderNumber);
+        List<OrderItem> orderItemList = OrderItem.getListByOrder(order);
+        Map<String , Integer> couponMap  = Coupon.findByOrderRetrunNaneAndCount(order);
+        render(order, orderItemList, couponMap);
     }
 }

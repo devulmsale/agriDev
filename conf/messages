@@ -44,3 +44,9 @@ goodstype.PACK=打包
 goodstype.SET_MEAL=套餐
 goodstype.null=未知
 
+
+orderStatus.NEW=新订单
+orderStatus.UNPAID=未付款
+orderStatus.PAID=已付款未发货,电子券最终状态为PAID
+orderStatus.CANCELED=交易关闭
+orderStatus.REFUND=退款成功- 金额已经返还到用户来源（如支付宝、快钱账户）

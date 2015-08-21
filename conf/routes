@@ -76,7 +76,9 @@ GET  /weixin/setmeal/{orderNumber}/{setmealId}/confirm    weixin.SetMealControll
 #前台个人中心
 GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
 GET  /weixin/member/memorder                             weixin.userCenter.OrderController.index
-GET  /weixin/member/delOrder                             weixin.userCenter.OrderController.deleted
+GET  /weixin/member/orderNum/delOrder                    weixin.userCenter.OrderController.deleted
+GET  /weixin/member/coupon                               weixin.CouponController.showCoupon
+GET  /weixin/order/{orderNumber}/detail                  weixin.userCenter.OrderController.detail
 
 
 

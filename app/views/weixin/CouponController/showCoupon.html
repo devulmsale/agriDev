@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>我的抵用券</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
+  
+
+</head>
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       我的抵用券
+    </div>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
+</header>
+
+
+<section class="warp member_card page">
+  <ul>
+
+        #{list couponList ,as:'coupon'}
+        <li>
+        <img src="/public/weixin/images/quan${coupon?.couponBatch?.salePrice?.format("#")}.jpg">
+        <h3>${coupon?.couponBatch?.name}</h3>
+        <p>有效期${coupon?.couponBatch?.beginAt.format('yyyy-MM-dd')}至${coupon?.couponBatch?.endAt.format('yyyy-MM-dd')}</p>
+        <em>￥${coupon?.couponBatch?.costPrice?.format("#")}</em><span>剩余<i>${coupon.getCountCouponByCouponBatch(coupon?.couponBatch?.id)}</i>张</span>
+        </li>
+        #{/list}
+
+    *{<li><img src="images/quan60.jpg"><h3>60元现金券</h3><p>有效期至2015年9月30日</p><em>￥50</em><span>剩余<i>2</i>张</span></li>}*
+    *{<li><img src="images/quan70.jpg"><h3>70元现金券</h3><p>有效期至2015年9月30日</p><em>￥58</em><span>剩余<i>10</i>张</span></li>}*
+  </ul>
+ 
+ 
+
+</section>
+#{include '/foot.html'/}
+
+</body>
+</html>
