@@ -14,8 +14,7 @@ import java.util.*;
 public class Application extends Controller {
 
     public static void index() {
-        //获取商户信息 TODO merchant_id  WxMpAuth.currentUser().merchant
-        Merchant merchant=Merchant.findById(21l);
+        Merchant merchant = WxMpAuth.currentUser().merchant;
         List<CouponBatch> couponBatchList = CouponBatch.findAll();
         render(couponBatchList , merchant);
     }

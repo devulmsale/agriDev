@@ -2,9 +2,9 @@
 
 
 .titbg{ background:rgba(0, 0, 0, 0.6) none repeat scroll 0 0;}
-.editbox{ height:36px; line-height:36px; overflow:hidden; text-indent:5px; border:1px #dddddd solid; color:#666; background:#fff; -moz-border-radius:6px; -webkit-border-radius:6px;  border-radius:6px;}
+.editbox{ height:36px; line-height:36px; overflow:hidden; text-indent:5px; border:1px #dddddd solid; color:#666; background:#fff; font-size:14px; -moz-border-radius:6px; -webkit-border-radius:6px;  border-radius:6px;}
 .selectbox{ height:36px; line-height:36px; overflow:hidden; text-indent:0px; border:1px #dddddd solid; color:#666; background:#fff; -moz-border-radius:6px; -webkit-border-radius:6px;  border-radius:6px;}
-.areabox{ border:1px #dddddd solid; padding:5px; overflow-y:auto;}
+.areabox{ border:1px #dddddd solid; padding:5px; overflow-y:auto; font-size:14px;}
 
 a.btn_favorite{ display:inline-block; width:70px; height:23px; line-height:20px; text-align:center; overflow:hidden; border:1px #eeeeee solid; color:#999;}
 a.btn_favorite:hover{ background:#f90; color:#fff; border:0;}
@@ -45,7 +45,7 @@ a.btn_search
 footer{width:100%; height:40px; overflow:hidden; position:fixed; bottom:0; z-index:100;}
 footer span{width:1px; height:40px; line-height:40px; overflow:hidden; text-align:center; display:inline-block; background:#6c6c6c;}
 footer a{width:23%; height:40px; display:inline-block; overflow:hidden; text-align:center;}
-footer a i.iconfont{ color:#fff; font-size:20px; display:block; line-height:24px; margin-top:2px;}
+footer a i.iconfont{ color:#fff; font-size:20px; display:block; line-height:24px; margin-top:0px;}
 footer a em{ display:inline-block; color:#fff; font-size:12px;}
 footer a:hover{ background:#999999;}
 
