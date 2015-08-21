@@ -44,7 +44,7 @@
             <img src="${item?.goods?.mainImageUrl}">
         #{/else}
             <h3>${item?.goodsName}</h3>
-        <p>总价 <i>${item?.salePrice} X ${item?.buyNumber}</i> =<em>￥${item?.salePrice*item?.buyNumber}</em>
+        <p>总价 <i>${item?.salePrice/item?.buyNumber} X ${item?.buyNumber}</i> =<em>￥${item?.salePrice}</em>
         </p>
     <strong>${item?.buyNumber}份</strong></dd>
     #{/list}
