@@ -1,13 +1,5 @@
 package controllers.api;
 
-import ext.pay.weixin.v3.WxpayFactory;
-import ext.pay.weixin.v3.resps.Notify;
-import helper.WxMpHelper;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import models.base.WeixinUser;
 import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
 import models.coupon.Coupon;
@@ -16,16 +8,11 @@ import models.order.OrderItem;
 import order.OrderBuilder;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
-import play.libs.IO;
 import play.modules.redis.Redis;
 import play.mvc.Controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
-import static ext.pay.weixin.v3.util.XMLParser.parseXML;
 
 /**
  * 卡券支付回调.
@@ -33,13 +20,18 @@ import static ext.pay.weixin.v3.util.XMLParser.parseXML;
 public class CouponPayCallback extends Controller {
 
     public static void execute(String orderNumber) {
-                Order order = Order.findByOrderNumber(orderNumber);
-                OrderBuilder.orderNumber(orderNumber).changeToPaid();
-                // 根据 订单产品类型. 修改响应产品 状态
-                changeOrderItemByGoodsType(order);
-                Logger.info("OrderNumber: {} 状态改为Paid", orderNumber);
-                WeixinUser wxUser = WeixinUser.findByUser(order.user);
-                Logger.info("获取 Order.User : %s  | wxUser : %s ----", order.user, wxUser);
+        Order order = Order.findByOrderNumber(orderNumber);
+        if(order == null) {
+            Logger.info("订单号为: %s 的订单不存在 或已经删除" , orderNumber);
+        } else if(order.status != OrderStatus.UNPAID) {
+            Logger.info("订单号为: %s 的订单, 支付状态为: %s. 不能进行支付" , orderNumber , order.status);
+        } else {
+            // 修改订单状态
+            OrderBuilder.orderNumber(orderNumber).changeToPaid();
+            // 根据 订单产品类型. 修改响应产品 状态
+            changeOrderItemByGoodsType(order);
+            Logger.info("OrderNumber: {} 状态改为Paid", orderNumber);
+        }
     }
 
 
