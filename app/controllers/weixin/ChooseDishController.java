@@ -4,6 +4,7 @@ import controllers.auth.WxMpAuth;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import me.chanjar.weixin.common.util.StringUtils;
+import models.base.WeixinUser;
 import models.common.DateUtil;
 import models.common.enums.OrderGoodsType;
 import models.common.enums.OrderStatus;
@@ -15,10 +16,7 @@ import models.mert.Merchant;
 import models.mert.MerchantProductType;
 import models.mert.hall.HallTable;
 import models.mert.hall.MerchantHall;
-import models.order.Order;
-import models.order.OrderItem;
-import models.order.OrderUser;
-import models.order.User;
+import models.order.*;
 import models.product.Product;
 import models.product.ProductImage;
 import models.vo.GoodsTypeVO;
@@ -81,11 +79,10 @@ public class ChooseDishController extends Controller {
 
 
     public static void confirms(String carts , OrderGoodsType goodsType , String uuid) {
-        Logger.info("微信端选择商品数量:%s=",carts);
-        Logger.info("点餐类型:%s",goodsType);
-        Logger.info("获取到的UUID  : %s -----" , uuid);
+        WeixinUser wxUser = WxMpAuth.currentUser();
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
         Order order = Order.findByUuid(uuid);
+        Merchant feeMerchant = null;
         if(order != null) {
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
             for(OrderItem orderItem : orderItems){
@@ -101,8 +98,7 @@ public class ChooseDishController extends Controller {
 
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-               // OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(user).type(OrderType.PC).goodsType(goodsType).uuid(uuid);
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.PC).goodsType(goodsType).uuid(uuid);
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().merchant(feeMerchant).byUser(wxUser.user).type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
                 cartToOrder(orderBuilder, carts);
             }
@@ -140,6 +136,9 @@ public class ChooseDishController extends Controller {
             Integer number = Integer.valueOf(cart_Num_Array[1]);
             Product product=Product.findById(ProductId);
             if(product != null) {
+                if(orderBuilder.getMerchant() == null) {
+                    orderBuilder.merchant(product.merchant).save();
+                }
                 orderBuilder.addProduct(product)
                         .originalPrice(BigDecimal.ONE)
                         .salePrice(product.salePrice.multiply(new BigDecimal(number)))
