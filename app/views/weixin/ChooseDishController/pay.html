@@ -69,9 +69,10 @@
             dateType:'json',
             data:{orderNumber:orderNumber},
             success:function(data) {
-                if(data.success == true){
-                    showAlart(data.msg);
-                }else if(data.success == false){
+                if(data.success){
+                    location.href = "weixin/order/"+orderNumber+"/detail";
+                    //showAlart(data.msg);
+                } else {
                     showAlart(data.msg);
                 }
             },
