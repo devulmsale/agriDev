@@ -237,6 +237,10 @@ public class ChooseDishController extends Controller {
             if(needPay.compareTo(BigDecimal.ZERO) < 1) {
                 needPay = BigDecimal.ZERO;
             }
+            //把使用卡券的金额，及需要支付的金额记录到order中
+            order.discountPay=couponPirce;
+            order.paymentedAmount=needPay;
+            order.save();
             // 订单绑定优惠券 放到 redis 中
             Redis.setex(Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber, 15 * 60, couponIds);
         }

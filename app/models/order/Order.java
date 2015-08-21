@@ -67,13 +67,13 @@ public class Order extends Model {
     public BigDecimal amount;
 
     /**
-     * 订单折扣金额  比如活动折扣
+     * 订单折扣金额  比如活动折扣 使用优惠券金额
      */
     @Column(name = "discount_pay")
     public BigDecimal discountPay;
 
     /**
-     * 已支付金额
+     * 已支付金额 实际支付金额
      */
     @Column(name = "paymented_amount")
     public BigDecimal paymentedAmount;
