@@ -48,7 +48,7 @@
               <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">确认支付</a>
             #{/if}
             #{if needPay <= 0}
-                <a href="#" class="btn2">确认支付</a>*{更新订单}*
+                <a href="javascript:void(0)" onclick="getpay('${order?.orderNumber}')" class="btn2">确认支付</a>*{更新订单}*
             #{/if}
             <a href="javascript:history.go(-1);" class="btn1">取消</a>
         </div>
@@ -58,5 +58,27 @@
 
 </section>
 #{include '/foot.html'/}
-
+#{include 'weixin/Application/modal.html'/}
 <div class="footspace"></div>
+
+<script>
+    function getpay(orderNumber){
+        $.ajax({
+            url:'@{api.CouponPayCallback.execute()}',
+            type:'post',
+            dateType:'json',
+            data:{orderNumber:orderNumber},
+            success:function(data) {
+                if(data.success){
+                    location.href = "weixin/order/"+orderNumber+"/detail";
+                    //showAlart(data.msg);
+                } else {
+                    showAlart(data.msg);
+                }
+            },
+            error:function(){
+                showAlart("系统错误！")
+            }
+        });
+    }
+</script>
