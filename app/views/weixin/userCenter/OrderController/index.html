@@ -38,7 +38,7 @@
             <ul class="order_list">
 
                 #{list orderUnpaidList,as:'orderUnp'}
-               <li><div class="list_l"><a href="/weixin/order/${orderUnp.orderNumber}/detail"><img src="${orderUnp?.orderImage == null || orderUnp?.orderImage == "" ? "/public/weixin/img/p1.jpg":orderUnp.orderImage}"></a></div>
+               <li><div class="list_l"><a href="/weixin/order/${orderUnp.orderNumber}/detail"><img src="${orderUnp?.orderImage == null || orderUnp?.orderImage == "" ? "/public/weixin/img/cp1.jpg":orderUnp.orderImage}"></a></div>
                    <div class="list_r">
                      <h3><a href="/weixin/order/${orderUnp.orderNumber}/detail">
                      #{list orderUnp.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
@@ -55,7 +55,7 @@
         <div class="swiper-slide">
             <ul class="order_list">
             #{list orderPaidList,as:'orderpaid'}
-                <li><div class="list_l"><a href="/weixin/order/${orderpaid.orderNumber}/detail"><img src="${orderpaid.orderImage == null || orderpaid.orderImage == "" ? "/public/weixin/img/p1.jpg":orderpaid.orderImage}"></a></div>
+                <li><div class="list_l"><a href="/weixin/order/${orderpaid.orderNumber}/detail"><img src="${orderpaid.orderImage == null || orderpaid.orderImage == "" ? "/public/weixin/img/cp1.jpg":orderpaid.orderImage}"></a></div>
                     <div class="list_r">
                         <h3><a href="/weixin/order/${orderpaid.orderNumber}/detail">
                             #{list orderpaid.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
