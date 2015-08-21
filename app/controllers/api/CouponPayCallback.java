@@ -38,13 +38,17 @@ public class CouponPayCallback extends Controller {
         } else {
             // 计算 跟订单绑定的优惠券的总价
             String couponIds = Redis.get(Order.ORDDR_LOCK_COUPON_IDS + order.orderNumber);
+            Logger.info("优惠券Id:%s",couponIds);
             BigDecimal couponPrice = BigDecimal.ZERO;
             if(StringUtils.isNotBlank(couponIds)) {
                 String[] idArray = couponIds.split(",");
                 for(String id : idArray) {
                     Coupon coupon = Coupon.findById(Long.valueOf(id));
+                    BigDecimal couponBatchCostPrice = coupon.couponBatch.costPrice;
                     if(coupon != null) {
-                        couponPrice.add(coupon.couponBatch.salePrice);
+                       couponPrice = couponPrice.add(couponBatchCostPrice);
+                        Logger.info("优惠券金额:%s",couponPrice);
+                        Logger.info("优惠券coupon.couponBatch.salePrice:%s",coupon.couponBatch.salePrice);
                     }
                 }
             } else {
