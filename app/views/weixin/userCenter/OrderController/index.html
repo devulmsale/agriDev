@@ -38,7 +38,7 @@
             <ul class="order_list">
 
                 #{list orderUnpaidList,as:'orderUnp'}
-               <li><div class="list_l"><img src="${orderUnp.orderImage}"></div>
+               <li><div class="list_l"><img src="${orderUnp?.orderImage == null || orderUnp?.orderImage == "" ? "/public/weixin/img/p1.jpg":orderUnp.orderImage}"></div>
                    <div class="list_r">
                      <h3>
                      #{list orderUnp.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
@@ -55,7 +55,7 @@
         <div class="swiper-slide">
             <ul class="order_list">
             #{list orderPaidList,as:'orderpaid'}
-                <li><div class="list_l"><a href="../../ChooseDishController/detail.html"><img src="${orderpaid.orderImage}"></a></div>
+                <li><div class="list_l"><a href="../../ChooseDishController/detail.html"><img src="${orderpaid.orderImage == null || orderpaid.orderImage == "" ? "/public/weixin/img/p1.jpg":orderpaid.orderImage}"></a></div>
                     <div class="list_r">
                         <h3><a href="../../ChooseDishController/detail.html">
                             #{list orderpaid.orderName , as :'item'}${item.goods.name}${item_isLast?"":"/"}#{/list}
