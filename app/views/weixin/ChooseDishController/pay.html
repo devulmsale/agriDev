@@ -70,7 +70,7 @@
             data:{orderNumber:orderNumber},
             success:function(data) {
                 if(data.success){
-                    location.href = "weixin/order/"+orderNumber+"/detail";
+                    location.href = "/weixin/order/"+orderNumber+"/detail";
                     //showAlart(data.msg);
                 } else {
                     showAlart(data.msg);
