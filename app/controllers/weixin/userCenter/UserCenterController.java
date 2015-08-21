@@ -10,14 +10,11 @@ import play.mvc.With;
 /**
  * Created by Administrator on 2015/8/19.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class UserCenterController extends Controller {
 
     public static  void index(){
-        // User user=WxMpAuth.currentUser().user;
-        //TODO 暂时取到userId
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);
         render(user, unPayCount,couponCount);

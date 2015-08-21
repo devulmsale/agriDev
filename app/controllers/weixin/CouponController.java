@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by upshan on 15/8/11.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class CouponController extends Controller {
 
     public static final String COUPON_BING_ID = "coupon_bind_id_";
@@ -41,10 +41,7 @@ public class CouponController extends Controller {
      * 个人中心中的卡券用到
      */
     public static void showCoupon(){
-        //TODO user_id
-        //User user = WxMpAuth.currentUser().user;
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
         List<Coupon> couponList= Coupon.findCouponByLoginUser(user.id);
         render(couponList);
     }

@@ -7,6 +7,7 @@ import models.common.ChinaPhone;
 import models.common.DateUtil;
 import models.constants.DeletedStatus;
 import models.mert.enums.MerchantStatus;
+import models.operate.Oper;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import org.apache.commons.lang.StringUtils;
@@ -20,11 +21,8 @@ import play.db.jpa.Model;
 import play.modules.paginate.JPAExtPaginator;
 import util.xsql.XsqlBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +41,22 @@ import java.util.Map;
 public class Merchant extends Model {
 
     private static final long serialVersionUID = 5126870842118557757L;
+
+
+    /**
+     * 商户所属代理商
+     */
+    @ManyToOne
+    @JoinColumn(name = "oper_id")
+    public Oper oper ;
+
+
+    /**
+     * 佣金比例
+     */
+    @Column(name = "fee_rate")
+    public Integer feeRate = 5;
+
 
     /**
      * 商户链接ID，用于外部网站链接，如微信回调URL。
