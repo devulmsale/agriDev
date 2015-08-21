@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>我的菜单</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/iconfont/iconfont.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/global.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+  <link rel="stylesheet" type="text/css" href="/public/weixin/css/style.css">
+  
+
+</head>
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+         订单详情
+    </div>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
+</header>
+
+
+<section class="warp order_detail page">
+  <dl>
+  	<dt>订单号：<i>${order?.orderNumber}</i></dt>
+  	<dt>提交时间：<i>${order?.createdAt?.format('yyyy-MM-dd HH:mm')}</i></dt>
+  	<dt>订单状态：<i>&{'orderStatus.'+order?.status}</i></dt>
+  	<dt>菜品详情</dt>
+    #{list orderItemList , as : 'item'}
+
+    <dd>
+        #{if item?.goods?.mainImageUrl == null || item?.goods?.mainImageUrl == ''}
+            <img src="/public/weixin/img/cp1.jpg">
+        #{/if}
+        #{else}
+            <img src="${item?.goods?.mainImageUrl}">
+        #{/else}
+            <h3>${item?.goodsName}</h3>
+        <p>总价 <i>${item?.salePrice} X ${item?.buyNumber}</i> =<em>￥${item?.salePrice*item?.buyNumber}</em>
+        </p>
+    <strong>${item?.buyNumber}份</strong></dd>
+    #{/list}
+    <dt>菜品总额：<i>￥${order?.amount}</i></dt>
+    <dt>使用现金券：
+      #{list couponMap ,as:'coupon'}
+        <span>${coupon?.key}<i>${coupon?.value}</i>张</span>
+      #{/list}
+    <dt>实付款金额：<i>￥${order?.paymentedAmount}</i></dt>
+   </dl>
+
+  
+
+ 
+
+</section>
+
+<footer class="titbg">
+  <a href="indx.html"><i class="iconfont">&#xe636;</i><em>首页</em></a>
+  <span></span>
+  <a href="card.html"><i class="iconfont">&#xe66c;</i><em>优惠券</em></a>
+  <span></span>
+  <a href="confirm.html"><i class="iconfont" style="font-size:22px;">&#xe670;</i><em>我的菜单</em></a>
+  <span></span>
+  <a href="member_index.html"><i class="iconfont">&#xe666;</i><em>会员</em></a>
+</footer>
+</body>
+</html>
