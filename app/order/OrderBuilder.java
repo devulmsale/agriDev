@@ -242,8 +242,6 @@ public class OrderBuilder {
         return new OrderItemBuilder(this, product);
     }
 
-
-
     public OrderBuilder changeToUnPaid() {
         if (checkCanToUnpaid()) {
             this.order.status = OrderStatus.UNPAID;
