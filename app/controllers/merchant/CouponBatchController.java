@@ -30,6 +30,7 @@ public class CouponBatchController extends Controller {
         initData();
         pageNumber = pageNumber == null ? 1 : pageNumber;
         Map<String , Object> searchMap = new HashMap<>();
+        searchMap.put("merchant", MerchantSecure.getMerchant());
         JPAExtPaginator<CouponBatch> resultPage = CouponBatch.findByCondition(searchMap, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage, pageNumber);
     }

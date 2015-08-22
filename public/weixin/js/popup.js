@@ -7,7 +7,7 @@ jQuery(document).ready(function($){
 	
 	//close popup
 	$('.cd-popup').on('click', function(event){
-		if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup') ) {
+		if( $(event.target).is('#popup-close') || $(event.target).is('.cd-popup') ) {
 			event.preventDefault();
 			$(this).removeClass('is-visible');
 		}
@@ -19,3 +19,18 @@ jQuery(document).ready(function($){
 	    }
     });
 });
+
+
+function showAlart(content) {
+	$('#alertModalContent').html(content);
+	$('.cd-popup').addClass('is-visible');
+}
+
+/*function showAlart(content , isConfim) {
+	$('#alertModalContent').html(content);
+	if(isConfim) {
+		$('issssss').html('<ul class="cd-buttons"> <li><a href="javascript:ok_Btn()">是</a></li> <li><a href="javascirpt:cancel_Btn()" id="popup-close">否</a></li> </ul>');
+	}
+	$('.cd-popup').addClass('is-visible');
+}*/
+

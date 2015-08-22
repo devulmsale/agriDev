@@ -2,24 +2,40 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="/public/weixin/css/modal.css">
-    <script type="text/javascript" src="/public/weixin/js/zepto.modal.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/weixin/css/public.css">
+    <script type="text/javascript" src="/public/weixin/js/popup.js"></script>
+    <script type="text/javascript" src="/public/weixin/js/jquery-1.8.3.min.js"></script>
 </head>
 <body >
 
 
-<div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+*{<div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
     <div class="modal-body">
         <p id="alertModalContent" style="padding-bottom:10px; padding-left:5px; padding-top:10px; font-size: 20px"></p>
         <button class="btn-fh" data-dismiss="modal" aria-hidden="true">确定</button>
     </div>
+</div>}*
+
+
+<div id="alertModal" class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <p id="alertModalContent">你确定你要删除这个菜品吗?</p>
+        <ul class="cd-buttons">
+            <li><a href="#" id="popup-close">确定</a></li>
+        </ul>
+        <span id="isssss"></span>
+        <a href="#" id="popup-close" class="cd-popup-close img-replace">关闭</a>
+    </div> <!-- cd-popup-container -->
 </div>
 
+
+
 <script type="text/javascript">
-    function showAlart(str) {
-        $('#alertModalContent').html(str);
-        $('#alertModal').modal('show');
-    }
+    //function showAlart(str) {
+    //    $('#alertModalContent').html(str);
+    //    $('#alertModal').modal('show');
+   // }
+
 </script>
 </body>
 </html>

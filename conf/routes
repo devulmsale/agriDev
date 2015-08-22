@@ -22,7 +22,8 @@ GET     /public/                                          staticDir:public
 
 # Merchant 商户后台管理
 GET     /merchants                                        merchant.Application.index
-GET     /merchants/login                                  merchant.auth.MerchantSecure.login
+GET     /merchants/login/{linkId}                         merchant.auth.MerchantSecure.login
+
 
 # MerchantProductType商户类别管理
 *       /merchant/merProductType                          merchant.MerProductTypeController.index
@@ -202,4 +203,7 @@ POST    /weixin/coupon/showCouponsBefore                  weixin.CouponControlle
 
 # MerchantProductType 商户类别
 *       /weixin/product/{id}                              weixin.Application.getProduct
+
+
+GET     /merchantEor                                      Application.merchantError
 

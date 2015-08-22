@@ -100,7 +100,7 @@ public class CouponBatch extends Model{
         StringBuilder xsqlBuilder = new StringBuilder("t.deleted=models.constants.DeletedStatus.UN_DELETED")
                 .append("/~ and t.id = {id} ~/")
                 .append("/~ and t.name = {name} ~/")
-                .append("/~ and t.merchant.id = {merchantId} ~/")
+                .append("/~ and t.merchant = {merchant} ~/")
                 .append("/~ and t.costPrice = {costPrice} ~/")
                 .append("/~ and t.salePrice = {salePrice} ~/")
                 .append("/~ and t.beginAt = {beginAt} ~/")

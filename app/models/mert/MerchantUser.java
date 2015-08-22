@@ -160,6 +160,19 @@ public class MerchantUser extends Model {
         return true;
     }
 
+    public static MerchantUser findByLoginNamePasswordAndLinkId(String userName , String password , String linkId){
+        if (StringUtils.isBlank(password)) {
+            Logger.info("传入密码为空，登录失败");
+            return null;
+        }
+        MerchantUser user = MerchantUser.find("loginName=? and merchant.linkId=? order by id", userName, linkId).first();
+        if (user == null) {
+            Logger.info("找不到指定用户名(%s)对应的商户操作员.", userName);
+            return null;
+        }
+        return  user;
+    }
+
     public static MerchantUser findByLoginNameAndPassword(String userName , String password) {
         if (StringUtils.isBlank(password)) {
             Logger.info("传入密码为空，登录失败");

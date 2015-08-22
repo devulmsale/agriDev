@@ -45,4 +45,8 @@ public class Application extends Controller {
         Product product=Product.findById(id);
         render(product);
     }
+
+    public static void merchantError() {
+        render();
+    }
 }
