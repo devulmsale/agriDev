@@ -146,7 +146,14 @@ public class ProductController extends Controller {
         ShippingMethod[] shippingMethods=ShippingMethod.values();
         //营销模式
         MarketingMode[] marketingModes=MarketingMode.values();
-        render(product ,productTopTypeList , pageNumber , productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes);
+        //取商户商品类别
+        Logger.info("商户Id的 :%s=",MerchantSecure.getMerchant().id);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(MerchantSecure.getMerchant().id);
+        Logger.info("商户商品类别:%s=",merchantProductTypeList.size());
+        //取图片类型
+        List<ProductImageType> productImageTypeList=ProductImageType.findByproductImageType();
+
+        render(product ,productTopTypeList , pageNumber , productTypelist , storeMethods , packageMethods , shippingMethods , marketingModes, merchantProductTypeList ,productImageTypeList);
     }
 
     public static void update(Long id , Product product) {
