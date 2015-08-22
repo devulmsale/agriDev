@@ -178,6 +178,13 @@ public class Order extends Model {
     public VenuePriceType priceType;
 
 
+    /**
+     * 付款时间
+     */
+    @Column(name = "payed_at")
+    public Date payedAt;
+
+
 
     /**
      * 订单创建时间
