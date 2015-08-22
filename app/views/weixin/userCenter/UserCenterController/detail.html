@@ -1,0 +1,51 @@
+#{extends 'weixinMain.html' /}
+#{set title:'悠悠点' /}
+<body>
+
+<header class="topbar titbg">
+  <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
+    <div class="headtit">
+       我的账户
+    </div>
+  <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
+</header>
+
+
+<section class="warp member_account page">
+  <dl class="myaccount">
+     <dt>收货方</dt>
+      #{list addressList,as:'address'}
+          <dd><a href="../UserAddressController/member_address.html" class="radius5">
+              <p><strong>收货人<em>${address.name}</em></strong>
+                  <strong>电话 <em>${address.phone}</em></strong>
+              </p>
+              <strong>
+                  收货地址<em>${address.province} ${address.city} ${address.local} ${address.address}</em>
+              </strong><i class="iconfont">&#xe62c;</i>
+              <span class="current">修改</span></a>
+          </dd>
+      #{/list}
+
+
+  </dl>
+  <div class="addbtn"><a href="/weixin/member/address" class="btn radius5">新增收货方</a></div>
+  <dl class="userinfo">
+    <dt>账户设置</dt>
+    *{<dd><a href="#" class="radius5"><strong>微信</strong><em>ssdfew</em><i class="iconfont">&#xe62c;</i><span>已绑定</span></a></dd>}*
+	*{<dd><a href="#" class="radius5"><strong>QQ</strong><em></em><i class="iconfont">&#xe62c;</i><span class="current">未绑定</span></a></dd>}*
+    <dd><a href="#" class="radius5">
+        <strong>手机</strong><em>13561997598</em>
+        <i class="iconfont">&#xe62c;</i>
+        <span>已绑定</span></a>
+    </dd>
+    
+  </dl>
+
+</section>
+<div class="footbtn">
+  *{<a href="index.html" class="btn1 radius5">退出登录</a>}*
+</div>
+
+
+</body>
+</html>

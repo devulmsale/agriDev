@@ -36,6 +36,8 @@ GET     /merchant/merProductType/add                      merchant.MerProductTyp
 GET     /system/updateName/{id}/{name}                    system.BrandController.updateName
 
 # Merchant Coupon 商家优惠券管理
+
+
 GET     /merchant/coupons                                 merchant.CouponBatchController.index
 GET     /merchant/coupon/add                              merchant.CouponBatchController.add
 POST    /merchant/coupon/create                           merchant.CouponBatchController.create
@@ -74,11 +76,14 @@ GET     /weixin/setmeals/{linkId}/index                   weixin.SetMealControll
 GET     /weixin/setmeal/{orderNumber}/{setmealId}/confirm weixin.SetMealController.confirm
 
 # 前台个人中心
-GET     /weixin/member/center                             weixin.userCenter.UserCenterController.index
-GET     /weixin/member/memorder                           weixin.userCenter.OrderController.index
-GET     /weixin/member/orderNum/delOrder                  weixin.userCenter.OrderController.deleted
-GET     /weixin/member/coupon                             weixin.CouponController.showCoupon
-GET     /weixin/order/{orderNumber}/detail                weixin.userCenter.OrderController.detail
+GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
+GET  /weixin/member/detail                               weixin.userCenter.UserCenterController.detail
+GET  /weixin/member/memorder                             weixin.userCenter.OrderController.index
+GET  /weixin/member/orderNum/delOrder                    weixin.userCenter.OrderController.deleted
+GET  /weixin/member/coupon                               weixin.CouponController.showCoupon
+GET  /weixin/order/{orderNumber}/detail                  weixin.userCenter.OrderController.detail
+GET  /weixin/member/address                              weixin.userCenter.UserAddressController.add
+GET  /weixin/member/address/                              weixin.userCenter.UserAddressController.add
 
 
 
