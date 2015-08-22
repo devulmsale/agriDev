@@ -102,4 +102,8 @@ public class Address extends Model {
         return  Address.find("deleted  =  ?  and  id  =  ?",DeletedStatus.UN_DELETED,id).first();
     }
 
+    public static Address findAddressByUserAndId(Long userId , Long id){
+        return  Address.find("deleted  =  ?  and  user.id =  ? and id  = ? ",DeletedStatus.UN_DELETED,userId,id).first();
+    }
+
 }

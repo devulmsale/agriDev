@@ -1,18 +1,20 @@
 package controllers.weixin.userCenter;
 
+import controllers.auth.WxMpAuth;
 import models.address.Address;
 import models.constants.DeletedStatus;
 import models.order.Order;
 import models.order.User;
 import play.data.validation.Valid;
 import play.mvc.Controller;
+import play.mvc.With;
 
 import java.util.Date;
 
 /**
  * Created by Administrator on 2015/8/21.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class UserAddressController extends Controller {
 
     public static void add(){
@@ -21,9 +23,9 @@ public class UserAddressController extends Controller {
 
     public static void crete(@Valid Address address , String checkbox){
         //TODO user_id
-        //User user = WxMpAuth.currentUser().user;
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
+//        User user=new User();
+//        user.id=2l;
         if(validation.hasErrors()){
           params.flash();
           validation.keep();
@@ -54,11 +56,26 @@ public class UserAddressController extends Controller {
         render(address);
     }
 
+    public static  void delet(Long addressId){
+        //TODO user_id
+        User user = WxMpAuth.currentUser().user;
+//        User user=new User();
+//        user.id=2l;
+        Address defaultAddress=Address.findAddressByUserAndId(user.id,addressId);
+
+        if(defaultAddress!=null){
+
+            defaultAddress.deleted=DeletedStatus.DELETED;
+            defaultAddress.save();
+        }
+        redirect("/weixin/member/detail");
+    }
+
     public static  void update(@Valid Address address , Long addressId , String checkbox){
         //TODO user_id
-        //User user = WxMpAuth.currentUser().user;
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
+//        User user=new User();
+//        user.id=2l;
         if(checkbox != null){
             Address defaultAddress=Address.findDefaultAddressByUser(user.id);
             if(defaultAddress!=null){

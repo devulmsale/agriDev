@@ -77,6 +77,7 @@ GET     /weixin/setmeal/{orderNumber}/{setmealId}/confirm weixin.SetMealControll
 
 # 前台个人中心
 GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
+GET  /weixin/member/phone                                weixin.userCenter.UserCenterController.phonevaild
 GET  /weixin/member/detail                               weixin.userCenter.UserCenterController.detail
 GET  /weixin/member/memorder                             weixin.userCenter.OrderController.index
 GET  /weixin/member/orderNum/delOrder                    weixin.userCenter.OrderController.deleted
@@ -84,7 +85,8 @@ GET  /weixin/member/coupon                               weixin.CouponController
 GET  /weixin/order/{orderNumber}/detail                  weixin.userCenter.OrderController.detail
 GET  /weixin/member/address                              weixin.userCenter.UserAddressController.add
 POST /weixin/member/address/create                       weixin.userCenter.UserAddressController.crete
-GET  /weixin/member/address/{addressId}/edit           weixin.userCenter.UserAddressController.edit
+GET  /weixin/member/address/{addressId}/edit             weixin.userCenter.UserAddressController.edit
+GET  /weixin/member/address/{addressId}/delet             weixin.userCenter.UserAddressController.delet
 POST /weixin/member/address/update                       weixin.userCenter.UserAddressController.update
 
 

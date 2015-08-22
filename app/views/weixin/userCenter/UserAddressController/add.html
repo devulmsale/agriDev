@@ -1,12 +1,41 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
+<script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <body>
 <script type="text/javascript">
     function formCommit(){
+        var name=$("#nameId").val();
+
+        // alert(!isNaN(name))
+
+        if (required(name) == false) {
+            showAlart("姓名不能为空！");
+            return;
+        }
+        if(!isNaN(name))
+        {
+            showAlart("姓名不能全是数字");
+            return;
+        }
+        var phone = $("#phoneId").val();
+        if (required(phone) == false) {
+            showAlart("手机号不能为空！");
+            return;
+        }
+        if (isMobile(phone) == false) {
+            showAlart("请输入正确的手机号！");
+            return;
+        }
+        var address = $("#addressId").val();
+        if (required(address) == false) {
+            showAlart("地址不能为空！");
+            return;
+        }
         $('#formid').submit();
     }
 
 </script>
+
 <header class="topbar titbg">
   <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
@@ -23,5 +52,6 @@
   <a  class="btn1 radius5" onclick="formCommit()">保存收货地址</a>
 </div>
 <div class="footspace"></div>
+#{include 'weixin/Application/modal.html'/}
 </body>
 </html>

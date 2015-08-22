@@ -19,9 +19,9 @@ public class UserCenterController extends Controller {
 
     public static  void index(){
         //TODO user_id
-        //User user = WxMpAuth.currentUser().user;
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
+//        User user=new User();
+//        user.id=2l;
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);
         render(user, unPayCount,couponCount);
@@ -29,11 +29,15 @@ public class UserCenterController extends Controller {
 
     public static void detail(){
         //TODO user_id
-      //  WeixinUser wxUser = WxMpAuth.currentUser();
-        WeixinUser wxUser= new WeixinUser();
-        wxUser.id = 2l;
+        WeixinUser wxUser = WxMpAuth.currentUser();
+//        WeixinUser wxUser= new WeixinUser();
+//        wxUser.id = 2l;
         List<Address> addressList=Address.findAddressByUserId(wxUser.id);
         render(addressList);
+    }
+
+    public static  void  phonevaild(){
+        render();
     }
 
 

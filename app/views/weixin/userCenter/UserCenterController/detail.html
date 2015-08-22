@@ -16,21 +16,16 @@
      <dt>收货方</dt>
       #{list addressList,as:'address'}
           <dd #{if address.defaultype=='0'}class="radius5 current"#{/if}>
-
-
               <p><strong>收货人<em>${address.name}</em></strong> <strong>电话 <em>${address.phone}</em></strong></p>
               <p><strong>收货地址<em>${address.province} ${address.city} ${address.local} ${address.address}</em></strong></p>
               <p><a href="/weixin/member/address/${address.id}/edit" class="abtn radius5">修改</a>
-                  <a href="#" class="abtn1 radius5">删除</a>
+                  #{if address.defaultype!='0'} <a href="/weixin/member/address/${address.id}/delet" class="abtn1 radius5">删除</a>#{/if}
+
               </p>
 
           </dd>
       #{/list}
-      <dd class="radius5 current">
-          <p><strong>收货人<em>张晓岚</em></strong> <strong>电话 <em>13561997598</em></strong></p>
-          <p><strong>收货地址<em>青年中路16号</em></strong></p>
-          <p><a href="member_address.html" class="abtn radius5">修改</a><a href="#" class="abtn1 radius5">删除</a></p>
-      </dd>
+
 
   </dl>
   <div class="addbtn"><a href="/weixin/member/address" class="btn radius5">新增收货方</a></div>
@@ -38,7 +33,7 @@
     <dt>账户设置</dt>
     *{<dd><a href="#" class="radius5"><strong>微信</strong><em>ssdfew</em><i class="iconfont">&#xe62c;</i><span>已绑定</span></a></dd>}*
 	*{<dd><a href="#" class="radius5"><strong>QQ</strong><em></em><i class="iconfont">&#xe62c;</i><span class="current">未绑定</span></a></dd>}*
-    <dd><a href="" class="radius5">
+    <dd><a href="/weixin/member/phone" class="radius5">
         <strong>手机</strong><em>${address?.user?.phone}</em>
         <i class="iconfont">&#xe62c;</i>
         <span  #{if address?.user?.phone!=null && address?.user?.phone != ''}
