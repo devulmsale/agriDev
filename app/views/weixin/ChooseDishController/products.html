@@ -4,11 +4,10 @@
 <script type="text/javascript">
         $(document).ready(function(){
             var uuid=$("#uuid").val();
-           // alert(uuid);
             $.ajax({
                 url:'/weixin/getOrderItembyAjax',
                 type:'POST',
-                data:{uuid:uuid},
+                data:{uuid:uuid , random : new Date().getTime()},
                 success:function(data){
                     if(data.success) {
                         // 1. 修改总价格
@@ -23,7 +22,6 @@
                             $(id).removeClass("txtadd");
                             $("#productCount").html(sumpronum+=type.number);
                         })
-
 
                         // 循环类型的
                         $.each(data.goodsTypeVOs,function(idx,type){
@@ -117,7 +115,6 @@
 
     function changeLi(id){
         $("li").each(function (i,item) {
-            // alert(item.id)
             $('#'+item.id).removeClass("menuItem active")
         })
         $('#liid'+id).addClass("menuItem active")
@@ -163,7 +160,7 @@
                         </h3>
                     </a>
                     <p>
-                        <input type="text" id="product_value_${product?.id}"  product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
+                        <input type="text" id="product_value_${product?.id}" disabled  product_salePrice="${product?.salePrice}" product_type="${mpt?.id}" product_id="${product?.id}"  class="txtadd"/>
                     </p>
                 </div>
                 <a href="javascript:void(0)">

@@ -269,9 +269,9 @@ public class ChooseDishController extends Controller {
     }
 
     //根据uuid获取orderItem商品信息
-    public static void getOrderItembyAjax(String uuid){
-        Logger.info("执行 getOrderItembyAjax  -> uuid : %s" , uuid);
-        Order order = Order.findByUuid(uuid);
+    public static void getOrderItembyAjax(String uuid , String random){
+        Logger.info("执行 getOrderItembyAjax  -> UUID : |%s| | random : %s" , uuid , random);
+        Order order = Order.findByUuid(uuid.trim());
         OrderVO orderVO = new OrderVO();
         if(order != null) {
             List<OrderItemVO> orderItemVOs = new ArrayList<>();
@@ -317,6 +317,7 @@ public class ChooseDishController extends Controller {
             orderVO.price = order.amount;
         } else {
             orderVO.success = false;
+            Logger.info("uuid 为 %s 的订单不存在 或 已删除!" , uuid);
         }
         renderJSON(orderVO);
     }
