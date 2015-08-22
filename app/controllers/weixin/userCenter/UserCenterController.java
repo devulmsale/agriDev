@@ -14,18 +14,24 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/8/19.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class UserCenterController extends Controller {
 
     public static  void index(){
-        User user = WxMpAuth.currentUser().user;
+        //TODO user_id
+        //User user = WxMpAuth.currentUser().user;
+        User user=new User();
+        user.id=2l;
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);
         render(user, unPayCount,couponCount);
     }
 
     public static void detail(){
-        WeixinUser wxUser = WxMpAuth.currentUser();
+        //TODO user_id
+      //  WeixinUser wxUser = WxMpAuth.currentUser();
+        WeixinUser wxUser= new WeixinUser();
+        wxUser.id = 2l;
         List<Address> addressList=Address.findAddressByUserId(wxUser.id);
         render(addressList);
     }

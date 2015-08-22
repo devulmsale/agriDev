@@ -83,7 +83,10 @@ GET  /weixin/member/orderNum/delOrder                    weixin.userCenter.Order
 GET  /weixin/member/coupon                               weixin.CouponController.showCoupon
 GET  /weixin/order/{orderNumber}/detail                  weixin.userCenter.OrderController.detail
 GET  /weixin/member/address                              weixin.userCenter.UserAddressController.add
-GET  /weixin/member/address/                              weixin.userCenter.UserAddressController.add
+POST /weixin/member/address/create                       weixin.userCenter.UserAddressController.crete
+GET  /weixin/member/address/{addressId}/edit           weixin.userCenter.UserAddressController.edit
+POST /weixin/member/address/update                       weixin.userCenter.UserAddressController.update
+
 
 
 

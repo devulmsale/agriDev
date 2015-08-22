@@ -15,7 +15,9 @@
   <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
 </header>
 <section class="warp member_address page">
-    <form id="formid" name="form1" action="/weixin/member/address/create" method="post">
+
+    <form id="formid" name="form1" action="/weixin/member/address/update" method="post">
+        <input  type="hidden" name="addressId" value="${address.id}">
         #{include '/weixin/userCenter/UserAddressController/form.html'/}
     </form>
 </section>
