@@ -82,7 +82,6 @@ public class ChooseDishController extends Controller {
         WeixinUser wxUser = WxMpAuth.currentUser();
         goodsType = goodsType == null ? OrderGoodsType.DOT_FOOD : goodsType;
         Order order = Order.findByUuid(uuid);
-        Merchant feeMerchant = null;
         if(order != null) {
             List<OrderItem> orderItems = OrderItem.getListByOrder(order);
             for(OrderItem orderItem : orderItems){
@@ -98,8 +97,8 @@ public class ChooseDishController extends Controller {
 
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().merchant(feeMerchant).byUser(wxUser.user).type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
-                order = orderBuilder.save();  //生成订单号
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
+                order = orderBuilder.save();
                 cartToOrder(orderBuilder, carts);
             }
         }
@@ -128,22 +127,19 @@ public class ChooseDishController extends Controller {
     }
 
     private static void cartToOrder(OrderBuilder orderBuilder , String carts) {
-        Logger.info("cartToOrder %s==",carts);
         String[] cartArray = carts.split(",");
         for(String cartStr : cartArray) {
             String[] cart_Num_Array = cartStr.split("_");
             Long ProductId = Long.valueOf(cart_Num_Array[0]);
             Integer number = Integer.valueOf(cart_Num_Array[1]);
-            Product product=Product.findById(ProductId);
+            Product product = Product.findById(ProductId);
             if(product != null) {
-                if(orderBuilder.getMerchant() == null) {
-                    orderBuilder.merchant(product.merchant).save();
-                }
                 orderBuilder.addProduct(product)
                         .originalPrice(BigDecimal.ONE)
                         .salePrice(product.salePrice.multiply(new BigDecimal(number)))
                         .buyNumber(number)
                         .build()
+                        .merchant(product.merchant)
                         .changeToUnPaid();
             }
         }
