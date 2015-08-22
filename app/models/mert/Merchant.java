@@ -54,9 +54,44 @@ public class Merchant extends Model {
     /**
      * 佣金比例
      */
+    @Required (message = "请输入佣金比例")
     @Column(name = "fee_rate")
     public Integer feeRate = 5;
 
+    /**
+     *结算周期 1:1天  2:2天
+     */
+    @Required (message = "请输入结算周期")
+    @Column(name = "stlmt_period")
+    public Integer stlmtPeriod;
+
+    /**
+     * 银行卡号
+     */
+    @Required (message = "请输入银行卡号")
+    @Column(name = "bank_account_id")
+    public String bankAccountId;
+
+    /**
+     * 开户人姓名
+     */
+    @Required (message = "请输入开户人姓名")
+    @Column(name = "bank_account_name")
+    public String bankAccountName;
+
+    /**
+     * 开户行名称
+     */
+    @Required (message = "请输入开户行名称")
+    @Column(name = "bank_name")
+    public String bankName;
+
+    /**
+     * 开户行编号
+     */
+    @Required (message = "请输入开户行编号")
+    @Column(name = "bank_id")
+    public String bankId;
 
     /**
      * 商户链接ID，用于外部网站链接，如微信回调URL。
@@ -153,6 +188,8 @@ public class Merchant extends Model {
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
 
     /**
      * 微信AppId

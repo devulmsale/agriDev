@@ -1,11 +1,15 @@
 package controllers.weixin.userCenter;
 
 import controllers.auth.WxMpAuth;
+import models.address.Address;
+import models.base.WeixinUser;
 import models.coupon.Coupon;
 import models.order.Order;
 import models.order.User;
 import play.mvc.Controller;
 import play.mvc.With;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/19.
@@ -18,6 +22,12 @@ public class UserCenterController extends Controller {
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);
         render(user, unPayCount,couponCount);
+    }
+
+    public static void detail(){
+        WeixinUser wxUser = WxMpAuth.currentUser();
+        List<Address> addressList=Address.findAddressByUserId(wxUser.id);
+        render(addressList);
     }
 
 

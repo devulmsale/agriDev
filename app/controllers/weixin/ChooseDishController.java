@@ -43,15 +43,13 @@ public class ChooseDishController extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-       Merchant merchant = WxMpAuth.currentUser().merchant;
+        //TODO merchant.id
+      // Merchant merchant = WxMpAuth.currentUser().merchant;
 
-        //  Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
-//        Merchant merchant = Merchant.findByLinkId("kehao");
-        // Logger.info("products 获取到的商户号 : %s ----" , merchant.id);
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);

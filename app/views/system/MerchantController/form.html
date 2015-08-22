@@ -68,13 +68,72 @@
                             佣金比例
                         </div>
                         <div class="am-u-sm-8 am-u-md-4">
-                            <input type="text" class="am-input-sm" id="address" name="merchant.feeRate" value="${merchant?.feeRate}">
+                            <input type="text" class="am-input-sm" id="feeRate" name="merchant.feeRate" value="${merchant?.feeRate}">
                         </div>
                         <div class="am-hide-sm-only am-u-md-6" style="color: red;">
                             ‰ * #{error 'merchant.feeRate' /}
                         </div>
                     </div>
 
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            结算周期
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="stlmtPeriod" name="merchant.stlmtPeriod" value="${merchant?.stlmtPeriod}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                            天 * #{error 'merchant.stlmtPeriod' /}
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            银行卡号
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="bankAccountId" name="merchant.bankAccountId" value="${merchant?.bankAccountId}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                             * #{error 'merchant.bankAccountId' /}
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            开户人姓名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="bankAccountName" name="merchant.bankAccountName" value="${merchant?.bankAccountName}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                            * #{error 'merchant.bankAccountName' /}
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            开户行名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="bankName" name="merchant.bankName" value="${merchant?.bankName}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                            * #{error 'merchant.bankName' /}
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            开户行编号
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-4">
+                            <input type="text" class="am-input-sm" id="bankId" name="merchant.bankId" value="${merchant?.bankId}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6" style="color: red;">
+                            * #{error 'merchant.bankId' /}
+                        </div>
+                    </div>
                     <div class="am-g am-margin-top">
                         <div class="am-u-sm-4 am-u-md-2 am-text-right">
                             商户状态

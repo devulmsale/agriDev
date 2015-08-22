@@ -50,6 +50,10 @@ public class HallTable extends Model {
     @Column(name = "people_num")
     public Integer peopleNum;
 
+
+    @Column(name = "order_by")
+    public Integer orderBy;
+
     /**
      * 逻辑删除,0:未删除，1:已删除
      */
@@ -128,11 +132,11 @@ public class HallTable extends Model {
 
     //根据merchanthall 的大厅号获取
     public static List<HallTable> findByMerchantHallId(Long MerchantHallId){
-        return HallTable.find("deleted = ? and hall.id = ?",DeletedStatus.UN_DELETED , MerchantHallId).fetch();
+        return HallTable.find("deleted = ? and hall.id = ? order by orderBy",DeletedStatus.UN_DELETED , MerchantHallId).fetch();
     }
 
     public static List<HallTable> findByMerchant(Long mertchantId){
-        return HallTable.find("deleted = ? and hall.merchant.id = ? ",DeletedStatus.UN_DELETED,mertchantId).fetch();
+        return HallTable.find("deleted = ? and hall.merchant.id = ? order by orderBy ",DeletedStatus.UN_DELETED,mertchantId).fetch();
     }
 
 }
