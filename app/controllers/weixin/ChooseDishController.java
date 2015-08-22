@@ -43,12 +43,13 @@ public class ChooseDishController extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-      Merchant merchant = WxMpAuth.currentUser().merchant;
+        //TODO merchant_id
+      //Merchant merchant = WxMpAuth.currentUser().merchant;
 
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
@@ -147,8 +148,9 @@ public class ChooseDishController extends Controller {
         Logger.info("detail OrderGoodsType:%s==",goodsType);
         String goods=goodsType.toString();
         Logger.info("orderNumber :%s || useCoupon :%s",orderNumber , useCoupon);
-       Merchant merchant = WxMpAuth.currentUser().merchant;
-        List<HallTable> hallTableList=HallTable.findByMerchant(merchant.id);
+        //TODO merchant_id
+      // Merchant merchant = WxMpAuth.currentUser().merchant;
+        List<HallTable> hallTableList=HallTable.findByMerchant(21l);
         Map<MerchantHall,List<HallTable>> tableMap=new HashMap<MerchantHall,List<HallTable>>();
         for(HallTable ht:hallTableList){
             List<HallTable> tableList=new ArrayList<>();
@@ -163,9 +165,10 @@ public class ChooseDishController extends Controller {
         }
         Order order=Order.findByOrderNumber(orderNumber);
         //根据用户查询用户购买的优惠券，判断用户购买的优惠券未绑定订单
-       User user = WxMpAuth.currentUser().user;
+      // User user = WxMpAuth.currentUser().user;
         // 查询出所有可用的优惠券
-        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(user.id);
+        //TODO user_id
+        List<Coupon> userAllCanUsedList=Coupon.findCouponByLoginUser(2l);
         // 定义一个返回的优惠券
         List<Coupon> couponList = new ArrayList<>();
         // 循环优惠券.  查看 是否在 redis 中存在. 即 该优惠券 是否已经绑定其他订单. 如果绑定 则前台不再显示该优惠券

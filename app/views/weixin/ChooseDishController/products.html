@@ -1,6 +1,7 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
-<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
+
+
 <script type="text/javascript">
         $(document).ready(function(){
             var uuid=$("#uuid").val();
@@ -11,7 +12,7 @@
                 success:function(data){
                     if(data.success) {
                         // 1. 修改总价格
-                        $("#totalPrice").html(data.price);
+                        $("#totalPrice").html(parseFloat(data.price).toFixed(2));
                         // 循环产品的
                         var sumpronum=0;
                         $.each(data.orderItems,function(idx,type){
@@ -48,8 +49,8 @@
             counts=parseInt(totalCount)-1;
             totalPrice=(parseFloat(salePrice)-parseFloat(product_salePrice)).toFixed(2);
         }
-        document.getElementById("productCount").innerHTML=counts;
-        document.getElementById("totalPrice").innerHTML=totalPrice;
+            $("#productCount").html(counts);
+            $("#totalPrice").html(parseFloat(totalPrice).toFixed(2));
 
 
         var productIds = $('#productIds').val();
@@ -199,3 +200,4 @@
         $('#subform').submit();
     }
 </script>
+<script type="text/javascript" src="/public/weixin/js/jquery.spinner.js"></script>
