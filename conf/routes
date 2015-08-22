@@ -21,177 +21,174 @@ GET     /public/                                          staticDir:public
 
 
 # Merchant 商户后台管理
-GET   /merchants                                          merchant.Application.index
-GET   /merchants/login                                    merchant.auth.MerchantSecure.login
+GET     /merchants                                        merchant.Application.index
+GET     /merchants/login                                  merchant.auth.MerchantSecure.login
 
-#MerchantProductType商户类别管理
-*     /merchant/merProductType                            merchant.MerProductTypeController.index
-GET   /merchant/merProductType/add                        merchant.MerProductTypeController.add
-*     /merchant/merProductType/create                     merchant.MerProductTypeController.create
-*     /merchant/merProductType/edit/{id}/{pageNumber}     merchant.MerProductTypeController.edit
-*     /merchant/merProductType/update/{id}                merchant.MerProductTypeController.update
+# MerchantProductType商户类别管理
+*       /merchant/merProductType                          merchant.MerProductTypeController.index
+GET     /merchant/merProductType/add                      merchant.MerProductTypeController.add
+*       /merchant/merProductType/create                   merchant.MerProductTypeController.create
+*       /merchant/merProductType/edit/{id}/{pageNumber}   merchant.MerProductTypeController.edit
+*       /merchant/merProductType/update/{id}              merchant.MerProductTypeController.update
 
-#   Merchant Brand 管理
-*     /system/brands                                      system.BrandController.index
-GET   /system/updateName/{id}/{name}                      system.BrandController.updateName
+# Merchant Brand 管理
+*       /system/brands                                    system.BrandController.index
+GET     /system/updateName/{id}/{name}                    system.BrandController.updateName
 
 # Merchant Coupon 商家优惠券管理
-GET  /merchant/coupons                                    merchant.CouponBatchController.index
-GET  /merchant/coupon/add                                 merchant.CouponBatchController.add
-POST /merchant/coupon/create                              merchant.CouponBatchController.create
+GET     /merchant/coupons                                 merchant.CouponBatchController.index
+GET     /merchant/coupon/add                              merchant.CouponBatchController.add
+POST    /merchant/coupon/create                           merchant.CouponBatchController.create
 
-#大厅管理
-GET  /merchant/hall/index                                 merchant.MerHallController.index
-GET  /merchant/add                                        merchant.MerHallController.add
-POST /merchant/create                                     merchant.MerHallController.create
-GET /merchant/edit/{id}                                   merchant.MerHallController.edit
-POST /merchant/update/{id}                                merchant.MerHallController.update
+# 大厅管理
+GET     /merchant/hall/index                              merchant.MerHallController.index
+GET     /merchant/add                                     merchant.MerHallController.add
+POST    /merchant/create                                  merchant.MerHallController.create
+GET     /merchant/edit/{id}                               merchant.MerHallController.edit
+POST    /merchant/update/{id}                             merchant.MerHallController.update
 
-#桌号管理
-GET  /merchant/table/index                                merchant.HallTableController.index
-GET  /merchant/table/add                                  merchant.HallTableController.add
-POST /merchant/table/create                               merchant.HallTableController.create
-GET /merchant/table/edit/{id}                             merchant.HallTableController.edit
-POST /merchant/table/update/{id}                          merchant.HallTableController.update
+# 桌号管理
+GET     /merchant/table/index                             merchant.HallTableController.index
+GET     /merchant/table/add                               merchant.HallTableController.add
+POST    /merchant/table/create                            merchant.HallTableController.create
+GET     /merchant/table/edit/{id}                         merchant.HallTableController.edit
+POST    /merchant/table/update/{id}                       merchant.HallTableController.update
 
-#套餐管理
-GET  /merchant/package/index                                merchant.ProductSetMealController.index
-GET  /merchant/package/add                                  merchant.ProductSetMealController.add
-POST /merchant/package/create                               merchant.ProductSetMealController.create
-GET /merchant/package/edit/{id}                             merchant.ProductSetMealController.edit
-POST /merchant/package/update/{id}                          merchant.ProductSetMealController.update
-GET /merchant/package/show/{id}                             merchant.ProductSetMealController.show
-GET /merchant/package/pic                                   merchant.ProductSetMealController.upPic
-POST /merchant/package/createPic                            merchant.ProductSetMealController.createPic
-GET /merchant/package/editPic/{id}                          merchant.ProductSetMealController.editPic
-POST /merchant/package/updatePic                             merchant.ProductSetMealController.updatePic
-GET /merchant/package/upEditPic                             merchant.ProductSetMealController.upEditPic
+# 套餐管理
+GET     /merchant/package/index                           merchant.ProductSetMealController.index
+GET     /merchant/package/add                             merchant.ProductSetMealController.add
+POST    /merchant/package/create                          merchant.ProductSetMealController.create
+GET     /merchant/package/edit/{id}                       merchant.ProductSetMealController.edit
+POST    /merchant/package/update/{id}                     merchant.ProductSetMealController.update
+GET     /merchant/package/show/{id}                       merchant.ProductSetMealController.show
+GET     /merchant/package/pic                             merchant.ProductSetMealController.upPic
+POST    /merchant/package/createPic                       merchant.ProductSetMealController.createPic
+GET     /merchant/package/editPic/{id}                    merchant.ProductSetMealController.editPic
+POST    /merchant/package/updatePic                       merchant.ProductSetMealController.updatePic
+GET     /merchant/package/upEditPic                       merchant.ProductSetMealController.upEditPic
 
-#套餐管理前台
-GET  /weixin/setmeal/{setmealId}/detail                   weixin.SetMealController.detail
-* /weixin/setmeal/pays                                    weixin.SetMealController.pays
-GET  /weixin/setmeals/{linkId}/index                      weixin.SetMealController.index
-GET  /weixin/setmeal/{orderNumber}/{setmealId}/confirm    weixin.SetMealController.confirm
+# 套餐管理前台
+GET     /weixin/setmeal/{setmealId}/detail                weixin.SetMealController.detail
+*       /weixin/setmeal/pays                              weixin.SetMealController.pays
+GET     /weixin/setmeals/{linkId}/index                   weixin.SetMealController.index
+GET     /weixin/setmeal/{orderNumber}/{setmealId}/confirm weixin.SetMealController.confirm
 
-#前台个人中心
-GET  /weixin/member/center                               weixin.userCenter.UserCenterController.index
-GET  /weixin/member/memorder                             weixin.userCenter.OrderController.index
-GET  /weixin/member/orderNum/delOrder                    weixin.userCenter.OrderController.deleted
-GET  /weixin/member/coupon                               weixin.CouponController.showCoupon
-GET  /weixin/order/{orderNumber}/detail                  weixin.userCenter.OrderController.detail
+# 前台个人中心
+GET     /weixin/member/center                             weixin.userCenter.UserCenterController.index
+GET     /weixin/member/memorder                           weixin.userCenter.OrderController.index
+GET     /weixin/member/orderNum/delOrder                  weixin.userCenter.OrderController.deleted
+GET     /weixin/member/coupon                             weixin.CouponController.showCoupon
+GET     /weixin/order/{orderNumber}/detail                weixin.userCenter.OrderController.detail
 
 
 
 # Merchant Coupon Pay
-*   /order/qrCode                                         weixin.OrderController.qrCode
-*   /rqcode/pay/payresult                                 weixin.PayResult.payProductResult
-*   /order/ajax/qrCode                                    weixin.OrderController.getAjaxImagePath
+*       /order/qrCode                                     weixin.OrderController.qrCode
+*       /rqcode/pay/payresult                             weixin.PayResult.payProductResult
+*       /order/ajax/qrCode                                weixin.OrderController.getAjaxImagePath
 
 # 微信支付回调
-POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
+POST    /pay/notify/weixin                                i.WeixinPayCallback.execute()
 # 内部会员卡支付
-POST   /pay/notify/coupon                                 api.CouponPayCallback.execute
+POST    /pay/notify/coupon                                api.CouponPayCallback.execute
 
 
 
-#   productType 类别管理
-*     /system/productType                                 system.ProductTypeController.index
-*     /system/productType/create                          system.ProductTypeController.create
-GET   /system/productType/edit/{id}/{pageNumber}          system.ProductTypeController.edit
-*     /system/productType/update/{id}                     system.ProductTypeController.update
-*     /system/productType/addChild/{id}                   system.ProductTypeController.addChild
-GET   /system/productType/add                             system.ProductTypeController.add
-GET   /system/productType/delete/{id}/{pageNumber}        system.ProductTypeController.delete
-GET   /system/productType/updateName/{id}/{name}          system.ProductTypeController.updateName
-*     /system/productType/addChildPage/{id}               system.ProductTypeController.addChildPage
-GET   /system/productType/editChildPage/{id}              system.ProductTypeController.editChildPage
+# productType 类别管理
+*       /system/productType                               system.ProductTypeController.index
+*       /system/productType/create                        system.ProductTypeController.create
+GET     /system/productType/edit/{id}/{pageNumber}        system.ProductTypeController.edit
+*       /system/productType/update/{id}                   system.ProductTypeController.update
+*       /system/productType/addChild/{id}                 system.ProductTypeController.addChild
+GET     /system/productType/add                           system.ProductTypeController.add
+GET     /system/productType/delete/{id}/{pageNumber}      system.ProductTypeController.delete
+GET     /system/productType/updateName/{id}/{name}        system.ProductTypeController.updateName
+*       /system/productType/addChildPage/{id}             system.ProductTypeController.addChildPage
+GET     /system/productType/editChildPage/{id}            system.ProductTypeController.editChildPage
 
 # Brand 品牌管理
-POST  /system/brand/getSubClassByParentId                 system.BrandController.getSubClassByParentId
+POST    /system/brand/getSubClassByParentId               system.BrandController.getSubClassByParentId
 
 
 
 
 
 # SYSTEM 后台管理
-GET   /systems                                            system.Application.index
-GET   /system/login                                       system.auth.Secure.login
-*     /system/merchant                                    system.MerchantController.index
-GET   /system/merchant/add                                system.MerchantController.add
-GET   /system/merchant/edit                               system.MerchantController.edit
-GET   /system/merchant/delete                             system.MerchantController.delete
-POST  /system/merchant/create                             system.MerchantController.create
-GET   /system/merchantUser/{id}/renew                     system.MerchantRenewController.renew
-POST  /system/merchantRenew/renew/update/{id}             system.MerchantRenewController.renewUpdate
+GET     /systems                                          system.Application.index
+GET     /system/login                                     system.auth.Secure.login
+*       /system/merchant                                  system.MerchantController.index
+GET     /system/merchant/add                              system.MerchantController.add
+GET     /system/merchant/edit                             system.MerchantController.edit
+GET     /system/merchant/delete                           system.MerchantController.delete
+POST    /system/merchant/create                           system.MerchantController.create
+GET     /system/merchantUser/{id}/renew                   system.MerchantRenewController.renew
+POST    /system/merchantRenew/renew/update/{id}           system.MerchantRenewController.renewUpdate
 
 
 
 
-#MerchantUser 员工管理
-POST  /system/merchantUser                                system.MerchantUserController.index
-GET   /system/merchantUser/{id}                           system.MerchantUserController.index
-GET   /system/merchantUser/add/{id}                       system.MerchantUserController.add
-GET   /system/merchantUser/delete/{id}/{pageNumber}       system.MerchantUserController.delete
-GET   /system/merchantUser/edit/{id}/{pageNumber}         system.MerchantUserController.edit
-*     /system/merchantUser/update/{id}/{pageNumber}       system.MerchantUserController.update
-GET   /system/MerchantUserController/passwordRest/{id}    system.MerchantUserController.passwordRest
+# MerchantUser 员工管理
+POST    /system/merchantUser                              system.MerchantUserController.index
+GET     /system/merchantUser/{id}                         system.MerchantUserController.index
+GET     /system/merchantUser/add/{id}                     system.MerchantUserController.add
+GET     /system/merchantUser/delete/{id}/{pageNumber}     system.MerchantUserController.delete
+GET     /system/merchantUser/edit/{id}/{pageNumber}       system.MerchantUserController.edit
+*       /system/merchantUser/update/{id}/{pageNumber}     system.MerchantUserController.update
+GET     /system/MerchantUserController/passwordRest/{id}  system.MerchantUserController.passwordRest
 
-#Lable 标签管理
-*     /system/lable                                       system.LableController.index
-*     /system/lable/create                                system.LableController.create
-*     /system/lable/delete/{id}                           system.LableController.delete
+# Lable 标签管理
+*       /system/lable                                     system.LableController.index
+*       /system/lable/create                              system.LableController.create
+*       /system/lable/delete/{id}                         system.LableController.delete
 
 # ProductImageType图片类型管理
-*     /system/productImageType                              system.ProductImageTypeController.index
-*     /system/productImageType/create                       system.ProductImageTypeController.create
-GET   /system/productImageType/edit/{id}/{pageNumber}       system.ProductImageTypeController.edit
-*     /system/productImageType/update/{id}                  system.ProductImageTypeController.update
-GET   /system/productImageType/delete/{id}                  system.ProductImageTypeController.delete
+*       /system/productImageType                          system.ProductImageTypeController.index
+*       /system/productImageType/create                   system.ProductImageTypeController.create
+GET     /system/productImageType/edit/{id}/{pageNumber}   system.ProductImageTypeController.edit
+*       /system/productImageType/update/{id}              system.ProductImageTypeController.update
+GET     /system/productImageType/delete/{id}              system.ProductImageTypeController.delete
 
 # Product 商品
-*     /merchant/product                                      merchant.ProductController.index
-GET   /merchant/product/add                                  merchant.ProductController.add
-*     /merchant/product/create                               merchant.ProductController.create
-GET   /merchant/product/edit/{id}/{pageNumber}               merchant.ProductController.edit
-POST  /merchant/product/update/{id}                          merchant.ProductController.update
-GET   /merchant/product/delete/{id}                          merchant.productController.delete
-POST  /merchant/product/getBrandAndLable                     merchant.productController.getBrandAndLable
-POST  /merchant/product/getSubClass                          merchant.productController.getSubClass
+*       /merchant/product                                 merchant.ProductController.index
+GET     /merchant/product/add                             merchant.ProductController.add
+*       /merchant/product/create                          merchant.ProductController.create
+GET     /merchant/product/edit/{id}/{pageNumber}          merchant.ProductController.edit
+POST    /merchant/product/update/{id}                     merchant.ProductController.update
+GET     /merchant/product/delete/{id}                     merchant.productController.delete
+POST    /merchant/product/getBrandAndLable                merchant.productController.getBrandAndLable
+POST    /merchant/product/getSubClass                     merchant.productController.getSubClass
 
-#订单管理
-*     /merchant/order                                        merchant.OrderController.index
+# 订单管理
+*       /merchant/order                                   merchant.OrderController.index
 
 # 文本编辑器
-POST  /kindedit/imageUpload                                  KindEditUploads.upload
+POST    /kindedit/imageUpload                             KindEditUploads.upload
 
 # WAP
-*     /wap/productInfo/{id}                                  Application.productInfo
-*     /wap/cart                                              wap.CartController.cart
-*     /showCart                                              wap.CartController.showCart
-*     /wap/cart/shoppingCart                                 wap.CartController.shoppingCart
-*     /wap/order/cartToPay                                   wap.OrderController.cartToPay
+*       /wap/productInfo/{id}                             Application.productInfo
+*       /wap/cart                                         wap.CartController.cart
+*       /showCart                                         wap.CartController.showCart
+*       /wap/cart/shoppingCart                            wap.CartController.shoppingCart
+*       /wap/order/cartToPay                              wap.OrderController.cartToPay
 
-#图片上传
-*    /merchant/images                                        merchant.ImageController.index
+# 图片上传
+*       /merchant/images                                  merchant.ImageController.index
 
 # ======================  微信接口服务  =========================
-GET     /api/{linkId}/weixin                     api.WeixinAPI.heartbeat
-POST    /api/{linkId}/weixin                     api.WeixinAPI.message(format:'xml')
+GET     /api/{linkId}/weixin                              api.WeixinAPI.heartbeat
+POST    /api/{linkId}/weixin                              api.WeixinAPI.message(format:'xml')
 
 # Catch all
-*       /{controller}/{action}                   {controller}.{action}
+*       /{controller}/{action}                            {controller}.{action}
 
 
-#Coupon 卡券管理
-*      /pay                                      weixin.CouponController.pay
-GET    /weixin/coupon/card                       weixin.CouponController.card
-POST   /weixin/coupon/showCouponsBefore          weixin.CouponController.showCouponsBefore
-*      /weixin/coupon/showCoupons                weixin.CouponController.showCoupons
-*      /weixin/coupon/couponsPay                 weixin.CouponController.couponsPay
+# Coupon 卡券管理
+*       /pay                                              weixin.CouponController.pay
+GET     /weixin/coupon/card                               weixin.CouponController.card
+POST    /weixin/coupon/showCouponsBefore                  weixin.CouponController.showCouponsBefore
+*       /weixin/coupon/showCoupons                        weixin.CouponController.showCoupons
+*       /weixin/coupon/couponsPay                         weixin.CouponController.couponsPay
 
 # MerchantProductType 商户类别
-*      /weixin/product/{id}                      weixin.Application.getProduct
-
-
-
+*       /weixin/product/{id}                              weixin.Application.getProduct
 
