@@ -265,6 +265,7 @@ public class OrderBuilder {
     public OrderBuilder changeToPaid() {
         if (checkCanToPaid()) {
             this.order.status = OrderStatus.PAID;
+            this.order.payedAt = new Date();
             this.order.save();
         }
         return this;
