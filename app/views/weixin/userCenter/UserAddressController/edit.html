@@ -1,13 +1,10 @@
 #{extends 'weixinMain.html' /}
 #{set title:'悠悠点' /}
-<script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <body>
 <script type="text/javascript">
     function formCommit(){
         var name=$("#nameId").val();
-
         // alert(!isNaN(name))
-
         if (required(name) == false) {
             showAlart("姓名不能为空！");
             return;
@@ -35,7 +32,7 @@
     }
 
 </script>
-
+<script type="text/javascript" src="/public/weixin/js/validate.js"></script>
 <header class="topbar titbg">
   <a href="javascript:history.go(-1);" class="backBtn iconfont">&#xe621;</a>
     <div class="headtit">
@@ -44,7 +41,9 @@
   <a href="#" data-reveal-id="myModal" class="btn_search iconfont">&#xe666;</a> 
 </header>
 <section class="warp member_address page">
-    <form id="formid" name="form1" action="/weixin/member/address/create" method="post">
+
+    <form id="formid" name="form1" action="/weixin/member/address/update" method="post">
+        <input  type="hidden" name="addressId" value="${address.id}">
         #{include '/weixin/userCenter/UserAddressController/form.html'/}
     </form>
 </section>
