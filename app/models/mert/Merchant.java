@@ -85,6 +85,14 @@ public class Merchant extends Model {
     @Required (message = "请输入开户行名称")
     @Column(name = "bank_name")
     public String bankName;
+
+    /**
+     * 开户行编号
+     */
+    @Required (message = "请输入开户行编号")
+    @Column(name = "bank_id")
+    public String bankId;
+
     /**
      * 商户链接ID，用于外部网站链接，如微信回调URL。
      * 建议此linkId为12位随机数字
