@@ -179,7 +179,7 @@ public class ChooseDishController extends Controller {
     }
 
     public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds , String date ,String time ,OrderGoodsType goodsType) throws Exception{
-        // User user = WxMpAuth.currentUser().user;
+        User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
         String goods=goodsType.toString();
