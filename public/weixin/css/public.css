@@ -479,7 +479,7 @@ xpopup 提示框
 }
 .cd-popup-container .cd-buttons li {
   float: left;
-  width: 50%;
+  width: 100%;
 }
 .cd-popup-container .cd-buttons a {
   display: block;
@@ -499,7 +499,7 @@ xpopup 提示框
   background-color: #fc8982;
 }
 .cd-popup-container .cd-buttons li:last-child a {
-  background: #999;
+  background: #f90;
   border-radius: 0 0 .25em 0;
 }
 .no-touch .cd-popup-container .cd-buttons li:last-child a:hover {
