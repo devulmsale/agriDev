@@ -95,8 +95,9 @@ POST /weixin/member/address/update                       weixin.userCenter.UserA
 *       /rqcode/pay/payresult                             weixin.PayResult.payProductResult
 *       /order/ajax/qrCode                                weixin.OrderController.getAjaxImagePath
 
+
 # 微信支付回调
-POST    /pay/notify/weixin                                i.WeixinPayCallback.execute()
+POST    /pay/notify/weixin                                api.WeixinPayCallback.execute()
 # 内部会员卡支付
 POST    /pay/notify/coupon                                api.CouponPayCallback.execute
 
