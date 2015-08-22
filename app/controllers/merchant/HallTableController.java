@@ -25,6 +25,7 @@ public class HallTableController extends Controller {
             pageNumber=1;
         }
         Map<String ,Object> map=new HashMap<String ,Object>();
+        map.put("merchantId",MerchantSecure.getMerchant().id);
         JPAExtPaginator<HallTable> resultPage=HallTable.findByCondition(map, "orderBy asc", pageNumber, PAGE_SIZE);
         render(resultPage,pageNumber);
     }

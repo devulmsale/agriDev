@@ -46,7 +46,7 @@
         <div class="payfor">
             #{if order?.paymentedAmount > 0}
                 <a href="#" class="btn2">网银支付</a>
-              <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">微信支付</a>
+                <a href="@{weixin.OrderController.qrCode(orderNumber)}" class="btn2">微信支付</a>
             #{/if}
             #{if order?.paymentedAmount <= 0}
                 <a href="javascript:void(0)" onclick="getpay('${order?.orderNumber}')" class="btn2">确认支付</a>*{更新订单}*

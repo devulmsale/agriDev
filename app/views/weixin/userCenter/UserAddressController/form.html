@@ -2,36 +2,37 @@
     <ul>
         <li>
             <label for="textfield">姓名:</label>
-            <span><input type="text" name="textfield" class="editbox" id="textfield"></span>
+            <span><input type="text" name="address.name" class="editbox" id="nameId" value="${address?.name}"></span>
         </li>
         <li>
             <label for="textfield2">电话:</label>
-            <span><input type="text" name="textfield2" class="editbox" id="textfield2"></span>
+            <span><input type="phone" name="address.phone" class="editbox" id="phoneId" value="${address?.phone}"></span>
         </li>
         <li>
             <label for="select">省份:</label>
-        <span><select name="select" class="selectbox" id="select">
-            <option>北京市</option>
-        </select></span>
+        <span>
+            <input type="text" name="address.province" class="editbox" id="textfield2" value="${address?.province}">
+        </span>
         </li>
         <li>
             <label for="select2">城市:</label>
-        <span><select name="select2"  class="selectbox" id="select2">
-            <option>北京市</option>
-        </select></span>
+        <span>
+            <input type="text" name="address.city" class="editbox" id="textfield2" value="${address?.city}">
+        </span>
         </li>
         <li>
             <label for="select3">地区:</label>
-        <span><select name="select3" class="selectbox" id="select3">
-            <option>通州区</option>
-        </select></span>
+        <span>
+            <input type="text" name="address.local" class="editbox" id="textfield2" value="${address?.local}">
+        </span>
         </li>
         <li>
             <label for="textfield2">地址:</label>
-            <span><input type="text" name="textfield2" class="editbox" id="textfield2"></span>
+            <span><input type="text" name="address.address" class="editbox" id="addressId" value="${address?.address}"></span>
         </li>
         <li>
-            <input type="checkbox" style="width:20px; float:left; vertical-align:middle; margin-top:15px; margin-right:10px;" name="checkbox" id="checkbox">
+            <input type="checkbox" style="width:20px; float:left; vertical-align:middle; margin-top:15px;
+            margin-right:10px;" name="checkbox" ${address?.defaultype=='0' ? 'checked = "checked"':"" } id="checkbox">
             <label for="checkbox" style="width:80%;">设为默认地址 </label>
         </li>
     </ul>

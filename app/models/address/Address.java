@@ -1,5 +1,6 @@
 package models.address;
 
+import jodd.bean.BeanCopy;
 import models.constants.DeletedStatus;
 import models.order.User;
 import play.db.jpa.Model;
@@ -17,7 +18,8 @@ public class Address extends Model {
     /**
      * 关联用户
      */
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
+    @ManyToOne
     public User user;
 
     /**
@@ -76,8 +78,32 @@ public class Address extends Model {
     public Date createdAt;
 
 
+    /**
+     * 更新
+     * @param id
+     * @param newObject
+     */
+    public static void update(Long id, Address newObject) {
+        Address address=Address.findById(id);
+        BeanCopy.beans(newObject, address).ignoreNulls(true).copy();
+        address.save();
+    }
+
+
     public static List<Address> findAddressByUserId(Long userId){
         return  Address.find("deleted  =  ?  and  user.id =  ?",DeletedStatus.UN_DELETED,userId).fetch();
+    }
+    //获取当前用户的默认地址
+    public static Address findDefaultAddressByUser(Long userId){
+        return  Address.find("deleted  =  ?  and  user.id =  ? and defaultype  = ? ",DeletedStatus.UN_DELETED,userId,"0").first();
+    }
+
+    public static Address findAddressById(Long id){
+        return  Address.find("deleted  =  ?  and  id  =  ?",DeletedStatus.UN_DELETED,id).first();
+    }
+
+    public static Address findAddressByUserAndId(Long userId , Long id){
+        return  Address.find("deleted  =  ?  and  user.id =  ? and id  = ? ",DeletedStatus.UN_DELETED,userId,id).first();
     }
 
 }

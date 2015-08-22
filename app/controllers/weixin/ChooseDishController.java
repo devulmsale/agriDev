@@ -43,13 +43,12 @@ public class ChooseDishController extends Controller {
 
     public static void products(OrderGoodsType goodsType) {
         Logger.info("OrderGoodsType :%s",goodsType);
-        //TODO merchant.id
-      // Merchant merchant = WxMpAuth.currentUser().merchant;
+      Merchant merchant = WxMpAuth.currentUser().merchant;
 
         Map<String , List<Product>> productMap = new HashMap<>();
         List<Product> imgUrlList=new ArrayList<>();
         //根据商户查询商户商品类别
-        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(12l);
+        List<MerchantProductType> merchantProductTypeList=MerchantProductType.findMerchantProductType(merchant.id);
         for(MerchantProductType mpt : merchantProductTypeList) {
             //根据商户商品类别查询商品
             List<Product> productList = Product.findProductByMerIdAndMerProductType(mpt.id);
@@ -182,7 +181,7 @@ public class ChooseDishController extends Controller {
     }
 
     public static void pay(String orderNumber, OrderUser orderUser ,  String useCoupon , String couponIds , String date ,String time ,OrderGoodsType goodsType) throws Exception{
-        // User user = WxMpAuth.currentUser().user;
+        User user = WxMpAuth.currentUser().user;
         //保存orderUser
         Order order = Order.findByOrderNumber(orderNumber);
         String goods=goodsType.toString();
@@ -272,9 +271,9 @@ public class ChooseDishController extends Controller {
     }
 
     //根据uuid获取orderItem商品信息
-    public static void getOrderItembyAjax(String uuid){
-        Logger.info("执行 getOrderItembyAjax  -> uuid : %s" , uuid);
-        Order order = Order.findByUuid(uuid);
+    public static void getOrderItembyAjax(String uuid , String random){
+        Logger.info("执行 getOrderItembyAjax  -> UUID : |%s| | random : %s" , uuid , random);
+        Order order = Order.findByUuid(uuid.trim());
         OrderVO orderVO = new OrderVO();
         if(order != null) {
             List<OrderItemVO> orderItemVOs = new ArrayList<>();
@@ -320,6 +319,7 @@ public class ChooseDishController extends Controller {
             orderVO.price = order.amount;
         } else {
             orderVO.success = false;
+            Logger.info("uuid 为 %s 的订单不存在 或 已删除!" , uuid);
         }
         renderJSON(orderVO);
     }

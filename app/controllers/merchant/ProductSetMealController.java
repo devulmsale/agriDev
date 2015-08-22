@@ -36,7 +36,7 @@ public class ProductSetMealController extends Controller {
 
         pageNumber = pageNumber == null ? 1 : pageNumber;
         Map<String ,Object> map=new HashMap<String ,Object>();
-
+        map.put("merchantId",MerchantSecure.getMerchant().id);
         JPAExtPaginator<SetMeal> resultPage=SetMeal.findByCondition(map, "id asc", pageNumber, PAGE_SIZE);
         render(resultPage,pageNumber);
     }
