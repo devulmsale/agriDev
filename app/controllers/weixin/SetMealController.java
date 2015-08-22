@@ -108,7 +108,7 @@ public class SetMealController extends Controller {
                 Logger.info("3");
                 // 生成订单
 
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.PC).goodsType(OrderGoodsType.SET_MEAL).uuid(uuid);
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.PC).goodsType(OrderGoodsType.COUPON).uuid(uuid);
                 order = orderBuilder.save();  //生成订单号
                 // 生成 orderItem  如果有多个 需要多条
                 orderBuilder.addGoods(setMeal.findOrCreateGoods())

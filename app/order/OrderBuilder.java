@@ -7,6 +7,7 @@ import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.member.MemberCard;
+import models.mert.Merchant;
 import models.order.*;
 import models.product.Product;
 import org.apache.commons.lang.RandomStringUtils;
@@ -97,6 +98,15 @@ public class OrderBuilder {
     public OrderBuilder uuid(String uuid) {
         order.uuid = uuid;
         return this;
+    }
+
+    public OrderBuilder merchant(Merchant merchant) {
+        order.feeMerchant = merchant;
+        return  this;
+    }
+
+    public Merchant getMerchant() {
+        return order.feeMerchant ;
     }
 
 
@@ -231,8 +241,6 @@ public class OrderBuilder {
     public OrderItemBuilder addProduct(Product product) {
         return new OrderItemBuilder(this, product);
     }
-
-
 
     public OrderBuilder changeToUnPaid() {
         if (checkCanToUnpaid()) {

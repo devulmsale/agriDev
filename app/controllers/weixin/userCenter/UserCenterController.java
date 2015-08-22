@@ -2,6 +2,7 @@ package controllers.weixin.userCenter;
 
 import controllers.auth.WxMpAuth;
 import models.address.Address;
+import models.base.WeixinUser;
 import models.coupon.Coupon;
 import models.order.Order;
 import models.order.User;
@@ -13,22 +14,19 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/8/19.
  */
-//@With(WxMpAuth.class)
+@With(WxMpAuth.class)
 public class UserCenterController extends Controller {
 
     public static  void index(){
-        // User user=WxMpAuth.currentUser().user;
-        //TODO 暂时取到userId
-        User user=new User();
-        user.id=2l;
+        User user = WxMpAuth.currentUser().user;
         Long unPayCount= Order.findUnOrderByUser(user);
         Long couponCount= Coupon.findCouponCountByLoginUser(user.id);
         render(user, unPayCount,couponCount);
     }
 
     public static void detail(){
-        //TODO 暂时取到userId
-        List<Address> addressList=Address.findAddressByUserId(2l);
+        WeixinUser wxUser = WxMpAuth.currentUser();
+        List<Address> addressList=Address.findAddressByUserId(wxUser.id);
         render(addressList);
     }
 

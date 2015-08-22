@@ -13,6 +13,7 @@ import models.common.enums.OrderStatus;
 import models.common.enums.OrderType;
 import models.constants.DeletedStatus;
 import models.member.MemberCard;
+import models.mert.Merchant;
 import models.product.ProductImage;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -47,6 +48,8 @@ public class Order extends Model {
      */
     @Column(name = "order_no")
     public String orderNumber;
+
+
 
     /**
      * 订单说明
@@ -103,6 +106,15 @@ public class Order extends Model {
     @JoinColumn(name = "user_id", nullable = true)
     @ManyToOne
     public User user;
+
+
+
+    /**
+     * 订单所属商户
+     */
+    @JoinColumn(name = "fee_merchant_id", nullable = true)
+    @ManyToOne
+    public Merchant feeMerchant;
 
 
     /**

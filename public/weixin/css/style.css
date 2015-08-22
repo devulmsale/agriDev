@@ -149,7 +149,7 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .confirm li a.btn{ position:absolute; right:0; bottom:15px; border:1px #dddddd solid; color:#999; display:block; text-align:center; width:50px; height:20px; line-height:18px;}
 .confirm li p a:hover{ background:#f90; color:#fff; border:0;}
 .confirm li p { color:#999;font-size:14px;}
-.confirm li p i{ color:#3EBBC5; } 
+.confirm li p i{ color:#3EBBC5; }
 
 .confirm .price{ height:40px; line-height:40px; overflow:hidden; padding:0 10px; background:#f3f3f3; text-align:left; margin-top:40px;}
 .confirm .price p{ float:left; display:inline; font-size:14px; color:#999;}
@@ -301,6 +301,23 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .order_list li a.btn1{ border:1px #dddddd solid; color:#999;}
 .order_list li p a:hover{ background:#f90; color:#fff; border:0;}
 
+/* order_detail */
+.order_detail{}
+.order_detail dt{padding:10px 0; border-bottom:1px #eeeeee solid; text-align:left; font-size: 14px; color: #999999; line-height: 1.5em;}
+.order_detail dt span{ margin-right: 10px;}
+.order_detail dt i{ color: #f90;}
+.order_detail dd{ padding:20px 0; border-bottom:1px #eeeeee dashed; text-align:left; position:relative;}
+.order_detail dd a img{width:35%; float:left; display:inline; margin-right:10px;-moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px;}
+.order_detail dd a h3{ font-size:14px; font-weight:normal; color:#454545; line-height:3em;}
+.order_detail dd em{ color:#f60; font-size:16px;}
+.order_detail dd span{ position:absolute; right:10px; top:25px; text-align:right; }
+.order_detail dd strong{ position:absolute; right:10px; top:38px; text-align:right; font-size:14px; color:#f90; font-weight:normal;}
+.order_detail dd a.btn{ position:absolute; right:0; bottom:15px; border:1px #dddddd solid; color:#999; display:block; text-align:center; width:50px; height:20px; line-height:18px;}
+.order_detail dd p a:hover{ background:#f90; color:#fff; border:0;}
+.order_detail dd p { color:#999;font-size:14px;}
+.order_detail dd p i{ color:#3EBBC5; }
+
+
 /* member_comment_add */
 .comment_order{ height:auto; overflow:hidden; padding:10px 0; text-align:left;}
 .comment_order img{width:35%; float:left; display:inline; margin-right:10px;-moz-border-radius:5px; -webkit-border-radius:5px;  border-radius:5px;}
@@ -338,4 +355,3 @@ nav a.na4{width:32%; float:left; display:inline; background:#0ab7b7;}
 .member_card li em{ color:#f60; font-size:16px;}
 .member_card li span{ position:absolute; right:0; top:65%; text-align:right; color:#999;}
 .member_card li span i{ color:#f60; font-size:16px;}
-

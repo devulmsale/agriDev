@@ -1,7 +1,11 @@
 package models.order;
 
+import me.chanjar.weixin.common.util.StringUtils;
 import models.common.enums.GoodsStatus;
 import models.constants.DeletedStatus;
+import models.mert.Merchant;
+import models.product.Product;
+import play.Logger;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
@@ -162,6 +166,18 @@ public class Goods extends Model {
         return Boolean.TRUE;
     }
 
+
+    public static Merchant getMerchantByGoods(Goods goods) {
+        Merchant feeMerchant = null;
+        String goodsSerial =  goods.serial;
+        String productId =  goodsSerial.substring(goodsSerial.indexOf("_" , goodsSerial.length()));
+        Logger.info("获取的 goods.productId : %s --------" , productId);
+        if(StringUtils.isNotBlank(productId)) {
+            Product product = Product.findById(Long.valueOf(productId));
+            feeMerchant = product.merchant;
+        }
+        return feeMerchant;
+    }
 
 
 
