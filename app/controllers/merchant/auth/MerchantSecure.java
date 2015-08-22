@@ -85,8 +85,9 @@ public class MerchantSecure extends Controller {
      * 登录.
      */
     public static void login(String loginName) {
-        if(getMerchantUser() != null){
-            redirect(AUTO_LOGIN_BACK_URL);
+        MerchantUser merchantUser = getMerchantUser();
+        if(merchantUser != null){
+            redirect(AUTO_LOGIN_BACK_URL+"/"+merchantUser.merchant.linkId);
         }
         if (StringUtils.isNotBlank(loginName)) {
             renderArgs.put("loginName", loginName);
@@ -95,14 +96,16 @@ public class MerchantSecure extends Controller {
     }
 
 
-    public static void authenticate(String username, String password) {
-        Logger.info("username = " + username + ", password=" + password);
+
+    public static void authenticate(String username, String password ,String linkId) {
+        Logger.info("username = " + username + ", password=" + password + "linkId="+ linkId );
         // 记住用户名
-        MerchantUser merchantUser = MerchantUser.findByLoginNameAndPassword(username, password);//根据 登陆 帐号  密码 获取 登陆用户
+       // MerchantUser merchantUser = MerchantUser.findByLoginNameAndPassword(username, password);//根据 登陆 帐号  密码 获取 登陆用户
+        MerchantUser merchantUser = MerchantUser.findByLoginNamePasswordAndLinkId(username, password, linkId);
         Logger.info("authenticate merchantUser=" + merchantUser);
         if (merchantUser == null) {
             flash.put("error", "用户或密码错误!");
-            login(username);
+            redirect("/merchants/login/"+linkId);
         } else {
             merchantUser.updatedAt = new Date();
             merchantUser.save();
@@ -167,6 +170,8 @@ public class MerchantSecure extends Controller {
     @Before(unless = {"login", "logout", "fail", "authenticate"})
     public static void filter() throws Throwable {
         Logger.info("[Secure]: Filter for URL -> " + request.url);
+        Logger.info("[Secure]: Filter for linkId -> " + params.get("linkId"));
+        String linkId = params.get("linkId");
 
         // 测试用，见 @Security.setLoginUserForTest说明
         /*
@@ -185,20 +190,23 @@ public class MerchantSecure extends Controller {
         if (getMerchantUser() == null) {
             Logger.info("getMerchantUser : %s -------" , getMerchantUser());
             // We must avoid infinite loops after success authentication
-            if (!Router.route(request).action.equals("auth.Secure.login")) {
-                // we put into cache the url we come from
-                Cache.add("url_" + session.getId(), request.method.equals("GET") ? request.url : "/", "10min");
-            } else {
-                Header header = request.headers.get("referer");
-                if (header != null) {
-                    String referer = header.value();
-                    Cache.add("url_" + session.getId(), request.method.equals("GET") ? referer : "/", "10min");
-                }
-            }
+//            if (!Router.route(request).action.equals("auth.Secure.login")) {
+//                // we put into cache the url we come from
+//                Cache.add("url_" + session.getId(), request.method.equals("GET") ? request.url : "/", "10min");
+//            } else {
+//                Header header = request.headers.get("referer");
+//                if (header != null) {
+//                    String referer = header.value();
+//                    Cache.add("url_" + session.getId(), request.method.equals("GET") ? referer : "/", "10min");
+//                }
+//            }
 
             // we redirect the user to the cas login page
-//            redirect(AUTO_LOGIN_URL);
-            login(null);
+            if(StringUtils.isNotBlank(linkId)) {
+                redirect("/merchants/login/"+linkId);
+            } else {
+                redirect("/merchantEor");
+            }
         }
     }
 

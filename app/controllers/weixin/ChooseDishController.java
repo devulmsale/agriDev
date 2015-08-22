@@ -36,7 +36,7 @@ import java.util.*;
 /**
  * Created by upshan on 15/8/5.
  */
-@With(WxMpAuth.class)
+//@With(WxMpAuth.class)
 public class ChooseDishController extends Controller {
 
     private static final String IMG_URL="http://img.ulmsale.cn/getImageUrl";
@@ -95,7 +95,9 @@ public class ChooseDishController extends Controller {
 
         if(order == null) {
             if (StringUtils.isNotBlank(carts) && carts.indexOf("_") > 0) {
-                OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
+               // OrderBuilder orderBuilder = OrderBuilder.forBuild().byUser(wxUser.user).type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
+                //TODO byUser
+                OrderBuilder orderBuilder = OrderBuilder.forBuild().type(OrderType.WEIXIN_SALE).goodsType(goodsType).uuid(uuid);
                 order = orderBuilder.save();
                 cartToOrder(orderBuilder, carts);
             }
